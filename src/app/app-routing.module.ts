@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { InformesComponent } from './components/informes/informes.component';
+import { GenerarInformeComponent } from './components/generar-informe/generar-informe.component';
 
 
 const routes: Routes = [
-  { path: 'informes', component: InformesComponent },
-  { path: '', pathMatch: 'full', redirectTo: 'informes' },
-  { path: '**', component: InformesComponent }
+  { path: 'informes/:segmento', component: InformesComponent },
+  { path: 'generar', component: GenerarInformeComponent },
+  { path: '', pathMatch: 'full', redirectTo: 'generar' },
+  { path: '**', component: GenerarInformeComponent}
 ];
 
 @NgModule({

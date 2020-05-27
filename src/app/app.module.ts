@@ -5,16 +5,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InformesComponent } from './components/informes/informes.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { GenerarInformeComponent } from './components/generar-informe/generar-informe.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     InformesComponent,
-    NavbarComponent
+    NavbarComponent,
+    GenerarInformeComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
