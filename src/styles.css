@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+.imagen-logo {
+    width: 100%;
+    height: 60px;
+    object-fit: scale-down;
+}
+
+.imagen-gantt {
+    width: 100%;
+    height: 340px;
+    object-fit: fill;
+    /* object-fit: scale-down; */
+}
+
+html {
+    font-size: 14px;
+}
