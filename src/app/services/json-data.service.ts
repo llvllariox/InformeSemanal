@@ -58,8 +58,8 @@ export class JsonDataService {
  
         // console.log(eve.index);
       }
-      console.log(eventos);
       if(eventos.length>0){
+        console.log(eventos);
 
         this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], eventos };
       }
