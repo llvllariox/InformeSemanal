@@ -43,7 +43,7 @@ export class GenerarInformeComponent implements OnInit {
       const dataString = JSON.stringify(this.jsonDataReq);
       // console.log(this.jsonDataReq.Requerimientos[0]);
       this.filtrarReq(this.jsonDataReq);
-      // console.log(dataString);
+      // console.log(this.jsonDataReq);
     };
     reader.readAsBinaryString(file);
  }
@@ -59,27 +59,45 @@ filtrarReq(jsonDataReq: any){
     return a['Contrato'] === 'Evolutivo';
   });
 
-  // jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
-  //   return a['Área'] === 'Segmento Backoffice';
-  // });
+  this.jsonDataService.setjsonDataReqService(jsonDataReq);
 
-  this.jsonDataService.jsonDataReqService = jsonDataReq;
-  console.log('DESDE SUBIDA', jsonDataReq);
+}
 
-// let newData =  jsonDataReq.filter(object => {
-  // return object['Evolutivo Mayor'] == '["Línea de Servicio"]';
+uploadEve(event) {
+  let workBook = null;
+  const reader = new FileReader();
+  const file = event.target.files[0];
+  reader.onload = (event) => {
+    const data = reader.result;
+    workBook = XLSX.read(data, { type: 'binary' });
+    this.jsonDataEve = workBook.SheetNames.reduce((initial, name) => {
+      const sheet = workBook.Sheets[name];
+      initial[name] = XLSX.utils.sheet_to_json(sheet);
+      return initial;
+    }, {});
+    const dataString = JSON.stringify(this.jsonDataEve);
+    // console.log(this.jsonDataEve.Eveuerimientos[0]);
+    // console.log(this.jsonDataEve);
+    this.filtrarEve(this.jsonDataEve);
+  };
+  reader.readAsBinaryString(file);
+}
 
-  // });
+filtrarEve(jsonDataEve: any){
 
-  // let newData = filterData('Evolutivo Mayor');
+  jsonDataEve.Eventos = jsonDataEve.Eventos.filter(a => {
+    return a['Línea de servicio'] === 'Evolutivo Mayor';
+  });
 
-  // function filterData(Filtro) {
-  //   return jsonDataReq.filter(object => {
-  //     return object['Línea de Servicio'] == Filtro;
-  //   });
-  // }
-  // console.log(newData);
+  jsonDataEve.Eventos = jsonDataEve.Eventos.filter(a => {
+    return a['Tipo de contrato'] === 'Evolutivo';
+  });
 
+  jsonDataEve.Eventos = jsonDataEve.Eventos.filter(a => {
+    return a['Tipo'] === 'REQ';
+  });
+
+  this.jsonDataService.setjsonDataEveService(jsonDataEve);
 
 }
   guardar(){
