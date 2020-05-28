@@ -42,18 +42,20 @@ export class GenerarInformeComponent implements OnInit {
         return initial;
       }, {});
       const dataString = JSON.stringify(this.jsonDataReq);
-      // console.log(this.jsonDataReq.Requerimientos[0]);
-     
+      // console.log(this.jsonDataReq.Requerimientos);
+      // this.filtrarReq(this.jsonDataReq);
       // console.log(this.jsonDataReq);
       // if(this.jsonDataReq.has('Requerimiento')){
-      if(this.jsonDataReq.Requerimientos[0]==undefined){
+      if(this.jsonDataReq.Requerimientos==undefined){
         console.log('nok');
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos')
       } else {
         console.log('ok');
         this.filtrarReq(this.jsonDataReq);
-        reader.readAsBinaryString(file);
+        // reader.readAsBinaryString(file);
       }
     };
+    reader.readAsBinaryString(file);
    
  }
 
@@ -87,7 +89,15 @@ uploadEve(event) {
     const dataString = JSON.stringify(this.jsonDataEve);
     // console.log(this.jsonDataEve.Eveuerimientos[0]);
     // console.log(this.jsonDataEve);
-    this.filtrarEve(this.jsonDataEve);
+    // this.filtrarEve(this.jsonDataEve);
+    if(this.jsonDataEve.Eventos==undefined){
+      console.log('nok');
+      this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos')
+    } else {
+      console.log('ok');
+      this.filtrarEve(this.jsonDataEve);
+      // reader.readAsBinaryString(file);
+    }
   };
   reader.readAsBinaryString(file);
 }
@@ -108,6 +118,8 @@ filtrarEve(jsonDataEve: any){
 
   this.jsonDataService.setjsonDataEveService(jsonDataEve);
 
+  // TODO SACAR DE ACA
+  this.jsonDataService.AddEveToReq();
 }
   guardar(){
 
