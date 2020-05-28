@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JsonDataService } from 'src/app/services/json-data.service';
 import { ActivatedRoute } from '@angular/router';
+import { SweetAlertService } from '../../services/sweet-alert.service';
 
 @Component({
   selector: 'app-informes',
@@ -14,7 +15,7 @@ export class InformesComponent implements OnInit {
   JsonArray: [] = [];
   icon = '';
 
-  constructor(private jsonDataService: JsonDataService, private route: ActivatedRoute) {
+  constructor(private jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService) {
     this.jsonDataReqInf = this.jsonDataService.getJsonDataReqService();
     this.route.params.subscribe(params => {
       this.paramSeg = params['segmento'];

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import * as XLSX from 'xlsx';
 import { JsonDataService } from 'src/app/services/json-data.service';
+import { SweetAlertService } from '../../services/sweet-alert.service';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class GenerarInformeComponent implements OnInit {
   jsonDataEve = null;
   jsonDataFac = null;
 
-  constructor(private formBuilder: FormBuilder, private jsonDataService: JsonDataService) {
+  constructor(private formBuilder: FormBuilder, private jsonDataService: JsonDataService, private sweetAlerService: SweetAlertService) {
 
     this.crearFormulario();
   }
@@ -42,10 +43,18 @@ export class GenerarInformeComponent implements OnInit {
       }, {});
       const dataString = JSON.stringify(this.jsonDataReq);
       // console.log(this.jsonDataReq.Requerimientos[0]);
-      this.filtrarReq(this.jsonDataReq);
+     
       // console.log(this.jsonDataReq);
+      // if(this.jsonDataReq.has('Requerimiento')){
+      if(this.jsonDataReq.Requerimientos[0]==undefined){
+        console.log('nok');
+      } else {
+        console.log('ok');
+        this.filtrarReq(this.jsonDataReq);
+        reader.readAsBinaryString(file);
+      }
     };
-    reader.readAsBinaryString(file);
+   
  }
 
 
