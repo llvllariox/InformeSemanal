@@ -1,167 +1,172 @@
-<div class="" *ngFor="let ars of JsonArray|slice:-10; let i=index ">
-    <div class="row ">
-        <div class="col-12 col-sm-8 ">
-            <h3 class="pt-3 ">{{ars['Descripción']}}</h3>
+<div class="alert alert-danger" *ngIf="!jsonDataService.jsonDataReqService">Debes subir archivos</div>
+<div class="" *ngIf="jsonDataService.jsonDataReqService">
+
+
+    <div class="" *ngFor="let ars of JsonArray|slice:-10; let i=index ">
+        <div class="row ">
+            <div class="col-12 col-sm-8 ">
+                <h3 class="pt-3 ">{{ars['Descripción']}}</h3>
+            </div>
+            <div class="d-none d-sm-inline-block col-sm-4 ">
+                <img src="/../../assets/images/logo_tbk.png " alt=" " class="imagen-logo ">
+            </div>
         </div>
-        <div class="d-none d-sm-inline-block col-sm-4 ">
-            <img src="/../../assets/images/logo_tbk.png " alt=" " class="imagen-logo ">
+        <div class="row ">
+            <div class="col text-danger px-0 ">
+                <hr color="red ">
+            </div>
         </div>
-    </div>
-    <div class="row ">
-        <div class="col text-danger px-0 ">
-            <hr color="red ">
+        <div class="row ">
+            <div class="col-12 col-sm-6 mb-3 ">
+                <img src="/../../assets/images/gantt1.png " alt=" " class="imagen-gantt border border-primary ">
+            </div>
+            <div class="col-12 col-sm-6 mb-3 ">
+                <table class="table table-bordered table-sm mb-0 ">
+                    <thead>
+                        <tr>
+                            <th class="text-center bg-danger text-light " scope="col ">PROYECTO</th>
+                            <th class="text-center bg-danger text-light " scope="col ">Estimado</th>
+                            <th class="text-center bg-danger text-light " scope="col ">Planificado</th>
+                            <th class="text-center bg-danger text-light " scope="col ">Incurrido</th>
+                            <th class="text-center bg-danger text-light " scope="col ">Facturado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="text-center text-dark " scope="row ">HH</th>
+                            <td class="text-center text-secondary ">{{ars['Horas Estimadas']|number}}</td>
+                            <td class="text-center text-secondary ">{{ars['Horas Planificadas']|number}}</td>
+                            <td class="text-center text-secondary ">{{ars['Horas Incurridas']|number}}</td>
+                            <td class="text-center text-secondary ">0</td>
+
+                        </tr>
+                        <tr>
+                            <th class="text-center text-dark " scope="row ">Etapa</th>
+                            <td class="text-center text-secondary " colspan="4 ">{{ars['Etapa']}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center text-dark " scope="row ">LD</th>
+                            <td class="text-center text-secondary " colspan="4 ">{{ars['Solicitante']}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center text-dark " scope="row ">PM</th>
+                            <td class="text-center text-secondary " colspan="4 ">{{ars['Origen']}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center text-dark " scope="row ">CECO</th>
+                            <td class="text-center text-secondary " colspan="4 ">{{ars['Código Externo']}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <table class="table table-bordered table-sm my-0 ">
+                    <thead>
+                        <tr>
+                            <th class="text-center bg-danger text-light " scope="col ">PLAN(Gantt)</th>
+                            <th class="text-center bg-danger text-light " scope="col ">Avance Real</th>
+                            <th class="text-center bg-danger text-light " scope="col " colspan="2 ">Avance Esperado</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="text-center text-dark " scope="row ">%</th>
+                            <td class="text-center text-secondary ">60%</td>
+                            <td class="text-center text-secondary ">60%</td>
+                            <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td>
+                            <!-- <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td> -->
+                            <!-- <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td> -->
+
+
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered table-sm my-0 ">
+                    <thead>
+                        <tr>
+                            <th class="text-center bg-danger text-light " scope="col ">SOPORTE</th>
+                            <th class="text-center bg-danger text-light " scope="col ">Estimado</th>
+                            <th class="text-center bg-danger text-light " scope="col ">Incurrido</th>
+                            <th class="text-center bg-danger text-light " scope="col ">Fecha Inicio</th>
+                            <th class="text-center bg-danger text-light " scope="col ">Fecha Fin</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="text-center text-dark " scope="row ">HH Soporte QA</th>
+                            <td class="text-center text-secondary ">{{ars.estimadoQA|number}}</td>
+                            <td class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
+                            <!-- <td class="text-center text-secondary ">{{ars.fechaIniQA|date:'dd-MM-yyyy'}}</td> -->
+                            <!-- <td class="text-center text-secondary ">{{ars.fechaFinQA|date:'dd-MM-yyyy'}}</td> -->
+                            <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Aprobación']|fechas}}</td>
+                            <td class="text-center text-secondary ">{{ars['Fec. Real Pase Aprobación']|fechas}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center text-dark " scope="row ">HH Soporte Produccion</th>
+                            <td class="text-center text-secondary ">{{ars.estimadoProd|number}}</td>
+                            <td class="text-center text-secondary ">{{ars.incurridoProd|number}}</td>
+                            <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Producción']|fechas}}</td>
+                            <td class="text-center text-secondary ">{{ars['Fec. Real Pase Producción']|fechas}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
-    </div>
-    <div class="row ">
-        <div class="col-12 col-sm-6 mb-3 ">
-            <img src="/../../assets/images/gantt1.png " alt=" " class="imagen-gantt border border-primary ">
-        </div>
-        <div class="col-12 col-sm-6 mb-3 ">
-            <table class="table table-bordered table-sm mb-0 ">
-                <thead>
-                    <tr>
-                        <th class="text-center bg-danger text-light " scope="col ">PROYECTO</th>
-                        <th class="text-center bg-danger text-light " scope="col ">Estimado</th>
-                        <th class="text-center bg-danger text-light " scope="col ">Planificado</th>
-                        <th class="text-center bg-danger text-light " scope="col ">Incurrido</th>
-                        <th class="text-center bg-danger text-light " scope="col ">Facturado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class="text-center text-dark " scope="row ">HH</th>
-                        <td class="text-center text-secondary ">{{ars['Horas Estimadas']|number}}</td>
-                        <td class="text-center text-secondary ">{{ars['Horas Planificadas']|number}}</td>
-                        <td class="text-center text-secondary ">{{ars['Horas Incurridas']|number}}</td>
-                        <td class="text-center text-secondary ">0</td>
+        <div class="row ">
+            <div class="col-12 col-sm-6 mb-3 ">
+                <table class="table table-sm mb-0 ">
+                    <thead>
+                        <tr>
+                            <th class="text-center bg-primary text-light h5 " scope="col ">Actividades Realizadas</th>
 
-                    </tr>
-                    <tr>
-                        <th class="text-center text-dark " scope="row ">Etapa</th>
-                        <td class="text-center text-secondary " colspan="4 ">{{ars['Etapa']}}</td>
-                    </tr>
-                    <tr>
-                        <th class="text-center text-dark " scope="row ">LD</th>
-                        <td class="text-center text-secondary " colspan="4 ">{{ars['Solicitante']}}</td>
-                    </tr>
-                    <tr>
-                        <th class="text-center text-dark " scope="row ">PM</th>
-                        <td class="text-center text-secondary " colspan="4 ">{{ars['Origen']}}</td>
-                    </tr>
-                    <tr>
-                        <th class="text-center text-dark " scope="row ">CECO</th>
-                        <td class="text-center text-secondary " colspan="4 ">{{ars['Código Externo']}}</td>
-                    </tr>
-
-                </tbody>
-            </table>
-            <table class="table table-bordered table-sm my-0 ">
-                <thead>
-                    <tr>
-                        <th class="text-center bg-danger text-light " scope="col ">PLAN(Gantt)</th>
-                        <th class="text-center bg-danger text-light " scope="col ">Avance Real</th>
-                        <th class="text-center bg-danger text-light " scope="col " colspan="2 ">Avance Esperado</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class="text-center text-dark " scope="row ">%</th>
-                        <td class="text-center text-secondary ">60%</td>
-                        <td class="text-center text-secondary ">60%</td>
-                        <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td>
-                        <!-- <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td> -->
-                        <!-- <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td> -->
-
-
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-bordered table-sm my-0 ">
-                <thead>
-                    <tr>
-                        <th class="text-center bg-danger text-light " scope="col ">SOPORTE</th>
-                        <th class="text-center bg-danger text-light " scope="col ">Estimado</th>
-                        <th class="text-center bg-danger text-light " scope="col ">Incurrido</th>
-                        <th class="text-center bg-danger text-light " scope="col ">Fecha Inicio</th>
-                        <th class="text-center bg-danger text-light " scope="col ">Fecha Fin</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class="text-center text-dark " scope="row ">HH Soporte QA</th>
-                        <td class="text-center text-secondary ">{{ars.estimadoQA|number}}</td>
-                        <td class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
-                        <!-- <td class="text-center text-secondary ">{{ars.fechaIniQA|date:'dd-MM-yyyy'}}</td> -->
-                        <!-- <td class="text-center text-secondary ">{{ars.fechaFinQA|date:'dd-MM-yyyy'}}</td> -->
-                        <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Aprobación']|fechas}}</td>
-                        <td class="text-center text-secondary ">{{ars['Fec. Real Pase Aprobación']|fechas}}</td>
-                    </tr>
-                    <tr>
-                        <th class="text-center text-dark " scope="row ">HH Soporte Produccion</th>
-                        <td class="text-center text-secondary ">N/A</td>
-                        <td class="text-center text-secondary ">N/A</td>
-                        <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Producción']|fechas}}</td>
-                        <td class="text-center text-secondary ">{{ars['Fec. Real Pase Producción']|fechas}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-    <div class="row ">
-        <div class="col-12 col-sm-6 mb-3 ">
-            <table class="table table-sm mb-0 ">
-                <thead>
-                    <tr>
-                        <th class="text-center bg-primary text-light h5 " scope="col ">Actividades Realizadas</th>
-
-                    </tr>
-                </thead>
-                <tbody *ngFor="let eve of ars.eventos|slice:-5">
-                    <tr>
-                        <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-check mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th>
-                    </tr>
-                    <!-- <tr>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let eve of ars.eventos|slice:-5">
+                        <tr>
+                            <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-check mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th>
+                        </tr>
+                        <!-- <tr>
                         <th class="text-left text-dark " scope="row "><i class="fa fa-check mx-2 " aria-hidden="true "></i>Se envio cotizacion para realizar modificacion</th>
                     </tr>
                     <tr>
                         <th class="text-left text-dark " scope="row "><i class="fa fa-check mx-2 " aria-hidden="true "></i>Se envio cotizacion para realizar modificacion</th>
                     </tr> -->
-                </tbody>
-            </table>
-        </div>
-        <div class="col-12 col-sm-6 mb-3 ">
-            <table class="table table-sm mb-0 ">
-                <thead>
-                    <tr>
-                        <th class="text-center bg-primary text-light h5 " scope="col ">Proximas Actividades</th>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 col-sm-6 mb-3 ">
+                <table class="table table-sm mb-0 ">
+                    <thead>
+                        <tr>
+                            <th class="text-center bg-primary text-light h5 " scope="col ">Proximas Actividades</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class="text-left text-dark " scope="row "><i class="fa fa-arrow-right mx-2 " aria-hidden="true "></i>Soporte QA</th>
-                    </tr>
-                    <tr>
-                        <th class="text-left text-dark " scope="row "><i class="fa fa-arrow-right mx-2 " aria-hidden="true "></i>Soporte QA</th>
-                    </tr>
-                    <tr>
-                        <th class="text-left text-dark " scope="row "><i class="fa fa-arrow-right mx-2 " aria-hidden="true "></i>Soporte QA</th>
-                    </tr>
-                </tbody>
-            </table>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let eve of ars.eventos|slice:0:5">
+                        <tr>
+                            <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-calendar-alt mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th>
+                        </tr>
+                        <!-- <tr>
+                            <th class="text-left text-dark " scope="row "><i class="fa fa-arrow-right mx-2 " aria-hidden="true "></i>Soporte QA</th>
+                        </tr>
+                        <tr>
+                            <th class="text-left text-dark " scope="row "><i class="fa fa-arrow-right mx-2 " aria-hidden="true "></i>Soporte QA</th>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="row pt-5">
-        <div class="col px-0 text-right">
-            <small class="text-muted text-right">{{i+1}}</small>
+        <div class="row pt-5">
+            <div class="col px-0 text-right">
+                <small class="text-muted text-right">{{i+1}}</small>
+            </div>
         </div>
-    </div>
-    <div class="row pb-5">
-        <div class="col px-0">
-            <hr>
+        <div class="row pb-5">
+            <div class="col px-0">
+                <hr>
+            </div>
         </div>
     </div>
 </div>

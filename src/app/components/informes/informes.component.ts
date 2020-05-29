@@ -10,12 +10,13 @@ import { SweetAlertService } from '../../services/sweet-alert.service';
 })
 export class InformesComponent implements OnInit {
 
-  jsonDataReqInf:any;
+  jsonDataReqInf: any;
   paramSeg = '';
   JsonArray: [] = [];
   icon = '';
 
-  constructor(private jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService) {
+  constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService) {
+    if (this.jsonDataService.jsonDataReqService!== undefined) {
     this.jsonDataReqInf = this.jsonDataService.getJsonDataReqService();
     this.route.params.subscribe(params => {
       this.paramSeg = params['segmento'];
@@ -36,7 +37,7 @@ export class InformesComponent implements OnInit {
         });
       }
     });
-
+  }
   }
 
   ngOnInit(): void {

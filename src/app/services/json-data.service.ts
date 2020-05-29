@@ -54,7 +54,6 @@ export class JsonDataService {
 
   AddEveToReq() {
 
-    // console.log('AddEveToReq');
     let x = 0;
     for (let req of this.jsonDataReqService.Requerimientos) {
       let i = 0;
@@ -67,44 +66,43 @@ export class JsonDataService {
         }
       }
       if (eventos.length > 0) {
-        // console.log(eventos);
         this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], eventos };
       }
       eventos = [];
       x++;
     }
-    // console.log(this.jsonDataReqService.Requerimientos);
   }
 
   AddTarToReq() {
 
-    // console.log('AddTarToReq');
     let x = 0;
     for (let req of this.jsonDataReqService.Requerimientos) {
       let i = 0;
       let estimadoQA = 0;
       let incurridoQA = 0;
-      let fechaIniQA = null;
-      let fechaFinQA = null;
+      let estimadoProd = 0;
+      let incurridoProd = 0;
 
       for (const  tar of this.jsonDataTarService['Detalle Tareas']) {
         if (req['Nro. Req.'] == tar['Número ARS']) {
             if (tar['Descripción Tarea'] == 'Soporte QA') {
               estimadoQA  = tar['Horas Estimadas'];
               incurridoQA  = tar['Horas Incurridas'];
-              fechaIniQA = tar['Fecha Inicio Planificada'];
-              fechaFinQA = tar['Fecha Fin Planificada'];
             }
-          // tareas[i] = tar;
+            if (tar['Descripción Tarea'] == 'Soporte Post Producción') {
+              estimadoProd  = tar['Horas Estimadas'];
+              incurridoProd  = tar['Horas Incurridas'];
+            }
           i++;
         }
       }
       // tslint:disable-next-line: max-line-length
-      this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], estimadoQA, incurridoQA , fechaIniQA, fechaFinQA};
+      this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], estimadoQA, incurridoQA, estimadoProd, incurridoProd};
       estimadoQA = 0;
       incurridoQA = 0;
-      fechaIniQA = null;
-      fechaFinQA = null;
+      estimadoProd = 0;
+      incurridoProd = 0;
+
       x++;
     }
     console.log(this.jsonDataReqService.Requerimientos);
