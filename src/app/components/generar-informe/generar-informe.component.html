@@ -18,11 +18,11 @@
             </div>
             <div class="row my-3">
                 <div class="col">
-                    Solicitudes:
+                    Tareas:
                 </div>
                 <div class="col">
-                    <input [class.is-invalid]="solicitudesNoValido " formControlName="solicitudes" type="file" (change)="uploadReq($event)">
-                    <small *ngIf="solicitudesNoValido " class="text-danger">Seleccione Archivo</small>
+                    <input [class.is-invalid]="tareasNoValido " formControlName="tareas" type="file" (change)="uploadTar($event)">
+                    <small *ngIf="tareasNoValido " class="text-danger">Seleccione Archivo</small>
                 </div>
             </div>
             <div class="row my-3">

@@ -1,4 +1,4 @@
-<div class="" *ngFor="let ars of JsonArray|slice:0:10; let i=index ">
+<div class="" *ngFor="let ars of JsonArray|slice:-10; let i=index ">
     <div class="row ">
         <div class="col-12 col-sm-8 ">
             <h3 class="pt-3 ">{{ars['Descripción']}}</h3>
@@ -91,10 +91,12 @@
                 <tbody>
                     <tr>
                         <th class="text-center text-dark " scope="row ">HH Soporte QA</th>
-                        <td class="text-center text-secondary ">N/A</td>
-                        <td class="text-center text-secondary ">N/A</td>
-                        <td class="text-center text-secondary ">N/A</td>
-                        <td class="text-center text-secondary ">N/A</td>
+                        <td class="text-center text-secondary ">{{ars.estimadoQA|number}}</td>
+                        <td class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
+                        <!-- <td class="text-center text-secondary ">{{ars.fechaIniQA|date:'dd-MM-yyyy'}}</td> -->
+                        <!-- <td class="text-center text-secondary ">{{ars.fechaFinQA|date:'dd-MM-yyyy'}}</td> -->
+                        <td class="text-center text-secondary ">{{ars.fechaIniQA|fechas}}</td>
+                        <td class="text-center text-secondary ">{{ars.fechaFinQA|date:'dd-MM-yyyy'}}</td>
                     </tr>
                     <tr>
                         <th class="text-center text-dark " scope="row ">HH Soporte Produccion</th>
@@ -117,7 +119,7 @@
 
                     </tr>
                 </thead>
-                <tbody *ngFor="let eve of ars.eventos|slice:0-5">
+                <tbody *ngFor="let eve of ars.eventos|slice:-5">
                     <tr>
                         <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-check mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th>
                     </tr>

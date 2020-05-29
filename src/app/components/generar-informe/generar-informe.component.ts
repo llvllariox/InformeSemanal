@@ -17,7 +17,7 @@ export class GenerarInformeComponent implements OnInit {
   name = 'This is XLSX TO JSON CONVERTER';
   // willDownload = false;
   jsonDataReq = null;
-  jsonDataSol = null;
+  jsonDataTar = null;
   jsonDataEve = null;
   jsonDataFac = null;
 
@@ -29,34 +29,78 @@ export class GenerarInformeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  uploadReq(event) {
+  uploadTar(event) {
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
     reader.onload = (event) => {
       const data = reader.result;
-      workBook = XLSX.read(data, { type: 'binary' });
+      workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
+      this.jsonDataTar = workBook.SheetNames.reduce((initial, name) => {
+        const sheet = workBook.Sheets[name];
+        initial[name] = XLSX.utils.sheet_to_json(sheet);
+        return initial;
+      }, {});
+      const dataString = JSON.stringify(this.jsonDataTar);
+
+      if(this.jsonDataTar['Detalle Tareas']==undefined) {
+        console.log('nok');
+        console.log(this.jsonDataTar);
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
+      } else {
+        console.log('ok');
+        console.log(this.jsonDataTar);
+        this.filtrarTar(this.jsonDataTar);
+      }
+    };
+    reader.readAsBinaryString(file);
+
+ }
+
+
+filtrarTar(jsonDataReq: any) {
+
+  jsonDataReq['Detalle Tareas'] = jsonDataReq['Detalle Tareas'].filter(a => {
+    return a['Línea de Servicio'] === 'Evolutivo Mayor';
+  });
+
+  jsonDataReq['Detalle Tareas'] = jsonDataReq['Detalle Tareas'].filter(a => {
+    return a['Tipo Contrato'] === 'Evolutivo';
+  });
+
+  this.jsonDataService.setjsonDataTarService(jsonDataReq);
+
+  // TODO SACAR DE ACA-----------------------------------------------------------------------------
+  this.jsonDataService.consolidarArchivos();
+  // ----------------------------------------------------------------------------------------------
+
+}
+  uploadReq(event) {
+
+    // let minDate = new Date('Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)');
+    console.log('REQ');
+    let workBook = null;
+    const reader = new FileReader();
+    const file = event.target.files[0];
+    reader.onload = (event) => {
+      const data = reader.result;
+      workBook = XLSX.read(data, { type: 'binary', cellDates : true});
       this.jsonDataReq = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         return initial;
       }, {});
       const dataString = JSON.stringify(this.jsonDataReq);
-      // console.log(this.jsonDataReq.Requerimientos);
-      // this.filtrarReq(this.jsonDataReq);
-      // console.log(this.jsonDataReq);
-      // if(this.jsonDataReq.has('Requerimiento')){
-      if(this.jsonDataReq.Requerimientos==undefined){
+      if(this.jsonDataReq.Requerimientos==undefined) {
         console.log('nok');
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos')
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
       } else {
         console.log('ok');
         this.filtrarReq(this.jsonDataReq);
-        // reader.readAsBinaryString(file);
       }
     };
     reader.readAsBinaryString(file);
-   
+
  }
 
 
@@ -80,23 +124,19 @@ uploadEve(event) {
   const file = event.target.files[0];
   reader.onload = (event) => {
     const data = reader.result;
-    workBook = XLSX.read(data, { type: 'binary' });
+    workBook = XLSX.read(data, { type: 'binary' , cellDates: true });
     this.jsonDataEve = workBook.SheetNames.reduce((initial, name) => {
       const sheet = workBook.Sheets[name];
       initial[name] = XLSX.utils.sheet_to_json(sheet);
       return initial;
     }, {});
     const dataString = JSON.stringify(this.jsonDataEve);
-    // console.log(this.jsonDataEve.Eveuerimientos[0]);
-    // console.log(this.jsonDataEve);
-    // this.filtrarEve(this.jsonDataEve);
-    if(this.jsonDataEve.Eventos==undefined){
+    if (this.jsonDataEve.Eventos==undefined) {
       console.log('nok');
-      this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos')
+      this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos');
     } else {
       console.log('ok');
       this.filtrarEve(this.jsonDataEve);
-      // reader.readAsBinaryString(file);
     }
   };
   reader.readAsBinaryString(file);
@@ -118,10 +158,9 @@ filtrarEve(jsonDataEve: any){
 
   this.jsonDataService.setjsonDataEveService(jsonDataEve);
 
-  // TODO SACAR DE ACA
-  this.jsonDataService.AddEveToReq();
+  
 }
-  guardar(){
+  guardar() {
 
     if (this.forma.invalid) {
       Object.values(this.forma.controls).forEach(control => {
@@ -139,15 +178,12 @@ filtrarEve(jsonDataEve: any){
     }
   }
 
-
-
   crearFormulario() {
 
     this.forma = this.formBuilder.group({
-      // correo : ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
 
       requerimientos : ['', [Validators.required]],
-      solicitudes : ['', [Validators.required]],
+      tareas : ['', [Validators.required]],
       eventos : ['', [Validators.required]],
       facturacion : ['', [Validators.required]],
       anno : ['', [Validators.required]],
@@ -159,8 +195,8 @@ filtrarEve(jsonDataEve: any){
   get requerimientosNoValido() {
     return this.forma.get('requerimientos').invalid && this.forma.get('requerimientos').touched;
   }
-  get solicitudesNoValido() {
-    return this.forma.get('solicitudes').invalid && this.forma.get('solicitudes').touched;
+  get tareasNoValido() {
+    return this.forma.get('tareas').invalid && this.forma.get('tareas').touched;
   }
   get eventosNoValido() {
     return this.forma.get('eventos').invalid && this.forma.get('eventos').touched;
