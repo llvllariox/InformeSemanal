@@ -95,15 +95,15 @@
                         <td class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
                         <!-- <td class="text-center text-secondary ">{{ars.fechaIniQA|date:'dd-MM-yyyy'}}</td> -->
                         <!-- <td class="text-center text-secondary ">{{ars.fechaFinQA|date:'dd-MM-yyyy'}}</td> -->
-                        <td class="text-center text-secondary ">{{ars.fechaIniQA|fechas}}</td>
-                        <td class="text-center text-secondary ">{{ars.fechaFinQA|date:'dd-MM-yyyy'}}</td>
+                        <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Aprobación']|fechas}}</td>
+                        <td class="text-center text-secondary ">{{ars['Fec. Real Pase Aprobación']|fechas}}</td>
                     </tr>
                     <tr>
                         <th class="text-center text-dark " scope="row ">HH Soporte Produccion</th>
                         <td class="text-center text-secondary ">N/A</td>
                         <td class="text-center text-secondary ">N/A</td>
-                        <td class="text-center text-secondary ">N/A</td>
-                        <td class="text-center text-secondary ">N/A</td>
+                        <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Producción']|fechas}}</td>
+                        <td class="text-center text-secondary ">{{ars['Fec. Real Pase Producción']|fechas}}</td>
                     </tr>
                 </tbody>
             </table>

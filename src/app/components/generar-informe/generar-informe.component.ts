@@ -78,7 +78,7 @@ filtrarTar(jsonDataReq: any) {
   uploadReq(event) {
 
     // let minDate = new Date('Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)');
-    console.log('REQ');
+    // console.log('REQ');
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -92,10 +92,10 @@ filtrarTar(jsonDataReq: any) {
       }, {});
       const dataString = JSON.stringify(this.jsonDataReq);
       if(this.jsonDataReq.Requerimientos==undefined) {
-        console.log('nok');
+        // console.log('nok');
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
       } else {
-        console.log('ok');
+        // console.log('ok');
         this.filtrarReq(this.jsonDataReq);
       }
     };
@@ -132,10 +132,10 @@ uploadEve(event) {
     }, {});
     const dataString = JSON.stringify(this.jsonDataEve);
     if (this.jsonDataEve.Eventos==undefined) {
-      console.log('nok');
+      // console.log('nok');
       this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos');
     } else {
-      console.log('ok');
+      // console.log('ok');
       this.filtrarEve(this.jsonDataEve);
     }
   };
