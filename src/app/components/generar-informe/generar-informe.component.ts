@@ -30,6 +30,7 @@ export class GenerarInformeComponent implements OnInit {
   }
 
   uploadTar(event) {
+    this.sweetAlerService.mensajeEsperar();
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -39,6 +40,8 @@ export class GenerarInformeComponent implements OnInit {
       this.jsonDataTar = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
         initial[name] = XLSX.utils.sheet_to_json(sheet);
+        this.sweetAlerService.close();
+
         return initial;
       }, {});
       const dataString = JSON.stringify(this.jsonDataTar);
@@ -47,6 +50,7 @@ export class GenerarInformeComponent implements OnInit {
         console.log('nok');
         console.log(this.jsonDataTar);
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
+        this.jsonDataTar = null;
       } else {
         console.log('ok');
         console.log(this.jsonDataTar);
@@ -70,13 +74,9 @@ filtrarTar(jsonDataReq: any) {
 
   this.jsonDataService.setjsonDataTarService(jsonDataReq);
 
-  // TODO SACAR DE ACA-----------------------------------------------------------------------------
-  this.jsonDataService.consolidarArchivos();
-  // ----------------------------------------------------------------------------------------------
-
 }
   uploadReq(event) {
-
+    this.sweetAlerService.mensajeEsperar();
     // let minDate = new Date('Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)');
     // console.log('REQ');
     let workBook = null;
@@ -88,12 +88,14 @@ filtrarTar(jsonDataReq: any) {
       this.jsonDataReq = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
         initial[name] = XLSX.utils.sheet_to_json(sheet);
+        this.sweetAlerService.close();
         return initial;
       }, {});
       const dataString = JSON.stringify(this.jsonDataReq);
       if(this.jsonDataReq.Requerimientos==undefined) {
         // console.log('nok');
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
+        this.jsonDataReq = null;
       } else {
         // console.log('ok');
         this.filtrarReq(this.jsonDataReq);
@@ -119,6 +121,7 @@ filtrarReq(jsonDataReq: any){
 }
 
 uploadEve(event) {
+  this.sweetAlerService.mensajeEsperar();
   let workBook = null;
   const reader = new FileReader();
   const file = event.target.files[0];
@@ -128,12 +131,15 @@ uploadEve(event) {
     this.jsonDataEve = workBook.SheetNames.reduce((initial, name) => {
       const sheet = workBook.Sheets[name];
       initial[name] = XLSX.utils.sheet_to_json(sheet);
+      this.sweetAlerService.close();
+
       return initial;
     }, {});
     const dataString = JSON.stringify(this.jsonDataEve);
     if (this.jsonDataEve.Eventos==undefined) {
       // console.log('nok');
       this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos');
+      this.jsonDataEve = null;
     } else {
       // console.log('ok');
       this.filtrarEve(this.jsonDataEve);
@@ -158,7 +164,6 @@ filtrarEve(jsonDataEve: any){
 
   this.jsonDataService.setjsonDataEveService(jsonDataEve);
 
-  
 }
   guardar() {
 
@@ -175,6 +180,10 @@ filtrarEve(jsonDataEve: any){
       });
     } else {
       // console.log('vaildo');
+        // TODO SACAR DE ACA-----------------------------------------------------------------------------
+        this.jsonDataService.consolidarArchivos();
+        this.sweetAlerService.mensajeOK('Informe Semanal Generado Exitosamente');
+      // ----------------------------------------------------------------------------------------------
     }
   }
 
@@ -186,8 +195,8 @@ filtrarEve(jsonDataEve: any){
       tareas : ['', [Validators.required]],
       eventos : ['', [Validators.required]],
       facturacion : ['', [Validators.required]],
-      anno : ['', [Validators.required]],
-      mes : ['', [Validators.required]],
+      // anno : ['', [Validators.required]],
+      // mes : ['', [Validators.required]],
     });
 
   }
@@ -204,11 +213,11 @@ filtrarEve(jsonDataEve: any){
   get facturacionNoValido() {
     return this.forma.get('facturacion').invalid && this.forma.get('facturacion').touched;
   }
-  get annoNoValido() {
-    return this.forma.get('anno').invalid && this.forma.get('anno').touched;
-  }
-  get mesNoValido() {
-    return this.forma.get('mes').invalid && this.forma.get('mes').touched;
-  }
+  // get annoNoValido() {
+  //   return this.forma.get('anno').invalid && this.forma.get('anno').touched;
+  // }
+  // get mesNoValido() {
+  //   return this.forma.get('mes').invalid && this.forma.get('mes').touched;
+  // }
 
 }

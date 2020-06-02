@@ -9,8 +9,10 @@ export class JsonDataService {
   jsonDataEveService;
   jsonDataTarService;
   jsonMasEve;
+  infoCargada = false;
+  constructor() {
 
-  constructor() { }
+   }
 
   getJsonDataReqService() {
     console.log('get service');
@@ -49,6 +51,8 @@ export class JsonDataService {
 
     this.AddEveToReq();
     this.AddTarToReq();
+    this.infoCargada = true;
+    // return true;
 
   }
 

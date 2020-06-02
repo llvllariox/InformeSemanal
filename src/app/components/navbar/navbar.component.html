@@ -6,16 +6,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#" [routerLink]="['generar']" routerLinkActive="router-link-active">Home</a>
+                <a class="nav-link" href="#" [routerLink]="['generar']" routerLinkActive="router-link-active">Generar Informes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['informes','BO']" routerLinkActive="router-link-active">Backoffice</a>
+                <a *ngIf="jsonDataService.infoCargada" class="nav-link" href="#" [routerLink]="['informes','BO']" routerLinkActive="router-link-active">Backoffice</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['informes','BE']" routerLinkActive="router-link-active">Backend</a>
+                <a *ngIf="jsonDataService.infoCargada" class="nav-link" href="#" [routerLink]="['informes','BE']" routerLinkActive="router-link-active">Backend</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['informes','PI']" routerLinkActive="router-link-active">Plataforma Integracion</a>
+                <a *ngIf="jsonDataService.infoCargada" class="nav-link" href="#" [routerLink]="['informes','PI']" routerLinkActive="router-link-active">Plataforma Integracion</a>
             </li>
         </ul>
     </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { JsonDataService } from 'src/app/services/json-data.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  // mostrarSegmentos = false;
+  constructor(public jsonDataService: JsonDataService) {
+
+    // tslint:disable-next-line: max-line-length
+
+   }
 
   ngOnInit(): void {
   }

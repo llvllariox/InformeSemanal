@@ -54,4 +54,8 @@ export class SweetAlertService {
       confirmButtonText: 'Si'
     });
   }
+
+  close(){
+    Swal.close();
+  }
 }
