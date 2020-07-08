@@ -61,20 +61,42 @@ export class JsonDataService {
     let x = 0;
     for (let req of this.jsonDataReqService.Requerimientos) {
       let i = 0;
-      let eventos = [];
+      let realizado = [];
+      let proximo = [];
+      let exepcion = false;
+      let avanceReal = 0;
       for (const  eve of this.jsonDataEveService.Eventos) {
         if (req['Nro. Req.'] == eve['Número de req. o sol.']) {
+          if (eve['Tipo de evento'] == 'INF - Actividad Realizada'){
+            realizado[i] = eve;
+          }
+          if (eve['Tipo de evento'] == 'INF - Proxima Actividad'){
+            proximo[i] = eve;
+          }
+          if (eve['Tipo de evento'] == 'INF - Avance Real'){
+            avanceReal = Number(eve['Descripción breve']);
+          }
+          if (eve['Tipo de evento'] == 'INF - Exepcion'){
+            exepcion = true;
+          }
 
-          eventos[i] = eve;
           i++;
         }
       }
-      if (eventos.length > 0) {
-        this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], eventos };
+      if (realizado.length > 0) {
+        this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], realizado };
       }
-      eventos = [];
+      if (proximo.length > 0) {
+        this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], proximo };
+      }
+
+      this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], avanceReal, exepcion };
+
+      realizado = [];
+      proximo = [];
       x++;
     }
+
   }
 
   AddTarToReq() {
@@ -86,6 +108,8 @@ export class JsonDataService {
       let incurridoQA = 0;
       let estimadoProd = 0;
       let incurridoProd = 0;
+      let tareas = [];
+      let incluir = true;
 
       for (const  tar of this.jsonDataTarService['Detalle Tareas']) {
         if (req['Nro. Req.'] == tar['Número ARS']) {
@@ -93,20 +117,86 @@ export class JsonDataService {
               estimadoQA  = tar['Horas Estimadas'];
               incurridoQA  = tar['Horas Incurridas'];
             }
-            if (tar['Descripción Tarea'] == 'Soporte Post Producción') {
+            // tslint:disable-next-line: max-line-length
+            if (tar['Descripción Tarea'] == 'Soporte Post Producción' || tar['Descripción Tarea'] == 'Implementación y Soporte Post Producción' ) {
               estimadoProd  = tar['Horas Estimadas'];
               incurridoProd  = tar['Horas Incurridas'];
             }
-          i++;
+            incluir = true;
+            let orden = 0;
+            switch (tar['Descripción Tarea']) {
+              case 'Análisis':
+                orden = 10;
+                break;
+              case 'Planificación':
+                // orden = 20;
+                incluir = false;
+                break;
+              case 'Análisis y Diseño':
+                orden =	30;
+                break;
+              case 'Construcción y Pruebas Unitarias':
+                orden = 40;
+                break;
+              case 'Pruebas Integrales':
+                orden =	50;
+                break;
+              case 'Implementación y Soporte Post Producción':
+                orden =	70;
+                break;
+              case 'Soporte Pase a Producción':
+                orden =	80;
+                break;
+              case 'Supervisión':
+                // orden =	9;
+                incluir = false;
+                break;
+              case 'Estimación y Plan de Trabajo':
+                orden =	8;
+                break;
+              case 'Diseño Detallado':
+                orden =	110;
+                break;
+              case 'Construcción':
+                orden = 120;
+                break;
+              case 'Pruebas Unitarias':
+                orden =	130;
+                break;
+              case 'Soporte QA':
+                orden = 60;
+                break;
+              case 'Soporte Post Producción':
+                orden = 150;
+                break;
+              case 'Verificar y Confirmar Estimación':
+                orden = 9;
+                break;
+            }
+            if (incluir) {
+              tareas[i] = {...tar, orden};
+              i++;
+            }
         }
       }
       // tslint:disable-next-line: max-line-length
       this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], estimadoQA, incurridoQA, estimadoProd, incurridoProd};
+
+      if (tareas.length > 0) {
+        // ordernar Array
+        tareas.sort((a, b) => {
+          return a.orden - b.orden;
+        });
+        this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], tareas };
+        
+      }
+
+
       estimadoQA = 0;
       incurridoQA = 0;
       estimadoProd = 0;
       incurridoProd = 0;
-
+      tareas = [];
       x++;
     }
     console.log(this.jsonDataReqService.Requerimientos);

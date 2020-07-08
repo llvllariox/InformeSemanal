@@ -18,7 +18,29 @@
         </div>
         <div class="row ">
             <div class="col-12 col-sm-6 mb-3 ">
-                <img src="/../../assets/images/gantt1.png " alt=" " class="imagen-gantt border border-primary ">
+                <!-- <img src="/../../assets/images/gantt1.png " alt=" " class="imagen-gantt border border-primary "> -->
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Tarea</th>
+                            <th scope="col">Duracion</th>
+                            <th scope="col">Inicio</th>
+                            <th scope="col">Fin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <div class="" *ngIf="ars['tareas']!==undefined"> -->
+                        <!-- <td class="small">1</td> -->
+                        <tr *ngFor="let tarea of ars['tareas']">
+                            <td class="small">{{tarea['Descripción Tarea']}}</td>
+                            <td class="small">{{tarea['Horas Estimadas']}}</td>
+                            <td class="small">{{tarea['Fecha Inicio Planificada']|fechas}}</td>
+                            <td class="small">{{tarea['Fecha Fin Planificada']|fechas}}</td>
+                        </tr>
+                        <!-- </div> -->
+
+                    </tbody>
+                </table>
             </div>
             <div class="col-12 col-sm-6 mb-3 ">
                 <table class="table table-bordered table-sm mb-0 ">
@@ -71,8 +93,8 @@
                     <tbody>
                         <tr>
                             <th class="text-center text-dark " scope="row ">%</th>
-                            <td class="text-center text-secondary ">60%</td>
-                            <td class="text-center text-secondary ">60%</td>
+                            <td class="text-center text-secondary ">{{ars['avanceReal']}}</td>
+                            <td class="text-center text-secondary ">pendiente</td>
                             <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td>
                             <!-- <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td> -->
                             <!-- <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td> -->

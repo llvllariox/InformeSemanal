@@ -194,7 +194,7 @@ filtrarEve(jsonDataEve: any){
       requerimientos : ['', [Validators.required]],
       tareas : ['', [Validators.required]],
       eventos : ['', [Validators.required]],
-      facturacion : ['', [Validators.required]],
+      facturacion : [''],
       // anno : ['', [Validators.required]],
       // mes : ['', [Validators.required]],
     });
