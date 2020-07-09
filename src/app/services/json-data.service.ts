@@ -56,6 +56,7 @@ export class JsonDataService {
     this.groupReqOrigen();
     this.eliminarReqOrigen();
     this.unirReqconAgrupados();
+    this.avanceEsperado();
     this.infoCargada = true;
     // return true;
 
@@ -134,51 +135,47 @@ export class JsonDataService {
             let orden = 0;
             switch (tar['Descripción Tarea']) {
               case 'Análisis':
-                orden = 10;
+                orden = 1;
+                break;
+              case 'Estimación y Plan de Trabajo':
+                orden =	2;
+                break;
+              case 'Verificar y Confirmar Estimación':
+                orden = 3;
                 break;
               case 'Planificación':
-                // orden = 20;
+                // orden = 4;
                 incluir = false;
                 break;
               case 'Análisis y Diseño':
-                orden =	30;
-                break;
-              case 'Construcción y Pruebas Unitarias':
-                orden = 40;
-                break;
-              case 'Pruebas Integrales':
-                orden =	50;
-                break;
-              case 'Implementación y Soporte Post Producción':
-                orden =	70;
-                break;
-              case 'Soporte Pase a Producción':
-                orden =	80;
-                break;
-              case 'Supervisión':
-                // orden =	9;
-                incluir = false;
-                break;
-              case 'Estimación y Plan de Trabajo':
-                orden =	8;
+                orden =	5;
                 break;
               case 'Diseño Detallado':
-                orden =	110;
+                orden =	6;
+                break;
+              case 'Construcción y Pruebas Unitarias':
+                orden = 7;
                 break;
               case 'Construcción':
-                orden = 120;
+                orden = 8;
                 break;
               case 'Pruebas Unitarias':
-                orden =	130;
+                orden =	9;
+                break;
+              case 'Pruebas Integrales':
+                orden =	10;
                 break;
               case 'Soporte QA':
-                orden = 60;
+                orden = 11;
+                break;
+              case 'Implementación y Soporte Post Producción':
+                orden =	12;
+                break;
+              case 'Soporte Pase a Producción':
+                orden =	13;
                 break;
               case 'Soporte Post Producción':
-                orden = 150;
-                break;
-              case 'Verificar y Confirmar Estimación':
-                orden = 9;
+                orden = 14;
                 break;
             }
             if (incluir) {
@@ -246,8 +243,8 @@ export class JsonDataService {
             //   Reqpadre['tareas'] = ultTareas;
             // }
             // console.log(ultTareas);
-            console.log(Reqpadre['Nro. Req.']);
-            console.log(ultTareas.length);
+            // console.log(Reqpadre['Nro. Req.']);
+            // console.log(ultTareas.length);
             if (ultTareas.length > 0) {
               // if(Reqpadre['Nro. Req.'] == '1428'){
               //   console.log( Reqpadre['tareas']);
@@ -318,6 +315,18 @@ export class JsonDataService {
     console.log('---Final Unidos----');
     console.log(this.jsonDataReqService.Requerimientos);
     // console.log(this.jsonDataReqService.Requerimientos.length);
+  }
+
+
+  avanceEsperado(){
+    let hoy = new Date();
+    let esperado = 0;
+    console.log(hoy);
+    for (let req of this.jsonDataReqService.Requerimientos) {
+      for (let tarea of this.jsonDataReqService.Requerimientos.tareas) {
+          if(tarea[])
+      }
+    }
   }
 
 }
