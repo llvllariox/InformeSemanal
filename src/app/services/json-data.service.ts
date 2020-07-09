@@ -54,8 +54,8 @@ export class JsonDataService {
     this.AddEveToReq();
     this.AddTarToReq();
     this.groupReqOrigen();
-    // this.eliminarReqOrigen();
-    // this.unirReqconAgrupados();
+    this.eliminarReqOrigen();
+    this.unirReqconAgrupados();
     this.infoCargada = true;
     // return true;
 
@@ -246,7 +246,13 @@ export class JsonDataService {
             //   Reqpadre['tareas'] = ultTareas;
             // }
             // console.log(ultTareas);
-            if (ultTareas === []) {
+            console.log(Reqpadre['Nro. Req.']);
+            console.log(ultTareas.length);
+            if (ultTareas.length > 0) {
+              // if(Reqpadre['Nro. Req.'] == '1428'){
+              //   console.log( Reqpadre['tareas']);
+              //   console.log( ultTareas);
+              // }
               Reqpadre['tareas'] = ultTareas;
             }
             // Reqpadre['tareas'] = ultTareas|| Reqpadre['tareas'];
@@ -275,7 +281,7 @@ export class JsonDataService {
           ultLD = req['Solicitante'];
           ultPM = req['Origen'];
           ultCECO = req['Código Externo'];
-          ultTareas = req['tareas'];
+          ultTareas = req['tareas']||[];
 
         }
 
