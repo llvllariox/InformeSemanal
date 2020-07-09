@@ -16,35 +16,36 @@ export class JsonDataService {
    }
 
   getJsonDataReqService() {
-    console.log('get service');
-    console.log(this.jsonDataReqService);
+    // console.log('get service');
+    // console.log(this.jsonDataReqService);
     return this.jsonDataReqService;
   }
 
   setjsonDataReqService(jsonDataReqService: any) {
+    console.log('----Original----');
     console.log('jsonDataReqService: ', jsonDataReqService);
     this.jsonDataReqService = jsonDataReqService;
   }
 
   getJsonDataEveService() {
-    console.log('get service');
-    console.log(this.jsonDataEveService);
+    // console.log('get service');
+    // console.log(this.jsonDataEveService);
     return this.jsonDataEveService;
   }
 
   setjsonDataEveService(jsonDataEveService: any) {
-    console.log('jsonDataEveService: ', jsonDataEveService);
+    // console.log('jsonDataEveService: ', jsonDataEveService);
     this.jsonDataEveService = jsonDataEveService;
   }
 
   getJsonDataTarService() {
-    console.log('get service');
-    console.log(this.jsonDataTarService);
+    // console.log('get service');
+    // console.log(this.jsonDataTarService);
     return this.jsonDataTarService;
   }
 
   setjsonDataTarService(jsonDataTarService: any) {
-    console.log('jsonDataTarService: ', jsonDataTarService);
+    // console.log('jsonDataTarService: ', jsonDataTarService);
     this.jsonDataTarService = jsonDataTarService;
   }
 
@@ -53,8 +54,8 @@ export class JsonDataService {
     this.AddEveToReq();
     this.AddTarToReq();
     this.groupReqOrigen();
-    this.eliminarReqOrigen();
-    this.unirReqconAgrupados();
+    // this.eliminarReqOrigen();
+    // this.unirReqconAgrupados();
     this.infoCargada = true;
     // return true;
 
@@ -100,6 +101,9 @@ export class JsonDataService {
       proximo = [];
       x++;
     }
+
+    // console.log('----AddEveToReq---');
+    // console.log(this.jsonDataReqService.Requerimientos);
 
   }
 
@@ -185,7 +189,8 @@ export class JsonDataService {
       }
       // tslint:disable-next-line: max-line-length
       this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], estimadoQA, incurridoQA, estimadoProd, incurridoProd};
-
+      // console.log('----AddTarToReq-ant--');
+      // console.log(this.jsonDataReqService.Requerimientos);
       if (tareas.length > 0) {
         // ordernar Array
         tareas.sort((a, b) => {
@@ -203,6 +208,7 @@ export class JsonDataService {
       tareas = [];
       x++;
     }
+    // console.log('----AddTarToReq---');
     // console.log(this.jsonDataReqService.Requerimientos);
   }
 
@@ -214,31 +220,43 @@ export class JsonDataService {
     let ultLD = '';
     let ultPM = '';
     let ultCECO = '';
+    let ultTareas = [];
     // let ReqAgrupado = [];
 
     // ordenar por ReqOrigen
     this.jsonDataReqService.Requerimientos.sort((a, b) => {
       return a['Req. Origen'] - b['Req. Origen'];
     });
-
-    console.log(this.jsonDataReqService.Requerimientos);
-    console.log(this.jsonDataReqService.Requerimientos.length);
-
+    // console.log('---groupReqOrigen----');
+    // console.log(this.jsonDataReqService.Requerimientos);
+    // return;
+    //  HASTA ACA VA BIEN
     for (let req of this.jsonDataReqService.Requerimientos) {
 
       if (req['Req. Origen'] !== ' ') {
         if (req['Req. Origen'] !== Reqpadre['Req. Origen']){
           // console.log(Reqpadre.length);
           if (Reqpadre) {
-            Reqpadre['Etapa'] = ultEtapa;
-            Reqpadre['Solicitante'] = ultLD;
-            Reqpadre['Origen'] = ultPM;
-            Reqpadre['Código Externo'] = ultCECO;
+
+            Reqpadre['Etapa'] = ultEtapa || Reqpadre['Etapa'];
+            Reqpadre['Solicitante'] = ultLD|| Reqpadre['Solicitante'];
+            Reqpadre['Origen'] = ultPM|| Reqpadre['Origen'];
+            Reqpadre['Código Externo'] = ultCECO|| Reqpadre['Código Externo'];
+            // if(ultTareas !== []){
+            //   Reqpadre['tareas'] = ultTareas;
+            // }
+            // console.log(ultTareas);
+            if (ultTareas === []) {
+              Reqpadre['tareas'] = ultTareas;
+            }
+            // Reqpadre['tareas'] = ultTareas|| Reqpadre['tareas'];
+
             this.ReqAgrupado.push(Reqpadre);
             ultEtapa = '';
             ultLD = '';
             ultPM = '';
             ultCECO = '';
+            ultTareas = [];
             // console.log('push');
           }
           Reqpadre = req;
@@ -257,6 +275,7 @@ export class JsonDataService {
           ultLD = req['Solicitante'];
           ultPM = req['Origen'];
           ultCECO = req['Código Externo'];
+          ultTareas = req['tareas'];
 
         }
 
@@ -264,8 +283,8 @@ export class JsonDataService {
 
     }
     // console.log(Reqpadre);
-    console.log('Agrupados');
-    console.log(this.ReqAgrupado);
+    // console.log('Agrupados');
+    // console.log(this.ReqAgrupado);
 
 
   }
@@ -281,9 +300,9 @@ export class JsonDataService {
       }
       i++;
    }
-   console.log('---Limpio sin req origen----');
-   console.log(this.jsonDataReqService.Requerimientos);
-   console.log(this.jsonDataReqService.Requerimientos.length);
+  //  console.log('---Limpio sin req origen----');
+  //  console.log(this.jsonDataReqService.Requerimientos);
+  //  console.log(this.jsonDataReqService.Requerimientos.length);
   }
 
   unirReqconAgrupados() {
@@ -292,7 +311,7 @@ export class JsonDataService {
     this.jsonDataReqService.Requerimientos.splice(tamaño, 1);
     console.log('---Final Unidos----');
     console.log(this.jsonDataReqService.Requerimientos);
-    console.log(this.jsonDataReqService.Requerimientos.length);
+    // console.log(this.jsonDataReqService.Requerimientos.length);
   }
 
 }
