@@ -68,7 +68,8 @@ export class JsonDataService {
     this.groupReqOrigen();
     this.eliminarReqOrigen();
     this.unirReqconAgrupados();
-    this.avanceEsperado();
+    // this.avanceEsperado();
+    this.facObtieneMA();
     this.infoCargada = true;
     // return true;
 
@@ -339,6 +340,28 @@ export class JsonDataService {
     //       if(tarea[])
     //   }
     // }
+  }
+
+
+  facObtieneMA(){
+    let MA = '';
+    let i = 0;
+    for (let fac of this.jsonDataFacService['Datos Facturación']) {
+      MA = fac['Nombre Requerimiento'].substr(0,7);
+      // tslint:disable-next-line: max-line-length
+      this.jsonDataFacService['Datos Facturación'][i] = {...this.jsonDataFacService['Datos Facturación'][i], MA};
+      i++;
+    }
+    console.log('----Substr MA------');
+    console.log(this.jsonDataFacService);
+
+    this.jsonDataFacService['Datos Facturación'].sort((a, b) => {
+      return a.MA - b.MA;
+    });
+
+    console.log('----MA ORDENADO------');
+    console.log(this.jsonDataFacService);
+
   }
 
 }

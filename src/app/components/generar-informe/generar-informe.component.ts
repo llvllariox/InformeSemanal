@@ -62,12 +62,21 @@ export class GenerarInformeComponent implements OnInit {
       delete this.jsonDataFac['Resumen'];
       delete this.jsonDataFac['Temporal'];
       // console.log(this.jsonDataFac);
-      this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
-        // this.filtrarTar(this.jsonDataTar);
+      // this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
+        this.filtrarFac(this.jsonDataFac);
       // }
     };
     reader.readAsBinaryString(file);
-    
+  }
+
+  filtrarFac(jsonDataReq: any) {
+
+    this.jsonDataFac['Datos Facturación'] = jsonDataReq['Datos Facturación'].filter(a => {
+      return a['Línea de Servicio'] === 'Evolutivo Mayor';
+    });
+
+    this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
+
   }
 
   uploadTar(event) {
