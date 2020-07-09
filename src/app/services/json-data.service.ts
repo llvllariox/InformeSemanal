@@ -233,9 +233,10 @@ export class JsonDataService {
         } else {
           // Reqpadre['Descripción'] = Reqpadre['Descripción'] + (req['Nro. Req.']);
           Reqpadre['Descripción'] = `${Reqpadre['Descripción']} - MA0${req['Nro. Req.']}`;
+          Reqpadre['Horas Estimadas'] = Number(Reqpadre['Horas Estimadas']) + Number(req['Horas Estimadas']);
+          Reqpadre['Horas Planificadas'] = Number(Reqpadre['Horas Planificadas']) + Number(req['Horas Planificadas']);
+          Reqpadre['Horas Incurridas'] = Number(Reqpadre['Horas Incurridas']) + Number(req['Horas Incurridas']);
           // console.log(Reqpadre);
-
-         
         }
 
       }
