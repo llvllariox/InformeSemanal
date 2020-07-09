@@ -210,6 +210,10 @@ export class JsonDataService {
 
     let x = 0;
     let Reqpadre = [];
+    let ultEtapa = '';
+    let ultLD = '';
+    let ultPM = '';
+    let ultCECO = '';
     // let ReqAgrupado = [];
 
     // ordenar por ReqOrigen
@@ -226,7 +230,15 @@ export class JsonDataService {
         if (req['Req. Origen'] !== Reqpadre['Req. Origen']){
           // console.log(Reqpadre.length);
           if (Reqpadre) {
+            Reqpadre['Etapa'] = ultEtapa;
+            Reqpadre['Solicitante'] = ultLD;
+            Reqpadre['Origen'] = ultPM;
+            Reqpadre['Código Externo'] = ultCECO;
             this.ReqAgrupado.push(Reqpadre);
+            ultEtapa = '';
+            ultLD = '';
+            ultPM = '';
+            ultCECO = '';
             // console.log('push');
           }
           Reqpadre = req;
@@ -236,7 +248,16 @@ export class JsonDataService {
           Reqpadre['Horas Estimadas'] = Number(Reqpadre['Horas Estimadas']) + Number(req['Horas Estimadas']);
           Reqpadre['Horas Planificadas'] = Number(Reqpadre['Horas Planificadas']) + Number(req['Horas Planificadas']);
           Reqpadre['Horas Incurridas'] = Number(Reqpadre['Horas Incurridas']) + Number(req['Horas Incurridas']);
-          // console.log(Reqpadre);
+          Reqpadre['estimadoQA'] = Number(Reqpadre['estimadoQA']) + Number(req['estimadoQA']);
+          Reqpadre['incurridoQA'] = Number(Reqpadre['incurridoQA']) + Number(req['incurridoQA']);
+          Reqpadre['estimadoProd'] = Number(Reqpadre['estimadoProd']) + Number(req['estimadoProd']);
+          Reqpadre['incurridoProd'] = Number(Reqpadre['incurridoProd']) + Number(req['incurridoProd']);
+
+          ultEtapa = req['Etapa'];
+          ultLD = req['Solicitante'];
+          ultPM = req['Origen'];
+          ultCECO = req['Código Externo'];
+
         }
 
       }
