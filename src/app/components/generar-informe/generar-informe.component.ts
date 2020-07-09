@@ -29,6 +29,47 @@ export class GenerarInformeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  uploadFac(event) {
+    this.sweetAlerService.mensajeEsperar();
+    let workBook = null;
+    const reader = new FileReader();
+    const file = event.target.files[0];
+    reader.onload = (event) => {
+      const data = reader.result;
+      workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
+      this.jsonDataFac = workBook.SheetNames.reduce((initial, name) => {
+        const sheet = workBook.Sheets[name];
+        initial[name] = XLSX.utils.sheet_to_json(sheet);
+        this.sweetAlerService.close();
+
+        return initial;
+      }, {});
+      const dataString = JSON.stringify(this.jsonDataFac);
+
+      // if(this.jsonDataFac['Detalle Tareas']==undefined) {
+      //   console.log('nok');
+      //   console.log(this.jsonDataFac);
+      //   this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
+      //   this.jsonDataFac = null;
+      // } else {
+      // console.log('ok');
+      // console.log(this.jsonDataFac);
+      delete this.jsonDataFac['Cuadre'];
+      delete this.jsonDataFac['Info Requerimientos'];
+      delete this.jsonDataFac['Info Solicitudes'];
+      delete this.jsonDataFac['Parametros'];
+      delete this.jsonDataFac['Res por mes'];
+      delete this.jsonDataFac['Resumen'];
+      delete this.jsonDataFac['Temporal'];
+      // console.log(this.jsonDataFac);
+      this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
+        // this.filtrarTar(this.jsonDataTar);
+      // }
+    };
+    reader.readAsBinaryString(file);
+    
+  }
+
   uploadTar(event) {
     this.sweetAlerService.mensajeEsperar();
     let workBook = null;
@@ -47,12 +88,12 @@ export class GenerarInformeComponent implements OnInit {
       const dataString = JSON.stringify(this.jsonDataTar);
 
       if(this.jsonDataTar['Detalle Tareas']==undefined) {
-        console.log('nok');
-        console.log(this.jsonDataTar);
+        // console.log('nok');
+        // console.log(this.jsonDataTar);
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
         this.jsonDataTar = null;
       } else {
-        console.log('ok');
+        // console.log('ok');
         console.log(this.jsonDataTar);
         this.filtrarTar(this.jsonDataTar);
       }

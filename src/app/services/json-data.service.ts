@@ -8,6 +8,7 @@ export class JsonDataService {
   jsonDataReqService;
   jsonDataEveService;
   jsonDataTarService;
+  jsonDataFacService;
   jsonMasEve;
   infoCargada = false;
   ReqAgrupado = [];
@@ -47,6 +48,17 @@ export class JsonDataService {
   setjsonDataTarService(jsonDataTarService: any) {
     // console.log('jsonDataTarService: ', jsonDataTarService);
     this.jsonDataTarService = jsonDataTarService;
+  }
+
+  getJsonDataFacService() {
+    // console.log('get service');
+    // console.log(this.jsonDataFacService);
+    return this.jsonDataFacService;
+  }
+
+  setjsonDataFacService(jsonDataFacService: any) {
+    console.log('jsonDataFacService: ', jsonDataFacService);
+    this.jsonDataFacService = jsonDataFacService;
   }
 
   consolidarArchivos() {
@@ -319,14 +331,14 @@ export class JsonDataService {
 
 
   avanceEsperado(){
-    let hoy = new Date();
-    let esperado = 0;
-    console.log(hoy);
-    for (let req of this.jsonDataReqService.Requerimientos) {
-      for (let tarea of this.jsonDataReqService.Requerimientos.tareas) {
-          if(tarea[])
-      }
-    }
+    // let hoy = new Date();
+    // let esperado = 0;
+    // console.log(hoy);
+    // for (let req of this.jsonDataReqService.Requerimientos) {
+    //   for (let tarea of this.jsonDataReqService.Requerimientos.tareas) {
+    //       if(tarea[])
+    //   }
+    // }
   }
 
 }
