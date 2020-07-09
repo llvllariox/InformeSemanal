@@ -10,6 +10,7 @@ export class JsonDataService {
   jsonDataTarService;
   jsonMasEve;
   infoCargada = false;
+  ReqAgrupado = [];
   constructor() {
 
    }
@@ -51,6 +52,9 @@ export class JsonDataService {
 
     this.AddEveToReq();
     this.AddTarToReq();
+    this.groupReqOrigen();
+    this.eliminarReqOrigen();
+    this.unirReqconAgrupados();
     this.infoCargada = true;
     // return true;
 
@@ -188,7 +192,7 @@ export class JsonDataService {
           return a.orden - b.orden;
         });
         this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], tareas };
-        
+
       }
 
 
@@ -199,6 +203,74 @@ export class JsonDataService {
       tareas = [];
       x++;
     }
-    console.log(this.jsonDataReqService.Requerimientos);
+    // console.log(this.jsonDataReqService.Requerimientos);
   }
+
+  groupReqOrigen() {
+
+    let x = 0;
+    let Reqpadre = [];
+    // let ReqAgrupado = [];
+
+    // ordenar por ReqOrigen
+    this.jsonDataReqService.Requerimientos.sort((a, b) => {
+      return a['Req. Origen'] - b['Req. Origen'];
+    });
+
+    console.log(this.jsonDataReqService.Requerimientos);
+    console.log(this.jsonDataReqService.Requerimientos.length);
+
+    for (let req of this.jsonDataReqService.Requerimientos) {
+
+      if (req['Req. Origen'] !== ' ') {
+        if (req['Req. Origen'] !== Reqpadre['Req. Origen']){
+          // console.log(Reqpadre.length);
+          if (Reqpadre) {
+            this.ReqAgrupado.push(Reqpadre);
+            // console.log('push');
+          }
+          Reqpadre = req;
+        } else {
+          // Reqpadre['Descripción'] = Reqpadre['Descripción'] + (req['Nro. Req.']);
+          Reqpadre['Descripción'] = `${Reqpadre['Descripción']} - MA0${req['Nro. Req.']}`;
+          // console.log(Reqpadre);
+
+         
+        }
+
+      }
+
+    }
+    // console.log(Reqpadre);
+    console.log('Agrupados');
+    console.log(this.ReqAgrupado);
+
+
+  }
+
+  eliminarReqOrigen() {
+
+   let i = 0;
+   for (let req of this.jsonDataReqService.Requerimientos) {
+
+      if (req['Req. Origen'] !== ' ') {
+        // console.log('delete', this.jsonDataReqService.Requerimientos[i]);
+        this.jsonDataReqService.Requerimientos.splice(i, 1);
+      }
+      i++;
+   }
+   console.log('---Limpio sin req origen----');
+   console.log(this.jsonDataReqService.Requerimientos);
+   console.log(this.jsonDataReqService.Requerimientos.length);
+  }
+
+  unirReqconAgrupados() {
+    let tamaño = this.jsonDataReqService.Requerimientos.length;
+    this.jsonDataReqService.Requerimientos = this.jsonDataReqService.Requerimientos.concat(this.ReqAgrupado);
+    this.jsonDataReqService.Requerimientos.splice(tamaño, 1);
+    console.log('---Final Unidos----');
+    console.log(this.jsonDataReqService.Requerimientos);
+    console.log(this.jsonDataReqService.Requerimientos.length);
+  }
+
 }
