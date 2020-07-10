@@ -206,8 +206,6 @@ export class JsonDataService {
       }
       // tslint:disable-next-line: max-line-length
       this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], estimadoQA, incurridoQA, estimadoProd, incurridoProd};
-      // console.log('----AddTarToReq-ant--');
-      // console.log(this.jsonDataReqService.Requerimientos);
       if (tareas.length > 0) {
         // ordernar Array
         tareas.sort((a, b) => {
@@ -225,8 +223,6 @@ export class JsonDataService {
       tareas = [];
       x++;
     }
-    // console.log('----AddTarToReq---');
-    // console.log(this.jsonDataReqService.Requerimientos);
   }
 
   groupReqOrigen() {
@@ -244,15 +240,12 @@ export class JsonDataService {
     this.jsonDataReqService.Requerimientos.sort((a, b) => {
       return a['Req. Origen'] - b['Req. Origen'];
     });
-    // console.log('---groupReqOrigen----');
-    // console.log(this.jsonDataReqService.Requerimientos);
     // return;
     //  HASTA ACA VA BIEN
     for (let req of this.jsonDataReqService.Requerimientos) {
 
       if (req['Req. Origen'] !== ' ') {
         if (req['Req. Origen'] !== Reqpadre['Req. Origen']){
-          // console.log(Reqpadre.length);
           if (Reqpadre) {
 
             Reqpadre['Etapa'] = ultEtapa || Reqpadre['Etapa'];
@@ -262,13 +255,8 @@ export class JsonDataService {
             // if(ultTareas !== []){
             //   Reqpadre['tareas'] = ultTareas;
             // }
-            // console.log(ultTareas);
-            // console.log(Reqpadre['Nro. Req.']);
-            // console.log(ultTareas.length);
             if (ultTareas.length > 0) {
               // if(Reqpadre['Nro. Req.'] == '1428'){
-              //   console.log( Reqpadre['tareas']);
-              //   console.log( ultTareas);
               // }
               Reqpadre['tareas'] = ultTareas;
             }
@@ -280,7 +268,6 @@ export class JsonDataService {
             ultPM = '';
             ultCECO = '';
             ultTareas = [];
-            // console.log('push');
           }
           Reqpadre = req;
         } else {
@@ -306,9 +293,6 @@ export class JsonDataService {
       }
 
     }
-    // console.log(Reqpadre);
-    // console.log('Agrupados');
-    // console.log(this.ReqAgrupado);
 
 
   }
@@ -319,30 +303,22 @@ export class JsonDataService {
    for (let req of this.jsonDataReqService.Requerimientos) {
 
       if (req['Req. Origen'] !== ' ') {
-        // console.log('delete', this.jsonDataReqService.Requerimientos[i]);
         this.jsonDataReqService.Requerimientos.splice(i, 1);
       }
       i++;
    }
-  //  console.log('---Limpio sin req origen----');
-  //  console.log(this.jsonDataReqService.Requerimientos);
-  //  console.log(this.jsonDataReqService.Requerimientos.length);
   }
 
   unirReqconAgrupados() {
     let tamaño = this.jsonDataReqService.Requerimientos.length;
     this.jsonDataReqService.Requerimientos = this.jsonDataReqService.Requerimientos.concat(this.ReqAgrupado);
     this.jsonDataReqService.Requerimientos.splice(tamaño, 1);
-    console.log('---Final Unidos----');
-    console.log(this.jsonDataReqService.Requerimientos);
-    // console.log(this.jsonDataReqService.Requerimientos.length);
   }
 
 
   avanceEsperado(){
     // let hoy = new Date();
     // let esperado = 0;
-    // console.log(hoy);
     // for (let req of this.jsonDataReqService.Requerimientos) {
     //   for (let tarea of this.jsonDataReqService.Requerimientos.tareas) {
     //       if(tarea[])
@@ -360,16 +336,12 @@ export class JsonDataService {
       this.jsonDataFacService['Datos Facturación'][i] = {...this.jsonDataFacService['Datos Facturación'][i], MA};
       i++;
     }
-    console.log('----Substr MA------');
-    console.log(this.jsonDataFacService);
 
     this.jsonDataFacService['Datos Facturación'].sort((a, b) => {
       // return a.MA - b.MA;
       return a.MA.localeCompare(b.MA);
     });
 
-    console.log('----MA ORDENADO------');
-    console.log(this.jsonDataFacService);
 
   }
 
@@ -381,7 +353,6 @@ export class JsonDataService {
     for (let fac of this.jsonDataFacService['Datos Facturación']) {
 
       if (fac['MA'] !== facpadre['MA']){
-        // console.log(Reqpadre.length);
         if (facpadre) {
 
           this.facAgrupado.push(facpadre);
@@ -394,17 +365,13 @@ export class JsonDataService {
       }
 
     }
-    console.log('----facAgrupado----');
-    console.log(this.facAgrupado);
   }
 
   facAgregarReq(){
     this.facAgrupado.splice(0, 1);
     let i = 0;
     for (let req of this.jsonDataReqService.Requerimientos) {
-      // console.log(req);
       for (const fac of this.facAgrupado) {
-        // console.log(fac);
         if (req['Nro. Req.'] ==  Number(fac['MA'].substr(2,5))) {
           let horasFact = fac['HH Incurridas'];
           this.jsonDataReqService.Requerimientos[i] = {...this.jsonDataReqService.Requerimientos[i], horasFact};
@@ -413,7 +380,7 @@ export class JsonDataService {
       }
       i++;
     }
-    console.log('----Finan + Facturado----');
+    console.log('----Finanl + Facturado----');
     console.log(this.jsonDataReqService.Requerimientos);
 
   }

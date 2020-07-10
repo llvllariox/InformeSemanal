@@ -45,26 +45,26 @@ export class GenerarInformeComponent implements OnInit {
         return initial;
       }, {});
       const dataString = JSON.stringify(this.jsonDataFac);
-
-      // if(this.jsonDataFac['Detalle Tareas']==undefined) {
-      //   console.log('nok');
-      //   console.log(this.jsonDataFac);
-      //   this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
-      //   this.jsonDataFac = null;
-      // } else {
-      // console.log('ok');
-      // console.log(this.jsonDataFac);
-      delete this.jsonDataFac['Cuadre'];
-      delete this.jsonDataFac['Info Requerimientos'];
-      delete this.jsonDataFac['Info Solicitudes'];
-      delete this.jsonDataFac['Parametros'];
-      delete this.jsonDataFac['Res por mes'];
-      delete this.jsonDataFac['Resumen'];
-      delete this.jsonDataFac['Temporal'];
-      // console.log(this.jsonDataFac);
-      // this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
+      console.log(this.jsonDataFac);
+      if(this.jsonDataFac['Datos Facturación']==undefined) {
+        // console.log('nok');
+        // console.log(this.jsonDataFac);
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
+        this.jsonDataFac = null;
+      } else {
+        // console.log('ok');
+        // console.log(this.jsonDataFac);
+        delete this.jsonDataFac['Cuadre'];
+        delete this.jsonDataFac['Info Requerimientos'];
+        delete this.jsonDataFac['Info Solicitudes'];
+        delete this.jsonDataFac['Parametros'];
+        delete this.jsonDataFac['Res por mes'];
+        delete this.jsonDataFac['Resumen'];
+        delete this.jsonDataFac['Temporal'];
+        // console.log(this.jsonDataFac);
+        // this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
         this.filtrarFac(this.jsonDataFac);
-      // }
+      }
     };
     reader.readAsBinaryString(file);
   }
@@ -244,7 +244,7 @@ filtrarEve(jsonDataEve: any){
       requerimientos : ['', [Validators.required]],
       tareas : ['', [Validators.required]],
       eventos : ['', [Validators.required]],
-      facturacion : [''],
+      facturacion : ['', [Validators.required]],
       // anno : ['', [Validators.required]],
       // mes : ['', [Validators.required]],
     });
