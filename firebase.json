@@ -1,10 +1,10 @@
 {
-    "hosting": {
-        "public": "./dist/mapas",
-        "ignore": [
-            "firebase.json",
-            "**/.*",
-            "**/node_modules/**"
-        ]
-    }
+  "hosting": {
+    "public": "./dist/mapas",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
 }
