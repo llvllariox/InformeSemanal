@@ -72,6 +72,7 @@ export class JsonDataService {
     this.groupReqOrigen();
     this.eliminarReqOrigen();
     this.unirReqconAgrupados();
+    this.obtenerFechasQAPROD();
     // this.avanceEsperado();
  
     // this.facObtieneMA();
@@ -88,7 +89,6 @@ export class JsonDataService {
     for (let req of this.jsonDataReqService.Requerimientos) {
       let i = 0;
       let y = 0;
-
       let realizado = [];
       let proximo = [];
       let exepcion = false;
@@ -143,17 +143,25 @@ export class JsonDataService {
       let incurridoProd = 0;
       let tareas = [];
       let incluir = true;
+      // let inicioQA = '';
+      // let finQA = '';
+      // let inicioProd = '';
+      // let finProd = '';
 
       for (const  tar of this.jsonDataTarService['Detalle Tareas']) {
         if (req['Nro. Req.'] == tar['Número ARS']) {
             if (tar['Descripción Tarea'] == 'Soporte QA') {
               estimadoQA  = tar['Horas Estimadas'];
               incurridoQA  = tar['Horas Incurridas'];
+              // inicioQA = tar['Fecha Inicio Planificada'];
+              // finQA = tar['Fecha Fin Planificada'];
             }
             // tslint:disable-next-line: max-line-length
             if (tar['Descripción Tarea'] == 'Soporte Post Producción' || tar['Descripción Tarea'] == 'Implementación y Soporte Post Producción' ) {
               estimadoProd  = tar['Horas Estimadas'];
               incurridoProd  = tar['Horas Incurridas'];
+              // inicioProd = tar['Fecha Inicio Planificada'];
+              // finProd = tar['Fecha Fin Planificada'];
             }
             incluir = true;
             let orden = 0;
@@ -210,6 +218,8 @@ export class JsonDataService {
       }
       // tslint:disable-next-line: max-line-length
       this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], estimadoQA, incurridoQA, estimadoProd, incurridoProd};
+      // tslint:disable-next-line: max-line-length
+      // this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], estimadoQA, incurridoQA, estimadoProd, incurridoProd,inicioQA, finQA, inicioProd,finProd};
       if (tareas.length > 0) {
         // ordernar Array
         tareas.sort((a, b) => {
@@ -238,7 +248,6 @@ export class JsonDataService {
     let ultPM = '';
     let ultCECO = '';
     let ultTareas = [];
-
     // ordenar por ReqOrigen
     this.jsonDataReqService.Requerimientos.sort((a, b) => {
       return a['Req. Origen'] - b['Req. Origen'];
@@ -307,6 +316,45 @@ export class JsonDataService {
     let tamaño = this.jsonDataReqService.Requerimientos.length;
     this.jsonDataReqService.Requerimientos = this.jsonDataReqService.Requerimientos.concat(this.ReqAgrupado);
     this.jsonDataReqService.Requerimientos.splice(tamaño, 1);
+
+  }
+
+  obtenerFechasQAPROD() {
+
+    let i = 0;
+    let inicioQA = null;
+    let finQA = null;
+    let inicioProd = null;
+    let finProd = null;
+
+    for (let req of this.jsonDataReqService.Requerimientos) {
+      console.log(req.tareas);
+      if (req.tareas !== undefined){
+        for (const  tar of req.tareas) {
+          if (tar['Descripción Tarea'] == 'Soporte QA') {
+         
+            inicioQA = tar['Fecha Inicio Planificada'];
+            finQA = tar['Fecha Fin Planificada'];
+          }
+          // tslint:disable-next-line: max-line-length
+          if (tar['Descripción Tarea'] == 'Soporte Post Producción' || tar['Descripción Tarea'] == 'Implementación y Soporte Post Producción' ) {
+            inicioProd = tar['Fecha Inicio Planificada'];
+            finProd = tar['Fecha Fin Planificada'];
+          }
+          // x++;
+        }
+        this.jsonDataReqService.Requerimientos[i] = {...this.jsonDataReqService.Requerimientos[i], inicioQA, finQA, inicioProd, finProd};
+        inicioQA = null;
+        finQA = null;
+        inicioProd  = null;
+        finProd  = null;
+        
+    }
+    i++;
+  }
+    console.log('----Finanl + Facturado + QAyPROD----');
+    console.log(this.jsonDataReqService.Requerimientos);
+ 
   }
 
 
@@ -372,8 +420,7 @@ export class JsonDataService {
       }
       i++;
     }
-    console.log('----Finanl + Facturado----');
-    console.log(this.jsonDataReqService.Requerimientos);
+ 
 
   }
 }

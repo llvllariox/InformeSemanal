@@ -118,15 +118,19 @@
                             <th class="text-center text-dark " scope="row ">HH Soporte QA</th>
                             <td class="text-center text-secondary ">{{ars.estimadoQA|number}}</td>
                             <td class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
-                            <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Aprobación']|fechas}}</td>
-                            <td class="text-center text-secondary ">{{ars['Fec. Real Pase Aprobación']|fechas}}</td>
+                            <td class="text-center text-secondary ">{{ars.inicioQA|fechas}}</td>
+                            <td class="text-center text-secondary ">{{ars.finQA|fechas}}</td>
+                            <!-- <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Aprobación']|fechas}}</td>
+                            <td class="text-center text-secondary ">{{ars['Fec. Real Pase Aprobación']|fechas}}</td> -->
                         </tr>
                         <tr>
                             <th class="text-center text-dark " scope="row ">HH Soporte Produccion</th>
                             <td class="text-center text-secondary ">{{ars.estimadoProd|number}}</td>
                             <td class="text-center text-secondary ">{{ars.incurridoProd|number}}</td>
-                            <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Producción']|fechas}}</td>
-                            <td class="text-center text-secondary ">{{ars['Fec. Real Pase Producción']|fechas}}</td>
+                            <td class="text-center text-secondary ">{{ars.inicioProd|fechas}}</td>
+                            <td class="text-center text-secondary ">{{ars.finProd|fechas}}</td>
+                            <!-- <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Producción']|fechas}}</td>
+                            <td class="text-center text-secondary ">{{ars['Fec. Real Pase Producción']|fechas}}</td> -->
                         </tr>
                     </tbody>
                 </table>
