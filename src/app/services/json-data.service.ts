@@ -91,6 +91,7 @@ export class JsonDataService {
       let proximo = [];
       let exepcion = false;
       let avanceReal = 0;
+      let avanceEsperado = 0;
       for (const  eve of this.jsonDataEveService.Eventos) {
         if (req['Nro. Req.'] == eve['Número de req. o sol.']) {
           if (eve['Tipo de evento'] == 'INF - Actividad Realizada'){
@@ -101,6 +102,9 @@ export class JsonDataService {
           }
           if (eve['Tipo de evento'] == 'INF - Avance Real'){
             avanceReal = Number(eve['Descripción breve']);
+          }
+          if (eve['Tipo de evento'] == 'INF - Avance Esperado'){
+            avanceEsperado = Number(eve['Descripción breve']);
           }
           if (eve['Tipo de evento'] == 'INF - Exepcion'){
             exepcion = true;
@@ -116,7 +120,7 @@ export class JsonDataService {
         this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], proximo };
       }
 
-      this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], avanceReal, exepcion };
+      this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], avanceReal, exepcion , avanceEsperado};
 
       realizado = [];
       proximo = [];
@@ -345,7 +349,7 @@ export class JsonDataService {
 
   }
 
-  facSumarMA(){
+  facSumarMA() {
 
     let x = 0;
     let facpadre = [];

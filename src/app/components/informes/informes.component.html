@@ -93,9 +93,15 @@
                     <tbody>
                         <tr>
                             <th class="text-center text-dark " scope="row ">%</th>
-                            <td class="text-center text-secondary ">{{ars['avanceReal']}}</td>
-                            <td class="text-center text-secondary ">pendiente</td>
-                            <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td>
+                            <td class="text-center text-secondary ">{{ars['avanceReal']}}%</td>
+                            <td class="text-center text-secondary ">{{ars['avanceEsperado']}}%</td>
+
+                            <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] <= 5)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-success fa-2x my-0 py-0 sha "></i></td>
+                            <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 5) && (ars['avanceEsperado'] - ars['avanceReal'] <=10)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td>
+                            <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 11)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-danger fa-2x my-0 py-0 sha "></i></td>
+                            <td *ngIf="ars['Estado']=='03 Suspendido'" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-secondary fa-2x my-0 py-0 sha "></i></td>
+
+
                             <!-- <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td> -->
                             <!-- <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td> -->
 
