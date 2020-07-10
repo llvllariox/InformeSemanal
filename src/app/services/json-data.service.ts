@@ -87,6 +87,8 @@ export class JsonDataService {
     let x = 0;
     for (let req of this.jsonDataReqService.Requerimientos) {
       let i = 0;
+      let y = 0;
+
       let realizado = [];
       let proximo = [];
       let exepcion = false;
@@ -96,9 +98,11 @@ export class JsonDataService {
         if (req['Nro. Req.'] == eve['Número de req. o sol.']) {
           if (eve['Tipo de evento'] == 'INF - Actividad Realizada'){
             realizado[i] = eve;
+            i++;
           }
           if (eve['Tipo de evento'] == 'INF - Proxima Actividad'){
-            proximo[i] = eve;
+            proximo[y] = eve;
+            y++;
           }
           if (eve['Tipo de evento'] == 'INF - Avance Real'){
             avanceReal = Number(eve['Descripción breve']);
@@ -110,7 +114,6 @@ export class JsonDataService {
             exepcion = true;
           }
 
-          i++;
         }
       }
       if (realizado.length > 0) {
@@ -126,9 +129,6 @@ export class JsonDataService {
       proximo = [];
       x++;
     }
-
-    // console.log('----AddEveToReq---');
-    // console.log(this.jsonDataReqService.Requerimientos);
 
   }
 
@@ -238,14 +238,11 @@ export class JsonDataService {
     let ultPM = '';
     let ultCECO = '';
     let ultTareas = [];
-    // let ReqAgrupado = [];
 
     // ordenar por ReqOrigen
     this.jsonDataReqService.Requerimientos.sort((a, b) => {
       return a['Req. Origen'] - b['Req. Origen'];
     });
-    // return;
-    //  HASTA ACA VA BIEN
     for (let req of this.jsonDataReqService.Requerimientos) {
 
       if (req['Req. Origen'] !== ' ') {
@@ -256,15 +253,9 @@ export class JsonDataService {
             Reqpadre['Solicitante'] = ultLD|| Reqpadre['Solicitante'];
             Reqpadre['Origen'] = ultPM|| Reqpadre['Origen'];
             Reqpadre['Código Externo'] = ultCECO|| Reqpadre['Código Externo'];
-            // if(ultTareas !== []){
-            //   Reqpadre['tareas'] = ultTareas;
-            // }
             if (ultTareas.length > 0) {
-              // if(Reqpadre['Nro. Req.'] == '1428'){
-              // }
               Reqpadre['tareas'] = ultTareas;
             }
-            // Reqpadre['tareas'] = ultTareas|| Reqpadre['tareas'];
 
             this.ReqAgrupado.push(Reqpadre);
             ultEtapa = '';
@@ -275,7 +266,6 @@ export class JsonDataService {
           }
           Reqpadre = req;
         } else {
-          // Reqpadre['Descripción'] = Reqpadre['Descripción'] + (req['Nro. Req.']);
           Reqpadre['Descripción'] = `${Reqpadre['Descripción']} - MA0${req['Nro. Req.']}`;
           Reqpadre['Horas Estimadas'] = Number(Reqpadre['Horas Estimadas']) + Number(req['Horas Estimadas']);
           Reqpadre['Horas Planificadas'] = Number(Reqpadre['Horas Planificadas']) + Number(req['Horas Planificadas']);
@@ -342,7 +332,6 @@ export class JsonDataService {
     }
 
     this.jsonDataFacService['Datos Facturación'].sort((a, b) => {
-      // return a.MA - b.MA;
       return a.MA.localeCompare(b.MA);
     });
 
@@ -364,7 +353,6 @@ export class JsonDataService {
         }
         facpadre = fac;
       } else {
-        // Reqpadre['Descripción'] = Reqpadre['Descripción'] + (req['Nro. Req.']);
         facpadre['HH Incurridas'] = Number(facpadre['HH Incurridas']) + Number(fac['HH Incurridas']);
       }
 

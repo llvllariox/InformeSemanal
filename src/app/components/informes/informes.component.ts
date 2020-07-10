@@ -20,8 +20,6 @@ export class InformesComponent implements OnInit {
     this.jsonDataReqInf = this.jsonDataService.getJsonDataReqService();
     this.route.params.subscribe(params => {
       this.paramSeg = params['segmento'];
-      // console.log('Obtiene', this.jsonDataReqInf);
-      // console.log('constructor');
 
       if (this.paramSeg =='BO') {
         this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {

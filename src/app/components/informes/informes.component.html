@@ -29,8 +29,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <div class="" *ngIf="ars['tareas']!==undefined"> -->
-                        <!-- <td class="small">1</td> -->
                         <tr *ngFor="let tarea of ars['tareas']">
                             <td class="small">{{tarea['Descripción Tarea']}}</td>
                             <td class="small">{{tarea['Horas Estimadas']}}</td>
@@ -101,11 +99,6 @@
                             <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 11)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-danger fa-2x my-0 py-0 sha "></i></td>
                             <td *ngIf="ars['Estado']=='03 Suspendido'" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-secondary fa-2x my-0 py-0 sha "></i></td>
 
-
-                            <!-- <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td> -->
-                            <!-- <td class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td> -->
-
-
                         </tr>
                     </tbody>
                 </table>
@@ -125,8 +118,6 @@
                             <th class="text-center text-dark " scope="row ">HH Soporte QA</th>
                             <td class="text-center text-secondary ">{{ars.estimadoQA|number}}</td>
                             <td class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
-                            <!-- <td class="text-center text-secondary ">{{ars.fechaIniQA|date:'dd-MM-yyyy'}}</td> -->
-                            <!-- <td class="text-center text-secondary ">{{ars.fechaFinQA|date:'dd-MM-yyyy'}}</td> -->
                             <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Aprobación']|fechas}}</td>
                             <td class="text-center text-secondary ">{{ars['Fec. Real Pase Aprobación']|fechas}}</td>
                         </tr>
@@ -151,16 +142,10 @@
 
                         </tr>
                     </thead>
-                    <tbody *ngFor="let eve of ars.eventos|slice:-5">
+                    <tbody *ngFor="let eve of ars.realizado|slice:-5">
                         <tr>
                             <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-check mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th>
                         </tr>
-                        <!-- <tr>
-                        <th class="text-left text-dark " scope="row "><i class="fa fa-check mx-2 " aria-hidden="true "></i>Se envio cotizacion para realizar modificacion</th>
-                    </tr>
-                    <tr>
-                        <th class="text-left text-dark " scope="row "><i class="fa fa-check mx-2 " aria-hidden="true "></i>Se envio cotizacion para realizar modificacion</th>
-                    </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -172,16 +157,10 @@
 
                         </tr>
                     </thead>
-                    <tbody *ngFor="let eve of ars.eventos|slice:0:5">
+                    <tbody *ngFor="let eve of ars.proximo|slice:0:5">
                         <tr>
                             <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-calendar-alt mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th>
                         </tr>
-                        <!-- <tr>
-                            <th class="text-left text-dark " scope="row "><i class="fa fa-arrow-right mx-2 " aria-hidden="true "></i>Soporte QA</th>
-                        </tr>
-                        <tr>
-                            <th class="text-left text-dark " scope="row "><i class="fa fa-arrow-right mx-2 " aria-hidden="true "></i>Soporte QA</th>
-                        </tr> -->
                     </tbody>
                 </table>
             </div>
