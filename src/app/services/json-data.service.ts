@@ -328,7 +328,6 @@ export class JsonDataService {
     let finProd = null;
 
     for (let req of this.jsonDataReqService.Requerimientos) {
-      console.log(req.tareas);
       if (req.tareas !== undefined){
         for (const  tar of req.tareas) {
           if (tar['Descripción Tarea'] == 'Soporte QA') {
