@@ -12,6 +12,7 @@ export class JsonDataService {
   jsonMasEve;
   infoCargada = false;
   ReqAgrupado = [];
+  facAgrupado = [];
   constructor() {
 
    }
@@ -65,11 +66,17 @@ export class JsonDataService {
 
     this.AddEveToReq();
     this.AddTarToReq();
+    this.facObtieneMA();
+    this.facSumarMA();
+    this.facAgregarReq();
     this.groupReqOrigen();
     this.eliminarReqOrigen();
     this.unirReqconAgrupados();
     // this.avanceEsperado();
-    this.facObtieneMA();
+ 
+    // this.facObtieneMA();
+    // this.facSumarMA();
+    // this.facAgregarReq();
     this.infoCargada = true;
     // return true;
 
@@ -286,6 +293,7 @@ export class JsonDataService {
           Reqpadre['incurridoQA'] = Number(Reqpadre['incurridoQA']) + Number(req['incurridoQA']);
           Reqpadre['estimadoProd'] = Number(Reqpadre['estimadoProd']) + Number(req['estimadoProd']);
           Reqpadre['incurridoProd'] = Number(Reqpadre['incurridoProd']) + Number(req['incurridoProd']);
+          Reqpadre['horasFact'] = Number(Reqpadre['horasFact']) + Number(req['horasFact']);
 
           ultEtapa = req['Etapa'];
           ultLD = req['Solicitante'];
@@ -356,7 +364,8 @@ export class JsonDataService {
     console.log(this.jsonDataFacService);
 
     this.jsonDataFacService['Datos Facturación'].sort((a, b) => {
-      return a.MA - b.MA;
+      // return a.MA - b.MA;
+      return a.MA.localeCompare(b.MA);
     });
 
     console.log('----MA ORDENADO------');
@@ -364,4 +373,48 @@ export class JsonDataService {
 
   }
 
+  facSumarMA(){
+
+    let x = 0;
+    let facpadre = [];
+
+    for (let fac of this.jsonDataFacService['Datos Facturación']) {
+
+      if (fac['MA'] !== facpadre['MA']){
+        // console.log(Reqpadre.length);
+        if (facpadre) {
+
+          this.facAgrupado.push(facpadre);
+          facpadre = [];
+        }
+        facpadre = fac;
+      } else {
+        // Reqpadre['Descripción'] = Reqpadre['Descripción'] + (req['Nro. Req.']);
+        facpadre['HH Incurridas'] = Number(facpadre['HH Incurridas']) + Number(fac['HH Incurridas']);
+      }
+
+    }
+    console.log('----facAgrupado----');
+    console.log(this.facAgrupado);
+  }
+
+  facAgregarReq(){
+    this.facAgrupado.splice(0, 1);
+    let i = 0;
+    for (let req of this.jsonDataReqService.Requerimientos) {
+      // console.log(req);
+      for (const fac of this.facAgrupado) {
+        // console.log(fac);
+        if (req['Nro. Req.'] ==  Number(fac['MA'].substr(2,5))) {
+          let horasFact = fac['HH Incurridas'];
+          this.jsonDataReqService.Requerimientos[i] = {...this.jsonDataReqService.Requerimientos[i], horasFact};
+        }
+ 
+      }
+      i++;
+    }
+    console.log('----Finan + Facturado----');
+    console.log(this.jsonDataReqService.Requerimientos);
+
+  }
 }
