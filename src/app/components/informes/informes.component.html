@@ -1,182 +1,202 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <button class="btn waves-effect waves-light btn-rounded btn-danger " (click)="generarPPT()">
+            Exportar Informe PPT
+            <img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABmElEQVRIx+2Vv0tcQRSFvxERhHQaJCjR2kbSpbDQgIidZQrBvyIIdqksUtgJASGFIoRgCAiKaKGIQVlMo4IgCZGQoKQyFlERvxTOk83y5u26tp5mmJl7z5n73v0BD6iCUIuRGoA+YAh4CrQAJ0AJmAsh/K77Beqg+lW9UFfVFfVUnVG/qX/VafVxPeQT6qX6JiNQR9TvWWTxAbvqT7XnLuTj6h/1RcX5rUDZWbP6Qf2RjEQtWR2lPIHo36RuqkspgQx78TuvqJ/V8wqRXIHI0a1eqf1FAqMV553qr1oEov2i+i7bNySM2iLZQgjhCJi/Q24sA73ZpjFhdA68B9bivr3ivkV9m/DtAjoKBUIIp8BL9Yn6Ghguuz4E5goi+K94cwXUNuA4Ib4NbKfY1bEYBZD4B/dEH7CZp1yepuupQihiVp+p16k03amh0HYKyJvVrWSh5TiMq2fqQA22j9RPha0i4TgRu+ik2ppz36AOqQepZld1HqiDwBQ3c2AD2AcuuMn153GdBV7lzYX7DJxj4AvwMVb7A+rDP9HV4tp+TD8IAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIwLTA3LTA3VDIxOjEzOjEyKzAwOjAw9i99kAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMC0wNy0wN1QyMToxMzoxMiswMDowMIdyxSwAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC"
+              alt="" srcset="">
+          </button> &nbsp;
+        <button class="btn waves-effect waves-light btn-rounded btn-danger " (click)="generarPDF()">
+            Exportar Informe PDF
+            <img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABK0lEQVRIx+2UvUpDMRiGn6hQ/NucRHQT2sFJcOgViKB34Sh4Ed6Ag6u4CIKzToIiblZwc9GlXRxE/KGCYB8HoxyqR05az+a7hITkffIm+QL/SpG6pLbsXU11MesZugBNYKrPfTZDCNN5AP/iJEIIX74DCes2gTngOgWWAtgHqkCjLMAYcAJMlAWohhBugVpZgMHYXqYAir6iDjAL1CPgDBjNNe3hFR0CFWCbjzpZAe6BJ+CxcJyc6uyo8+qW+qIeqONqJbaTak29+1yQ9RwqwN0BLoAZYDcmWAfOgePY7wBvqQme1TV1WN1Q2z+ka6tX6kN2sMglvwLLwAJwChx1z/1N2UvOO6IGcBNj76WYf4PlJOjEXdeBkWTTTILSv+vuOlgFWv2YR49/Fdc7ntsGSiB6CfMAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjAtMDctMDdUMTc6MTM6MjIrMDA6MDCkJIB1AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIwLTA3LTA3VDE3OjEzOjIyKzAwOjAw1Xk4yQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
+              alt="">
+          </button> &nbsp;
+
+    </div>
+</div>
 <div class="alert alert-danger" *ngIf="!jsonDataService.jsonDataReqService">Debes subir archivos</div>
 <div class="" *ngIf="jsonDataService.jsonDataReqService">
 
+    <div class="" *ngFor="let ars of JsonArray|slice:0:10; let i=index ">
 
-    <div class="" *ngFor="let ars of JsonArray let i=index ">
-        <div class="row ">
-            <div class="col-12 col-sm-8 ">
-                <h3 class="pt-3 ">{{ars['Descripción']}}</h3>
+        <div id="tareas">
+            <div class="row" id="row{{i}}">
+                <div class="col-12 col-sm-8 ">
+                    <h3 class="pt-3 ">{{ars['Descripción']}}</h3>
+                </div>
+                <div class="d-none d-sm-inline-block col-sm-4 ">
+                    <img src="/../../assets/images/logo_tbk.png " alt=" " class="imagen-logo ">
+                </div>
             </div>
-            <div class="d-none d-sm-inline-block col-sm-4 ">
-                <img src="/../../assets/images/logo_tbk.png " alt=" " class="imagen-logo ">
+            <div class="row ">
+                <div class="col text-danger px-0 ">
+                    <hr color="red ">
+                </div>
             </div>
-        </div>
-        <div class="row ">
-            <div class="col text-danger px-0 ">
-                <hr color="red ">
-            </div>
-        </div>
-        <div class="row ">
-            <div class="col-12 col-sm-6 mb-3 ">
-                <!-- <img src="/../../assets/images/gantt1.png " alt=" " class="imagen-gantt border border-primary "> -->
-                <table class="table">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">Tarea</th>
-                            <th scope="col">Duracion</th>
-                            <th scope="col">Inicio</th>
-                            <th scope="col">Fin</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let tarea of ars['tareas']">
-                            <td class="small">{{tarea['Descripción Tarea']}}</td>
-                            <td class="small">{{tarea['Horas Estimadas']}}</td>
-                            <td class="small">{{tarea['Fecha Inicio Planificada']|fechas}}</td>
-                            <td class="small">{{tarea['Fecha Fin Planificada']|fechas}}</td>
-                        </tr>
-                        <!-- </div> -->
+            <div class="row ">
+                <div class="col-12 col-sm-6 mb-3 ">
+                    <!-- <img src="/../../assets/images/gantt1.png " alt=" " class="imagen-gantt border border-primary "> -->
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Tarea</th>
+                                <th scope="col">Duracion</th>
+                                <th scope="col">Inicio</th>
+                                <th scope="col">Fin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tarea of ars['tareas']">
+                                <td class="small">{{tarea['Descripción Tarea']}}</td>
+                                <td class="small">{{tarea['Horas Estimadas']}}</td>
+                                <td class="small">{{tarea['Fecha Inicio Planificada']|fechas}}</td>
+                                <td class="small">{{tarea['Fecha Fin Planificada']|fechas}}</td>
+                            </tr>
+                            <!-- </div> -->
 
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-12 col-sm-6 mb-3 ">
-                <table class="table table-bordered table-sm mb-0 ">
-                    <thead>
-                        <tr>
-                            <th class="text-center bg-danger text-light " scope="col ">PROYECTO</th>
-                            <th class="text-center bg-danger text-light " scope="col ">Estimado</th>
-                            <th class="text-center bg-danger text-light " scope="col ">Planificado</th>
-                            <th class="text-center bg-danger text-light " scope="col ">Incurrido</th>
-                            <th class="text-center bg-danger text-light " scope="col ">Facturado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th class="text-center text-dark " scope="row ">HH</th>
-                            <td class="text-center text-secondary ">{{ars['Horas Estimadas']|number}}</td>
-                            <td class="text-center text-secondary ">{{ars['Horas Planificadas']|number}}</td>
-                            <td class="text-center text-secondary ">{{ars['Horas Incurridas']|number}}</td>
-                            <td class="text-center text-secondary ">{{ars['horasFact']|number}}</td>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 col-sm-6 mb-3 ">
+                    <table class="table table-bordered table-sm mb-0 ">
+                        <thead>
+                            <tr>
+                                <th class="text-center bg-danger text-light " scope="col ">PROYECTO</th>
+                                <th class="text-center bg-danger text-light " scope="col ">Estimado</th>
+                                <th class="text-center bg-danger text-light " scope="col ">Planificado</th>
+                                <th class="text-center bg-danger text-light " scope="col ">Incurrido</th>
+                                <th class="text-center bg-danger text-light " scope="col ">Facturado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="text-center text-dark " scope="row ">HH</th>
+                                <td class="text-center text-secondary ">{{ars['Horas Estimadas']|number}}</td>
+                                <td class="text-center text-secondary ">{{ars['Horas Planificadas']|number}}</td>
+                                <td class="text-center text-secondary ">{{ars['Horas Incurridas']|number}}</td>
+                                <td class="text-center text-secondary ">{{ars['horasFact']|number}}</td>
 
-                        </tr>
-                        <tr>
-                            <th class="text-center text-dark " scope="row ">Etapa</th>
-                            <td class="text-center text-secondary " colspan="4 ">{{ars['Etapa']}}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-center text-dark " scope="row ">LD</th>
-                            <td class="text-center text-secondary " colspan="4 ">{{ars['Solicitante']}}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-center text-dark " scope="row ">PM</th>
-                            <td class="text-center text-secondary " colspan="4 ">{{ars['Origen']}}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-center text-dark " scope="row ">CECO</th>
-                            <td class="text-center text-secondary " colspan="4 ">{{ars['Código Externo']}}</td>
-                        </tr>
+                            </tr>
+                            <tr>
+                                <th class="text-center text-dark " scope="row ">Etapa</th>
+                                <td class="text-center text-secondary " colspan="4 ">{{ars['Etapa']}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center text-dark " scope="row ">LD</th>
+                                <td class="text-center text-secondary " colspan="4 ">{{ars['Solicitante']}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center text-dark " scope="row ">PM</th>
+                                <td class="text-center text-secondary " colspan="4 ">{{ars['Origen']}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center text-dark " scope="row ">CECO</th>
+                                <td class="text-center text-secondary " colspan="4 ">{{ars['Código Externo']}}</td>
+                            </tr>
 
-                    </tbody>
-                </table>
-                <table class="table table-bordered table-sm my-0 ">
-                    <thead>
-                        <tr>
-                            <th class="text-center bg-danger text-light " scope="col ">PLAN(Gantt)</th>
-                            <th class="text-center bg-danger text-light " scope="col ">Avance Real</th>
-                            <th class="text-center bg-danger text-light " scope="col " colspan="2 ">Avance Esperado</th>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-sm my-0 ">
+                        <thead>
+                            <tr>
+                                <th class="text-center bg-danger text-light " scope="col ">PLAN(Gantt)</th>
+                                <th class="text-center bg-danger text-light " scope="col ">Avance Real</th>
+                                <th class="text-center bg-danger text-light " scope="col " colspan="2 ">Avance Esperado</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th class="text-center text-dark " scope="row ">%</th>
-                            <td class="text-center text-secondary ">{{ars['avanceReal']}}%</td>
-                            <td class="text-center text-secondary ">{{ars['avanceEsperado']}}%</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="text-center text-dark " scope="row ">%</th>
+                                <td class="text-center text-secondary ">{{ars['avanceReal']}}%</td>
+                                <td class="text-center text-secondary ">{{ars['avanceEsperado']}}%</td>
 
-                            <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] <= 5)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-success fa-2x my-0 py-0 sha "></i></td>
-                            <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 5) && (ars['avanceEsperado'] - ars['avanceReal'] <=10)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td>
-                            <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 11)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-danger fa-2x my-0 py-0 sha "></i></td>
-                            <td *ngIf="ars['Estado']=='03 Suspendido'" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-secondary fa-2x my-0 py-0 sha "></i></td>
+                                <!-- <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] <= 5)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-success fa-2x my-0 py-0 sha "></i></td>
+                                <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 5) && (ars['avanceEsperado'] - ars['avanceReal'] <=10)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td>
+                                <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 11)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-danger fa-2x my-0 py-0 sha "></i></td>
+                                <td *ngIf="ars['Estado']=='03 Suspendido'" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-secondary fa-2x my-0 py-0 sha "></i></td> -->
 
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="table table-bordered table-sm my-0 ">
-                    <thead>
-                        <tr>
-                            <th class="text-center bg-danger text-light " scope="col ">SOPORTE</th>
-                            <th class="text-center bg-danger text-light " scope="col ">Estimado</th>
-                            <th class="text-center bg-danger text-light " scope="col ">Incurrido</th>
-                            <th class="text-center bg-danger text-light " scope="col ">Fecha Inicio</th>
-                            <th class="text-center bg-danger text-light " scope="col ">Fecha Fin</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-sm my-0 ">
+                        <thead>
+                            <tr>
+                                <th class="text-center bg-danger text-light " scope="col ">SOPORTE</th>
+                                <th class="text-center bg-danger text-light " scope="col ">Estimado</th>
+                                <th class="text-center bg-danger text-light " scope="col ">Incurrido</th>
+                                <th class="text-center bg-danger text-light " scope="col ">Fecha Inicio</th>
+                                <th class="text-center bg-danger text-light " scope="col ">Fecha Fin</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th class="text-center text-dark " scope="row ">HH Soporte QA</th>
-                            <td class="text-center text-secondary ">{{ars.estimadoQA|number}}</td>
-                            <td class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
-                            <td class="text-center text-secondary ">{{ars.inicioQA|fechas}}</td>
-                            <td class="text-center text-secondary ">{{ars.finQA|fechas}}</td>
-                            <!-- <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Aprobación']|fechas}}</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="text-center text-dark " scope="row ">HH Soporte QA</th>
+                                <td class="text-center text-secondary ">{{ars.estimadoQA|number}}</td>
+                                <td class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
+                                <td class="text-center text-secondary ">{{ars.inicioQA|fechas}}</td>
+                                <td class="text-center text-secondary ">{{ars.finQA|fechas}}</td>
+                                <!-- <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Aprobación']|fechas}}</td>
                             <td class="text-center text-secondary ">{{ars['Fec. Real Pase Aprobación']|fechas}}</td> -->
-                        </tr>
-                        <tr>
-                            <th class="text-center text-dark " scope="row ">HH Soporte Produccion</th>
-                            <td class="text-center text-secondary ">{{ars.estimadoProd|number}}</td>
-                            <td class="text-center text-secondary ">{{ars.incurridoProd|number}}</td>
-                            <td class="text-center text-secondary ">{{ars.inicioProd|fechas}}</td>
-                            <td class="text-center text-secondary ">{{ars.finProd|fechas}}</td>
-                            <!-- <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Producción']|fechas}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center text-dark " scope="row ">HH Soporte Produccion</th>
+                                <td class="text-center text-secondary ">{{ars.estimadoProd|number}}</td>
+                                <td class="text-center text-secondary ">{{ars.incurridoProd|number}}</td>
+                                <td class="text-center text-secondary ">{{ars.inicioProd|fechas}}</td>
+                                <td class="text-center text-secondary ">{{ars.finProd|fechas}}</td>
+                                <!-- <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Producción']|fechas}}</td>
                             <td class="text-center text-secondary ">{{ars['Fec. Real Pase Producción']|fechas}}</td> -->
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-        </div>
-        <div class="row ">
-            <div class="col-12 col-sm-6 mb-3 ">
-                <table class="table table-sm mb-0 ">
-                    <thead>
-                        <tr>
-                            <th class="text-center bg-primary text-light h5 " scope="col ">Actividades Realizadas</th>
+            </div>
+            <div class="row ">
+                <div class="col-12 col-sm-6 mb-3 ">
+                    <table class="table table-sm mb-0 ">
+                        <thead>
+                            <tr>
+                                <th class="text-center bg-primary text-light h5 " scope="col ">Actividades Realizadas</th>
 
-                        </tr>
-                    </thead>
-                    <tbody *ngFor="let eve of ars.realizado|slice:-5">
-                        <tr>
-                            <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-check mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-12 col-sm-6 mb-3 ">
-                <table class="table table-sm mb-0 ">
-                    <thead>
-                        <tr>
-                            <th class="text-center bg-primary text-light h5 " scope="col ">Proximas Actividades</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let eve of ars.realizado|slice:-5">
+                            <tr>
+                                <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-check mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 col-sm-6 mb-3 ">
+                    <table class="table table-sm mb-0 ">
+                        <thead>
+                            <tr>
+                                <th class="text-center bg-primary text-light h5 " scope="col ">Proximas Actividades</th>
 
-                        </tr>
-                    </thead>
-                    <tbody *ngFor="let eve of ars.proximo|slice:0:5">
-                        <tr>
-                            <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-calendar-alt mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th>
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let eve of ars.proximo|slice:0:5">
+                            <tr>
+                                <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-calendar-alt mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="row pt-5">
-            <div class="col px-0 text-right">
-                <small class="text-muted text-right">{{i+1}}</small>
+            <div class="row pt-5">
+                <div class="col px-0 text-right">
+                    <small class="text-muted text-right">{{i+1}}</small>
+                </div>
             </div>
-        </div>
-        <div class="row pb-5">
-            <div class="col px-0">
-                <hr>
+            <div class="row pb-5">
+                <div class="col px-0">
+                    <hr>
+                </div>
             </div>
         </div>
     </div>
