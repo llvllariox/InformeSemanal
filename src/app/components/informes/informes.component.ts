@@ -30,14 +30,17 @@ export class InformesComponent implements OnInit {
       this.paramSeg = params['segmento'];
       if (this.paramSeg =='BO') {
         this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
+          this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backoffice');
           return a['Área'] === 'Segmento Backoffice';
         });
       } else if (this.paramSeg =='BE') {
         this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
+          this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend');
           return a['Área'] === 'Segmento Backend';
         });
       } else {
         this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
+          this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Plataforma de Integración');
           return a['Área'] === 'Plataforma de Integración';
         });
       }
