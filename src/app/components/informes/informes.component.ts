@@ -118,10 +118,10 @@ export class InformesComponent implements OnInit {
       // console.log('divElement',divElement);
       // console.log('divElement.clientWidth',divElement.clientWidth);
       // console.log('divElement.clientHeight',divElement.clientHeight);
+      // html2canvas(divElement,{scale:2, width: 1300,
+      //   height: 900})
       html2canvas(divElement,{scale:2, width: 1300,
-        height: 750})
-      // html2canvas(divElement,{scale:2, windowWidth: 1950,
-      //   windowHeight: 750})
+        height: divElement.clientHeight})
         .then(canvas => {
           
       // html2canvas(divElement,{scale:2, windowWidth: divElement.scrollWidth,
