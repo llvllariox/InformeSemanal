@@ -54,7 +54,9 @@ export class Exportador {
 
   fecha() {
     let fecha = new Date();
-    let day: string = fecha.getDay() + ''
+    // console.log(fecha);
+    let day: string = fecha.getDate() + '';
+    // console.log(day);
     let month: string = (fecha.getMonth() + 1) + '';
     if (+day < 10) {
       day = '0' + day;
@@ -62,6 +64,7 @@ export class Exportador {
     if (+month < 10) {
       month = '0' + month;
     }
+    // console.log(month);
     return `${day}-${month}-${fecha.getUTCFullYear()}`;
   }
 }
