@@ -165,6 +165,14 @@ filtrarReq(jsonDataReq: any){
   jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
     return a['Contrato'] === 'Evolutivo';
   });
+  
+  jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
+    return a['Etapa'] !== 'Comprometido';
+  });
+
+  jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
+    return a['Etapa'] !== 'Plan';
+  });
 
   this.jsonDataService.setjsonDataReqService(jsonDataReq);
 

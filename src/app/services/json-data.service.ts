@@ -71,6 +71,7 @@ export class JsonDataService {
     this.facAgregarReq();
     this.groupReqOrigen();
     this.eliminarReqOrigen();
+    this.eliminarExepcionados();
     this.unirReqconAgrupados();
     this.obtenerFechasQAPROD();
     // this.avanceEsperado();
@@ -312,6 +313,18 @@ export class JsonDataService {
    }
   }
 
+  eliminarExepcionados() {
+
+   let i = 0;
+   for (let req of this.jsonDataReqService.Requerimientos) {
+
+      if (req.exepcion) {
+        this.jsonDataReqService.Requerimientos.splice(i, 1);
+      }
+      i++;
+   }
+  }
+
   unirReqconAgrupados() {
     let tamaño = this.jsonDataReqService.Requerimientos.length;
     this.jsonDataReqService.Requerimientos = this.jsonDataReqService.Requerimientos.concat(this.ReqAgrupado);
@@ -415,11 +428,10 @@ export class JsonDataService {
           let horasFact = fac['HH Incurridas'];
           this.jsonDataReqService.Requerimientos[i] = {...this.jsonDataReqService.Requerimientos[i], horasFact};
         }
- 
+
       }
       i++;
     }
- 
 
   }
 }

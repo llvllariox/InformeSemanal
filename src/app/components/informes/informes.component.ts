@@ -64,15 +64,15 @@ export class InformesComponent implements OnInit {
     console.log(new Date().getTime());
     this.sweetAlerService.mensajeEsperar();
     let imagenes = await this.imagnesDeTareas().then(
-      resp=>this.exportador.exportarPPT(imagenes)
+      resp => this.exportador.exportarPPT(imagenes)
     );
     this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
     console.log(new Date().getTime())
 
   }
-  //async imagenesDeTareas(void):divElement[]
-  //Busca en la pantalla los elementos con id = tareas
-  //esots elementos luego son retornados
+  // async imagenesDeTareas(void):divElement[]
+  // Busca en la pantalla los elementos con id = tareas
+  // esots elementos luego son retornados
   async imagnesDeTareas() {
     let elements:any = document.querySelectorAll('#tareas')
     // console.log(elements);
@@ -81,10 +81,8 @@ export class InformesComponent implements OnInit {
     for (let i = 0; i < elements.length; i++) {
       try {
         // document.getElementById(`row${i}`).focus();
-        //imagenes.push(await this.generarImagenFromDiv(elements[i]));
+        // imagenes.push(await this.generarImagenFromDiv(elements[i]));
         imagenes.push(await this.generarImagenfromDiv2(elements[i]));
-        
-        
       } catch (error) {
         throw error;
       }
@@ -92,16 +90,16 @@ export class InformesComponent implements OnInit {
     }
     // console.log('dimensiones',this.dimensiones);
     for (let i = 0; i < elements.length; i++) {
-      this.dimensiones.push({widht:elements[i].clientWidth, height:elements[i].clientHeight})
+      this.dimensiones.push({widht: elements[i].clientWidth, height: elements[i].clientHeight});
     }
 
     return imagenes;
   }
 
 
-  //async generaImagenFrom(divElement):string
-  //este metodo recibe como parametro un elemento html y lo conierte en imagen 
-  //retonra la imagen encodeada en string formato base64
+  // async generaImagenFrom(divElement):string
+  // este metodo recibe como parametro un elemento html y lo conierte en imagen 
+  // retonra la imagen encodeada en string formato base64
   async generarImagenFromDiv(divElement) {
     return new Promise((resolve, reject) => {
 
@@ -126,11 +124,11 @@ export class InformesComponent implements OnInit {
       html2canvas(divElement,{scale:2, width: 1300,
         height: divElement.clientHeight})
         .then(canvas => {
-          
+
       // html2canvas(divElement,{scale:2, windowWidth: divElement.scrollWidth,
       //   windowHeight: divElement.scrollHeight})
       //   .then(canvas => {
-                  
+
           resolve(canvas.toDataURL("image/jpeg"));
 
         }).catch(error => {

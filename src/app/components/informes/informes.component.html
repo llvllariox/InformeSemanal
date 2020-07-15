@@ -19,7 +19,7 @@
 <div class="alert alert-danger" *ngIf="!jsonDataService.jsonDataReqService">Debes subir archivos</div>
 <div class="" *ngIf="jsonDataService.jsonDataReqService">
 
-    <div class="" *ngFor="let ars of JsonArray|slice:0:10; let i=index ">
+    <div class="" *ngFor="let ars of JsonArray; let i=index ">
 
         <div id="tareas">
             <div class="row" id="row{{i}}">
@@ -117,10 +117,10 @@
                                 <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 5) && (ars['avanceEsperado'] - ars['avanceReal'] <=10)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td>
                                 <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 11)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-danger fa-2x my-0 py-0 sha "></i></td>
                                 <td *ngIf="ars['Estado']=='03 Suspendido'" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-secondary fa-2x my-0 py-0 sha "></i></td> -->
-                                <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] <= 5)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Verde.png" class="" alt="" style="width: 27px;height: 27px;"></td>
-                                <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 5) && (ars['avanceEsperado'] - ars['avanceReal'] <=10)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Amarillo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
-                                <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 11)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Rojo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
-                                <td *ngIf="ars['Estado']=='03 Suspendido'" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Gris.png" class="" alt="" style="width: 27px;height: 27px;"></td>
+                                <td *ngIf="ars['Estado']!=='03 Suspendido' && ars['Etapa']!=='Detenido' && (ars['avanceEsperado'] - ars['avanceReal'] <= 5)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Verde.png" class="" alt="" style="width: 27px;height: 27px;"></td>
+                                <td *ngIf="ars['Estado']!=='03 Suspendido' && ars['Etapa']!=='Detenido' && (ars['avanceEsperado'] - ars['avanceReal'] > 5) && (ars['avanceEsperado'] - ars['avanceReal'] <=10)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Amarillo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
+                                <td *ngIf="ars['Estado']!=='03 Suspendido' && ars['Etapa']!=='Detenido' && (ars['avanceEsperado'] - ars['avanceReal'] > 11)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Rojo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
+                                <td *ngIf="ars['Estado']=='03 Suspendido' || ars['Etapa']=='Detenido'" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Gris.png" class="" alt="" style="width: 27px;height: 27px;"></td>
 
                             </tr>
                         </tbody>
@@ -210,7 +210,7 @@
             recuperable sin impacto en el plan</small>&nbsp;
                     <img src="../../../assets/images/Circulo_Rojo.png" class="" alt="" style="width: 14px;height: 14px;">&nbsp;<small class="text-muted text-left">Desvío con
             impacto en el plan</small>&nbsp;
-                    <img src="../../../assets/images/Circulo_Gris.png" class="" alt="" style="width: 14px;height: 14px;">&nbsp;<small class="text-muted text-left">Suspendido</small>
+                    <img src="../../../assets/images/Circulo_Gris.png" class="" alt="" style="width: 14px;height: 14px;">&nbsp;<small class="text-muted text-left">Suspendido/Detenido</small>
                 </div>
             </div>
             <div class="row pb-5">
