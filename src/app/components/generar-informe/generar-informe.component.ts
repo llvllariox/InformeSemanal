@@ -24,6 +24,19 @@ export class GenerarInformeComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private jsonDataService: JsonDataService, private sweetAlerService: SweetAlertService) {
 
     this.crearFormulario();
+    // console.log(Date.parse('Sun Dec 31 2050 00:00:00 GMT-0442 (hora de verano de Chile)' ));
+    // let orden = 1;
+    // let fechaInt = 2209058280000;
+    // let tamano = fechaInt.toString().length;
+    // let decimal = fechaInt / (10 ** Number(tamano));
+    // let keyA = orden + decimal;
+
+    // console.log(orden);
+    // console.log(fechaInt);
+    // console.log(tamano);
+    // console.log(decimal);
+    // console.log(keyA);
+
   }
 
   ngOnInit(): void {

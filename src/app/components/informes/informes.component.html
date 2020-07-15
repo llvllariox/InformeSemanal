@@ -42,13 +42,13 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Tarea</th>
-                                <th scope="col">Duracion</th>
+                                <th scope="col">Duracion HH</th>
                                 <th scope="col">Inicio</th>
                                 <th scope="col">Fin</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let tarea of ars['tareas']">
+                            <tr *ngFor="let tarea of ars['tareas']|slice:-10">
                                 <td class="small">{{tarea['Descripción Tarea']}}</td>
                                 <td class="small">{{tarea['Horas Estimadas']}}</td>
                                 <td class="small">{{tarea['Fecha Inicio Planificada']|fechas}}</td>
@@ -186,7 +186,7 @@
 
                             </tr>
                         </thead>
-                        <tbody *ngFor="let eve of ars.proximo|slice:0:5">
+                        <tbody *ngFor="let eve of ars.proximo|slice:-5">
                             <tr>
                                 <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/calendar-regular.png" alt="" style="width: 14px;height: 14px;"> {{eve['Descripción de evento']}}</th>
                                 <!-- <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-calendar-alt mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th> -->
