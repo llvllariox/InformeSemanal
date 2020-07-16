@@ -24,8 +24,8 @@ export class JsonDataService {
   }
 
   setjsonDataReqService(jsonDataReqService: any) {
-    console.log('----Original----');
-    console.log('jsonDataReqService: ', jsonDataReqService);
+    // console.log('----Original----');
+    // console.log('jsonDataReqService: ', jsonDataReqService);
     this.jsonDataReqService = jsonDataReqService;
   }
 
@@ -58,7 +58,7 @@ export class JsonDataService {
   }
 
   setjsonDataFacService(jsonDataFacService: any) {
-    console.log('jsonDataFacService: ', jsonDataFacService);
+    // console.log('jsonDataFacService: ', jsonDataFacService);
     this.jsonDataFacService = jsonDataFacService;
   }
 
@@ -481,7 +481,7 @@ export class JsonDataService {
       }
       i++;
     }
-    console.log('----Finanl + Facturado + QAyPROD----');
+    console.log('---JSON FINAL---');
     console.log(this.jsonDataReqService.Requerimientos);
   }
 

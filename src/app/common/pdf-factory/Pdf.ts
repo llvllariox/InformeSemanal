@@ -62,8 +62,8 @@ export class Pdf {
     // este metodo recibe como parametro un areglo de imagenes encodeadas en base64
     // por cada elemento de en el arreglo genera una pagina en la presentacion del tamaño de la hoja del pdf
     generarPaginas(imagenesPaginas: string[], dimensiones: any[]) {
-        console.log(imagenesPaginas);
-        console.log(dimensiones);
+        // console.log(imagenesPaginas);
+        // console.log(dimensiones);
         for (let i = 0; i < imagenesPaginas.length; i++) {
             this.documentoPdf.addPage();
 

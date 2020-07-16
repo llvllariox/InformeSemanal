@@ -49,25 +49,25 @@ export class InformesComponent implements OnInit {
   }
 
   async generarPDF() {
-    console.log(new Date().getTime())
+    // console.log(new Date().getTime())
     this.sweetAlerService.mensajeEsperar();
     let imagenes = await this.imagnesDeTareas();
-    console.log('this.dimensiones', this.dimensiones);
+    // console.log('this.dimensiones', this.dimensiones);
     this.exportador.exportarPDF(imagenes, this.dimensiones);
     this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
-    console.log(new Date().getTime())
+    // console.log(new Date().getTime())
 
   }
 
 
   async generarPPT() {
-    console.log(new Date().getTime());
+    // console.log(new Date().getTime());
     this.sweetAlerService.mensajeEsperar();
     let imagenes = await this.imagnesDeTareas().then(
       resp => this.exportador.exportarPPT(imagenes)
     );
     this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
-    console.log(new Date().getTime())
+    // console.log(new Date().getTime())
 
   }
   // async imagenesDeTareas(void):divElement[]

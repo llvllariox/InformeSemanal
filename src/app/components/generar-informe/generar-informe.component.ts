@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import * as XLSX from 'xlsx';
 import { JsonDataService } from 'src/app/services/json-data.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,7 +22,17 @@ export class GenerarInformeComponent implements OnInit {
   jsonDataEve = null;
   jsonDataFac = null;
 
-  constructor(private formBuilder: FormBuilder, private jsonDataService: JsonDataService, private sweetAlerService: SweetAlertService) {
+  // tslint:disable-next-line: max-line-length
+  constructor(private formBuilder: FormBuilder, private jsonDataService: JsonDataService, private sweetAlerService: SweetAlertService, private router: Router) {
+
+    this.jsonDataService.jsonDataReqService = null;
+    this.jsonDataService.jsonDataEveService = null;
+    this.jsonDataService.jsonDataTarService = null;
+    this.jsonDataService.jsonDataFacService = null;
+    this.jsonDataService.jsonMasEve = null;
+    this.jsonDataService.infoCargada = false;
+    this.jsonDataService.ReqAgrupado = [];
+    this.jsonDataService.facAgrupado = [];
 
     this.crearFormulario();
     // console.log(Date.parse('Sun Dec 31 2050 00:00:00 GMT-0442 (hora de verano de Chile)' ));
@@ -43,6 +54,7 @@ export class GenerarInformeComponent implements OnInit {
   }
 
   uploadFac(event) {
+    this.jsonDataFac = null;
     this.sweetAlerService.mensajeEsperar();
     let workBook = null;
     const reader = new FileReader();
@@ -93,6 +105,7 @@ export class GenerarInformeComponent implements OnInit {
   }
 
   uploadTar(event) {
+    this.jsonDataTar = null;
     this.sweetAlerService.mensajeEsperar();
     let workBook = null;
     const reader = new FileReader();
@@ -139,6 +152,7 @@ filtrarTar(jsonDataReq: any) {
 
 }
   uploadReq(event) {
+    this.jsonDataReq = null;
     this.sweetAlerService.mensajeEsperar();
     // let minDate = new Date('Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)');
     // console.log('REQ');
@@ -162,6 +176,7 @@ filtrarTar(jsonDataReq: any) {
       } else {
         // console.log('ok');
         this.filtrarReq(this.jsonDataReq);
+        console.log(this.jsonDataReq);
       }
     };
     reader.readAsBinaryString(file);
@@ -192,6 +207,8 @@ filtrarReq(jsonDataReq: any){
 }
 
 uploadEve(event) {
+  console.log('uploadEve');
+  this.jsonDataEve = null;
   this.sweetAlerService.mensajeEsperar();
   let workBook = null;
   const reader = new FileReader();
@@ -251,26 +268,36 @@ filtrarEve(jsonDataEve: any){
       });
     } else {
 
-        if (this.jsonDataFac['Datos Facturación']==undefined) {
+        // if (this.jsonDataFac['Datos Facturación']==undefined ) {
+        if (this.jsonDataFac == null) {
           this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
-          this.jsonDataFac = null;
+          return;
         }
 
-        if (this.jsonDataTar['Detalle Tareas']==undefined) {
+        // if (this.jsonDataTar['Detalle Tareas']==undefined) {
+        if (this.jsonDataTar == null) {
                 this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
-                this.jsonDataTar = null;
+                return;
         }
-        if (this.jsonDataReq.Requerimientos==undefined) {
+        if (this.jsonDataReq == null) {
+        // if (this.jsonDataReq.Requerimientos==undefined) {
                 this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
-                this.jsonDataReq = null;
+                return;
         }
-        if (this.jsonDataEve.Eventos==undefined) {
+        // console.log(this.jsonDataEve);
+        if (this.jsonDataEve == null) {
               this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos');
-              this.jsonDataEve = null;
+              return;
         }
         // TODO SACAR DE ACA-----------------------------------------------------------------------------
         this.jsonDataService.consolidarArchivos();
-        this.sweetAlerService.mensajeOK('Informe Semanal Generado Exitosamente');
+        this.sweetAlerService.mensajeOK('Informe Semanal Generado Exitosamente').then(
+          resp => {
+            if (resp.value) {
+              this.router.navigateByUrl('/informes/BO');
+            }
+          }
+        );
       // ----------------------------------------------------------------------------------------------
     }
   }

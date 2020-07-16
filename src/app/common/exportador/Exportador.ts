@@ -19,7 +19,7 @@ export class Exportador {
   }
 
   exportarPPT(imagenesInfomre) {
-    console.log("generando presentacion");
+    // console.log("generando presentacion");
     let presentacion = new Ppt(this.fechaDocumentos);
     try {
 
@@ -32,12 +32,12 @@ export class Exportador {
     }
 
     presentacion.guardarPresentacion(this.nombreInforme);
-    console.log("presentacion guardada");
+    // console.log("presentacion guardada");
   }
 
   exportarPDF(imagenesInfomre, dimensiones) {
-    console.log("generando pdf");
-    console.log('dimensiones', dimensiones);
+    // console.log("generando pdf");
+    // console.log('dimensiones', dimensiones);
     let documento = new Pdf(this.fechaDocumentos);
 
     documento.pathPrimeraPagina = this.pathPrimeraImagen;
@@ -49,7 +49,7 @@ export class Exportador {
     documento.generarPaginas(imagenesInfomre, dimensiones);
     documento.ultimaPagina();
     documento.guardarPdf(this.nombreInforme);
-    console.log("pdf guardado")
+    // console.log("pdf guardado")
   }
 
   fecha() {
