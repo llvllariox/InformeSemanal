@@ -36,7 +36,7 @@ export class InformesComponent implements OnInit {
       } else if (this.paramSeg =='BE') {
         this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
           this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend');
-          return a['Área'] === 'Segmento Backend';
+          return a['Área'] === 'Segmento Backend' || a['Área'] === 'Nuevo Backend Crédito';
         });
       } else {
         this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {

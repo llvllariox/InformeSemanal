@@ -74,6 +74,7 @@ export class JsonDataService {
     this.eliminarExepcionados();
     this.unirReqconAgrupados();
     this.obtenerFechasQAPROD();
+    this.ordenFinalARS();
     // this.avanceEsperado();
  
     // this.facObtieneMA();
@@ -481,8 +482,7 @@ export class JsonDataService {
       }
       i++;
     }
-    console.log('---JSON FINAL---');
-    console.log(this.jsonDataReqService.Requerimientos);
+    
   }
 
 
@@ -549,5 +549,13 @@ export class JsonDataService {
       i++;
     }
 
+  }
+
+  ordenFinalARS() {
+    this.jsonDataReqService.Requerimientos.sort((a, b) => {
+      return a['Nro. Req.'] - b['Nro. Req.'];
+    });
+    console.log('---JSON FINAL---');
+    console.log(this.jsonDataReqService.Requerimientos);
   }
 }
