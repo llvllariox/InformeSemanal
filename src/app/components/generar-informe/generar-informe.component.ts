@@ -70,7 +70,6 @@ export class GenerarInformeComponent implements OnInit {
         return initial;
       }, {});
       const dataString = JSON.stringify(this.jsonDataFac);
-      console.log(this.jsonDataFac);
       if(this.jsonDataFac['Datos Facturación']==undefined) {
         // console.log('nok');
         // console.log(this.jsonDataFac);
@@ -89,6 +88,8 @@ export class GenerarInformeComponent implements OnInit {
         // console.log(this.jsonDataFac);
         // this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
         this.filtrarFac(this.jsonDataFac);
+        console.log(this.jsonDataFac);
+
       }
     };
     reader.readAsBinaryString(file);
@@ -129,8 +130,8 @@ export class GenerarInformeComponent implements OnInit {
         this.jsonDataTar = null;
       } else {
         // console.log('ok');
-        console.log(this.jsonDataTar);
         this.filtrarTar(this.jsonDataTar);
+        console.log(this.jsonDataTar);
       }
     };
     reader.readAsBinaryString(file);
@@ -207,7 +208,7 @@ filtrarReq(jsonDataReq: any){
 }
 
 uploadEve(event) {
-  console.log('uploadEve');
+  // console.log('uploadEve');
   this.jsonDataEve = null;
   this.sweetAlerService.mensajeEsperar();
   let workBook = null;
@@ -231,6 +232,7 @@ uploadEve(event) {
     } else {
       // console.log('ok');
       this.filtrarEve(this.jsonDataEve);
+      console.log(this.jsonDataEve);
     }
   };
   reader.readAsBinaryString(file);
