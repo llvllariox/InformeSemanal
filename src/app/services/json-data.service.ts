@@ -331,12 +331,12 @@ export class JsonDataService {
           keyB = fechaIntB;
         }
 
-        if(Number(a['Número ARS'])== 2220){
-          console.log(a['Descripción Tarea']);
-          console.log(a['Fecha Inicio Planificada']);
-          console.log(fechaIntA);
-          console.log(keyA);
-        }
+        // if(Number(a['Número ARS'])== 2220){
+        //   console.log(a['Descripción Tarea']);
+        //   console.log(a['Fecha Inicio Planificada']);
+        //   console.log(fechaIntA);
+        //   console.log(keyA);
+        // }
 
         return keyA - keyB;
         //   // return concatA.localeCompare(concatB);
