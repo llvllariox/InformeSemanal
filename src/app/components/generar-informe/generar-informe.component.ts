@@ -250,7 +250,24 @@ filtrarEve(jsonDataEve: any){
         }
       });
     } else {
-      // console.log('vaildo');
+
+        if (this.jsonDataFac['Datos Facturación']==undefined) {
+          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
+          this.jsonDataFac = null;
+        }
+
+        if (this.jsonDataTar['Detalle Tareas']==undefined) {
+                this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
+                this.jsonDataTar = null;
+        }
+        if (this.jsonDataReq.Requerimientos==undefined) {
+                this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
+                this.jsonDataReq = null;
+        }
+        if (this.jsonDataEve.Eventos==undefined) {
+              this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos');
+              this.jsonDataEve = null;
+        }
         // TODO SACAR DE ACA-----------------------------------------------------------------------------
         this.jsonDataService.consolidarArchivos();
         this.sweetAlerService.mensajeOK('Informe Semanal Generado Exitosamente');

@@ -80,6 +80,7 @@ export class JsonDataService {
     // this.facSumarMA();
     // this.facAgregarReq();
     this.infoCargada = true;
+
     // return true;
 
   }
