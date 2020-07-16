@@ -18,47 +18,34 @@ export class JsonDataService {
    }
 
   getJsonDataReqService() {
-    // console.log('get service');
-    // console.log(this.jsonDataReqService);
     return this.jsonDataReqService;
   }
 
   setjsonDataReqService(jsonDataReqService: any) {
-    // console.log('----Original----');
-    // console.log('jsonDataReqService: ', jsonDataReqService);
     this.jsonDataReqService = jsonDataReqService;
   }
 
   getJsonDataEveService() {
-    // console.log('get service');
-    // console.log(this.jsonDataEveService);
     return this.jsonDataEveService;
   }
 
   setjsonDataEveService(jsonDataEveService: any) {
-    // console.log('jsonDataEveService: ', jsonDataEveService);
     this.jsonDataEveService = jsonDataEveService;
   }
 
   getJsonDataTarService() {
-    // console.log('get service');
-    // console.log(this.jsonDataTarService);
     return this.jsonDataTarService;
   }
 
   setjsonDataTarService(jsonDataTarService: any) {
-    // console.log('jsonDataTarService: ', jsonDataTarService);
     this.jsonDataTarService = jsonDataTarService;
   }
 
   getJsonDataFacService() {
-    // console.log('get service');
-    // console.log(this.jsonDataFacService);
     return this.jsonDataFacService;
   }
 
   setjsonDataFacService(jsonDataFacService: any) {
-    // console.log('jsonDataFacService: ', jsonDataFacService);
     this.jsonDataFacService = jsonDataFacService;
   }
 
@@ -75,14 +62,7 @@ export class JsonDataService {
     this.unirReqconAgrupados();
     this.obtenerFechasQAPROD();
     this.ordenFinalARS();
-    // this.avanceEsperado();
- 
-    // this.facObtieneMA();
-    // this.facSumarMA();
-    // this.facAgregarReq();
     this.infoCargada = true;
-
-    // return true;
 
   }
 
@@ -146,25 +126,17 @@ export class JsonDataService {
       let incurridoProd = 0;
       let tareas = [];
       let incluir = true;
-      // let inicioQA = '';
-      // let finQA = '';
-      // let inicioProd = '';
-      // let finProd = '';
 
       for (const  tar of this.jsonDataTarService['Detalle Tareas']) {
         if (req['Nro. Req.'] == tar['Número ARS']) {
             if (tar['Descripción Tarea'] == 'Soporte QA') {
               estimadoQA  = tar['Horas Estimadas'];
               incurridoQA  = tar['Horas Incurridas'];
-              // inicioQA = tar['Fecha Inicio Planificada'];
-              // finQA = tar['Fecha Fin Planificada'];
             }
             // tslint:disable-next-line: max-line-length
             if (tar['Descripción Tarea'] == 'Soporte Post Producción' || tar['Descripción Tarea'] == 'Implementación y Soporte Post Producción' ) {
               estimadoProd  = tar['Horas Estimadas'];
               incurridoProd  = tar['Horas Incurridas'];
-              // inicioProd = tar['Fecha Inicio Planificada'];
-              // finProd = tar['Fecha Fin Planificada'];
             }
             incluir = true;
             let orden = 0;
@@ -221,59 +193,6 @@ export class JsonDataService {
                 incluir = false;
                 break;
             }
-            // switch (tar['Descripción Tarea']) {
-            //   case 'Análisis':
-            //     orden = 1;
-            //     break;
-            //   case 'Estimación y Plan de Trabajo':
-            //     orden =	2;
-            //     break;
-            //   case 'Verificar y Confirmar Estimación':
-            //     orden = 3;
-            //     break;
-            //   case 'Planificación':
-            //     // orden = 4;
-            //     incluir = false;
-            //     break;
-            //   case 'Análisis y Diseño':
-            //     orden =	5;
-            //     break;
-            //   case 'Diseño Detallado':
-            //     orden =	6;
-            //     break;
-            //   case 'Construcción y Pruebas Unitarias':
-            //     orden = 7;
-            //     break;
-            //   case 'Construcción':
-            //     orden = 8;
-            //     break;
-            //   case 'Pruebas Unitarias':
-            //     orden =	9;
-            //     break;
-            //   case 'Pruebas Integrales':
-            //     orden =	10;
-            //     break;
-            //   case 'Soporte QA':
-            //     orden = 11;
-            //     break;
-            //   case 'Implementación y Soporte Post Producción':
-            //     orden =	12;
-            //     break;
-            //   case 'Soporte Pase a Producción':
-            //     orden =	13;
-            //     break;
-            //   case 'Soporte Post Producción':
-            //     orden = 14;
-            //     break;
-            //   case 'Supervisión':
-            //     orden = 15;
-            //     incluir = false;
-            //     break;
-            //   // default:
-            //   //   orden = 99;
-            //   //   incluir = false;
-            //   //   break;
-            // }
             if (incluir) {
               tareas[i] = {...tar, orden};
               i++;
@@ -282,70 +201,29 @@ export class JsonDataService {
       }
       // tslint:disable-next-line: max-line-length
       this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], estimadoQA, incurridoQA, estimadoProd, incurridoProd};
-      // tslint:disable-next-line: max-line-length
-      // this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], estimadoQA, incurridoQA, estimadoProd, incurridoProd,inicioQA, finQA, inicioProd,finProd};
       if (tareas.length > 0) {
-
-        
-        // ordernar Array
         tareas.sort((a, b) => {
 
+          let fechaIntA = Date.parse(a['Fecha Inicio Planificada']);
+          let keyA = 0;
+          let fechaIntB = Date.parse(b['Fecha Inicio Planificada']);
+          let keyB = 0;
 
-          //Funciona!!
-          // let fechaIntA = Date.parse(a['Fecha Inicio Planificada']);
-          // let tamanoA = fechaIntA.toString().length;
-          // let decimalA = fechaIntA / (10 ** Number(tamanoA));
-          // let keyA;
+          if (fechaIntA == -2209058280000) {
+            keyA = (Date.parse('Sun Dec 31 2050 00:00:00 GMT-0442 (hora de verano de Chile)' ) - 20) + a.orden;
+          } else {
+            keyA = fechaIntA;
+          }
 
-          // let fechaIntB = Date.parse(b['Fecha Inicio Planificada']);
-          // let tamanoB = fechaIntB.toString().length;
-          // let decimalB = fechaIntB / (10 ** Number(tamanoB));
-          // let keyB;
+          if (fechaIntB == -2209058280000) {
+            keyB =  (Date.parse('Sun Dec 31 2050 00:00:00 GMT-0442 (hora de verano de Chile)' ) - 20) + b.orden;
+          } else {
+            keyB = fechaIntB;
+          }
 
-          // if (fechaIntA == -2209058280000) {
-          //   keyA = a.orden;
-          // } else {
-          //   keyA = a.orden + decimalA;
-          // }
-
-          // if (fechaIntB == -2209058280000) {
-          //   keyB = b.orden;
-          // } else {
-          //   keyB = b.orden + decimalB;
-          // }
-
-          // return keyA - keyB;
-
-        let fechaIntA = Date.parse(a['Fecha Inicio Planificada']);
-        let keyA=0;
-        let fechaIntB = Date.parse(b['Fecha Inicio Planificada']);
-        let keyB=0;
-
-        if (fechaIntA == -2209058280000) {
-          keyA = (Date.parse('Sun Dec 31 2050 00:00:00 GMT-0442 (hora de verano de Chile)' ) - 20) + a.orden;
-        } else {
-          keyA = fechaIntA;
-        }
-
-        if (fechaIntB == -2209058280000) {
-          keyB =  (Date.parse('Sun Dec 31 2050 00:00:00 GMT-0442 (hora de verano de Chile)' ) - 20) + b.orden;
-        } else {
-          keyB = fechaIntB;
-        }
-
-        // if(Number(a['Número ARS'])== 2220){
-        //   console.log(a['Descripción Tarea']);
-        //   console.log(a['Fecha Inicio Planificada']);
-        //   console.log(fechaIntA);
-        //   console.log(keyA);
-        // }
-
-        return keyA - keyB;
-        //   // return concatA.localeCompare(concatB);
+          return keyA - keyB;
         });
-        // tareas.sort((a, b) => {
-        //   return a.orden - b.orden;
-        // });
+
         this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], tareas };
 
       }
@@ -368,10 +246,11 @@ export class JsonDataService {
     let ultPM = '';
     let ultCECO = '';
     let ultTareas = [];
-    // ordenar por ReqOrigen
+
     this.jsonDataReqService.Requerimientos.sort((a, b) => {
       return a['Req. Origen'] - b['Req. Origen'];
     });
+
     for (let req of this.jsonDataReqService.Requerimientos) {
 
       if (req['Req. Origen'] !== ' ') {
@@ -409,19 +288,13 @@ export class JsonDataService {
           ultLD = req['Solicitante'];
           ultPM = req['Origen'];
           ultCECO = req['Código Externo'];
-          ultTareas = req['tareas']||[];
-
+          ultTareas = req['tareas'] || [];
         }
-
       }
-
     }
-
-
   }
 
   eliminarReqOrigen() {
-
    let i = 0;
    for (let req of this.jsonDataReqService.Requerimientos) {
 
@@ -472,7 +345,6 @@ export class JsonDataService {
             inicioProd = tar['Fecha Inicio Planificada'];
             finProd = tar['Fecha Fin Planificada'];
           }
-          // x++;
         }
         this.jsonDataReqService.Requerimientos[i] = {...this.jsonDataReqService.Requerimientos[i], inicioQA, finQA, inicioProd, finProd};
         inicioQA = null;
@@ -482,18 +354,6 @@ export class JsonDataService {
       }
       i++;
     }
-    
-  }
-
-
-  avanceEsperado(){
-    // let hoy = new Date();
-    // let esperado = 0;
-    // for (let req of this.jsonDataReqService.Requerimientos) {
-    //   for (let tarea of this.jsonDataReqService.Requerimientos.tareas) {
-    //       if(tarea[])
-    //   }
-    // }
   }
 
 
@@ -510,8 +370,6 @@ export class JsonDataService {
     this.jsonDataFacService['Datos Facturación'].sort((a, b) => {
       return a.MA.localeCompare(b.MA);
     });
-
-
   }
 
   facSumarMA() {

@@ -49,46 +49,36 @@ export class InformesComponent implements OnInit {
   }
 
   async generarPDF() {
-    // console.log(new Date().getTime())
     this.sweetAlerService.mensajeEsperar();
     let imagenes = await this.imagnesDeTareas();
-    // console.log('this.dimensiones', this.dimensiones);
     this.exportador.exportarPDF(imagenes, this.dimensiones);
     this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
-    // console.log(new Date().getTime())
 
   }
 
 
   async generarPPT() {
-    // console.log(new Date().getTime());
     this.sweetAlerService.mensajeEsperar();
     let imagenes = await this.imagnesDeTareas().then(
       resp => this.exportador.exportarPPT(imagenes)
     );
     this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
-    // console.log(new Date().getTime())
 
   }
-  // async imagenesDeTareas(void):divElement[]
-  // Busca en la pantalla los elementos con id = tareas
-  // esots elementos luego son retornados
   async imagnesDeTareas() {
     let elements:any = document.querySelectorAll('#tareas')
-    // console.log(elements);
     let imagenes = [];
 
+    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < elements.length; i++) {
       try {
-        // document.getElementById(`row${i}`).focus();
-        // imagenes.push(await this.generarImagenFromDiv(elements[i]));
         imagenes.push(await this.generarImagenfromDiv2(elements[i]));
       } catch (error) {
         throw error;
       }
 
     }
-    // console.log('dimensiones',this.dimensiones);
+    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < elements.length; i++) {
       this.dimensiones.push({widht: elements[i].clientWidth, height: elements[i].clientHeight});
     }
@@ -97,9 +87,6 @@ export class InformesComponent implements OnInit {
   }
 
 
-  // async generaImagenFrom(divElement):string
-  // este metodo recibe como parametro un elemento html y lo conierte en imagen 
-  // retonra la imagen encodeada en string formato base64
   async generarImagenFromDiv(divElement) {
     return new Promise((resolve, reject) => {
 
@@ -107,7 +94,7 @@ export class InformesComponent implements OnInit {
         .then(dataUrl => {
           resolve(dataUrl);
         }).catch(err => {
-          reject("error al generar imagen desde div");
+          reject('error al generar imagen desde div');
         });
     })
   }
@@ -116,26 +103,17 @@ export class InformesComponent implements OnInit {
 
   async generarImagenfromDiv2(divElement) {
     return new Promise((resolve, reject) => {
-      // console.log('divElement',divElement);
-      // console.log('divElement.clientWidth',divElement.clientWidth);
-      // console.log('divElement.clientHeight',divElement.clientHeight);
-      // html2canvas(divElement,{scale:2, width: 1300,
-      //   height: 900})
       html2canvas(divElement,{scale:2, width: 1300,
         height: divElement.clientHeight})
         .then(canvas => {
 
-      // html2canvas(divElement,{scale:2, windowWidth: divElement.scrollWidth,
-      //   windowHeight: divElement.scrollHeight})
-      //   .then(canvas => {
-
-          resolve(canvas.toDataURL("image/jpeg"));
+          resolve(canvas.toDataURL('image/jpeg'));
 
         }).catch(error => {
-          reject("error al generar imagen desde div");
+          reject('error al generar imagen desde div');
         });
 
-    })
+    });
   }
   ngOnInit(): void {
   }

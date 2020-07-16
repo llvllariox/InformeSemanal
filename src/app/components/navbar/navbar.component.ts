@@ -8,10 +8,7 @@ import { JsonDataService } from 'src/app/services/json-data.service';
 })
 export class NavbarComponent implements OnInit {
 
-  // mostrarSegmentos = false;
   constructor(public jsonDataService: JsonDataService) {
-
-    // tslint:disable-next-line: max-line-length
 
    }
 

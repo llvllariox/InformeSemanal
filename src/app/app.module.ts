@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { InformesComponent } from './components/informes/informes.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { GenerarInformeComponent } from './components/generar-informe/generar-informe.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 import { FechasPipe } from './pipes/fechas.pipe';
 
 @NgModule({

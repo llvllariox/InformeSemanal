@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FechasPipe implements PipeTransform {
 
   transform(value: Date): any {
-    // console.log(value);
     if (value != null) {
       if (value.toString() == 'Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)') {
           return 'TBD';
@@ -23,12 +22,6 @@ export class FechasPipe implements PipeTransform {
           newFecha = `${DIA}/${MES + 1}/${ANO}`;
 
         }
-        // fecha.getFullYear();
-        // console.log(ANO);
-        // console.log(MES);
-        // console.log(DIA);
-        // console.log('aca---------------------');
-        // console.log(newFecha);
         return newFecha;
       }
     }

@@ -7,10 +7,8 @@ import { GenerarInformeComponent } from './components/generar-informe/generar-in
 const routes: Routes = [
   { path: 'informes/:segmento', component: InformesComponent },
   { path: 'generar', component: GenerarInformeComponent },
-  // { path: '**', pathMatch: 'full', redirectTo: 'generar' },
   { path: '', pathMatch: 'full', component: GenerarInformeComponent},
   { path: '**', pathMatch: 'full', component: GenerarInformeComponent }
-  // { path: '**', component: GenerarInformeComponent}
 ];
 
 @NgModule({

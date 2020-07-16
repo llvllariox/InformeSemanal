@@ -39,7 +39,6 @@
                     Facturacion:
                 </div>
                 <div class="col">
-                    <!-- <input [class.is-invalid]="facturacionNoValido " formControlName="facturacion" type="file"> -->
                     <input [class.is-invalid]="facturacionNoValido " formControlName="facturacion" type="file" (change)="uploadFac($event)">
                     <small *ngIf="facturacionNoValido " class="text-danger">Seleccione Archivo</small>
                 </div>

@@ -1,12 +1,6 @@
 <div class="row pb-3" *ngIf="jsonDataService.jsonDataReqService">
     <div class="col-sm-12">
 
-        <!-- <button class="btn waves-effect waves-light btn-rounded btn-danger " (click)="generarPPT()">
-            Exportar Informe PPT
-            <img
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABmElEQVRIx+2Vv0tcQRSFvxERhHQaJCjR2kbSpbDQgIidZQrBvyIIdqksUtgJASGFIoRgCAiKaKGIQVlMo4IgCZGQoKQyFlERvxTOk83y5u26tp5mmJl7z5n73v0BD6iCUIuRGoA+YAh4CrQAJ0AJmAsh/K77Beqg+lW9UFfVFfVUnVG/qX/VafVxPeQT6qX6JiNQR9TvWWTxAbvqT7XnLuTj6h/1RcX5rUDZWbP6Qf2RjEQtWR2lPIHo36RuqkspgQx78TuvqJ/V8wqRXIHI0a1eqf1FAqMV553qr1oEov2i+i7bNySM2iLZQgjhCJi/Q24sA73ZpjFhdA68B9bivr3ivkV9m/DtAjoKBUIIp8BL9Yn6Ghguuz4E5goi+K94cwXUNuA4Ib4NbKfY1bEYBZD4B/dEH7CZp1yepuupQihiVp+p16k03amh0HYKyJvVrWSh5TiMq2fqQA22j9RPha0i4TgRu+ik2ppz36AOqQepZld1HqiDwBQ3c2AD2AcuuMn153GdBV7lzYX7DJxj4AvwMVb7A+rDP9HV4tp+TD8IAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIwLTA3LTA3VDIxOjEzOjEyKzAwOjAw9i99kAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMC0wNy0wN1QyMToxMzoxMiswMDowMIdyxSwAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC"
-              alt="" srcset="">
-          </button> &nbsp; -->
         <button class="btn waves-effect waves-light btn-rounded btn-danger " (click)="generarPDF()">
             Exportar Informe PDF
             <img
@@ -37,7 +31,6 @@
             </div>
             <div class="row ">
                 <div class="col-12 col-sm-6 mb-3 ">
-                    <!-- <img src="/../../assets/images/gantt1.png " alt=" " class="imagen-gantt border border-primary "> -->
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
@@ -54,8 +47,6 @@
                                 <td class="small">{{tarea['Fecha Inicio Planificada']|fechas}}</td>
                                 <td class="small">{{tarea['Fecha Fin Planificada']|fechas}}</td>
                             </tr>
-                            <!-- </div> -->
-
                         </tbody>
                     </table>
                 </div>
@@ -113,10 +104,6 @@
                                 <td class="text-center text-secondary ">{{ars['avanceReal']}}%</td>
                                 <td class="text-center text-secondary ">{{ars['avanceEsperado']}}%</td>
 
-                                <!-- <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] <= 5)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-success fa-2x my-0 py-0 sha "></i></td>
-                                <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 5) && (ars['avanceEsperado'] - ars['avanceReal'] <=10)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-warning fa-2x my-0 py-0 sha "></i></td>
-                                <td *ngIf="ars['Estado']!=='03 Suspendido' && (ars['avanceEsperado'] - ars['avanceReal'] > 11)" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-danger fa-2x my-0 py-0 sha "></i></td>
-                                <td *ngIf="ars['Estado']=='03 Suspendido'" class="text-center text-secondary my-0 py-0 "><i class="fa fa-circle text-secondary fa-2x my-0 py-0 sha "></i></td> -->
                                 <td *ngIf="ars['Estado']!=='03 Suspendido' && ars['Etapa']!=='Detenido' && (ars['avanceEsperado'] - ars['avanceReal'] <= 5)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Verde.png" class="" alt="" style="width: 27px;height: 27px;"></td>
                                 <td *ngIf="ars['Estado']!=='03 Suspendido' && ars['Etapa']!=='Detenido' && (ars['avanceEsperado'] - ars['avanceReal'] > 5) && (ars['avanceEsperado'] - ars['avanceReal'] <=10)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Amarillo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
                                 <td *ngIf="ars['Estado']!=='03 Suspendido' && ars['Etapa']!=='Detenido' && (ars['avanceEsperado'] - ars['avanceReal'] > 11)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Rojo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
@@ -143,8 +130,6 @@
                                 <td class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
                                 <td class="text-center text-secondary ">{{ars.inicioQA|fechas}}</td>
                                 <td class="text-center text-secondary ">{{ars.finQA|fechas}}</td>
-                                <!-- <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Aprobación']|fechas}}</td>
-                            <td class="text-center text-secondary ">{{ars['Fec. Real Pase Aprobación']|fechas}}</td> -->
                             </tr>
                             <tr>
                                 <th class="text-center text-dark " scope="row ">HH Soporte Produccion</th>
@@ -152,8 +137,6 @@
                                 <td class="text-center text-secondary ">{{ars.incurridoProd|number}}</td>
                                 <td class="text-center text-secondary ">{{ars.inicioProd|fechas}}</td>
                                 <td class="text-center text-secondary ">{{ars.finProd|fechas}}</td>
-                                <!-- <td class="text-center text-secondary ">{{ars['Fec. Plan. Pase Producción']|fechas}}</td>
-                            <td class="text-center text-secondary ">{{ars['Fec. Real Pase Producción']|fechas}}</td> -->
                             </tr>
                         </tbody>
                     </table>
@@ -172,8 +155,6 @@
                         <tbody *ngFor="let eve of ars.realizado|slice:-5">
                             <tr>
                                 <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/check-solid.png" alt="" style="width: 14px;height: 14px;"> {{eve['Descripción de evento']}}</th>
-
-                                <!-- <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-check mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th> -->
                             </tr>
                         </tbody>
                     </table>
@@ -189,7 +170,6 @@
                         <tbody *ngFor="let eve of ars.proximo|slice:-5">
                             <tr>
                                 <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/calendar-regular.png" alt="" style="width: 14px;height: 14px;"> {{eve['Descripción de evento']}}</th>
-                                <!-- <th class="text-left text-dark font-weight-normal" scope="row "><i class="fa fa-calendar-alt mx-2 " aria-hidden="true "></i>{{eve['Descripción de evento']}}</th> -->
                             </tr>
                         </tbody>
                     </table>

@@ -14,9 +14,7 @@ import { Router } from '@angular/router';
 export class GenerarInformeComponent implements OnInit {
 
   forma: FormGroup;
-  // file: File = null;
   name = 'This is XLSX TO JSON CONVERTER';
-  // willDownload = false;
   jsonDataReq = null;
   jsonDataTar = null;
   jsonDataEve = null;
@@ -35,18 +33,6 @@ export class GenerarInformeComponent implements OnInit {
     this.jsonDataService.facAgrupado = [];
 
     this.crearFormulario();
-    // console.log(Date.parse('Sun Dec 31 2050 00:00:00 GMT-0442 (hora de verano de Chile)' ));
-    // let orden = 1;
-    // let fechaInt = 2209058280000;
-    // let tamano = fechaInt.toString().length;
-    // let decimal = fechaInt / (10 ** Number(tamano));
-    // let keyA = orden + decimal;
-
-    // console.log(orden);
-    // console.log(fechaInt);
-    // console.log(tamano);
-    // console.log(decimal);
-    // console.log(keyA);
 
   }
 
@@ -69,15 +55,10 @@ export class GenerarInformeComponent implements OnInit {
 
         return initial;
       }, {});
-      const dataString = JSON.stringify(this.jsonDataFac);
       if(this.jsonDataFac['Datos Facturación']==undefined) {
-        // console.log('nok');
-        // console.log(this.jsonDataFac);
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
         this.jsonDataFac = null;
       } else {
-        // console.log('ok');
-        // console.log(this.jsonDataFac);
         delete this.jsonDataFac['Cuadre'];
         delete this.jsonDataFac['Info Requerimientos'];
         delete this.jsonDataFac['Info Solicitudes'];
@@ -85,8 +66,6 @@ export class GenerarInformeComponent implements OnInit {
         delete this.jsonDataFac['Res por mes'];
         delete this.jsonDataFac['Resumen'];
         delete this.jsonDataFac['Temporal'];
-        // console.log(this.jsonDataFac);
-        // this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
         this.filtrarFac(this.jsonDataFac);
         console.log(this.jsonDataFac);
 
@@ -121,15 +100,11 @@ export class GenerarInformeComponent implements OnInit {
 
         return initial;
       }, {});
-      const dataString = JSON.stringify(this.jsonDataTar);
 
       if(this.jsonDataTar['Detalle Tareas']==undefined) {
-        // console.log('nok');
-        // console.log(this.jsonDataTar);
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
         this.jsonDataTar = null;
       } else {
-        // console.log('ok');
         this.filtrarTar(this.jsonDataTar);
         console.log(this.jsonDataTar);
       }
@@ -155,8 +130,6 @@ filtrarTar(jsonDataReq: any) {
   uploadReq(event) {
     this.jsonDataReq = null;
     this.sweetAlerService.mensajeEsperar();
-    // let minDate = new Date('Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)');
-    // console.log('REQ');
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -169,13 +142,10 @@ filtrarTar(jsonDataReq: any) {
         this.sweetAlerService.close();
         return initial;
       }, {});
-      const dataString = JSON.stringify(this.jsonDataReq);
       if(this.jsonDataReq.Requerimientos==undefined) {
-        // console.log('nok');
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
         this.jsonDataReq = null;
       } else {
-        // console.log('ok');
         this.filtrarReq(this.jsonDataReq);
         console.log(this.jsonDataReq);
       }
@@ -194,7 +164,7 @@ filtrarReq(jsonDataReq: any){
   jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
     return a['Contrato'] === 'Evolutivo';
   });
-  
+
   jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
     return a['Etapa'] !== 'Comprometido';
   });
@@ -208,7 +178,6 @@ filtrarReq(jsonDataReq: any){
 }
 
 uploadEve(event) {
-  // console.log('uploadEve');
   this.jsonDataEve = null;
   this.sweetAlerService.mensajeEsperar();
   let workBook = null;
@@ -224,13 +193,10 @@ uploadEve(event) {
 
       return initial;
     }, {});
-    const dataString = JSON.stringify(this.jsonDataEve);
     if (this.jsonDataEve.Eventos==undefined) {
-      // console.log('nok');
       this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos');
       this.jsonDataEve = null;
     } else {
-      // console.log('ok');
       this.filtrarEve(this.jsonDataEve);
       console.log(this.jsonDataEve);
     }
@@ -270,28 +236,23 @@ filtrarEve(jsonDataEve: any){
       });
     } else {
 
-        // if (this.jsonDataFac['Datos Facturación']==undefined ) {
         if (this.jsonDataFac == null) {
           this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
           return;
         }
 
-        // if (this.jsonDataTar['Detalle Tareas']==undefined) {
         if (this.jsonDataTar == null) {
                 this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
                 return;
         }
         if (this.jsonDataReq == null) {
-        // if (this.jsonDataReq.Requerimientos==undefined) {
                 this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
                 return;
         }
-        // console.log(this.jsonDataEve);
         if (this.jsonDataEve == null) {
               this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos');
               return;
         }
-        // TODO SACAR DE ACA-----------------------------------------------------------------------------
         this.jsonDataService.consolidarArchivos();
         this.sweetAlerService.mensajeOK('Informe Semanal Generado Exitosamente').then(
           resp => {
