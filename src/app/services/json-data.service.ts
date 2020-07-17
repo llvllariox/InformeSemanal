@@ -129,12 +129,15 @@ export class JsonDataService {
 
       for (const  tar of this.jsonDataTarService['Detalle Tareas']) {
         if (req['Nro. Req.'] == tar['Número ARS']) {
-            if (tar['Descripción Tarea'] == 'Soporte QA') {
+            // if (tar['Descripción Tarea'] == 'Soporte QA') {
+            if (tar['Descripción Tarea'].includes('Soporte QA', 0)) {
               estimadoQA  = tar['Horas Estimadas'];
               incurridoQA  = tar['Horas Incurridas'];
             }
             // tslint:disable-next-line: max-line-length
-            if (tar['Descripción Tarea'] == 'Soporte Post Producción' || tar['Descripción Tarea'] == 'Implementación y Soporte Post Producción' ) {
+            // if (tar['Descripción Tarea'] == 'Soporte Post Producción' || tar['Descripción Tarea'] == 'Implementación y Soporte Post Producción' ) {
+            // tslint:disable-next-line: max-line-length
+            if (tar['Descripción Tarea'].includes('Implementación y Soporte Post Producción', 0) || tar['Descripción Tarea'].includes('Soporte Pase a Producción', 0) ) {
               estimadoProd  = tar['Horas Estimadas'];
               incurridoProd  = tar['Horas Incurridas'];
             }
