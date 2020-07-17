@@ -76,9 +76,9 @@ export class GenerarInformeComponent implements OnInit {
 
   filtrarFac(jsonDataReq: any) {
 
-    this.jsonDataFac['Datos Facturación'] = jsonDataReq['Datos Facturación'].filter(a => {
-      return a['Línea de Servicio'] === 'Evolutivo Mayor';
-    });
+    // this.jsonDataFac['Datos Facturación'] = jsonDataReq['Datos Facturación'].filter(a => {
+    //   return a['Línea de Servicio'] === 'Evolutivo Mayor';
+    // });
 
     this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
 

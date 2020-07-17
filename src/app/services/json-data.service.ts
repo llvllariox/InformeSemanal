@@ -54,6 +54,8 @@ export class JsonDataService {
     this.AddEveToReq();
     this.AddTarToReq();
     this.facObtieneMA();
+    // console.log(this.jsonDataFacService['Datos Facturación']);
+    // return;
     this.facSumarMA();
     this.facAgregarReq();
     this.groupReqOrigen();
