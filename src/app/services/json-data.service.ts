@@ -52,6 +52,7 @@ export class JsonDataService {
   consolidarArchivos() {
 
     this.AddEveToReq();
+    this.eliminarExepcionados();
     this.AddTarToReq();
     this.facObtieneMA();
     // console.log(this.jsonDataFacService['Datos Facturación']);
@@ -63,7 +64,7 @@ export class JsonDataService {
     this.eliminarReqOrigen();
     // console.log(this.jsonDataReqService.Requerimientos);
     // return;
-    this.eliminarExepcionados();
+    // this.eliminarExepcionados();
     this.unirReqconAgrupados();
     this.obtenerFechasQAPROD();
     this.ordenFinalARS();
@@ -304,7 +305,7 @@ export class JsonDataService {
             }
 
             this.ReqAgrupado.push(Reqpadre);
-            console.log(Reqpadre);
+            // console.log(Reqpadre);
             ultEtapa = '';
             ultLD = '';
             ultPM = '';
@@ -349,7 +350,7 @@ export class JsonDataService {
     // console.log(reqOrigen.length);
     if (reqOrigen.length > 1) {
       // console.log(reqOrigen);
-      console.log(req['Nro. Req.'], 'Delete');
+      // console.log(req['Nro. Req.'], 'Delete');
       this.jsonDataReqService.Requerimientos.splice(i, 1);
       // i--;
       reqOrigen = '';
@@ -402,11 +403,11 @@ export class JsonDataService {
   for (let i = 0; i < this.jsonDataReqService.Requerimientos.length;) {
 
       let req = this.jsonDataReqService.Requerimientos[i];
-      let reqOrigen = req['Req. Origen'].toString();
+      // let reqOrigen = req['Req. Origen'].toString();
       // console.log(reqOrigen.length);
       if (req.exepcion) {
         // console.log(reqOrigen);
-        console.log(req['Nro. Req.'], 'Delete');
+        // console.log(req['Nro. Req.'], 'Delete');
         this.jsonDataReqService.Requerimientos.splice(i, 1);
         // i--;
       } else {
