@@ -57,7 +57,10 @@ export class JsonDataService {
     this.facSumarMA();
     this.facAgregarReq();
     this.groupReqOrigen();
+    // return;
     this.eliminarReqOrigen();
+    // console.log(this.jsonDataReqService.Requerimientos);
+    // return;
     this.eliminarExepcionados();
     this.unirReqconAgrupados();
     this.obtenerFechasQAPROD();
@@ -251,10 +254,39 @@ export class JsonDataService {
     let ultTareas = [];
 
     this.jsonDataReqService.Requerimientos.sort((a, b) => {
-      return a['Req. Origen'] - b['Req. Origen'];
+
+      let keyA = 0;
+      let keyB = 0;
+
+      if (a['Req. Origen'] == ' ') {
+        keyA = a['Nro. Req.'];
+      } else {
+        keyA = a['Req. Origen'];
+      }
+
+      if (b['Req. Origen'] == ' ') {
+        keyB = b['Nro. Req.'];
+      } else {
+        keyB = b['Req. Origen'];
+      }
+
+      // console.log(a['Req. Origen']);
+      // console.log(b['Req. Origen']);
+      return keyA - keyB;
+      // return a['Req. Origen'] - b['Req. Origen'];
     });
+    // console.log('pegando req origen');
+    // console.log(this.jsonDataReqService.Requerimientos);
+    // return;
 
     for (let req of this.jsonDataReqService.Requerimientos) {
+
+      if (req['Req. Origen'] == ' ' || req['Req. Origen']==undefined) {
+        req['Req. Origen'] = req['Nro. Req.'];
+        // console.log('Reemplzada reqOrigen');
+        // console.log('Req. Origen',req['Req. Origen']);
+        // console.log('Nro. Req',req['Nro. Req.']);
+      }
 
       if (req['Req. Origen'] !== ' ') {
         if (req['Req. Origen'] !== Reqpadre['Req. Origen']){
@@ -264,11 +296,13 @@ export class JsonDataService {
             Reqpadre['Solicitante'] = ultLD|| Reqpadre['Solicitante'];
             Reqpadre['Origen'] = ultPM|| Reqpadre['Origen'];
             Reqpadre['Código Externo'] = ultCECO|| Reqpadre['Código Externo'];
+            Reqpadre['Req. Origen'] = ' ';
             if (ultTareas.length > 0) {
               Reqpadre['tareas'] = ultTareas;
             }
 
             this.ReqAgrupado.push(Reqpadre);
+            console.log(Reqpadre);
             ultEtapa = '';
             ultLD = '';
             ultPM = '';
@@ -298,31 +332,91 @@ export class JsonDataService {
   }
 
   eliminarReqOrigen() {
-   let i = 0;
-   for (let req of this.jsonDataReqService.Requerimientos) {
+  //  console.log(this.jsonDataReqService.Requerimientos);
+  //  return;
 
-      if (req['Req. Origen'] !== ' ') {
-        this.jsonDataReqService.Requerimientos.splice(i, 1);
-      }
+  //  this.jsonDataReqService.Requerimientos.filter(data=>{
+  //      data['Req. Origen'].toString().length > 1;
+  //  });
+
+  //  let i = 0;
+   for (let i = 0; i < this.jsonDataReqService.Requerimientos.length;) {
+
+    let req = this.jsonDataReqService.Requerimientos[i];
+    let reqOrigen = req['Req. Origen'].toString();
+    // console.log(reqOrigen.length);
+    if (reqOrigen.length > 1) {
+      // console.log(reqOrigen);
+      console.log(req['Nro. Req.'], 'Delete');
+      this.jsonDataReqService.Requerimientos.splice(i, 1);
+      // i--;
+      reqOrigen = '';
+    } else {
       i++;
+    }
+
    }
+
+  //  for (let req of this.jsonDataReqService.Requerimientos) {
+
+  //     // if()
+  //     // if (req['Req. Origen'] == 1116) {
+  //     // console.log(req['Nro. Req.']);
+  //     // let reqOrigen = req['Req. Origen'].toString();
+  //     // // console.log(reqOrigen.length);
+  //     // if (reqOrigen.length > 1) {
+  //     //   // console.log(reqOrigen);
+  //     //   console.log(req['Nro. Req.'], 'Delete');
+  //     //   this.jsonDataReqService.Requerimientos.splice(i, 0);
+  //     //   // i--;
+  //     //   reqOrigen = '';
+  //     // } else {
+  //     //   i++;
+  //     // }
+
+  //     // console.log(req['Req. Origen']);
+  //     // }
+  //     // if (req['Req. Origen'] != '' && req['Req. Origen'] != ' ') {
+  //     //   // console.log(req['Nro. Req.'], 'Delete');
+  //     //   this.jsonDataReqService.Requerimientos.splice(i, 1);
+  //     // }
+      
+  //  }
+  //  console.log('eliminados');
+  //  console.log(this.jsonDataReqService.Requerimientos);
   }
 
   eliminarExepcionados() {
 
-   let i = 0;
-   for (let req of this.jsonDataReqService.Requerimientos) {
+  //  let i = 0;
+  //  for (let req of this.jsonDataReqService.Requerimientos) {
 
+  //     if (req.exepcion) {
+  //       this.jsonDataReqService.Requerimientos.splice(i, 1);
+  //     }
+  //     i++;
+  //  }
+
+  for (let i = 0; i < this.jsonDataReqService.Requerimientos.length;) {
+
+      let req = this.jsonDataReqService.Requerimientos[i];
+      let reqOrigen = req['Req. Origen'].toString();
+      // console.log(reqOrigen.length);
       if (req.exepcion) {
+        // console.log(reqOrigen);
+        console.log(req['Nro. Req.'], 'Delete');
         this.jsonDataReqService.Requerimientos.splice(i, 1);
+        // i--;
+      } else {
+        i++;
       }
-      i++;
-   }
+    }
   }
-
   unirReqconAgrupados() {
+    // console.log('agrupados');
+    // console.log(this.ReqAgrupado);
     let tamaño = this.jsonDataReqService.Requerimientos.length;
-    this.jsonDataReqService.Requerimientos = this.jsonDataReqService.Requerimientos.concat(this.ReqAgrupado);
+    this.jsonDataReqService.Requerimientos.concat(this.ReqAgrupado);
     this.jsonDataReqService.Requerimientos.splice(tamaño, 1);
 
   }
