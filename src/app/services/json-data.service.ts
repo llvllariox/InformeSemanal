@@ -54,16 +54,18 @@ export class JsonDataService {
     this.AddEveToReq();
     this.eliminarExepcionados();
     this.AddTarToReq();
+    // console.log(this.jsonDataReqService.Requerimientos);
+    // return;
     this.facObtieneMA();
     // console.log(this.jsonDataFacService['Datos Facturación']);
     // return;
+    this.crearHorasFact();
     this.facSumarMA();
     this.facAgregarReq();
     this.groupReqOrigen();
+    
     // return;
     this.eliminarReqOrigen();
-    // console.log(this.jsonDataReqService.Requerimientos);
-    // return;
     // this.eliminarExepcionados();
     this.unirReqconAgrupados();
     this.obtenerFechasQAPROD();
@@ -137,15 +139,20 @@ export class JsonDataService {
         if (req['Nro. Req.'] == tar['Número ARS']) {
             // if (tar['Descripción Tarea'] == 'Soporte QA') {
             if (tar['Descripción Tarea'].includes('Soporte QA', 0)) {
-              estimadoQA  = tar['Horas Estimadas'];
-              incurridoQA  = tar['Horas Incurridas'];
+              estimadoQA  = estimadoQA + tar['Horas Estimadas'];
+              incurridoQA  = incurridoQA + tar['Horas Incurridas'];
+              // estimadoQA  = tar['Horas Estimadas'];
+              // incurridoQA  = tar['Horas Incurridas'];
             }
             // tslint:disable-next-line: max-line-length
             // if (tar['Descripción Tarea'] == 'Soporte Post Producción' || tar['Descripción Tarea'] == 'Implementación y Soporte Post Producción' ) {
-            // tslint:disable-next-line: max-line-length
-            if (tar['Descripción Tarea'].includes('Implementación y Soporte Post Producción', 0) || tar['Descripción Tarea'].includes('Soporte Pase a Producción', 0) ) {
-              estimadoProd  = tar['Horas Estimadas'];
-              incurridoProd  = tar['Horas Incurridas'];
+            if (tar['Descripción Tarea'].includes('Implementación y Soporte Post Producción', 0) ||
+                tar['Descripción Tarea'].includes('Soporte Pase a Producción', 0) ||
+                tar['Descripción Tarea'].includes('Soporte Post Producción', 0) ) {
+              // estimadoProd  = tar['Horas Estimadas'];
+              // incurridoProd  = tar['Horas Incurridas'];
+              estimadoProd  = estimadoProd + tar['Horas Estimadas'];
+              incurridoProd  = incurridoProd  + tar['Horas Incurridas'];
             }
             incluir = true;
             let orden = 0;
@@ -245,6 +252,12 @@ export class JsonDataService {
       x++;
     }
   }
+  crearHorasFact(){
+
+    for (let req of this.jsonDataReqService.Requerimientos) {
+      req['horasFact'] = 0;
+    }
+  }
 
   groupReqOrigen() {
 
@@ -322,6 +335,20 @@ export class JsonDataService {
           Reqpadre['incurridoQA'] = Number(Reqpadre['incurridoQA']) + Number(req['incurridoQA']);
           Reqpadre['estimadoProd'] = Number(Reqpadre['estimadoProd']) + Number(req['estimadoProd']);
           Reqpadre['incurridoProd'] = Number(Reqpadre['incurridoProd']) + Number(req['incurridoProd']);
+
+          // if(Reqpadre['horasFact'] == undefined){
+          //   Reqpadre['horasFact'] = 0;
+          // }
+          // if(req['horasFact'] == undefined){
+          //   Reqpadre['horasFact'] = 0;
+          // }
+          // if(isNaN(Reqpadre['horasFact'])){
+          //   Reqpadre['horasFact'] = 0;
+          // }
+          // if(isNaN(req['horasFact'])){
+          //   Reqpadre['horasFact'] = 0;
+          // }
+
           Reqpadre['horasFact'] = Number(Reqpadre['horasFact']) + Number(req['horasFact']);
 
           ultEtapa = req['Etapa'];
@@ -483,6 +510,7 @@ export class JsonDataService {
         if (facpadre) {
 
           this.facAgrupado.push(facpadre);
+          // console.log(facpadre);
           facpadre = [];
         }
         facpadre = fac;
@@ -491,14 +519,21 @@ export class JsonDataService {
       }
 
     }
+
+    // console.log('facAgrupado', this.facAgrupado);
   }
 
   facAgregarReq(){
     this.facAgrupado.splice(0, 1);
     let i = 0;
     for (let req of this.jsonDataReqService.Requerimientos) {
-      for (const fac of this.facAgrupado) {
+      for (let fac of this.facAgrupado) {
+        // console.log(fac['MA'].substr(2,5));
         if (req['Nro. Req.'] ==  Number(fac['MA'].substr(2,5))) {
+          if(req['Nro. Req.'] == 2415){
+            // console.log(fac['MA'].substr(2,5));
+            // console.log(fac['HH Incurridas']);
+          }
           let horasFact = fac['HH Incurridas'];
           this.jsonDataReqService.Requerimientos[i] = {...this.jsonDataReqService.Requerimientos[i], horasFact};
         }
