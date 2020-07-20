@@ -64,16 +64,22 @@ export class Pdf {
     generarPaginas(imagenesPaginas: string[], dimensiones: any[]) {
         // console.log(imagenesPaginas);
         // console.log(dimensiones);
+        console.log(imagenesPaginas.length);
         for (let i = 0; i < imagenesPaginas.length; i++) {
+            // console.log(i);
             this.documentoPdf.addPage();
-
+            if((imagenesPaginas.length - 1) == i || (imagenesPaginas.length - 2) == i){
+                this.documentHeigth = 6.5;
+                console.log('Ultimo');
+                this.documentoPdf.addImage(imagenesPaginas[i], 'JPEG', 1, 0.5, this.documentWidth, this.documentHeigth);
+            } else {
             // console.log(imagenesPaginas[i]);
             // let imagenFinal="/assets/images/generacionPPT/Slide13.PNG"
             this.documentoPdf.addImage(imagenesPaginas[i], 'JPEG', 1, 0.5, this.documentWidth, this.documentHeigth);
             // console.log('widht',dimensiones[i].widht);
             // console.log('height',dimensiones[i].height);
             // this.documentoPdf.addImage(imagenesPaginas[i], 'JPEG', 1, 0, dimensiones[i].widht, dimensiones[i].height);
-
+            }
         }
     }
     ultimaPagina() {

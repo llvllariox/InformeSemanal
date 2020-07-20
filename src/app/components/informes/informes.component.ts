@@ -39,29 +39,43 @@ export class InformesComponent implements OnInit {
   fecha16 = '';
   fecha17 = '';
   fecha18 = '';
+  fecha19 = '';
+  fecha20 = '';
+  fecha21 = '';
+  fecha22 = '';
+  fecha23 = '';
+  fecha24 = '';
+  fecha25 = '';
 
 
   constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService) {
 
     moment.lang('es');
-    this.fecha1 = moment().subtract(1,'months').format('YYYY-MM');
-    this.fecha2 = moment().subtract(2,'months').format('YYYY-MM');
-    this.fecha3 = moment().subtract(3,'months').format('YYYY-MM');
-    this.fecha4 = moment().subtract(4,'months').format('YYYY-MM');
-    this.fecha5 = moment().subtract(5,'months').format('YYYY-MM');
-    this.fecha6 = moment().subtract(6,'months').format('YYYY-MM');
-    this.fecha7 = moment().subtract(7,'months').format('YYYY-MM');
-    this.fecha8 = moment().subtract(8,'months').format('YYYY-MM');
-    this.fecha9 = moment().subtract(9,'months').format('YYYY-MM');
-    this.fecha10 = moment().subtract(10,'months').format('YYYY-MM');
-    this.fecha11 = moment().subtract(11,'months').format('YYYY-MM');
-    this.fecha12 = moment().subtract(12,'months').format('YYYY-MM');
-    this.fecha13 = moment().subtract(13,'months').format('YYYY-MM');
-    this.fecha14 = moment().subtract(14,'months').format('YYYY-MM');
-    this.fecha15 = moment().subtract(15,'months').format('YYYY-MM');
-    this.fecha16 = moment().subtract(16,'months').format('YYYY-MM');
-    this.fecha17 = moment().subtract(17,'months').format('YYYY-MM');
-    this.fecha18 = moment().subtract(18,'months').format('YYYY-MM');
+    this.fecha1 = moment().format('YYYY-MM');
+    this.fecha2 = moment().subtract(1,'months').format('YYYY-MM');
+    this.fecha3 = moment().subtract(2,'months').format('YYYY-MM');
+    this.fecha4 = moment().subtract(3,'months').format('YYYY-MM');
+    this.fecha5 = moment().subtract(4,'months').format('YYYY-MM');
+    this.fecha6 = moment().subtract(5,'months').format('YYYY-MM');
+    this.fecha7 = moment().subtract(6,'months').format('YYYY-MM');
+    this.fecha8 = moment().subtract(7,'months').format('YYYY-MM');
+    this.fecha9 = moment().subtract(8,'months').format('YYYY-MM');
+    this.fecha10 = moment().subtract(9,'months').format('YYYY-MM');
+    this.fecha11 = moment().subtract(10,'months').format('YYYY-MM');
+    this.fecha12 = moment().subtract(11,'months').format('YYYY-MM');
+    this.fecha13 = moment().subtract(12,'months').format('YYYY-MM');
+    this.fecha14 = moment().subtract(13,'months').format('YYYY-MM');
+    this.fecha15 = moment().subtract(14,'months').format('YYYY-MM');
+    this.fecha16 = moment().subtract(15,'months').format('YYYY-MM');
+    this.fecha17 = moment().subtract(16,'months').format('YYYY-MM');
+    this.fecha18 = moment().subtract(17,'months').format('YYYY-MM');
+    this.fecha19 = moment().subtract(18,'months').format('YYYY-MM');
+    this.fecha20 = moment().subtract(19,'months').format('YYYY-MM');
+    this.fecha21 = moment().subtract(20,'months').format('YYYY-MM');
+    this.fecha22 = moment().subtract(21,'months').format('YYYY-MM');
+    this.fecha23 = moment().subtract(22,'months').format('YYYY-MM');
+    this.fecha24 = moment().subtract(23,'months').format('YYYY-MM');
+    this.fecha25 = moment().subtract(24,'months').format('YYYY-MM');
     // let now = moment();
     
 
@@ -134,6 +148,7 @@ export class InformesComponent implements OnInit {
 
       htmlToImage.toPng(divElement)
         .then(dataUrl => {
+          // console.log(dataUrl);
           resolve(dataUrl);
         }).catch(err => {
           reject('error al generar imagen desde div');
@@ -148,7 +163,7 @@ export class InformesComponent implements OnInit {
       html2canvas(divElement,{scale:2, width: 1300,
         height: divElement.clientHeight})
         .then(canvas => {
-
+          // console.log(canvas.toDataURL('image/jpeg'));
           resolve(canvas.toDataURL('image/jpeg'));
 
         }).catch(error => {

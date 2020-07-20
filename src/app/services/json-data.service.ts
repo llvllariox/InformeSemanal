@@ -262,24 +262,31 @@ export class JsonDataService {
 
     for (let req of this.jsonDataReqService.Requerimientos) {
       req['horasFact'] = 0;
-      req.fecha1 = moment().subtract(1,'months');
-      req.fecha2 = moment().subtract(2,'months');
-      req.fecha3 = moment().subtract(3,'months');
-      req.fecha4 = moment().subtract(4,'months');
-      req.fecha5 = moment().subtract(5,'months');
-      req.fecha6 = moment().subtract(6,'months');
-      req.fecha7 = moment().subtract(7,'months');
-      req.fecha8 = moment().subtract(8,'months');
-      req.fecha9 = moment().subtract(9,'months');
-      req.fecha10 = moment().subtract(10,'months');
-      req.fecha11 = moment().subtract(11,'months');
+      req.fecha1 = moment();
+      req.fecha2 = moment().subtract(1,'months');
+      req.fecha3 = moment().subtract(2,'months');
+      req.fecha4 = moment().subtract(3,'months');
+      req.fecha5 = moment().subtract(4,'months');
+      req.fecha6 = moment().subtract(5,'months');
+      req.fecha7 = moment().subtract(6,'months');
+      req.fecha8 = moment().subtract(7,'months');
+      req.fecha9 = moment().subtract(8,'months');
+      req.fecha10 = moment().subtract(9,'months');
+      req.fecha11 = moment().subtract(10,'months');
       req.fecha12 = moment().subtract(11,'months');
-      req.fecha13 = moment().subtract(11,'months');
-      req.fecha14 = moment().subtract(11,'months');
-      req.fecha15 = moment().subtract(11,'months');
-      req.fecha16 = moment().subtract(11,'months');
-      req.fecha17 = moment().subtract(11,'months');
-      req.fecha18 = moment().subtract(11,'months');
+      req.fecha13 = moment().subtract(12,'months');
+      req.fecha14 = moment().subtract(13,'months');
+      req.fecha15 = moment().subtract(14,'months');
+      req.fecha16 = moment().subtract(15,'months');
+      req.fecha17 = moment().subtract(16,'months');
+      req.fecha18 = moment().subtract(17,'months');
+      req.fecha19 = moment().subtract(18,'months');
+      req.fecha20 = moment().subtract(19,'months');
+      req.fecha21 = moment().subtract(20,'months');
+      req.fecha22 = moment().subtract(21,'months');
+      req.fecha23 = moment().subtract(22,'months');
+      req.fecha24 = moment().subtract(23,'months');
+      req.fecha25 = moment().subtract(24,'months');
 
       req.total1 = 0;
       req.total2 = 0;
@@ -299,6 +306,13 @@ export class JsonDataService {
       req.total16 = 0;
       req.total17 = 0;
       req.total18 = 0;
+      req.total19 = 0;
+      req.total20 = 0;
+      req.total21 = 0;
+      req.total22 = 0;
+      req.total23 = 0;
+      req.total24 = 0;
+      req.total25 = 0;
 
     }
   }
@@ -412,6 +426,13 @@ export class JsonDataService {
           Reqpadre['total16'] = Number(Reqpadre['total16']) + Number(req['total16']);
           Reqpadre['total17'] = Number(Reqpadre['total17']) + Number(req['total17']);
           Reqpadre['total18'] = Number(Reqpadre['total18']) + Number(req['total18']);
+          Reqpadre['total19'] = Number(Reqpadre['total19']) + Number(req['total19']);
+          Reqpadre['total20'] = Number(Reqpadre['total20']) + Number(req['total20']);
+          Reqpadre['total21'] = Number(Reqpadre['total21']) + Number(req['total21']);
+          Reqpadre['total22'] = Number(Reqpadre['total22']) + Number(req['total22']);
+          Reqpadre['total23'] = Number(Reqpadre['total23']) + Number(req['total23']);
+          Reqpadre['total24'] = Number(Reqpadre['total24']) + Number(req['total24']);
+          Reqpadre['total25'] = Number(Reqpadre['total25']) + Number(req['total25']);
 
           ultEtapa = req['Etapa'];
           ultLD = req['Solicitante'];
@@ -596,6 +617,13 @@ export class JsonDataService {
         facpadre['total16'] =  Number(facpadre['total16']) +  Number(fac['total16']);
         facpadre['total17'] =  Number(facpadre['total17']) +  Number(fac['total17']);
         facpadre['total18'] =  Number(facpadre['total18']) +  Number(fac['total18']);
+        facpadre['total19'] =  Number(facpadre['total19']) +  Number(fac['total19']);
+        facpadre['total20'] =  Number(facpadre['total20']) +  Number(fac['total20']);
+        facpadre['total21'] =  Number(facpadre['total21']) +  Number(fac['total21']);
+        facpadre['total22'] =  Number(facpadre['total22']) +  Number(fac['total22']);
+        facpadre['total23'] =  Number(facpadre['total23']) +  Number(fac['total23']);
+        facpadre['total24'] =  Number(facpadre['total24']) +  Number(fac['total24']);
+        facpadre['total25'] =  Number(facpadre['total25']) +  Number(fac['total25']);
       }
 
     }
@@ -634,6 +662,13 @@ export class JsonDataService {
           let fecha16 = fac.fecha16;
           let fecha17 = fac.fecha17;
           let fecha18 = fac.fecha18;
+          let fecha19 = fac.fecha19;
+          let fecha20 = fac.fecha20;
+          let fecha21 = fac.fecha21;
+          let fecha22 = fac.fecha22;
+          let fecha23 = fac.fecha23;
+          let fecha24 = fac.fecha24;
+          let fecha25 = fac.fecha25;
 
           let total1 = fac.total1;
           let total2 = fac.total2;
@@ -653,6 +688,13 @@ export class JsonDataService {
           let total16 = fac.total16;
           let total17 = fac.total17;
           let total18 = fac.total18;
+          let total19 = fac.total19;
+          let total20 = fac.total20;
+          let total21 = fac.total21;
+          let total22 = fac.total22;
+          let total23 = fac.total23;
+          let total24 = fac.total24;
+          let total25 = fac.total25;
           
           this.jsonDataReqService.Requerimientos[i] = {...this.jsonDataReqService.Requerimientos[i], horasFact,
             fecha1, total1,
@@ -673,6 +715,13 @@ export class JsonDataService {
             fecha16, total16,
             fecha17, total17,
             fecha18, total18,
+            fecha19, total19,
+            fecha20, total20,
+            fecha21, total21,
+            fecha22, total22,
+            fecha23, total23,
+            fecha24, total24,
+            fecha25, total25,
           };
         }
 
@@ -694,24 +743,31 @@ export class JsonDataService {
 
     moment.lang('es');
     // let now = moment();
-    let fecha1 = moment().subtract(1,'months');
-    let fecha2 = moment().subtract(2,'months');
-    let fecha3 = moment().subtract(3,'months');
-    let fecha4 = moment().subtract(4,'months');
-    let fecha5 = moment().subtract(5,'months');
-    let fecha6 = moment().subtract(6,'months');
-    let fecha7 = moment().subtract(7,'months');
-    let fecha8 = moment().subtract(8,'months');
-    let fecha9 = moment().subtract(9,'months');
-    let fecha10 = moment().subtract(10,'months');
-    let fecha11 = moment().subtract(11,'months');
-    let fecha12 = moment().subtract(12,'months');
-    let fecha13 = moment().subtract(13,'months');
-    let fecha14 = moment().subtract(14,'months');
-    let fecha15 = moment().subtract(15,'months');
-    let fecha16 = moment().subtract(16,'months');
-    let fecha17 = moment().subtract(17,'months');
-    let fecha18 = moment().subtract(18,'months');
+    let fecha1 = moment().subtract(0,'months');
+    let fecha2 = moment().subtract(1,'months');
+    let fecha3 = moment().subtract(2,'months');
+    let fecha4 = moment().subtract(3,'months');
+    let fecha5 = moment().subtract(4,'months');
+    let fecha6 = moment().subtract(5,'months');
+    let fecha7 = moment().subtract(6,'months');
+    let fecha8 = moment().subtract(7,'months');
+    let fecha9 = moment().subtract(8,'months');
+    let fecha10 = moment().subtract(9,'months');
+    let fecha11 = moment().subtract(10,'months');
+    let fecha12 = moment().subtract(11,'months');
+    let fecha13 = moment().subtract(12,'months');
+    let fecha14 = moment().subtract(13,'months');
+    let fecha15 = moment().subtract(14,'months');
+    let fecha16 = moment().subtract(15,'months');
+    let fecha17 = moment().subtract(16,'months');
+    let fecha18 = moment().subtract(17,'months');
+    let fecha19 = moment().subtract(18,'months');
+    let fecha20 = moment().subtract(19,'months');
+    let fecha21 = moment().subtract(20,'months');
+    let fecha22 = moment().subtract(21,'months');
+    let fecha23 = moment().subtract(22,'months');
+    let fecha24 = moment().subtract(23,'months');
+    let fecha25 = moment().subtract(24,'months');
 
     let total1 = 0;
     let total2 = 0;
@@ -731,6 +787,13 @@ export class JsonDataService {
     let total16 = 0;
     let total17 = 0;
     let total18 = 0;
+    let total19 = 0;
+    let total20 = 0;
+    let total21 = 0;
+    let total22 = 0;
+    let total23 = 0;
+    let total24 = 0;
+    let total25 = 0;
     let i = 0;
     // console.log(fecha6.format('LL'));
 
@@ -859,6 +922,27 @@ export class JsonDataService {
       if (moment(fecha18).isSame(fechaFact, 'month')) {
           total18 = total18 + fac['HH Incurridas'];
       }
+      if (moment(fecha19).isSame(fechaFact, 'month')) {
+          total19 = total19 + fac['HH Incurridas'];
+      }
+      if (moment(fecha20).isSame(fechaFact, 'month')) {
+          total20 = total20 + fac['HH Incurridas'];
+      }
+      if (moment(fecha21).isSame(fechaFact, 'month')) {
+          total21 = total21 + fac['HH Incurridas'];
+      }
+      if (moment(fecha22).isSame(fechaFact, 'month')) {
+          total22 = total22 + fac['HH Incurridas'];
+      }
+      if (moment(fecha23).isSame(fechaFact, 'month')) {
+          total23 = total23 + fac['HH Incurridas'];
+      }
+      if (moment(fecha24).isSame(fechaFact, 'month')) {
+          total24 = total24 + fac['HH Incurridas'];
+      }
+      if (moment(fecha25).isSame(fechaFact, 'month')) {
+          total25 = total25 + fac['HH Incurridas'];
+      }
 
       this.jsonDataFacService['Datos Facturación'][i] = {...this.jsonDataFacService['Datos Facturación'][i],
       fecha1, total1,
@@ -879,6 +963,13 @@ export class JsonDataService {
       fecha16, total16,
       fecha17, total17,
       fecha18, total18,
+      fecha19, total19,
+      fecha20, total20,
+      fecha21, total21,
+      fecha22, total22,
+      fecha23, total23,
+      fecha24, total24,
+      fecha25, total25,
       };
       total1 = 0;
       total2 = 0;
@@ -898,6 +989,13 @@ export class JsonDataService {
       total16 = 0;
       total17 = 0;
       total18 = 0;
+      total19 = 0;
+      total20 = 0;
+      total21 = 0;
+      total22 = 0;
+      total23 = 0;
+      total24 = 0;
+      total25 = 0;
       i++;
     }
     // console.log(this.jsonDataFacService['Datos Facturación']);
