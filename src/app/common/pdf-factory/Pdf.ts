@@ -69,9 +69,9 @@ export class Pdf {
             // console.log(i);
             this.documentoPdf.addPage();
             if((imagenesPaginas.length - 1) == i || (imagenesPaginas.length - 2) == i){
-                this.documentHeigth = 6.5;
-                console.log('Ultimo');
-                this.documentoPdf.addImage(imagenesPaginas[i], 'JPEG', 1, 0.5, this.documentWidth, this.documentHeigth);
+                // this.documentHeigth = 6.5;
+                // console.log('Ultimo');
+                this.documentoPdf.addImage(imagenesPaginas[i], 'JPEG', 1, 0.5, this.documentWidth, 6.5);
             } else {
             // console.log(imagenesPaginas[i]);
             // let imagenFinal="/assets/images/generacionPPT/Slide13.PNG"
