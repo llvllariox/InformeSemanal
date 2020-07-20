@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class JsonDataService {
   infoCargada = false;
   ReqAgrupado = [];
   facAgrupado = [];
+  tablaFac = [];
   constructor() {
 
    }
@@ -50,7 +52,8 @@ export class JsonDataService {
   }
 
   consolidarArchivos() {
-
+    this.crearTablaFac();
+    return;
     this.AddEveToReq();
     this.eliminarExepcionados();
     this.AddTarToReq();
@@ -70,6 +73,8 @@ export class JsonDataService {
     this.unirReqconAgrupados();
     this.obtenerFechasQAPROD();
     this.ordenFinalARS();
+
+    // this.crearTablaFac();
     this.infoCargada = true;
 
   }
@@ -530,10 +535,10 @@ export class JsonDataService {
       for (let fac of this.facAgrupado) {
         // console.log(fac['MA'].substr(2,5));
         if (req['Nro. Req.'] ==  Number(fac['MA'].substr(2,5))) {
-          if(req['Nro. Req.'] == 2415){
-            // console.log(fac['MA'].substr(2,5));
-            // console.log(fac['HH Incurridas']);
-          }
+          // if(req['Nro. Req.'] == 2415){
+          //   // console.log(fac['MA'].substr(2,5));
+          //   // console.log(fac['HH Incurridas']);
+          // }
           let horasFact = fac['HH Incurridas'];
           this.jsonDataReqService.Requerimientos[i] = {...this.jsonDataReqService.Requerimientos[i], horasFact};
         }
@@ -550,5 +555,164 @@ export class JsonDataService {
     });
     console.log('---JSON FINAL---');
     console.log(this.jsonDataReqService.Requerimientos);
+  }
+
+  crearTablaFac(){
+
+    moment.lang('es');
+    // let now = moment();
+    let fecha1 = moment().subtract(1,'months');
+    let fecha2 = moment().subtract(2,'months');
+    let fecha3 = moment().subtract(3,'months');
+    let fecha4 = moment().subtract(4,'months');
+    let fecha5 = moment().subtract(5,'months');
+    let fecha6 = moment().subtract(6,'months');
+    let fecha7 = moment().subtract(7,'months');
+    let fecha8 = moment().subtract(8,'months');
+    let fecha9 = moment().subtract(9,'months');
+    let fecha10 = moment().subtract(10,'months');
+    let fecha11 = moment().subtract(11,'months');
+    let fecha12 = moment().subtract(11,'months');
+    let fecha13 = moment().subtract(11,'months');
+    let fecha14 = moment().subtract(11,'months');
+    let fecha15 = moment().subtract(11,'months');
+    let fecha16 = moment().subtract(11,'months');
+    let fecha17 = moment().subtract(11,'months');
+    let fecha18 = moment().subtract(11,'months');
+
+    let total1 = 0;
+    let total2 = 0;
+    let total3 = 0;
+    let total4 = 0;
+    let total5 = 0;
+    let total6 = 0;
+    let total7 = 0;
+    let total8 = 0;
+    let total9 = 0;
+    let total10 = 0;
+    let total11 = 0;
+    let total12 = 0;
+    let total13 = 0;
+    let total14 = 0;
+    let total15 = 0;
+    let total16 = 0;
+    let total17 = 0;
+    let total18 = 0;
+    let i = 0;
+    console.log(fecha1);
+
+    for (let fac of this.jsonDataFacService['Datos Facturación']) {
+
+
+      let anno = fac['Año'];
+      let mes = fac['Mes'];
+      let dia = '01';
+      let fecha = dia + '-' + mes  + '-' + anno;
+      let fechaFact = moment(fecha);
+      
+      // console.log(fecha1);
+      // console.log(fechaFact);
+      // console.log(fecha1);
+
+      if (moment(fecha1).isSame(fechaFact, 'month')) {
+          // console.log('true1');
+          total1 = total1 + fac['HH Incurridas'];
+      }
+      if (moment(fecha2).isSame(fechaFact, 'month')) {
+          // console.log('true2');
+          total2 = total2 + fac['HH Incurridas'];
+      }
+      if (moment(fecha3).isSame(fechaFact, 'month')) {
+          total3 = total3 + fac['HH Incurridas'];
+      }
+      if (moment(fecha4).isSame(fechaFact, 'month')) {
+          total4 = total4 + fac['HH Incurridas'];
+      }
+      if (moment(fecha5).isSame(fechaFact, 'month')) {
+          total5 = total5 + fac['HH Incurridas'];
+      }
+      if (moment(fecha6).isSame(fechaFact, 'month')) {
+          total6 = total6 + fac['HH Incurridas'];
+      }
+      if (moment(fecha7).isSame(fechaFact, 'month')) {
+          total7 = total7 + fac['HH Incurridas'];
+      }
+      if (moment(fecha8).isSame(fechaFact, 'month')) {
+          total8 = total8 + fac['HH Incurridas'];
+      }
+      if (moment(fecha9).isSame(fechaFact, 'month')) {
+          total9 = total9 + fac['HH Incurridas'];
+      }
+      if (moment(fecha10).isSame(fechaFact, 'month')) {
+          total10 = total10 + fac['HH Incurridas'];
+      }
+      if (moment(fecha11).isSame(fechaFact, 'month')) {
+          total11 = total11 + fac['HH Incurridas'];
+      }
+      if (moment(fecha12).isSame(fechaFact, 'month')) {
+          total12 = total12 + fac['HH Incurridas'];
+      }
+      if (moment(fecha13).isSame(fechaFact, 'month')) {
+          total13 = total13 + fac['HH Incurridas'];
+      }
+      if (moment(fecha14).isSame(fechaFact, 'month')) {
+          total14 = total14 + fac['HH Incurridas'];
+      }
+      if (moment(fecha15).isSame(fechaFact, 'month')) {
+          total15 = total15 + fac['HH Incurridas'];
+      }
+      if (moment(fecha16).isSame(fechaFact, 'month')) {
+          total16 = total16 + fac['HH Incurridas'];
+      }
+      if (moment(fecha17).isSame(fechaFact, 'month')) {
+          total17 = total17 + fac['HH Incurridas'];
+      }
+      if (moment(fecha18).isSame(fechaFact, 'month')) {
+          total18 = total18 + fac['HH Incurridas'];
+      }
+
+      this.jsonDataFacService['Datos Facturación'][i] = {...this.jsonDataFacService['Datos Facturación'][i],
+      fecha1, total1,
+      fecha2, total2,
+      fecha3, total3,
+      fecha4, total4,
+      fecha5, total5,
+      fecha6, total6,
+      fecha7, total7,
+      fecha8, total8,
+      fecha9, total9,
+      fecha10, total10,
+      fecha11, total11,
+      fecha12, total12,
+      fecha13, total13,
+      fecha14, total14,
+      fecha15, total15,
+      fecha16, total16,
+      fecha17, total17,
+      fecha18, total18,
+      };
+      total1 = 0;
+      total2 = 0;
+      total3 = 0;
+      total4 = 0;
+      total5 = 0;
+      total6 = 0;
+      total7 = 0;
+      total8 = 0;
+      total9 = 0;
+      total10 = 0;
+      total11 = 0;
+      total12 = 0;
+      total13 = 0;
+      total14 = 0;
+      total15 = 0;
+      total16 = 0;
+      total17 = 0;
+      total18 = 0;
+      i++;
+    }
+    console.log(this.jsonDataFacService['Datos Facturación']);
+    // }
+
   }
 }

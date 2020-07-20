@@ -4,6 +4,8 @@ import * as XLSX from 'xlsx';
 import { JsonDataService } from 'src/app/services/json-data.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment'; // add this 1 of 4
+
 
 
 @Component({
@@ -33,6 +35,28 @@ export class GenerarInformeComponent implements OnInit {
     this.jsonDataService.facAgrupado = [];
 
     this.crearFormulario();
+    // moment.lang('es');
+    // let now = moment();
+    // let fecha1 = moment().subtract(1,'months').format('LL');
+    // let fecha2 = moment().subtract(2,'months').format('l');
+    // let fecha3 = moment().subtract(3,'months').format('l');
+    // let fecha4 = moment().subtract(4,'months').format('l');
+    // let fecha5 = moment().subtract(5,'months').format('l');
+    // let fecha6 = moment().subtract(6,'months').format('l');
+    // let fecha7 = moment().subtract(7,'months').format('l');
+    // let fecha8 = moment().subtract(8,'months').format('l');
+    // let fecha9 = moment().subtract(9,'months').format('l');
+    // let fecha10 = moment().subtract(10,'months').format('l');
+    // let fecha11 = moment().subtract(11,'months').format('l');
+    // let fecha12 = moment().subtract(11,'months').format('l');
+    // console.log(fecha1);
+  
+    
+    // let hoy = new Date();
+    // console.log(hoy);
+    // let mes1 = hoy;
+    // let mes2 = hoy.setFullYear(hoy.getFullYear() - 1);
+    
 
   }
 
@@ -148,6 +172,21 @@ filtrarTar(jsonDataReq: any) {
       } else {
         this.filtrarReq(this.jsonDataReq);
         console.log(this.jsonDataReq);
+        let recepc = moment(this.jsonDataReq.Requerimientos[0]['Fecha Recepción']);
+        console.log(recepc.format('LL'));
+
+        let anno = '2018';
+        let mes = 'noviembre';
+        let dia = '20';
+        let fecha = dia + '-' + mes  + '-' + anno;
+        // console.log(fecha);
+        let prueba = moment(fecha);
+        console.log(prueba.format('LL'));
+        let igual = moment(fecha).isSame(recepc, 'month');
+        console.log(igual);
+    
+        // console.log(recepc);
+
       }
     };
     reader.readAsBinaryString(file);

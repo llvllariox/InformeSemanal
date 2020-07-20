@@ -19,15 +19,16 @@
         "@angular/platform-browser": "~9.0.7",
         "@angular/platform-browser-dynamic": "~9.0.7",
         "@angular/router": "~9.0.7",
+        "html-to-image": "^0.1.1",
+        "html2canvas": "^1.0.0-rc.5",
+        "jspdf": "^1.5.3",
+        "moment": "^2.27.0",
+        "pptxgenjs": "^3.2.1",
         "rxjs": "~6.5.4",
         "sweetalert2": "^9.13.1",
         "tslib": "^1.10.0",
         "xlsx": "^0.16.1",
-        "zone.js": "~0.10.2",
-        "html-to-image": "^0.1.1",
-        "html2canvas": "^1.0.0-rc.5",
-        "jspdf": "^1.5.3",
-        "pptxgenjs": "^3.2.1"
+        "zone.js": "~0.10.2"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "~0.900.7",
