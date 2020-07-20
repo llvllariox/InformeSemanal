@@ -5,6 +5,7 @@ import { SweetAlertService } from '../../services/sweet-alert.service';
 import htmlToImage from 'html-to-image';
 import { Exportador } from '../../common/exportador/Exportador';
 import html2canvas from 'html2canvas';
+import * as moment from 'moment'; // add this 1 of 4
 
 
 @Component({
@@ -20,9 +21,50 @@ export class InformesComponent implements OnInit {
   icon = '';
   exportador: Exportador;
   dimensiones = [];
+  fecha1 = '';
+  fecha2 = '';
+  fecha3 = '';
+  fecha4 = '';
+  fecha5 = '';
+  fecha6 = '';
+  fecha7 = '';
+  fecha8 = '';
+  fecha9 = '';
+  fecha10 = '';
+  fecha11 = '';
+  fecha12 = '';
+  fecha13 = '';
+  fecha14 = '';
+  fecha15 = '';
+  fecha16 = '';
+  fecha17 = '';
+  fecha18 = '';
 
 
   constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService) {
+
+    moment.lang('es');
+    this.fecha1 = moment().subtract(1,'months').format('YYYY-MM');
+    this.fecha2 = moment().subtract(2,'months').format('YYYY-MM');
+    this.fecha3 = moment().subtract(3,'months').format('YYYY-MM');
+    this.fecha4 = moment().subtract(4,'months').format('YYYY-MM');
+    this.fecha5 = moment().subtract(5,'months').format('YYYY-MM');
+    this.fecha6 = moment().subtract(6,'months').format('YYYY-MM');
+    this.fecha7 = moment().subtract(7,'months').format('YYYY-MM');
+    this.fecha8 = moment().subtract(8,'months').format('YYYY-MM');
+    this.fecha9 = moment().subtract(9,'months').format('YYYY-MM');
+    this.fecha10 = moment().subtract(10,'months').format('YYYY-MM');
+    this.fecha11 = moment().subtract(11,'months').format('YYYY-MM');
+    this.fecha12 = moment().subtract(12,'months').format('YYYY-MM');
+    this.fecha13 = moment().subtract(13,'months').format('YYYY-MM');
+    this.fecha14 = moment().subtract(14,'months').format('YYYY-MM');
+    this.fecha15 = moment().subtract(15,'months').format('YYYY-MM');
+    this.fecha16 = moment().subtract(16,'months').format('YYYY-MM');
+    this.fecha17 = moment().subtract(17,'months').format('YYYY-MM');
+    this.fecha18 = moment().subtract(18,'months').format('YYYY-MM');
+    // let now = moment();
+    
+
     this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend');
     if (this.jsonDataService.jsonDataReqService!== undefined) {
     this.jsonDataReqInf = this.jsonDataService.getJsonDataReqService();

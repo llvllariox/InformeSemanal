@@ -35,6 +35,7 @@ export class GenerarInformeComponent implements OnInit {
     this.jsonDataService.facAgrupado = [];
 
     this.crearFormulario();
+    
     // moment.lang('es');
     // let now = moment();
     // let fecha1 = moment().subtract(1,'months').format('LL');
