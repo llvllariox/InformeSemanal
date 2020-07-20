@@ -53,7 +53,7 @@ export class JsonDataService {
 
   consolidarArchivos() {
     this.crearTablaFac();
-    return;
+    // return;
     this.AddEveToReq();
     this.eliminarExepcionados();
     this.AddTarToReq();
@@ -64,6 +64,7 @@ export class JsonDataService {
     // return;
     this.crearHorasFact();
     this.facSumarMA();
+    // return;
     this.facAgregarReq();
     this.groupReqOrigen();
     
@@ -261,6 +262,44 @@ export class JsonDataService {
 
     for (let req of this.jsonDataReqService.Requerimientos) {
       req['horasFact'] = 0;
+      req.fecha1 = moment().subtract(1,'months');
+      req.fecha2 = moment().subtract(2,'months');
+      req.fecha3 = moment().subtract(3,'months');
+      req.fecha4 = moment().subtract(4,'months');
+      req.fecha5 = moment().subtract(5,'months');
+      req.fecha6 = moment().subtract(6,'months');
+      req.fecha7 = moment().subtract(7,'months');
+      req.fecha8 = moment().subtract(8,'months');
+      req.fecha9 = moment().subtract(9,'months');
+      req.fecha10 = moment().subtract(10,'months');
+      req.fecha11 = moment().subtract(11,'months');
+      req.fecha12 = moment().subtract(11,'months');
+      req.fecha13 = moment().subtract(11,'months');
+      req.fecha14 = moment().subtract(11,'months');
+      req.fecha15 = moment().subtract(11,'months');
+      req.fecha16 = moment().subtract(11,'months');
+      req.fecha17 = moment().subtract(11,'months');
+      req.fecha18 = moment().subtract(11,'months');
+
+      req.total1 = 0;
+      req.total2 = 0;
+      req.total3 = 0;
+      req.total4 = 0;
+      req.total5 = 0;
+      req.total6 = 0;
+      req.total7 = 0;
+      req.total8 = 0;
+      req.total9 = 0;
+      req.total10 = 0;
+      req.total11 = 0;
+      req.total12 = 0;
+      req.total13 = 0;
+      req.total14 = 0;
+      req.total15 = 0;
+      req.total16 = 0;
+      req.total17 = 0;
+      req.total18 = 0;
+
     }
   }
 
@@ -355,6 +394,24 @@ export class JsonDataService {
           // }
 
           Reqpadre['horasFact'] = Number(Reqpadre['horasFact']) + Number(req['horasFact']);
+          Reqpadre['total1'] = Number(Reqpadre['total1']) + Number(req['total1']);
+          Reqpadre['total2'] = Number(Reqpadre['total2']) + Number(req['total2']);
+          Reqpadre['total3'] = Number(Reqpadre['total3']) + Number(req['total3']);
+          Reqpadre['total4'] = Number(Reqpadre['total4']) + Number(req['total4']);
+          Reqpadre['total5'] = Number(Reqpadre['total5']) + Number(req['total5']);
+          Reqpadre['total6'] = Number(Reqpadre['total6']) + Number(req['total6']);
+          Reqpadre['total7'] = Number(Reqpadre['total7']) + Number(req['total7']);
+          Reqpadre['total8'] = Number(Reqpadre['total8']) + Number(req['total8']);
+          Reqpadre['total9'] = Number(Reqpadre['total9']) + Number(req['total9']);
+          Reqpadre['total10'] = Number(Reqpadre['total10']) + Number(req['total10']);
+          Reqpadre['total11'] = Number(Reqpadre['total11']) + Number(req['total11']);
+          Reqpadre['total12'] = Number(Reqpadre['total12']) + Number(req['total12']);
+          Reqpadre['total13'] = Number(Reqpadre['total13']) + Number(req['total13']);
+          Reqpadre['total14'] = Number(Reqpadre['total14']) + Number(req['total14']);
+          Reqpadre['total15'] = Number(Reqpadre['total15']) + Number(req['total15']);
+          Reqpadre['total16'] = Number(Reqpadre['total16']) + Number(req['total16']);
+          Reqpadre['total17'] = Number(Reqpadre['total17']) + Number(req['total17']);
+          Reqpadre['total18'] = Number(Reqpadre['total18']) + Number(req['total18']);
 
           ultEtapa = req['Etapa'];
           ultLD = req['Solicitante'];
@@ -521,6 +578,24 @@ export class JsonDataService {
         facpadre = fac;
       } else {
         facpadre['HH Incurridas'] = Number(facpadre['HH Incurridas']) + Number(fac['HH Incurridas']);
+        facpadre['total1'] =  Number(facpadre['total1']) +  Number(fac['total1']);
+        facpadre['total2'] =  Number(facpadre['total2']) +  Number(fac['total2']);
+        facpadre['total3'] =  Number(facpadre['total3']) +  Number(fac['total3']);
+        facpadre['total4'] =  Number(facpadre['total4']) +  Number(fac['total4']);
+        facpadre['total5'] =  Number(facpadre['total5']) +  Number(fac['total5']);
+        facpadre['total6'] =  Number(facpadre['total6']) +  Number(fac['total6']);
+        facpadre['total7'] =  Number(facpadre['total7']) +  Number(fac['total7']);
+        facpadre['total8'] =  Number(facpadre['total8']) +  Number(fac['total8']);
+        facpadre['total9'] =  Number(facpadre['total9']) +  Number(fac['total9']);
+        facpadre['total10'] =  Number(facpadre['total10']) +  Number(fac['total10']);
+        facpadre['total11'] =  Number(facpadre['total11']) +  Number(fac['total11']);
+        facpadre['total12'] =  Number(facpadre['total12']) +  Number(fac['total12']);
+        facpadre['total13'] =  Number(facpadre['total13']) +  Number(fac['total13']);
+        facpadre['total14'] =  Number(facpadre['total14']) +  Number(fac['total14']);
+        facpadre['total15'] =  Number(facpadre['total15']) +  Number(fac['total15']);
+        facpadre['total16'] =  Number(facpadre['total16']) +  Number(fac['total16']);
+        facpadre['total17'] =  Number(facpadre['total17']) +  Number(fac['total17']);
+        facpadre['total18'] =  Number(facpadre['total18']) +  Number(fac['total18']);
       }
 
     }
@@ -540,7 +615,65 @@ export class JsonDataService {
           //   // console.log(fac['HH Incurridas']);
           // }
           let horasFact = fac['HH Incurridas'];
-          this.jsonDataReqService.Requerimientos[i] = {...this.jsonDataReqService.Requerimientos[i], horasFact};
+
+          let fecha1 = fac.fecha1;
+          let fecha2 = fac.fecha2;
+          let fecha3 = fac.fecha3;
+          let fecha4 = fac.fecha4;
+          let fecha5 = fac.fecha5;
+          let fecha6 = fac.fecha6;
+          let fecha7 = fac.fecha7;
+          let fecha8 = fac.fecha8;
+          let fecha9 = fac.fecha9;
+          let fecha10 = fac.fecha10;
+          let fecha11 = fac.fecha11;
+          let fecha12 = fac.fecha12;
+          let fecha13 = fac.fecha13;
+          let fecha14 = fac.fecha14;
+          let fecha15 = fac.fecha15;
+          let fecha16 = fac.fecha16;
+          let fecha17 = fac.fecha17;
+          let fecha18 = fac.fecha18;
+
+          let total1 = fac.total1;
+          let total2 = fac.total2;
+          let total3 = fac.total3;
+          let total4 = fac.total4;
+          let total5 = fac.total5;
+          let total6 = fac.total6;
+          let total7 = fac.total7;
+          let total8 = fac.total8;
+          let total9 = fac.total9;
+          let total10 = fac.total10;
+          let total11 = fac.total11;
+          let total12 = fac.total12;
+          let total13 = fac.total13;
+          let total14 = fac.total14;
+          let total15 = fac.total15;
+          let total16 = fac.total16;
+          let total17 = fac.total17;
+          let total18 = fac.total18;
+          
+          this.jsonDataReqService.Requerimientos[i] = {...this.jsonDataReqService.Requerimientos[i], horasFact,
+            fecha1, total1,
+            fecha2, total2,
+            fecha3, total3,
+            fecha4, total4,
+            fecha5, total5,
+            fecha6, total6,
+            fecha7, total7,
+            fecha8, total8,
+            fecha9, total9,
+            fecha10, total10,
+            fecha11, total11,
+            fecha12, total12,
+            fecha13, total13,
+            fecha14, total14,
+            fecha15, total15,
+            fecha16, total16,
+            fecha17, total17,
+            fecha18, total18,
+          };
         }
 
       }
@@ -572,13 +705,13 @@ export class JsonDataService {
     let fecha9 = moment().subtract(9,'months');
     let fecha10 = moment().subtract(10,'months');
     let fecha11 = moment().subtract(11,'months');
-    let fecha12 = moment().subtract(11,'months');
-    let fecha13 = moment().subtract(11,'months');
-    let fecha14 = moment().subtract(11,'months');
-    let fecha15 = moment().subtract(11,'months');
-    let fecha16 = moment().subtract(11,'months');
-    let fecha17 = moment().subtract(11,'months');
-    let fecha18 = moment().subtract(11,'months');
+    let fecha12 = moment().subtract(12,'months');
+    let fecha13 = moment().subtract(13,'months');
+    let fecha14 = moment().subtract(14,'months');
+    let fecha15 = moment().subtract(15,'months');
+    let fecha16 = moment().subtract(16,'months');
+    let fecha17 = moment().subtract(17,'months');
+    let fecha18 = moment().subtract(18,'months');
 
     let total1 = 0;
     let total2 = 0;
@@ -599,20 +732,74 @@ export class JsonDataService {
     let total17 = 0;
     let total18 = 0;
     let i = 0;
-    console.log(fecha1);
+    // console.log(fecha6.format('LL'));
 
     for (let fac of this.jsonDataFacService['Datos Facturación']) {
 
 
       let anno = fac['Año'];
       let mes = fac['Mes'];
+      let mesNum = 0;
+
+      switch (mes) {
+        case 'Enero':
+          mesNum = 1;
+          break;
+        case 'Febrero':
+          mesNum = 2;
+          break;
+        case 'Marzo':
+          mesNum = 3;
+          break;
+        case 'Abril':
+          mesNum = 4;
+          break;
+        case 'Mayo':
+          mesNum = 5;
+          break;
+        case 'Junio':
+          mesNum = 6;
+          break;
+        case 'Julio':
+          mesNum = 7;
+          break;
+        case 'Agosto':
+          mesNum = 8;
+          break;
+        case 'Septiembre':
+          mesNum = 9;
+          break;
+        case 'Octubre':
+          mesNum = 10;
+          break;
+        case 'Noviembre':
+          mesNum = 11;
+          break;
+        case 'Diciembre':
+          mesNum = 12;
+          break;
+      }
+
+
       let dia = '01';
-      let fecha = dia + '-' + mes  + '-' + anno;
+      // let fecha = dia + '-' + '12'  + '-' + anno;
+      let fecha = mesNum + '-' + dia + '-' + anno;
       let fechaFact = moment(fecha);
       
       // console.log(fecha1);
       // console.log(fechaFact);
       // console.log(fecha1);
+      // if (fac['Nombre Requerimiento'] == 'MA01842 - Proyecto Servicios PSP Portal CC ABM de PSP'){
+      //     // console.log('-------------');
+      //     // console.log(anno);
+      //     // console.log(mes);
+      //     // console.log(dia);
+      //     // console.log(fecha);
+      //     // console.log('fechaFact', fechaFact.format('LL'));
+      //     // console.log('fecha6', fecha6.format('LL'));
+      //     // console.log('-------------');
+          
+      // }
 
       if (moment(fecha1).isSame(fechaFact, 'month')) {
           // console.log('true1');
@@ -623,6 +810,7 @@ export class JsonDataService {
           total2 = total2 + fac['HH Incurridas'];
       }
       if (moment(fecha3).isSame(fechaFact, 'month')) {
+         
           total3 = total3 + fac['HH Incurridas'];
       }
       if (moment(fecha4).isSame(fechaFact, 'month')) {
@@ -632,6 +820,7 @@ export class JsonDataService {
           total5 = total5 + fac['HH Incurridas'];
       }
       if (moment(fecha6).isSame(fechaFact, 'month')) {
+        // console.log('true6', i);
           total6 = total6 + fac['HH Incurridas'];
       }
       if (moment(fecha7).isSame(fechaFact, 'month')) {
@@ -711,7 +900,7 @@ export class JsonDataService {
       total18 = 0;
       i++;
     }
-    console.log(this.jsonDataFacService['Datos Facturación']);
+    // console.log(this.jsonDataFacService['Datos Facturación']);
     // }
 
   }

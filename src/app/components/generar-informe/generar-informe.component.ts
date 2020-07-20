@@ -171,19 +171,19 @@ filtrarTar(jsonDataReq: any) {
         this.jsonDataReq = null;
       } else {
         this.filtrarReq(this.jsonDataReq);
-        console.log(this.jsonDataReq);
-        let recepc = moment(this.jsonDataReq.Requerimientos[0]['Fecha Recepción']);
-        console.log(recepc.format('LL'));
+        // console.log(this.jsonDataReq);
+        // let recepc = moment(this.jsonDataReq.Requerimientos[0]['Fecha Recepción']);
+        // console.log(recepc.format('LL'));
 
-        let anno = '2018';
-        let mes = 'noviembre';
-        let dia = '20';
-        let fecha = dia + '-' + mes  + '-' + anno;
-        // console.log(fecha);
-        let prueba = moment(fecha);
-        console.log(prueba.format('LL'));
-        let igual = moment(fecha).isSame(recepc, 'month');
-        console.log(igual);
+        // let anno = '2018';
+        // let mes = 'noviembre';
+        // let dia = '20';
+        // let fecha = dia + '-' + mes  + '-' + anno;
+        // // console.log(fecha);
+        // let prueba = moment(fecha);
+        // console.log(prueba.format('LL'));
+        // let igual = moment(fecha).isSame(recepc, 'month');
+        // console.log(igual);
     
         // console.log(recepc);
 
