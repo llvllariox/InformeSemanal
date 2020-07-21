@@ -15,7 +15,7 @@ import { FechasPipe } from './pipes/fechas.pipe';
     InformesComponent,
     NavbarComponent,
     GenerarInformeComponent,
-    FechasPipe
+    FechasPipe,
   ],
   imports: [
     BrowserModule,

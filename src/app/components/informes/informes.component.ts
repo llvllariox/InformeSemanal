@@ -146,7 +146,7 @@ export class InformesComponent implements OnInit {
               b.textContent  = `${this.contProgress.toString()} de ${this.JsonArray.length + 2} Hojas` ;
             }
           }
-        }, 100)
+        }, 100);
       },
       onClose: () => {
         clearInterval(timerInterval)
@@ -218,7 +218,7 @@ export class InformesComponent implements OnInit {
         .then(canvas => {
           // console.log(canvas.toDataURL('image/jpeg'));
           this.contProgress = this.contProgress + 1;
-          console.log(this.contProgress);
+          // console.log(this.contProgress);
           resolve(canvas.toDataURL('image/jpeg'));
 
         }).catch(error => {
