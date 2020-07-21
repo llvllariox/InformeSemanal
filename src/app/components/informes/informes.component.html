@@ -200,18 +200,13 @@
             </div>
         </div>
     </div>
-    <div class="div mb-5" id="tareas">
-        <table class="table table-striped">
+    <div class="div mb-5" id="tareas" *ngFor="let arr of tablaFac">
+        <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th class="small font-weight-bold" scope="col">#</th>
+                    <!-- <th class="small font-weight-bold" scope="col">#</th> -->
                     <th class="small font-weight-bold" scope="col">Requerimiento</th>
-                    <!-- <th class="small font-weight-bold" scope="col">{{fecha18}}</th>
-                    <th class="small font-weight-bold" scope="col">{{fecha17}}</th>
-                    <th class="small font-weight-bold" scope="col">{{fecha16}}</th>
-                    <th class="small font-weight-bold" scope="col">{{fecha15}}</th>
-                    <th class="small font-weight-bold" scope="col">{{fecha14}}</th>
-                    <th class="small font-weight-bold" scope="col">{{fecha13}}</th> -->
+
                     <th class=" font-weight-bold" scope="col">
                         <</th>
                             <th class="small font-weight-bold" scope="col">{{fecha12}}</th>
@@ -230,15 +225,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let ars of JsonArray|slice:0-20; let i=index">
-                    <th class="small" scope="row">{{i+1}}</th>
+                <tr *ngFor="let ars of arr; let i=index">
+                    <!-- <th class="small" scope="row">{{i+1}}</th> -->
                     <td class="small">{{ars['Descripción']}}</td>
-                    <!-- <td class="small">{{ars.total18}}</td>
-                    <td class="small">{{ars.total17}}</td>
-                    <td class="small">{{ars.total16}}</td>
-                    <td class="small">{{ars.total15}}</td>
-                    <td class="small">{{ars.total14}}</td>
-                    <td class="small">{{ars.total13}}</td> -->
+
                     <td class="small">{{ars.total13 + ars.total14 + ars.total15 + ars.total16 + ars.total17 + ars.total18 + ars.total19 + ars.total20 + ars.total21 + ars.total22 + ars.total23 + ars.total24 + ars.total25}}</td>
                     <td class="small">{{ars.total12}}</td>
                     <td class="small">{{ars.total11}}</td>
@@ -252,8 +242,7 @@
                     <td class="small">{{ars.total3}}</td>
                     <td class="small">{{ars.total2}}</td>
                     <td class="small">{{ars.total1}}</td>
-                    <!-- <td class="small font-weight-bold">{{ars.total1 + ars.total2 + ars.total3 + ars.total4 + ars.total5 + ars.total6 + ars.total7 + ars.total8 + ars.total9 + ars.total10 + ars.total11 + ars.total12}}
-                    </td> -->
+
                     <td class="small font-weight-bold">{{ars.total1 + ars.total2 + ars.total3 + ars.total4 + ars.total5 + ars.total6 + ars.total7 + ars.total8 + ars.total9 + ars.total10 + ars.total11 + ars.total12 + ars.total13 + ars.total14 + ars.total15 + ars.total16 + ars.total17 +
                         ars.total18 + ars.total19 + ars.total20 + ars.total21 + ars.total22 + ars.total23 + ars.total24 + ars.total25 }}
                     </td>
@@ -261,18 +250,13 @@
             </tbody>
         </table>
     </div>
-    <div class="div mb-5" id="tareas">
+    <!-- <div class="div mb-5" id="tareas">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th class="small font-weight-bold" scope="col">#</th>
                     <th class="small font-weight-bold" scope="col">Requerimiento</th>
-                    <!-- <th class="small font-weight-bold" scope="col">{{fecha18}}</th>
-                    <th class="small font-weight-bold" scope="col">{{fecha17}}</th>
-                    <th class="small font-weight-bold" scope="col">{{fecha16}}</th>
-                    <th class="small font-weight-bold" scope="col">{{fecha15}}</th>
-                    <th class="small font-weight-bold" scope="col">{{fecha14}}</th>
-                    <th class="small font-weight-bold" scope="col">{{fecha13}}</th> -->
+                    
                     <th class=" font-weight-bold" scope="col">
                         <</th>
                             <th class="small font-weight-bold" scope="col">{{fecha12}}</th>
@@ -294,12 +278,7 @@
                 <tr *ngFor="let ars of JsonArray|slice:21; let i=index">
                     <th class="small" scope="row">{{i+21}}</th>
                     <td class="small">{{ars['Descripción']}}</td>
-                    <!-- <td class="small">{{ars.total18}}</td>
-                    <td class="small">{{ars.total17}}</td>
-                    <td class="small">{{ars.total16}}</td>
-                    <td class="small">{{ars.total15}}</td>
-                    <td class="small">{{ars.total14}}</td>
-                    <td class="small">{{ars.total13}}</td> -->
+                   
                     <td class="small">{{ars.total13 + ars.total14 + ars.total15 + ars.total16 + ars.total17 + ars.total18 + ars.total19 + ars.total20 + ars.total21 + ars.total22 + ars.total23 + ars.total24 + ars.total25}}</td>
                     <td class="small">{{ars.total12}}</td>
                     <td class="small">{{ars.total11}}</td>
@@ -313,13 +292,11 @@
                     <td class="small">{{ars.total3}}</td>
                     <td class="small">{{ars.total2}}</td>
                     <td class="small">{{ars.total1}}</td>
-                    <!-- <td class="small font-weight-bold">{{ars.total1 + ars.total2 + ars.total3 + ars.total4 + ars.total5 + ars.total6 + ars.total7 + ars.total8 + ars.total9 + ars.total10 + ars.total11 + ars.total12}}
-                    </td> -->
                     <td class="small font-weight-bold">{{ars.total1 + ars.total2 + ars.total3 + ars.total4 + ars.total5 + ars.total6 + ars.total7 + ars.total8 + ars.total9 + ars.total10 + ars.total11 + ars.total12 + ars.total13 + ars.total14 + ars.total15 + ars.total16 + ars.total17 +
                         ars.total18 + ars.total19 + ars.total20 + ars.total21 + ars.total22 + ars.total23 + ars.total24 + ars.total25 }}
                     </td>
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div> -->
 </div>

@@ -14,7 +14,7 @@ export class JsonDataService {
   infoCargada = false;
   ReqAgrupado = [];
   facAgrupado = [];
-  tablaFac = [];
+  // tablaFac = [];
   constructor() {
 
    }
@@ -74,6 +74,7 @@ export class JsonDataService {
     this.unirReqconAgrupados();
     this.obtenerFechasQAPROD();
     this.ordenFinalARS();
+    // this.tablasFac();
 
     // this.crearTablaFac();
     this.infoCargada = true;
@@ -1002,4 +1003,18 @@ export class JsonDataService {
     // }
 
   }
+
+  // tablasFac() {
+  //   // this.tablaFac = this.jsonDataReqService;
+  //   let div = Math.ceil(this.jsonDataReqService.length / 3);
+  //   console.log(div);
+  //   // console.log(this.jsonDataReqService.Requerimientos.length);
+  //   for (let i = 0; i < this.jsonDataReqService.Requerimientos.length; i += div) {
+  //    let pedazo = this.jsonDataReqService.Requerimientos.slice(i, i + div);
+  //    this.tablaFac.push(pedazo);
+  //   }
+  //   console.log("Arreglo de arreglos: ", this.tablaFac);
+
+
+  // }
 }

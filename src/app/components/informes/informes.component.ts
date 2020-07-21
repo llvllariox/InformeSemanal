@@ -47,61 +47,82 @@ export class InformesComponent implements OnInit {
   fecha24 = '';
   fecha25 = '';
 
+  tablaFac= [];
+
 
   constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService) {
 
     moment.lang('es');
-    this.fecha1 = moment().format('YYYY-MM');
-    this.fecha2 = moment().subtract(1,'months').format('YYYY-MM');
-    this.fecha3 = moment().subtract(2,'months').format('YYYY-MM');
-    this.fecha4 = moment().subtract(3,'months').format('YYYY-MM');
-    this.fecha5 = moment().subtract(4,'months').format('YYYY-MM');
-    this.fecha6 = moment().subtract(5,'months').format('YYYY-MM');
-    this.fecha7 = moment().subtract(6,'months').format('YYYY-MM');
-    this.fecha8 = moment().subtract(7,'months').format('YYYY-MM');
-    this.fecha9 = moment().subtract(8,'months').format('YYYY-MM');
-    this.fecha10 = moment().subtract(9,'months').format('YYYY-MM');
-    this.fecha11 = moment().subtract(10,'months').format('YYYY-MM');
-    this.fecha12 = moment().subtract(11,'months').format('YYYY-MM');
-    this.fecha13 = moment().subtract(12,'months').format('YYYY-MM');
-    this.fecha14 = moment().subtract(13,'months').format('YYYY-MM');
-    this.fecha15 = moment().subtract(14,'months').format('YYYY-MM');
-    this.fecha16 = moment().subtract(15,'months').format('YYYY-MM');
-    this.fecha17 = moment().subtract(16,'months').format('YYYY-MM');
-    this.fecha18 = moment().subtract(17,'months').format('YYYY-MM');
-    this.fecha19 = moment().subtract(18,'months').format('YYYY-MM');
-    this.fecha20 = moment().subtract(19,'months').format('YYYY-MM');
-    this.fecha21 = moment().subtract(20,'months').format('YYYY-MM');
-    this.fecha22 = moment().subtract(21,'months').format('YYYY-MM');
-    this.fecha23 = moment().subtract(22,'months').format('YYYY-MM');
-    this.fecha24 = moment().subtract(23,'months').format('YYYY-MM');
-    this.fecha25 = moment().subtract(24,'months').format('YYYY-MM');
+    this.fecha1 = moment().format('MM/YY');
+    this.fecha2 = moment().subtract(1,'months').format('MM/YY');
+    this.fecha3 = moment().subtract(2,'months').format('MM/YY');
+    this.fecha4 = moment().subtract(3,'months').format('MM/YY');
+    this.fecha5 = moment().subtract(4,'months').format('MM/YY');
+    this.fecha6 = moment().subtract(5,'months').format('MM/YY');
+    this.fecha7 = moment().subtract(6,'months').format('MM/YY');
+    this.fecha8 = moment().subtract(7,'months').format('MM/YY');
+    this.fecha9 = moment().subtract(8,'months').format('MM/YY');
+    this.fecha10 = moment().subtract(9,'months').format('MM/YY');
+    this.fecha11 = moment().subtract(10,'months').format('MM/YY');
+    this.fecha12 = moment().subtract(11,'months').format('MM/YY');
+    this.fecha13 = moment().subtract(12,'months').format('MM/YY');
+    this.fecha14 = moment().subtract(13,'months').format('MM/YY');
+    this.fecha15 = moment().subtract(14,'months').format('MM/YY');
+    this.fecha16 = moment().subtract(15,'months').format('MM/YY');
+    this.fecha17 = moment().subtract(16,'months').format('MM/YY');
+    this.fecha18 = moment().subtract(17,'months').format('MM/YY');
+    this.fecha19 = moment().subtract(18,'months').format('MM/YY');
+    this.fecha20 = moment().subtract(19,'months').format('MM/YY');
+    this.fecha21 = moment().subtract(20,'months').format('MM/YY');
+    this.fecha22 = moment().subtract(21,'months').format('MM/YY');
+    this.fecha23 = moment().subtract(22,'months').format('MM/YY');
+    this.fecha24 = moment().subtract(23,'months').format('MM/YY');
+    this.fecha25 = moment().subtract(24,'months').format('MM/YY');
     // let now = moment();
-    
 
-    this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend');
+
+    //  this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend');
     if (this.jsonDataService.jsonDataReqService!== undefined) {
     this.jsonDataReqInf = this.jsonDataService.getJsonDataReqService();
     this.route.params.subscribe(params => {
       this.paramSeg = params['segmento'];
       if (this.paramSeg =='BO') {
+        this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backoffice');
         this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-          this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backoffice');
           return a['Área'] === 'Segmento Backoffice';
         });
+        this.tablasFac();
       } else if (this.paramSeg =='BE') {
+        this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend');
         this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-          this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend');
           return a['Área'] === 'Segmento Backend' || a['Área'] === 'Nuevo Backend Crédito';
         });
+        this.tablasFac();
       } else {
+        this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Plataforma de Integración');
         this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-          this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Plataforma de Integración');
           return a['Área'] === 'Plataforma de Integración';
         });
+        this.tablasFac();
       }
     });
+
+   
   }
+  }
+
+  tablasFac(){
+  this.tablaFac = [];
+  let div = Math.ceil(this.JsonArray.length / 3);
+  // console.log(div);
+  // console.log(this.JsonArray.Requerimientos.length);
+  for (let i = 0; i < this.JsonArray.length; i += div) {
+    let pedazo = this.JsonArray.slice(i, i + div);
+    this.tablaFac.push(pedazo);
+  }
+  // console.log(this.tablaFac.length);
+  // console.log("TablaFac ", this.tablaFac);
+
   }
 
   async generarPDF() {

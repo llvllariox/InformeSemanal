@@ -68,7 +68,7 @@ export class Pdf {
         for (let i = 0; i < imagenesPaginas.length; i++) {
             // console.log(i);
             this.documentoPdf.addPage();
-            if((imagenesPaginas.length - 1) == i || (imagenesPaginas.length - 2) == i){
+            if((imagenesPaginas.length - 1) == i || (imagenesPaginas.length - 2) == i || (imagenesPaginas.length - 3) == i){
                 // this.documentHeigth = 6.5;
                 // console.log('Ultimo');
                 this.documentoPdf.addImage(imagenesPaginas[i], 'JPEG', 1, 0.5, this.documentWidth, 6.5);
