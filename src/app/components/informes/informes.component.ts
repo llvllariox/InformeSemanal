@@ -6,6 +6,7 @@ import htmlToImage from 'html-to-image';
 import { Exportador } from '../../common/exportador/Exportador';
 import html2canvas from 'html2canvas';
 import * as moment from 'moment'; // add this 1 of 4
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -48,7 +49,7 @@ export class InformesComponent implements OnInit {
   fecha25 = '';
 
   tablaFac= [];
-
+  contProgress = 0;
 
   constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService) {
 
@@ -126,7 +127,37 @@ export class InformesComponent implements OnInit {
   }
 
   async generarPDF() {
-    this.sweetAlerService.mensajeEsperar();
+    this.contProgress = 0;
+    // this.sweetAlerService.mensajeEsperar();
+    let timerInterval;
+    Swal.fire({
+      title: 'Generando PDF...',
+      // html: 'I will close in <b></b> milliseconds.',
+      html: `Generando <b></b>`,
+      timer: this.imagnesDeTareas.length,
+      timerProgressBar: true,
+      onBeforeOpen: () => {
+        Swal.showLoading();
+        timerInterval = setInterval(() => {
+          const content = Swal.getContent();
+          if (content) {
+            const b = content.querySelector('b');
+            if (b) {
+              b.textContent  = `${this.contProgress.toString()} de ${this.JsonArray.length + 2} Hojas` ;
+            }
+          }
+        }, 100)
+      },
+      onClose: () => {
+        clearInterval(timerInterval)
+      }
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        // console.log('I was closed by the timer')
+      }
+    })
+
     let imagenes = await this.imagnesDeTareas();
     this.exportador.exportarPDF(imagenes, this.dimensiones);
     this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
@@ -134,14 +165,15 @@ export class InformesComponent implements OnInit {
   }
 
 
-  async generarPPT() {
-    this.sweetAlerService.mensajeEsperar();
-    let imagenes = await this.imagnesDeTareas().then(
-      resp => this.exportador.exportarPPT(imagenes)
-    );
-    this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
+  // async generarPPT() {
+  //   this.sweetAlerService.mensajeEsperar();
+  //   let imagenes = await this.imagnesDeTareas().then(
+  //     resp => this.exportador.exportarPPT(imagenes)
+  //   );
+  //   this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
 
-  }
+  // }
+
   async imagnesDeTareas() {
     let elements:any = document.querySelectorAll('#tareas')
     let imagenes = [];
@@ -164,18 +196,18 @@ export class InformesComponent implements OnInit {
   }
 
 
-  async generarImagenFromDiv(divElement) {
-    return new Promise((resolve, reject) => {
+  // async generarImagenFromDiv(divElement) {
+  //   return new Promise((resolve, reject) => {
 
-      htmlToImage.toPng(divElement)
-        .then(dataUrl => {
-          // console.log(dataUrl);
-          resolve(dataUrl);
-        }).catch(err => {
-          reject('error al generar imagen desde div');
-        });
-    })
-  }
+  //     htmlToImage.toPng(divElement)
+  //       .then(dataUrl => {
+  //         // console.log(dataUrl);
+  //         resolve(dataUrl);
+  //       }).catch(err => {
+  //         reject('error al generar imagen desde div');
+  //       });
+  //   })
+  // }
 
   
 
@@ -185,6 +217,8 @@ export class InformesComponent implements OnInit {
         height: divElement.clientHeight})
         .then(canvas => {
           // console.log(canvas.toDataURL('image/jpeg'));
+          this.contProgress = this.contProgress + 1;
+          console.log(this.contProgress);
           resolve(canvas.toDataURL('image/jpeg'));
 
         }).catch(error => {
