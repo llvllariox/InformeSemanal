@@ -114,16 +114,21 @@ export class InformesComponent implements OnInit {
 
   tablasFac(){
   this.tablaFac = [];
-  let div = Math.ceil(this.JsonArray.length / 3);
-  // console.log(div);
-  // console.log(this.JsonArray.Requerimientos.length);
-  for (let i = 0; i < this.JsonArray.length; i += div) {
-    let pedazo = this.JsonArray.slice(i, i + div);
-    this.tablaFac.push(pedazo);
-  }
-  // console.log(this.tablaFac.length);
-  // console.log("TablaFac ", this.tablaFac);
-
+  // if (this.JsonArray.length < 20) {
+  this.tablaFac.push(this.JsonArray);
+  // } 
+  // else {
+  //   let div = Math.ceil(this.JsonArray.length / 2);
+  //   // let div = Math.ceil(this.JsonArray.length / 3);
+  //   // console.log(div);
+  //   // console.log(this.JsonArray.Requerimientos.length);
+  //   for (let i = 0; i < this.JsonArray.length; i += div) {
+  //     let pedazo = this.JsonArray.slice(i, i + div);
+  //     this.tablaFac.push(pedazo);
+  //   }
+  //   // console.log(this.tablaFac.length);
+  //   // console.log("TablaFac ", this.tablaFac);
+  // }
   }
 
   async generarPDF() {
@@ -190,7 +195,9 @@ export class InformesComponent implements OnInit {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < elements.length; i++) {
       this.dimensiones.push({widht: elements[i].clientWidth, height: elements[i].clientHeight});
+     
     }
+    console.log(this.dimensiones);
 
     return imagenes;
   }

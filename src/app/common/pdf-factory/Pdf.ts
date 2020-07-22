@@ -64,26 +64,38 @@ export class Pdf {
     generarPaginas(imagenesPaginas: string[], dimensiones: any[]) {
         // console.log(imagenesPaginas);
         // console.log(dimensiones);
-        console.log(imagenesPaginas.length);
+        // console.log(imagenesPaginas.length);
         for (let i = 0; i < imagenesPaginas.length; i++) {
             // console.log(i);
-            this.documentoPdf.addPage();
-            if((imagenesPaginas.length - 1) == i || (imagenesPaginas.length - 2) == i || (imagenesPaginas.length - 3) == i){
+            // this.documentoPdf.addPage();
+            if((imagenesPaginas.length - 1) == i ){
+                // console.log('portrait');
+                // console.log(i);
+                let Wtabla = this.documentWidth * 72;
+                let HTabla = Number(dimensiones[i]['height']);
+                // console.log(dimensiones[i]);
+                // console.log(HTabla);
+                let HTablaIN = (HTabla / 72) - 1;
+                this.documentoPdf.addPage(Wtabla, HTabla);
+            // if((imagenesPaginas.length - 1) == i || (imagenesPaginas.length - 2) == i || (imagenesPaginas.length - 3) == i){
                 // this.documentHeigth = 6.5;
                 // console.log('Ultimo');
-                this.documentoPdf.addImage(imagenesPaginas[i], 'JPEG', 1, 0.5, this.documentWidth, 6.5);
+                this.documentoPdf.addImage(imagenesPaginas[i], 'JPEG', 1, 0.5, this.documentWidth, HTablaIN );
             } else {
-            // console.log(imagenesPaginas[i]);
-            // let imagenFinal="/assets/images/generacionPPT/Slide13.PNG"
-            this.documentoPdf.addImage(imagenesPaginas[i], 'JPEG', 1, 0.5, this.documentWidth, this.documentHeigth);
-            // console.log('widht',dimensiones[i].widht);
-            // console.log('height',dimensiones[i].height);
-            // this.documentoPdf.addImage(imagenesPaginas[i], 'JPEG', 1, 0, dimensiones[i].widht, dimensiones[i].height);
+                this.documentoPdf.addPage();
+                // console.log(imagenesPaginas[i]);
+                // let imagenFinal="/assets/images/generacionPPT/Slide13.PNG"
+                this.documentoPdf.addImage(imagenesPaginas[i], 'JPEG', 1, 0.5, this.documentWidth, this.documentHeigth);
+                // console.log('widht',dimensiones[i].widht);
+                // console.log('height',dimensiones[i].height);
+                // this.documentoPdf.addImage(imagenesPaginas[i], 'JPEG', 1, 0, dimensiones[i].widht, dimensiones[i].height);
             }
         }
     }
     ultimaPagina() {
-        this.documentoPdf.addPage();
+        let originalW = this.documentWidth * 72;
+        let originalH = this.documentHeigth * 72;
+        this.documentoPdf.addPage(originalW, originalH);
         let paginaFinal = new Image();
         paginaFinal.src = this.pathUltimaPagina;
 

@@ -19,16 +19,16 @@ export class CapacityService {
     let diaFin = Number(this.finMes.format('DD'));
     let diaN;
     let total = 0;
-    console.log(this.inicioMes);
-    console.log(this.finMes);
-    console.log(diaFin);
+    // console.log(this.inicioMes);
+    // console.log(this.finMes);
+    // console.log(diaFin);
 
     for (let i = 0; i < diaFin; i++) {
       diaN = moment( this.inicioMes).add(i,'day');
       this.dias.push({diaN,total});
       
     }
-    console.log(this.dias);
+    // console.log(this.dias);
 
    }
 
