@@ -148,7 +148,7 @@ export class InformesComponent implements OnInit {
           if (content) {
             const b = content.querySelector('b');
             if (b) {
-              b.textContent  = `${this.contProgress.toString()} de ${this.JsonArray.length + 2} Hojas` ;
+              b.textContent  = `${this.contProgress.toString()} de ${this.JsonArray.length + 1} Hojas` ;
             }
           }
         }, 100);
