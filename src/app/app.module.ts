@@ -8,6 +8,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { GenerarInformeComponent } from './components/generar-informe/generar-informe.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import { FechasPipe } from './pipes/fechas.pipe';
+import { GenerarCapacityComponent } from './components/generar-capacity/generar-capacity.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { FechasPipe } from './pipes/fechas.pipe';
     NavbarComponent,
     GenerarInformeComponent,
     FechasPipe,
+    GenerarCapacityComponent,
   ],
   imports: [
     BrowserModule,

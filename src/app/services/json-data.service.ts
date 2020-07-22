@@ -55,6 +55,8 @@ export class JsonDataService {
     this.crearTablaFac();
     // return;
     this.AddEveToReq();
+    // console.log(this.jsonDataReqService.Requerimientos);
+    // return;
     this.eliminarExepcionados();
     this.AddTarToReq();
     // console.log(this.jsonDataReqService.Requerimientos);
@@ -93,7 +95,19 @@ export class JsonDataService {
       let avanceReal = 0;
       let avanceEsperado = 0;
       for (const  eve of this.jsonDataEveService.Eventos) {
+
+        // if(req['Nro. Req.'] == 1997){
+        //   console.log(eve['Tipo de evento'] );
+        // }
+        // if(eve['Número de req. o sol.'] == 1997){
+        //   console.log(eve['Tipo de evento'] );
+        // }
+
         if (req['Nro. Req.'] == eve['Número de req. o sol.']) {
+          // if(eve['Número de req. o sol.'] == 1997){
+          //   console.log(eve['Tipo de evento'] );
+          //   console.log('eve['Tipo de evento'] ');
+          // }
           if (eve['Tipo de evento'] == 'INF - Actividad Realizada'){
             realizado[i] = eve;
             i++;
@@ -108,12 +122,13 @@ export class JsonDataService {
           if (eve['Tipo de evento'] == 'INF - Avance Esperado'){
             avanceEsperado = Number(eve['Descripción breve']);
           }
-          if (eve['Tipo de evento'] == 'INF - Exepcion'){
+          if (eve['Tipo de evento'] == 'INF - Excepción'){
             exepcion = true;
           }
 
         }
       }
+     
       if (realizado.length > 0) {
         this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], realizado };
       }
