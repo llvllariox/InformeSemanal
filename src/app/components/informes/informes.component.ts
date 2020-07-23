@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { JsonDataService } from 'src/app/services/json-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from '../../services/sweet-alert.service';
-import htmlToImage from 'html-to-image';
 import { Exportador } from '../../common/exportador/Exportador';
 import html2canvas from 'html2canvas';
 import * as moment from 'moment'; // add this 1 of 4
@@ -14,7 +13,7 @@ import Swal from 'sweetalert2';
   templateUrl: './informes.component.html',
   styleUrls: []
 })
-export class InformesComponent implements OnInit {
+export class InformesComponent {
 
   jsonDataReqInf: any;
   paramSeg = '';
@@ -48,96 +47,79 @@ export class InformesComponent implements OnInit {
   fecha24 = '';
   fecha25 = '';
 
-  tablaFac= [];
+  tablaFac = [];
   contProgress = 0;
 
   constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService) {
 
+    // tslint:disable-next-line: deprecation
     moment.lang('es');
     this.fecha1 = moment().format('MM/YY');
-    this.fecha2 = moment().subtract(1,'months').format('MM/YY');
-    this.fecha3 = moment().subtract(2,'months').format('MM/YY');
-    this.fecha4 = moment().subtract(3,'months').format('MM/YY');
-    this.fecha5 = moment().subtract(4,'months').format('MM/YY');
-    this.fecha6 = moment().subtract(5,'months').format('MM/YY');
-    this.fecha7 = moment().subtract(6,'months').format('MM/YY');
-    this.fecha8 = moment().subtract(7,'months').format('MM/YY');
-    this.fecha9 = moment().subtract(8,'months').format('MM/YY');
-    this.fecha10 = moment().subtract(9,'months').format('MM/YY');
-    this.fecha11 = moment().subtract(10,'months').format('MM/YY');
-    this.fecha12 = moment().subtract(11,'months').format('MM/YY');
-    this.fecha13 = moment().subtract(12,'months').format('MM/YY');
-    this.fecha14 = moment().subtract(13,'months').format('MM/YY');
-    this.fecha15 = moment().subtract(14,'months').format('MM/YY');
-    this.fecha16 = moment().subtract(15,'months').format('MM/YY');
-    this.fecha17 = moment().subtract(16,'months').format('MM/YY');
-    this.fecha18 = moment().subtract(17,'months').format('MM/YY');
-    this.fecha19 = moment().subtract(18,'months').format('MM/YY');
-    this.fecha20 = moment().subtract(19,'months').format('MM/YY');
-    this.fecha21 = moment().subtract(20,'months').format('MM/YY');
-    this.fecha22 = moment().subtract(21,'months').format('MM/YY');
-    this.fecha23 = moment().subtract(22,'months').format('MM/YY');
-    this.fecha24 = moment().subtract(23,'months').format('MM/YY');
-    this.fecha25 = moment().subtract(24,'months').format('MM/YY');
+    this.fecha2 = moment().subtract(1, 'months').format('MM/YY');
+    this.fecha3 = moment().subtract(2, 'months').format('MM/YY');
+    this.fecha4 = moment().subtract(3, 'months').format('MM/YY');
+    this.fecha5 = moment().subtract(4, 'months').format('MM/YY');
+    this.fecha6 = moment().subtract(5, 'months').format('MM/YY');
+    this.fecha7 = moment().subtract(6, 'months').format('MM/YY');
+    this.fecha8 = moment().subtract(7, 'months').format('MM/YY');
+    this.fecha9 = moment().subtract(8, 'months').format('MM/YY');
+    this.fecha10 = moment().subtract(9, 'months').format('MM/YY');
+    this.fecha11 = moment().subtract(10, 'months').format('MM/YY');
+    this.fecha12 = moment().subtract(11, 'months').format('MM/YY');
+    this.fecha13 = moment().subtract(12, 'months').format('MM/YY');
+    this.fecha14 = moment().subtract(13, 'months').format('MM/YY');
+    this.fecha15 = moment().subtract(14, 'months').format('MM/YY');
+    this.fecha16 = moment().subtract(15, 'months').format('MM/YY');
+    this.fecha17 = moment().subtract(16, 'months').format('MM/YY');
+    this.fecha18 = moment().subtract(17, 'months').format('MM/YY');
+    this.fecha19 = moment().subtract(18, 'months').format('MM/YY');
+    this.fecha20 = moment().subtract(19, 'months').format('MM/YY');
+    this.fecha21 = moment().subtract(20, 'months').format('MM/YY');
+    this.fecha22 = moment().subtract(21, 'months').format('MM/YY');
+    this.fecha23 = moment().subtract(22, 'months').format('MM/YY');
+    this.fecha24 = moment().subtract(23, 'months').format('MM/YY');
+    this.fecha25 = moment().subtract(24, 'months').format('MM/YY');
     // let now = moment();
 
 
     //  this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend');
-    if (this.jsonDataService.jsonDataReqService!== undefined) {
-    this.jsonDataReqInf = this.jsonDataService.getJsonDataReqService();
-    this.route.params.subscribe(params => {
-      this.paramSeg = params['segmento'];
-      if (this.paramSeg =='BO') {
-        this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backoffice', this.jsonDataService.fechaInformes);
-        this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-          return a['Área'] === 'Segmento Backoffice';
-        });
-        this.tablasFac();
-      } else if (this.paramSeg =='BE') {
-        this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend',this.jsonDataService.fechaInformes);
-        this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-          return a['Área'] === 'Segmento Backend' || a['Área'] === 'Nuevo Backend Crédito';
-        });
-        this.tablasFac();
-      } else {
-        this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Plataforma de Integración',this.jsonDataService.fechaInformes);
-        this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-          return a['Área'] === 'Plataforma de Integración';
-        });
-        this.tablasFac();
-      }
-    });
-
-   
-  }
+    if (this.jsonDataService.jsonDataReqService !== undefined) {
+      this.jsonDataReqInf = this.jsonDataService.getJsonDataReqService();
+      this.route.params.subscribe(params => {
+        this.paramSeg = params['segmento'];
+        if (this.paramSeg === 'BO') {
+          this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backoffice', this.jsonDataService.fechaInformes);
+          this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
+            return a['Área'] === 'Segmento Backoffice';
+          });
+          this.tablasFac();
+        } else if (this.paramSeg === 'BE') {
+          this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend', this.jsonDataService.fechaInformes);
+          this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
+            return a['Área'] === 'Segmento Backend' || a['Área'] === 'Nuevo Backend Crédito';
+          });
+          this.tablasFac();
+        } else {
+          this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Plataforma de Integración', this.jsonDataService.fechaInformes);
+          this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
+            return a['Área'] === 'Plataforma de Integración';
+          });
+          this.tablasFac();
+        }
+      });
+    }
   }
 
-  tablasFac(){
+  tablasFac() {
   this.tablaFac = [];
-  // if (this.JsonArray.length < 20) {
   this.tablaFac.push(this.JsonArray);
-  // } 
-  // else {
-  //   let div = Math.ceil(this.JsonArray.length / 2);
-  //   // let div = Math.ceil(this.JsonArray.length / 3);
-  //   // console.log(div);
-  //   // console.log(this.JsonArray.Requerimientos.length);
-  //   for (let i = 0; i < this.JsonArray.length; i += div) {
-  //     let pedazo = this.JsonArray.slice(i, i + div);
-  //     this.tablaFac.push(pedazo);
-  //   }
-  //   // console.log(this.tablaFac.length);
-  //   // console.log("TablaFac ", this.tablaFac);
-  // }
   }
 
   async generarPDF() {
     this.contProgress = 0;
-    // this.sweetAlerService.mensajeEsperar();
     let timerInterval;
     Swal.fire({
       title: 'Generando PDF...',
-      // html: 'I will close in <b></b> milliseconds.',
       html: `Generando <b></b>`,
       timer: this.imagnesDeTareas.length,
       timerProgressBar: true,
@@ -157,30 +139,20 @@ export class InformesComponent implements OnInit {
         clearInterval(timerInterval);
       }
     }).then((result) => {
-      /* Read more about handling dismissals below */
       if (result.dismiss === Swal.DismissReason.timer) {
-        // console.log('I was closed by the timer')
       }
-    })
+    });
 
+    // tslint:disable-next-line: prefer-const
     let imagenes = await this.imagnesDeTareas();
     this.exportador.exportarPDF(imagenes, this.dimensiones);
     this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
 
   }
 
-
-  // async generarPPT() {
-  //   this.sweetAlerService.mensajeEsperar();
-  //   let imagenes = await this.imagnesDeTareas().then(
-  //     resp => this.exportador.exportarPPT(imagenes)
-  //   );
-  //   this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
-
-  // }
-
   async imagnesDeTareas() {
-    let elements:any = document.querySelectorAll('#tareas');
+    const elements: any = document.querySelectorAll('#tareas');
+    // tslint:disable-next-line: prefer-const
     let imagenes = [];
 
     // tslint:disable-next-line: prefer-for-of
@@ -195,37 +167,17 @@ export class InformesComponent implements OnInit {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < elements.length; i++) {
       this.dimensiones.push({widht: elements[i].clientWidth, height: elements[i].clientHeight});
-     
     }
-    console.log(this.dimensiones);
 
     return imagenes;
   }
 
-
-  // async generarImagenFromDiv(divElement) {
-  //   return new Promise((resolve, reject) => {
-
-  //     htmlToImage.toPng(divElement)
-  //       .then(dataUrl => {
-  //         // console.log(dataUrl);
-  //         resolve(dataUrl);
-  //       }).catch(err => {
-  //         reject('error al generar imagen desde div');
-  //       });
-  //   })
-  // }
-
-  
-
   async generarImagenfromDiv2(divElement) {
     return new Promise((resolve, reject) => {
-      html2canvas(divElement,{scale:2, width: 1300,
+      html2canvas(divElement, {scale: 2, width: 1300,
         height: divElement.clientHeight})
         .then(canvas => {
-          // console.log(canvas.toDataURL('image/jpeg'));
           this.contProgress = this.contProgress + 1;
-          // console.log(this.contProgress);
           resolve(canvas.toDataURL('image/jpeg'));
 
         }).catch(error => {
@@ -234,7 +186,4 @@ export class InformesComponent implements OnInit {
 
     });
   }
-  ngOnInit(): void {
-  }
-
 }

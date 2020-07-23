@@ -53,11 +53,9 @@ export class JsonDataService {
   }
 
   consolidarArchivos() {
-    // console.log(this.fechaInformes);
+
     this.crearTablaFac();
     this.AddEveToReq();
-    // console.log(this.jsonDataReqService.Requerimientos);
-    // return;
     this.eliminarExepcionados();
     this.AddTarToReq();
     this.facObtieneMA();
@@ -76,6 +74,7 @@ export class JsonDataService {
   AddEveToReq() {
 
     let x = 0;
+    // tslint:disable-next-line: prefer-const
     for (let req of this.jsonDataReqService.Requerimientos) {
       let i = 0;
       let y = 0;
@@ -86,28 +85,28 @@ export class JsonDataService {
       let avanceEsperado = 0;
       for (const  eve of this.jsonDataEveService.Eventos) {
 
-        if (req['Nro. Req.'] == eve['Número de req. o sol.']) {
-          if (eve['Tipo de evento'] == 'INF - Actividad Realizada'){
+        if (req['Nro. Req.'] === eve['Número de req. o sol.']) {
+          if (eve['Tipo de evento'] === 'INF - Actividad Realizada') {
             realizado[i] = eve;
             i++;
           }
-          if (eve['Tipo de evento'] == 'INF - Proxima Actividad'){
+          if (eve['Tipo de evento'] === 'INF - Proxima Actividad') {
             proximo[y] = eve;
             y++;
           }
-          if (eve['Tipo de evento'] == 'INF - Avance Real'){
+          if (eve['Tipo de evento'] === 'INF - Avance Real') {
             avanceReal = Number(eve['Descripción breve']);
           }
-          if (eve['Tipo de evento'] == 'INF - Avance Esperado'){
+          if (eve['Tipo de evento'] === 'INF - Avance Esperado') {
             avanceEsperado = Number(eve['Descripción breve']);
           }
-          if (eve['Tipo de evento'] == 'INF - Excepción'){
+          if (eve['Tipo de evento'] === 'INF - Excepción') {
             exepcion = true;
           }
 
         }
       }
-     
+
       if (realizado.length > 0) {
         this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], realizado };
       }
@@ -127,6 +126,7 @@ export class JsonDataService {
   AddTarToReq() {
 
     let x = 0;
+    // tslint:disable-next-line: prefer-const
     for (let req of this.jsonDataReqService.Requerimientos) {
       let i = 0;
       let estimadoQA = 0;
@@ -137,21 +137,14 @@ export class JsonDataService {
       let incluir = true;
 
       for (const  tar of this.jsonDataTarService['Detalle Tareas']) {
-        if (req['Nro. Req.'] == tar['Número ARS']) {
-            // if (tar['Descripción Tarea'] == 'Soporte QA') {
+        if (req['Nro. Req.'] === tar['Número ARS']) {
             if (tar['Descripción Tarea'].includes('Soporte QA', 0)) {
               estimadoQA  = estimadoQA + tar['Horas Estimadas'];
               incurridoQA  = incurridoQA + tar['Horas Incurridas'];
-              // estimadoQA  = tar['Horas Estimadas'];
-              // incurridoQA  = tar['Horas Incurridas'];
             }
-            // tslint:disable-next-line: max-line-length
-            // if (tar['Descripción Tarea'] == 'Soporte Post Producción' || tar['Descripción Tarea'] == 'Implementación y Soporte Post Producción' ) {
             if (tar['Descripción Tarea'].includes('Implementación y Soporte Post Producción', 0) ||
                 tar['Descripción Tarea'].includes('Soporte Pase a Producción', 0) ||
                 tar['Descripción Tarea'].includes('Soporte Post Producción', 0) ) {
-              // estimadoProd  = tar['Horas Estimadas'];
-              // incurridoProd  = tar['Horas Incurridas'];
               estimadoProd  = estimadoProd + tar['Horas Estimadas'];
               incurridoProd  = incurridoProd  + tar['Horas Incurridas'];
             }
@@ -221,18 +214,18 @@ export class JsonDataService {
       if (tareas.length > 0) {
         tareas.sort((a, b) => {
 
-          let fechaIntA = Date.parse(a['Fecha Inicio Planificada']);
+          const fechaIntA = Date.parse(a['Fecha Inicio Planificada']);
           let keyA = 0;
-          let fechaIntB = Date.parse(b['Fecha Inicio Planificada']);
+          const fechaIntB = Date.parse(b['Fecha Inicio Planificada']);
           let keyB = 0;
 
-          if (fechaIntA == -2209058280000) {
+          if (fechaIntA === -2209058280000) {
             keyA = (Date.parse('Sun Dec 31 2050 00:00:00 GMT-0442 (hora de verano de Chile)' ) - 20) + a.orden;
           } else {
             keyA = fechaIntA;
           }
 
-          if (fechaIntB == -2209058280000) {
+          if (fechaIntB === -2209058280000) {
             keyB =  (Date.parse('Sun Dec 31 2050 00:00:00 GMT-0442 (hora de verano de Chile)' ) - 20) + b.orden;
           } else {
             keyB = fechaIntB;
@@ -253,35 +246,36 @@ export class JsonDataService {
       x++;
     }
   }
-  crearHorasFact(){
+  crearHorasFact() {
 
+    // tslint:disable-next-line: prefer-const
     for (let req of this.jsonDataReqService.Requerimientos) {
       req['horasFact'] = 0;
       req.fecha1 = moment();
-      req.fecha2 = moment().subtract(1,'months');
-      req.fecha3 = moment().subtract(2,'months');
-      req.fecha4 = moment().subtract(3,'months');
-      req.fecha5 = moment().subtract(4,'months');
-      req.fecha6 = moment().subtract(5,'months');
-      req.fecha7 = moment().subtract(6,'months');
-      req.fecha8 = moment().subtract(7,'months');
-      req.fecha9 = moment().subtract(8,'months');
-      req.fecha10 = moment().subtract(9,'months');
-      req.fecha11 = moment().subtract(10,'months');
-      req.fecha12 = moment().subtract(11,'months');
-      req.fecha13 = moment().subtract(12,'months');
-      req.fecha14 = moment().subtract(13,'months');
-      req.fecha15 = moment().subtract(14,'months');
-      req.fecha16 = moment().subtract(15,'months');
-      req.fecha17 = moment().subtract(16,'months');
-      req.fecha18 = moment().subtract(17,'months');
-      req.fecha19 = moment().subtract(18,'months');
-      req.fecha20 = moment().subtract(19,'months');
-      req.fecha21 = moment().subtract(20,'months');
-      req.fecha22 = moment().subtract(21,'months');
-      req.fecha23 = moment().subtract(22,'months');
-      req.fecha24 = moment().subtract(23,'months');
-      req.fecha25 = moment().subtract(24,'months');
+      req.fecha2 = moment().subtract(1, 'months');
+      req.fecha3 = moment().subtract(2, 'months');
+      req.fecha4 = moment().subtract(3, 'months');
+      req.fecha5 = moment().subtract(4, 'months');
+      req.fecha6 = moment().subtract(5, 'months');
+      req.fecha7 = moment().subtract(6, 'months');
+      req.fecha8 = moment().subtract(7, 'months');
+      req.fecha9 = moment().subtract(8, 'months');
+      req.fecha10 = moment().subtract(9, 'months');
+      req.fecha11 = moment().subtract(10, 'months');
+      req.fecha12 = moment().subtract(11, 'months');
+      req.fecha13 = moment().subtract(12, 'months');
+      req.fecha14 = moment().subtract(13, 'months');
+      req.fecha15 = moment().subtract(14, 'months');
+      req.fecha16 = moment().subtract(15, 'months');
+      req.fecha17 = moment().subtract(16, 'months');
+      req.fecha18 = moment().subtract(17, 'months');
+      req.fecha19 = moment().subtract(18, 'months');
+      req.fecha20 = moment().subtract(19, 'months');
+      req.fecha21 = moment().subtract(20, 'months');
+      req.fecha22 = moment().subtract(21, 'months');
+      req.fecha23 = moment().subtract(22, 'months');
+      req.fecha24 = moment().subtract(23, 'months');
+      req.fecha25 = moment().subtract(24, 'months');
 
       req.total1 = 0;
       req.total2 = 0;
@@ -314,7 +308,6 @@ export class JsonDataService {
 
   groupReqOrigen() {
 
-    let x = 0;
     let Reqpadre = [];
     let ultEtapa = '';
     let ultLD = '';
@@ -327,13 +320,13 @@ export class JsonDataService {
       let keyA = 0;
       let keyB = 0;
 
-      if (a['Req. Origen'] == ' ') {
+      if (a['Req. Origen'] === ' ') {
         keyA = a['Nro. Req.'];
       } else {
         keyA = a['Req. Origen'];
       }
 
-      if (b['Req. Origen'] == ' ') {
+      if (b['Req. Origen'] === ' ') {
         keyB = b['Nro. Req.'];
       } else {
         keyB = b['Req. Origen'];
@@ -342,20 +335,21 @@ export class JsonDataService {
       return keyA - keyB;
     });
 
+    // tslint:disable-next-line: prefer-const
     for (let req of this.jsonDataReqService.Requerimientos) {
 
-      if (req['Req. Origen'] == ' ' || req['Req. Origen']==undefined) {
+      if (req['Req. Origen'] === ' ' || req['Req. Origen'] === undefined) {
         req['Req. Origen'] = req['Nro. Req.'];
       }
 
       if (req['Req. Origen'] !== ' ') {
-        if (req['Req. Origen'] !== Reqpadre['Req. Origen']){
+        if (req['Req. Origen'] !== Reqpadre['Req. Origen']) {
           if (Reqpadre) {
 
             Reqpadre['Etapa'] = ultEtapa || Reqpadre['Etapa'];
-            Reqpadre['Solicitante'] = ultLD|| Reqpadre['Solicitante'];
-            Reqpadre['Origen'] = ultPM|| Reqpadre['Origen'];
-            Reqpadre['Código Externo'] = ultCECO|| Reqpadre['Código Externo'];
+            Reqpadre['Solicitante'] = ultLD || Reqpadre['Solicitante'];
+            Reqpadre['Origen'] = ultPM || Reqpadre['Origen'];
+            Reqpadre['Código Externo'] = ultCECO || Reqpadre['Código Externo'];
             Reqpadre['Req. Origen'] = ' ';
             if (ultTareas.length > 0) {
               Reqpadre['tareas'] = ultTareas;
@@ -420,6 +414,7 @@ export class JsonDataService {
   eliminarReqOrigen() {
    for (let i = 0; i < this.jsonDataReqService.Requerimientos.length;) {
 
+    // tslint:disable-next-line: prefer-const
     let req = this.jsonDataReqService.Requerimientos[i];
     let reqOrigen = req['Req. Origen'].toString();
     if (reqOrigen.length > 1) {
@@ -435,9 +430,9 @@ export class JsonDataService {
 
   eliminarExepcionados() {
 
-
   for (let i = 0; i < this.jsonDataReqService.Requerimientos.length;) {
 
+      // tslint:disable-next-line: prefer-const
       let req = this.jsonDataReqService.Requerimientos[i];
       if (req.exepcion) {
         this.jsonDataReqService.Requerimientos.splice(i, 1);
@@ -446,8 +441,9 @@ export class JsonDataService {
       }
     }
   }
+
   unirReqconAgrupados() {
-    let tamaño = this.jsonDataReqService.Requerimientos.length;
+    const tamaño = this.jsonDataReqService.Requerimientos.length;
     this.jsonDataReqService.Requerimientos.concat(this.ReqAgrupado);
     this.jsonDataReqService.Requerimientos.splice(tamaño, 1);
 
@@ -461,16 +457,17 @@ export class JsonDataService {
     let inicioProd = null;
     let finProd = null;
 
+    // tslint:disable-next-line: prefer-const
     for (let req of this.jsonDataReqService.Requerimientos) {
-      if (req.tareas !== undefined){
+      if (req.tareas !== undefined) {
         for (const  tar of req.tareas) {
-          if (tar['Descripción Tarea'] == 'Soporte QA') {
+          if (tar['Descripción Tarea'] === 'Soporte QA') {
 
             inicioQA = tar['Fecha Inicio Planificada'];
             finQA = tar['Fecha Fin Planificada'];
           }
           // tslint:disable-next-line: max-line-length
-          if (tar['Descripción Tarea'] == 'Soporte Post Producción' || tar['Descripción Tarea'] == 'Implementación y Soporte Post Producción' ) {
+          if (tar['Descripción Tarea'] === 'Soporte Post Producción' || tar['Descripción Tarea'] === 'Implementación y Soporte Post Producción' ) {
             inicioProd = tar['Fecha Inicio Planificada'];
             finProd = tar['Fecha Fin Planificada'];
           }
@@ -489,8 +486,9 @@ export class JsonDataService {
   facObtieneMA() {
     let MA = '';
     let i = 0;
+    // tslint:disable-next-line: prefer-const
     for (let fac of this.jsonDataFacService['Datos Facturación']) {
-      MA = fac['Nombre Requerimiento'].substr(0,7);
+      MA = fac['Nombre Requerimiento'].substr(0, 7);
       // tslint:disable-next-line: max-line-length
       this.jsonDataFacService['Datos Facturación'][i] = {...this.jsonDataFacService['Datos Facturación'][i], MA};
       i++;
@@ -503,12 +501,12 @@ export class JsonDataService {
 
   facSumarMA() {
 
-    let x = 0;
     let facpadre = [];
 
+    // tslint:disable-next-line: prefer-const
     for (let fac of this.jsonDataFacService['Datos Facturación']) {
 
-      if (fac['MA'] !== facpadre['MA']){
+      if (fac['MA'] !== facpadre['MA']) {
         if (facpadre) {
 
           this.facAgrupado.push(facpadre);
@@ -548,66 +546,68 @@ export class JsonDataService {
 
   }
 
-  facAgregarReq(){
+  facAgregarReq() {
     this.facAgrupado.splice(0, 1);
     let i = 0;
+    // tslint:disable-next-line: prefer-const
     for (let req of this.jsonDataReqService.Requerimientos) {
+      // tslint:disable-next-line: prefer-const
       for (let fac of this.facAgrupado) {
-        if (req['Nro. Req.'] ==  Number(fac['MA'].substr(2,5))) {
-          let horasFact = fac['HH Incurridas'];
+        if (req['Nro. Req.'] ===  Number(fac['MA'].substr(2, 5))) {
+          const horasFact = fac['HH Incurridas'];
 
-          let fecha1 = fac.fecha1;
-          let fecha2 = fac.fecha2;
-          let fecha3 = fac.fecha3;
-          let fecha4 = fac.fecha4;
-          let fecha5 = fac.fecha5;
-          let fecha6 = fac.fecha6;
-          let fecha7 = fac.fecha7;
-          let fecha8 = fac.fecha8;
-          let fecha9 = fac.fecha9;
-          let fecha10 = fac.fecha10;
-          let fecha11 = fac.fecha11;
-          let fecha12 = fac.fecha12;
-          let fecha13 = fac.fecha13;
-          let fecha14 = fac.fecha14;
-          let fecha15 = fac.fecha15;
-          let fecha16 = fac.fecha16;
-          let fecha17 = fac.fecha17;
-          let fecha18 = fac.fecha18;
-          let fecha19 = fac.fecha19;
-          let fecha20 = fac.fecha20;
-          let fecha21 = fac.fecha21;
-          let fecha22 = fac.fecha22;
-          let fecha23 = fac.fecha23;
-          let fecha24 = fac.fecha24;
-          let fecha25 = fac.fecha25;
+          const fecha1 = fac.fecha1;
+          const fecha2 = fac.fecha2;
+          const fecha3 = fac.fecha3;
+          const fecha4 = fac.fecha4;
+          const fecha5 = fac.fecha5;
+          const fecha6 = fac.fecha6;
+          const fecha7 = fac.fecha7;
+          const fecha8 = fac.fecha8;
+          const fecha9 = fac.fecha9;
+          const fecha10 = fac.fecha10;
+          const fecha11 = fac.fecha11;
+          const fecha12 = fac.fecha12;
+          const fecha13 = fac.fecha13;
+          const fecha14 = fac.fecha14;
+          const fecha15 = fac.fecha15;
+          const fecha16 = fac.fecha16;
+          const fecha17 = fac.fecha17;
+          const fecha18 = fac.fecha18;
+          const fecha19 = fac.fecha19;
+          const fecha20 = fac.fecha20;
+          const fecha21 = fac.fecha21;
+          const fecha22 = fac.fecha22;
+          const fecha23 = fac.fecha23;
+          const fecha24 = fac.fecha24;
+          const fecha25 = fac.fecha25;
 
-          let total1 = fac.total1;
-          let total2 = fac.total2;
-          let total3 = fac.total3;
-          let total4 = fac.total4;
-          let total5 = fac.total5;
-          let total6 = fac.total6;
-          let total7 = fac.total7;
-          let total8 = fac.total8;
-          let total9 = fac.total9;
-          let total10 = fac.total10;
-          let total11 = fac.total11;
-          let total12 = fac.total12;
-          let total13 = fac.total13;
-          let total14 = fac.total14;
-          let total15 = fac.total15;
-          let total16 = fac.total16;
-          let total17 = fac.total17;
-          let total18 = fac.total18;
-          let total19 = fac.total19;
-          let total20 = fac.total20;
-          let total21 = fac.total21;
-          let total22 = fac.total22;
-          let total23 = fac.total23;
-          let total24 = fac.total24;
-          let total25 = fac.total25;
-          
+          const total1 = fac.total1;
+          const total2 = fac.total2;
+          const total3 = fac.total3;
+          const total4 = fac.total4;
+          const total5 = fac.total5;
+          const total6 = fac.total6;
+          const total7 = fac.total7;
+          const total8 = fac.total8;
+          const total9 = fac.total9;
+          const total10 = fac.total10;
+          const total11 = fac.total11;
+          const total12 = fac.total12;
+          const total13 = fac.total13;
+          const total14 = fac.total14;
+          const total15 = fac.total15;
+          const total16 = fac.total16;
+          const total17 = fac.total17;
+          const total18 = fac.total18;
+          const total19 = fac.total19;
+          const total20 = fac.total20;
+          const total21 = fac.total21;
+          const total22 = fac.total22;
+          const total23 = fac.total23;
+          const total24 = fac.total24;
+          const total25 = fac.total25;
+
           this.jsonDataReqService.Requerimientos[i] = {...this.jsonDataReqService.Requerimientos[i], horasFact,
             fecha1, total1,
             fecha2, total2,
@@ -651,34 +651,35 @@ export class JsonDataService {
     console.log(this.jsonDataReqService.Requerimientos);
   }
 
-  crearTablaFac(){
+  crearTablaFac() {
 
+    // tslint:disable-next-line: deprecation
     moment.lang('es');
-    let fecha1 = moment().subtract(0,'months');
-    let fecha2 = moment().subtract(1,'months');
-    let fecha3 = moment().subtract(2,'months');
-    let fecha4 = moment().subtract(3,'months');
-    let fecha5 = moment().subtract(4,'months');
-    let fecha6 = moment().subtract(5,'months');
-    let fecha7 = moment().subtract(6,'months');
-    let fecha8 = moment().subtract(7,'months');
-    let fecha9 = moment().subtract(8,'months');
-    let fecha10 = moment().subtract(9,'months');
-    let fecha11 = moment().subtract(10,'months');
-    let fecha12 = moment().subtract(11,'months');
-    let fecha13 = moment().subtract(12,'months');
-    let fecha14 = moment().subtract(13,'months');
-    let fecha15 = moment().subtract(14,'months');
-    let fecha16 = moment().subtract(15,'months');
-    let fecha17 = moment().subtract(16,'months');
-    let fecha18 = moment().subtract(17,'months');
-    let fecha19 = moment().subtract(18,'months');
-    let fecha20 = moment().subtract(19,'months');
-    let fecha21 = moment().subtract(20,'months');
-    let fecha22 = moment().subtract(21,'months');
-    let fecha23 = moment().subtract(22,'months');
-    let fecha24 = moment().subtract(23,'months');
-    let fecha25 = moment().subtract(24,'months');
+    const fecha1 = moment().subtract(0, 'months');
+    const fecha2 = moment().subtract(1, 'months');
+    const fecha3 = moment().subtract(2, 'months');
+    const fecha4 = moment().subtract(3, 'months');
+    const fecha5 = moment().subtract(4, 'months');
+    const fecha6 = moment().subtract(5, 'months');
+    const fecha7 = moment().subtract(6, 'months');
+    const fecha8 = moment().subtract(7, 'months');
+    const fecha9 = moment().subtract(8, 'months');
+    const fecha10 = moment().subtract(9, 'months');
+    const fecha11 = moment().subtract(10, 'months');
+    const fecha12 = moment().subtract(11, 'months');
+    const fecha13 = moment().subtract(12, 'months');
+    const fecha14 = moment().subtract(13, 'months');
+    const fecha15 = moment().subtract(14, 'months');
+    const fecha16 = moment().subtract(15, 'months');
+    const fecha17 = moment().subtract(16, 'months');
+    const fecha18 = moment().subtract(17, 'months');
+    const fecha19 = moment().subtract(18, 'months');
+    const fecha20 = moment().subtract(19, 'months');
+    const fecha21 = moment().subtract(20, 'months');
+    const fecha22 = moment().subtract(21, 'months');
+    const fecha23 = moment().subtract(22, 'months');
+    const fecha24 = moment().subtract(23, 'months');
+    const fecha25 = moment().subtract(24, 'months');
 
     let total1 = 0;
     let total2 = 0;
@@ -707,11 +708,12 @@ export class JsonDataService {
     let total25 = 0;
     let i = 0;
 
+    // tslint:disable-next-line: prefer-const
     for (let fac of this.jsonDataFacService['Datos Facturación']) {
 
 
-      let anno = fac['Año'];
-      let mes = fac['Mes'];
+      const anno = fac['Año'];
+      const mes = fac['Mes'];
       let mesNum = 0;
 
       switch (mes) {
@@ -754,9 +756,9 @@ export class JsonDataService {
       }
 
 
-      let dia = '01';
-      let fecha = mesNum + '-' + dia + '-' + anno;
-      let fechaFact = moment(fecha);
+      const dia = '01';
+      const fecha = mesNum + '-' + dia + '-' + anno;
+      const fechaFact = moment(fecha);
 
       if (moment(fecha1).isSame(fechaFact, 'month')) {
           total1 = total1 + fac['HH Incurridas'];
@@ -765,7 +767,7 @@ export class JsonDataService {
           total2 = total2 + fac['HH Incurridas'];
       }
       if (moment(fecha3).isSame(fechaFact, 'month')) {
-         
+
           total3 = total3 + fac['HH Incurridas'];
       }
       if (moment(fecha4).isSame(fechaFact, 'month')) {

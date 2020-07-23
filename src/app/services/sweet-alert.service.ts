@@ -55,7 +55,7 @@ export class SweetAlertService {
     });
   }
 
-  close(){
+  close() {
     Swal.close();
   }
 }

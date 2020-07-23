@@ -43,7 +43,7 @@ export class GenerarCapacityComponent implements OnInit {
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
-    reader.onload = (event) => {
+    reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
       this.jsonDataPlan = workBook.SheetNames.reduce((initial, name) => {
@@ -54,7 +54,7 @@ export class GenerarCapacityComponent implements OnInit {
         return initial;
       }, {});
 
-      if(this.jsonDataPlan['Detalle Horas Planificadas']==undefined) {
+      if (this.jsonDataPlan['Detalle Horas Planificadas'] === undefined) {
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Plan');
         this.jsonDataPlan = null;
       } else {
@@ -87,6 +87,7 @@ filtrarTar(jsonDataReq: any) {
       Object.values(this.forma.controls).forEach(control => {
 
         if (control instanceof FormGroup) {
+          // tslint:disable-next-line: no-shadowed-variable
           Object.values(control.controls).forEach(control => {
             control.markAsTouched();
           });

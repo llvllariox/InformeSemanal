@@ -1,6 +1,7 @@
 {
     "extends": "tslint:recommended",
     "rules": {
+        "no-string-literal": false,
         "array-type": false,
         "arrow-parens": false,
         "deprecation": {
@@ -54,7 +55,7 @@
         ],
         "no-empty": false,
         "no-inferrable-types": [
-            true,
+            false,
             "ignore-params"
         ],
         "no-non-null-assertion": true,
@@ -62,7 +63,7 @@
         "no-switch-case-fall-through": true,
         "no-var-requires": false,
         "object-literal-key-quotes": [
-            true,
+            false,
             "as-needed"
         ],
         "object-literal-sort-keys": false,

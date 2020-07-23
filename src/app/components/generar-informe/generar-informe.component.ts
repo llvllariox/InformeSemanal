@@ -4,9 +4,6 @@ import * as XLSX from 'xlsx';
 import { JsonDataService } from 'src/app/services/json-data.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
-import * as moment from 'moment'; // add this 1 of 4
-
-
 
 @Component({
   selector: 'app-generar-informe',
@@ -33,31 +30,7 @@ export class GenerarInformeComponent implements OnInit {
     this.jsonDataService.infoCargada = false;
     this.jsonDataService.ReqAgrupado = [];
     this.jsonDataService.facAgrupado = [];
-
     this.crearFormulario();
-    
-    // moment.lang('es');
-    // let now = moment();
-    // let fecha1 = moment().subtract(1,'months').format('LL');
-    // let fecha2 = moment().subtract(2,'months').format('l');
-    // let fecha3 = moment().subtract(3,'months').format('l');
-    // let fecha4 = moment().subtract(4,'months').format('l');
-    // let fecha5 = moment().subtract(5,'months').format('l');
-    // let fecha6 = moment().subtract(6,'months').format('l');
-    // let fecha7 = moment().subtract(7,'months').format('l');
-    // let fecha8 = moment().subtract(8,'months').format('l');
-    // let fecha9 = moment().subtract(9,'months').format('l');
-    // let fecha10 = moment().subtract(10,'months').format('l');
-    // let fecha11 = moment().subtract(11,'months').format('l');
-    // let fecha12 = moment().subtract(11,'months').format('l');
-    // console.log(fecha1);
-  
-    
-    // let hoy = new Date();
-    // console.log(hoy);
-    // let mes1 = hoy;
-    // let mes2 = hoy.setFullYear(hoy.getFullYear() - 1);
-    
 
   }
 
@@ -70,17 +43,16 @@ export class GenerarInformeComponent implements OnInit {
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
-    reader.onload = (event) => {
+    reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
       this.jsonDataFac = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
-
         return initial;
       }, {});
-      if(this.jsonDataFac['Datos Facturación']==undefined) {
+      if (this.jsonDataFac['Datos Facturación'] === undefined) {
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
         this.jsonDataFac = null;
       } else {
@@ -93,17 +65,12 @@ export class GenerarInformeComponent implements OnInit {
         delete this.jsonDataFac['Temporal'];
         this.filtrarFac(this.jsonDataFac);
         console.log(this.jsonDataFac);
-
       }
     };
     reader.readAsBinaryString(file);
   }
 
   filtrarFac(jsonDataReq: any) {
-
-    // this.jsonDataFac['Datos Facturación'] = jsonDataReq['Datos Facturación'].filter(a => {
-    //   return a['Línea de Servicio'] === 'Evolutivo Mayor';
-    // });
 
     this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
 
@@ -115,7 +82,7 @@ export class GenerarInformeComponent implements OnInit {
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
-    reader.onload = (event) => {
+    reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
       this.jsonDataTar = workBook.SheetNames.reduce((initial, name) => {
@@ -126,7 +93,7 @@ export class GenerarInformeComponent implements OnInit {
         return initial;
       }, {});
 
-      if(this.jsonDataTar['Detalle Tareas']==undefined) {
+      if (this.jsonDataTar['Detalle Tareas'] === undefined) {
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
         this.jsonDataTar = null;
       } else {
@@ -158,7 +125,7 @@ filtrarTar(jsonDataReq: any) {
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
-    reader.onload = (event) => {
+    reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates : true});
       this.jsonDataReq = workBook.SheetNames.reduce((initial, name) => {
@@ -167,35 +134,18 @@ filtrarTar(jsonDataReq: any) {
         this.sweetAlerService.close();
         return initial;
       }, {});
-      if(this.jsonDataReq.Requerimientos==undefined) {
+      if (this.jsonDataReq.Requerimientos === undefined) {
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
         this.jsonDataReq = null;
       } else {
         this.filtrarReq(this.jsonDataReq);
         console.log(this.jsonDataReq);
-        // let recepc = moment(this.jsonDataReq.Requerimientos[0]['Fecha Recepción']);
-        // console.log(recepc.format('LL'));
-
-        // let anno = '2018';
-        // let mes = 'noviembre';
-        // let dia = '20';
-        // let fecha = dia + '-' + mes  + '-' + anno;
-        // // console.log(fecha);
-        // let prueba = moment(fecha);
-        // console.log(prueba.format('LL'));
-        // let igual = moment(fecha).isSame(recepc, 'month');
-        // console.log(igual);
-    
-        // console.log(recepc);
-
       }
     };
     reader.readAsBinaryString(file);
-
  }
 
-
-filtrarReq(jsonDataReq: any){
+filtrarReq(jsonDataReq: any) {
 
   jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
     return a['Línea de Servicio'] === 'Evolutivo Mayor';
@@ -223,17 +173,16 @@ uploadEve(event) {
   let workBook = null;
   const reader = new FileReader();
   const file = event.target.files[0];
-  reader.onload = (event) => {
+  reader.onload = () => {
     const data = reader.result;
     workBook = XLSX.read(data, { type: 'binary' , cellDates: true });
     this.jsonDataEve = workBook.SheetNames.reduce((initial, name) => {
       const sheet = workBook.Sheets[name];
       initial[name] = XLSX.utils.sheet_to_json(sheet);
       this.sweetAlerService.close();
-
       return initial;
     }, {});
-    if (this.jsonDataEve.Eventos==undefined) {
+    if (this.jsonDataEve.Eventos === undefined) {
       this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos');
       this.jsonDataEve = null;
     } else {
@@ -244,7 +193,7 @@ uploadEve(event) {
   reader.readAsBinaryString(file);
 }
 
-filtrarEve(jsonDataEve: any){
+filtrarEve(jsonDataEve: any) {
 
   jsonDataEve.Eventos = jsonDataEve.Eventos.filter(a => {
     return a['Línea de servicio'] === 'Evolutivo Mayor';
@@ -267,6 +216,7 @@ filtrarEve(jsonDataEve: any){
       Object.values(this.forma.controls).forEach(control => {
 
         if (control instanceof FormGroup) {
+          // tslint:disable-next-line: no-shadowed-variable
           Object.values(control.controls).forEach(control => {
             control.markAsTouched();
           });
@@ -277,7 +227,7 @@ filtrarEve(jsonDataEve: any){
     } else {
 
         this.jsonDataService.fechaInformes = this.forma.value.fecha;
-       
+
         if (this.jsonDataFac == null) {
           this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
           return;
@@ -303,7 +253,6 @@ filtrarEve(jsonDataEve: any){
             }
           }
         );
-      // ----------------------------------------------------------------------------------------------
     }
   }
 
@@ -316,7 +265,6 @@ filtrarEve(jsonDataEve: any){
       eventos : ['', [Validators.required]],
       facturacion : ['', [Validators.required]],
       fecha : ['', [Validators.required]],
-      // mes : ['', [Validators.required]],
     });
 
   }
@@ -336,8 +284,4 @@ filtrarEve(jsonDataEve: any){
   get fechaNoValido() {
     return this.forma.get('fecha').invalid && this.forma.get('fecha').touched;
   }
-  // get mesNoValido() {
-  //   return this.forma.get('mes').invalid && this.forma.get('mes').touched;
-  // }
-
 }
