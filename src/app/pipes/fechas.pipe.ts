@@ -7,7 +7,9 @@ export class FechasPipe implements PipeTransform {
 
   transform(value: Date): any {
     if (value != null) {
-      if (value.toString() == 'Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)') {
+      // tslint:disable-next-line: max-line-length
+      if (value.toString() == 'Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)' || value.toString().includes('Sun Dec 31 1899')) {
+      // if (value.toString() == 'Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)') {
           return 'TBD';
       } else {
 

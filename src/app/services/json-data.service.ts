@@ -218,7 +218,7 @@ export class JsonDataService {
           let keyA = 0;
           const fechaIntB = Date.parse(b['Fecha Inicio Planificada']);
           let keyB = 0;
-
+          // console.log(fechaIntA);
           if (fechaIntA === -2209058280000) {
             keyA = (Date.parse('Sun Dec 31 2050 00:00:00 GMT-0442 (hora de verano de Chile)' ) - 20) + a.orden;
           } else {
