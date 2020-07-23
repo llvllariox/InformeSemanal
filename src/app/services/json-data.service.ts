@@ -14,7 +14,8 @@ export class JsonDataService {
   infoCargada = false;
   ReqAgrupado = [];
   facAgrupado = [];
-  // tablaFac = [];
+  fechaInformes: string;
+
   constructor() {
 
    }
@@ -52,33 +53,22 @@ export class JsonDataService {
   }
 
   consolidarArchivos() {
+    // console.log(this.fechaInformes);
     this.crearTablaFac();
-    // return;
     this.AddEveToReq();
     // console.log(this.jsonDataReqService.Requerimientos);
     // return;
     this.eliminarExepcionados();
     this.AddTarToReq();
-    // console.log(this.jsonDataReqService.Requerimientos);
-    // return;
     this.facObtieneMA();
-    // console.log(this.jsonDataFacService['Datos Facturación']);
-    // return;
     this.crearHorasFact();
     this.facSumarMA();
-    // return;
     this.facAgregarReq();
     this.groupReqOrigen();
-    
-    // return;
     this.eliminarReqOrigen();
-    // this.eliminarExepcionados();
     this.unirReqconAgrupados();
     this.obtenerFechasQAPROD();
     this.ordenFinalARS();
-    // this.tablasFac();
-
-    // this.crearTablaFac();
     this.infoCargada = true;
 
   }
@@ -96,18 +86,7 @@ export class JsonDataService {
       let avanceEsperado = 0;
       for (const  eve of this.jsonDataEveService.Eventos) {
 
-        // if(req['Nro. Req.'] == 1997){
-        //   console.log(eve['Tipo de evento'] );
-        // }
-        // if(eve['Número de req. o sol.'] == 1997){
-        //   console.log(eve['Tipo de evento'] );
-        // }
-
         if (req['Nro. Req.'] == eve['Número de req. o sol.']) {
-          // if(eve['Número de req. o sol.'] == 1997){
-          //   console.log(eve['Tipo de evento'] );
-          //   console.log('eve['Tipo de evento'] ');
-          // }
           if (eve['Tipo de evento'] == 'INF - Actividad Realizada'){
             realizado[i] = eve;
             i++;
@@ -360,22 +339,13 @@ export class JsonDataService {
         keyB = b['Req. Origen'];
       }
 
-      // console.log(a['Req. Origen']);
-      // console.log(b['Req. Origen']);
       return keyA - keyB;
-      // return a['Req. Origen'] - b['Req. Origen'];
     });
-    // console.log('pegando req origen');
-    // console.log(this.jsonDataReqService.Requerimientos);
-    // return;
 
     for (let req of this.jsonDataReqService.Requerimientos) {
 
       if (req['Req. Origen'] == ' ' || req['Req. Origen']==undefined) {
         req['Req. Origen'] = req['Nro. Req.'];
-        // console.log('Reemplzada reqOrigen');
-        // console.log('Req. Origen',req['Req. Origen']);
-        // console.log('Nro. Req',req['Nro. Req.']);
       }
 
       if (req['Req. Origen'] !== ' ') {
@@ -392,7 +362,6 @@ export class JsonDataService {
             }
 
             this.ReqAgrupado.push(Reqpadre);
-            // console.log(Reqpadre);
             ultEtapa = '';
             ultLD = '';
             ultPM = '';
@@ -410,18 +379,6 @@ export class JsonDataService {
           Reqpadre['estimadoProd'] = Number(Reqpadre['estimadoProd']) + Number(req['estimadoProd']);
           Reqpadre['incurridoProd'] = Number(Reqpadre['incurridoProd']) + Number(req['incurridoProd']);
 
-          // if(Reqpadre['horasFact'] == undefined){
-          //   Reqpadre['horasFact'] = 0;
-          // }
-          // if(req['horasFact'] == undefined){
-          //   Reqpadre['horasFact'] = 0;
-          // }
-          // if(isNaN(Reqpadre['horasFact'])){
-          //   Reqpadre['horasFact'] = 0;
-          // }
-          // if(isNaN(req['horasFact'])){
-          //   Reqpadre['horasFact'] = 0;
-          // }
 
           Reqpadre['horasFact'] = Number(Reqpadre['horasFact']) + Number(req['horasFact']);
           Reqpadre['total1'] = Number(Reqpadre['total1']) + Number(req['total1']);
@@ -461,24 +418,12 @@ export class JsonDataService {
   }
 
   eliminarReqOrigen() {
-  //  console.log(this.jsonDataReqService.Requerimientos);
-  //  return;
-
-  //  this.jsonDataReqService.Requerimientos.filter(data=>{
-  //      data['Req. Origen'].toString().length > 1;
-  //  });
-
-  //  let i = 0;
    for (let i = 0; i < this.jsonDataReqService.Requerimientos.length;) {
 
     let req = this.jsonDataReqService.Requerimientos[i];
     let reqOrigen = req['Req. Origen'].toString();
-    // console.log(reqOrigen.length);
     if (reqOrigen.length > 1) {
-      // console.log(reqOrigen);
-      // console.log(req['Nro. Req.'], 'Delete');
       this.jsonDataReqService.Requerimientos.splice(i, 1);
-      // i--;
       reqOrigen = '';
     } else {
       i++;
@@ -486,64 +431,22 @@ export class JsonDataService {
 
    }
 
-  //  for (let req of this.jsonDataReqService.Requerimientos) {
-
-  //     // if()
-  //     // if (req['Req. Origen'] == 1116) {
-  //     // console.log(req['Nro. Req.']);
-  //     // let reqOrigen = req['Req. Origen'].toString();
-  //     // // console.log(reqOrigen.length);
-  //     // if (reqOrigen.length > 1) {
-  //     //   // console.log(reqOrigen);
-  //     //   console.log(req['Nro. Req.'], 'Delete');
-  //     //   this.jsonDataReqService.Requerimientos.splice(i, 0);
-  //     //   // i--;
-  //     //   reqOrigen = '';
-  //     // } else {
-  //     //   i++;
-  //     // }
-
-  //     // console.log(req['Req. Origen']);
-  //     // }
-  //     // if (req['Req. Origen'] != '' && req['Req. Origen'] != ' ') {
-  //     //   // console.log(req['Nro. Req.'], 'Delete');
-  //     //   this.jsonDataReqService.Requerimientos.splice(i, 1);
-  //     // }
-      
-  //  }
-  //  console.log('eliminados');
-  //  console.log(this.jsonDataReqService.Requerimientos);
   }
 
   eliminarExepcionados() {
 
-  //  let i = 0;
-  //  for (let req of this.jsonDataReqService.Requerimientos) {
-
-  //     if (req.exepcion) {
-  //       this.jsonDataReqService.Requerimientos.splice(i, 1);
-  //     }
-  //     i++;
-  //  }
 
   for (let i = 0; i < this.jsonDataReqService.Requerimientos.length;) {
 
       let req = this.jsonDataReqService.Requerimientos[i];
-      // let reqOrigen = req['Req. Origen'].toString();
-      // console.log(reqOrigen.length);
       if (req.exepcion) {
-        // console.log(reqOrigen);
-        // console.log(req['Nro. Req.'], 'Delete');
         this.jsonDataReqService.Requerimientos.splice(i, 1);
-        // i--;
       } else {
         i++;
       }
     }
   }
   unirReqconAgrupados() {
-    // console.log('agrupados');
-    // console.log(this.ReqAgrupado);
     let tamaño = this.jsonDataReqService.Requerimientos.length;
     this.jsonDataReqService.Requerimientos.concat(this.ReqAgrupado);
     this.jsonDataReqService.Requerimientos.splice(tamaño, 1);
@@ -609,7 +512,6 @@ export class JsonDataService {
         if (facpadre) {
 
           this.facAgrupado.push(facpadre);
-          // console.log(facpadre);
           facpadre = [];
         }
         facpadre = fac;
@@ -644,7 +546,6 @@ export class JsonDataService {
 
     }
 
-    // console.log('facAgrupado', this.facAgrupado);
   }
 
   facAgregarReq(){
@@ -652,12 +553,7 @@ export class JsonDataService {
     let i = 0;
     for (let req of this.jsonDataReqService.Requerimientos) {
       for (let fac of this.facAgrupado) {
-        // console.log(fac['MA'].substr(2,5));
         if (req['Nro. Req.'] ==  Number(fac['MA'].substr(2,5))) {
-          // if(req['Nro. Req.'] == 2415){
-          //   // console.log(fac['MA'].substr(2,5));
-          //   // console.log(fac['HH Incurridas']);
-          // }
           let horasFact = fac['HH Incurridas'];
 
           let fecha1 = fac.fecha1;
@@ -758,7 +654,6 @@ export class JsonDataService {
   crearTablaFac(){
 
     moment.lang('es');
-    // let now = moment();
     let fecha1 = moment().subtract(0,'months');
     let fecha2 = moment().subtract(1,'months');
     let fecha3 = moment().subtract(2,'months');
@@ -811,7 +706,6 @@ export class JsonDataService {
     let total24 = 0;
     let total25 = 0;
     let i = 0;
-    // console.log(fecha6.format('LL'));
 
     for (let fac of this.jsonDataFacService['Datos Facturación']) {
 
@@ -861,31 +755,13 @@ export class JsonDataService {
 
 
       let dia = '01';
-      // let fecha = dia + '-' + '12'  + '-' + anno;
       let fecha = mesNum + '-' + dia + '-' + anno;
       let fechaFact = moment(fecha);
-      
-      // console.log(fecha1);
-      // console.log(fechaFact);
-      // console.log(fecha1);
-      // if (fac['Nombre Requerimiento'] == 'MA01842 - Proyecto Servicios PSP Portal CC ABM de PSP'){
-      //     // console.log('-------------');
-      //     // console.log(anno);
-      //     // console.log(mes);
-      //     // console.log(dia);
-      //     // console.log(fecha);
-      //     // console.log('fechaFact', fechaFact.format('LL'));
-      //     // console.log('fecha6', fecha6.format('LL'));
-      //     // console.log('-------------');
-          
-      // }
 
       if (moment(fecha1).isSame(fechaFact, 'month')) {
-          // console.log('true1');
           total1 = total1 + fac['HH Incurridas'];
       }
       if (moment(fecha2).isSame(fechaFact, 'month')) {
-          // console.log('true2');
           total2 = total2 + fac['HH Incurridas'];
       }
       if (moment(fecha3).isSame(fechaFact, 'month')) {
@@ -899,7 +775,6 @@ export class JsonDataService {
           total5 = total5 + fac['HH Incurridas'];
       }
       if (moment(fecha6).isSame(fechaFact, 'month')) {
-        // console.log('true6', i);
           total6 = total6 + fac['HH Incurridas'];
       }
       if (moment(fecha7).isSame(fechaFact, 'month')) {
@@ -1014,22 +889,7 @@ export class JsonDataService {
       total25 = 0;
       i++;
     }
-    // console.log(this.jsonDataFacService['Datos Facturación']);
-    // }
 
   }
 
-  // tablasFac() {
-  //   // this.tablaFac = this.jsonDataReqService;
-  //   let div = Math.ceil(this.jsonDataReqService.length / 3);
-  //   console.log(div);
-  //   // console.log(this.jsonDataReqService.Requerimientos.length);
-  //   for (let i = 0; i < this.jsonDataReqService.Requerimientos.length; i += div) {
-  //    let pedazo = this.jsonDataReqService.Requerimientos.slice(i, i + div);
-  //    this.tablaFac.push(pedazo);
-  //   }
-  //   console.log("Arreglo de arreglos: ", this.tablaFac);
-
-
-  // }
 }

@@ -88,19 +88,19 @@ export class InformesComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.paramSeg = params['segmento'];
       if (this.paramSeg =='BO') {
-        this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backoffice');
+        this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backoffice', this.jsonDataService.fechaInformes);
         this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
           return a['Área'] === 'Segmento Backoffice';
         });
         this.tablasFac();
       } else if (this.paramSeg =='BE') {
-        this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend');
+        this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend',this.jsonDataService.fechaInformes);
         this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
           return a['Área'] === 'Segmento Backend' || a['Área'] === 'Nuevo Backend Crédito';
         });
         this.tablasFac();
       } else {
-        this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Plataforma de Integración');
+        this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Plataforma de Integración',this.jsonDataService.fechaInformes);
         this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
           return a['Área'] === 'Plataforma de Integración';
         });
@@ -154,7 +154,7 @@ export class InformesComponent implements OnInit {
         }, 100);
       },
       onClose: () => {
-        clearInterval(timerInterval)
+        clearInterval(timerInterval);
       }
     }).then((result) => {
       /* Read more about handling dismissals below */
@@ -180,7 +180,7 @@ export class InformesComponent implements OnInit {
   // }
 
   async imagnesDeTareas() {
-    let elements:any = document.querySelectorAll('#tareas')
+    let elements:any = document.querySelectorAll('#tareas');
     let imagenes = [];
 
     // tslint:disable-next-line: prefer-for-of

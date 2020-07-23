@@ -11,11 +11,13 @@ export class Exportador {
   pathUltimaImagen: string = '/assets/images/generacionPPT/Slide13.PNG';
 
   tituloPresentacion: string = 'Servicio de Mantenimiento de \nDesarrollo de Aplicaciones para Transbank \nInforme semanal';
+  nuevaFecha: string
 
-  constructor(nombreInforme: string, segnemntoInforme: string,) {
+  constructor(nombreInforme: string, segnemntoInforme: string, nuevaFecha:string) {
+    
     this.nombreInforme = nombreInforme;
     this.segmentoInforme = segnemntoInforme;
-    this.fechaDocumentos = this.fecha();
+    this.fechaDocumentos = this.fecha(nuevaFecha);
   }
 
   exportarPPT(imagenesInfomre) {
@@ -52,12 +54,52 @@ export class Exportador {
     // console.log("pdf guardado")
   }
 
-  fecha() {
-    let fecha = new Date();
+  fecha(nuevaFecha) {
+    // let fecha = this.nuevaFecha;
+    // // console.log(fecha);
+    // let day: string = fecha.substr(9,2) + '';
+    // // console.log(day);
+    // let month: string = (fecha.substr(6,2)) + '';
+    // if (+day < 10) {
+    //   day = '0' + day;
+    // }
+    // if (+month < 10) {
+    //   month = '0' + month;
+    // }
+    // // console.log(month);
+    // return `${day}-${month}-${fecha.substr(1,4)}`;
+    // let fecha = new Date();
+  //   // console.log(fecha);
+  //   let day: string = fecha.getDate() + '';
+  //   // console.log(day);
+  //   let month: string = (fecha.getMonth() + 1) + '';
+  //   if (+day < 10) {
+  //     day = '0' + day;
+  //   }
+  //   if (+month < 10) {
+  //     month = '0' + month;
+  //   }
+  //   // console.log(month);
+  //   return `${day}-${month}-${fecha.getUTCFullYear()}`;
+
+    // console.log('export', nuevaFecha);
+    let dayN = Number(nuevaFecha.substr(8,29));
+    let monthN = Number(nuevaFecha.substr(5,2));
+    let annoN = Number(nuevaFecha.substr(0,4));
+    // console.log(dayN);
+    // console.log(monthN);
+    // console.log(annoN);
+
+    let fecha = new Date(annoN,monthN,dayN);
+    // console.log(fecha);
+    // console.log(nuevaFecha.getDate());
+    
+    // let fecha = new Date();
+    // fecha = this.nuevaFecha.
     // console.log(fecha);
     let day: string = fecha.getDate() + '';
     // console.log(day);
-    let month: string = (fecha.getMonth() + 1) + '';
+    let month: string = (fecha.getMonth()) + '';
     if (+day < 10) {
       day = '0' + day;
     }

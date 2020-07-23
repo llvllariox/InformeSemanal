@@ -276,6 +276,8 @@ filtrarEve(jsonDataEve: any){
       });
     } else {
 
+        this.jsonDataService.fechaInformes = this.forma.value.fecha;
+       
         if (this.jsonDataFac == null) {
           this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
           return;
@@ -313,7 +315,7 @@ filtrarEve(jsonDataEve: any){
       tareas : ['', [Validators.required]],
       eventos : ['', [Validators.required]],
       facturacion : ['', [Validators.required]],
-      // anno : ['', [Validators.required]],
+      fecha : ['', [Validators.required]],
       // mes : ['', [Validators.required]],
     });
 
@@ -331,9 +333,9 @@ filtrarEve(jsonDataEve: any){
   get facturacionNoValido() {
     return this.forma.get('facturacion').invalid && this.forma.get('facturacion').touched;
   }
-  // get annoNoValido() {
-  //   return this.forma.get('anno').invalid && this.forma.get('anno').touched;
-  // }
+  get fechaNoValido() {
+    return this.forma.get('fecha').invalid && this.forma.get('fecha').touched;
+  }
   // get mesNoValido() {
   //   return this.forma.get('mes').invalid && this.forma.get('mes').touched;
   // }
