@@ -924,7 +924,7 @@ export class JsonDataService {
       }
       req.val3 = val3;
 
-      if (req.etapa === 'Pruebas QA' || req.etapa === 'Post Producción') {
+      if (req.Etapa === 'Pruebas QA' || req.Etapa === 'Post Producción') {
           const sumaQAPROD = (req.estimadoQA - req.incurridoQA ) + (req.estimadoProd - req.incurridoProd);
           const pendInc = req['Horas Estimadas'] - req['Horas Incurridas'];
           if (sumaQAPROD !== pendInc) {

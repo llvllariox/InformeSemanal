@@ -66,7 +66,7 @@
                                 <th class="text-center text-dark " scope="row ">HH</th>
                                 <td [ngClass]="{'bg-danger text-light': ars.val4}" class="text-center text-secondary ">{{ars['Horas Estimadas']|number}}</td>
                                 <td class="text-center text-secondary ">{{ars['Horas Planificadas']|number}}</td>
-                                <td [ngClass]="{'bg-danger text-light': ars.val4}" [ngClass]="{'bg-danger text-light': ars.val1}" class="text-center text-secondary ">{{ars['Horas Incurridas']|number}}</td>
+                                <td [ngClass]="{'bg-danger text-light': ars.val1||ars.val4}" class="text-center text-secondary ">{{ars['Horas Incurridas']|number}}</td>
                                 <td [ngClass]="{'bg-danger text-light': ars.val1}" class="text-center text-secondary ">{{ars['horasFact']|number}}</td>
 
                             </tr>
@@ -126,8 +126,8 @@
                         <tbody>
                             <tr>
                                 <th class="text-center text-dark " scope="row ">HH Soporte QA</th>
-                                <td class="text-center text-secondary ">{{ars.estimadoQA|number}}</td>
-                                <td class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
+                                <td [ngClass]="{'bg-danger text-light': ars.val4}" class="text-center text-secondary ">{{ars.estimadoQA|number}}</td>
+                                <td [ngClass]="{'bg-danger text-light': ars.val4}" class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
                                 <td class="text-center text-secondary ">{{ars.inicioQA|fechas}}</td>
                                 <td class="text-center text-secondary ">{{ars.finQA|fechas}}</td>
                             </tr>
