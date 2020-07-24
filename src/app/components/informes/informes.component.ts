@@ -48,6 +48,7 @@ export class InformesComponent {
 
   tablaFac = [];
   contProgress = 0;
+  mostrarVal = true;
 
   constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService) {
 
@@ -184,5 +185,10 @@ export class InformesComponent {
         });
 
     });
+  }
+
+  cambiaValor() {
+
+    this.mostrarVal = !this.mostrarVal;
   }
 }
