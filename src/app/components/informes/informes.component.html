@@ -66,6 +66,7 @@
                                 <th class="text-center text-dark " scope="row ">HH</th>
                                 <td [ngClass]="{'bg-danger text-light': ars.val4}" class="text-center text-secondary ">{{ars['Horas Estimadas']|number}}</td>
                                 <td class="text-center text-secondary ">{{ars['Horas Planificadas']|number}}</td>
+                                <!-- <div data-toggle="tooltip" data-placement="top" title="Tooltip on top">{{ars['Horas Planificadas']|number}}</div> -->
                                 <td [ngClass]="{'bg-danger text-light': ars.val1||ars.val4}" class="text-center text-secondary ">{{ars['Horas Incurridas']|number}}</td>
                                 <td [ngClass]="{'bg-danger text-light': ars.val1}" class="text-center text-secondary ">{{ars['horasFact']|number}}</td>
 

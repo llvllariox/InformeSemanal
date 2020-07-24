@@ -7,7 +7,6 @@ import html2canvas from 'html2canvas';
 import * as moment from 'moment'; // add this 1 of 4
 import Swal from 'sweetalert2';
 
-
 @Component({
   selector: 'app-informes',
   templateUrl: './informes.component.html',
