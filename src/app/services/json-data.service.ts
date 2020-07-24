@@ -66,6 +66,7 @@ export class JsonDataService {
     this.eliminarReqOrigen();
     this.unirReqconAgrupados();
     this.obtenerFechasQAPROD();
+    this.validaciones();
     this.ordenFinalARS();
     this.infoCargada = true;
 
@@ -755,7 +756,6 @@ export class JsonDataService {
           break;
       }
 
-
       const dia = '01';
       const fecha = mesNum + '-' + dia + '-' + anno;
       const fechaFact = moment(fecha);
@@ -892,6 +892,48 @@ export class JsonDataService {
       i++;
     }
 
+  }
+
+  validaciones() {
+
+    for (let i = 0; i < this.jsonDataReqService.Requerimientos.length; i++) {
+      let req = this.jsonDataReqService.Requerimientos[i];
+
+      // Val 1 = Factorado > Incurrido
+      let val1 = false;
+      // Val 2 = Sin Actividades Realizadas
+      let val2 = false;
+      // Val 3 = Sin Actividades Proximas
+      let val3 = false;
+      // Val 4 = si estapa es pruebas qa o produccion, pendiente de incurrir(prod+qa) debe ser igual al pendiente de incurrir de ars.
+      let val4 = false;
+
+      // tslint:disable-next-line: prefer-const
+      if (req.horasFact > req['Horas Incurridas']) {
+        val1 = true;
+      }
+      req.val1 = val1;
+
+      if (req.realizado === undefined) {
+        val2 = true;
+      }
+      req.val2 = val2;
+
+      if (req.proximo === undefined) {
+        val3 = true;
+      }
+      req.val3 = val3;
+
+      if (req.etapa === 'Pruebas QA' || req.etapa === 'Post Producción') {
+          const sumaQAPROD = (req.estimadoQA - req.incurridoQA ) + (req.estimadoProd - req.incurridoProd);
+          const pendInc = req['Horas Estimadas'] - req['Horas Incurridas'];
+          if (sumaQAPROD !== pendInc) {
+            val4 = true;
+          }
+      }
+      req.val4 = val4;
+
+    }
   }
 
 }

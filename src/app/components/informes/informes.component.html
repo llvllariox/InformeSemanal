@@ -64,10 +64,10 @@
                         <tbody>
                             <tr>
                                 <th class="text-center text-dark " scope="row ">HH</th>
-                                <td class="text-center text-secondary ">{{ars['Horas Estimadas']|number}}</td>
+                                <td [ngClass]="{'bg-danger text-light': ars.val4}" class="text-center text-secondary ">{{ars['Horas Estimadas']|number}}</td>
                                 <td class="text-center text-secondary ">{{ars['Horas Planificadas']|number}}</td>
-                                <td class="text-center text-secondary ">{{ars['Horas Incurridas']|number}}</td>
-                                <td class="text-center text-secondary ">{{ars['horasFact']|number}}</td>
+                                <td [ngClass]="{'bg-danger text-light': ars.val4}" [ngClass]="{'bg-danger text-light': ars.val1}" class="text-center text-secondary ">{{ars['Horas Incurridas']|number}}</td>
+                                <td [ngClass]="{'bg-danger text-light': ars.val1}" class="text-center text-secondary ">{{ars['horasFact']|number}}</td>
 
                             </tr>
                             <tr>
@@ -133,8 +133,8 @@
                             </tr>
                             <tr>
                                 <th class="text-center text-dark " scope="row ">HH Soporte Produccion</th>
-                                <td class="text-center text-secondary ">{{ars.estimadoProd|number}}</td>
-                                <td class="text-center text-secondary ">{{ars.incurridoProd|number}}</td>
+                                <td [ngClass]="{'bg-danger text-light': ars.val4}" class="text-center text-secondary ">{{ars.estimadoProd|number}}</td>
+                                <td [ngClass]="{'bg-danger text-light': ars.val4}" class="text-center text-secondary ">{{ars.incurridoProd|number}}</td>
                                 <td class="text-center text-secondary ">{{ars.inicioProd|fechas}}</td>
                                 <td class="text-center text-secondary ">{{ars.finProd|fechas}}</td>
                             </tr>
@@ -157,6 +157,11 @@
                                 <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/check-solid.png" alt="" style="width: 14px;height: 14px;"> {{eve['Descripción de evento']}}</th>
                             </tr>
                         </tbody>
+                        <tbody *ngIf="ars.val2">
+                            <tr>
+                                <th class="bg-danger" scope="row ">&nbsp;</th>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
                 <div class="col-12 col-sm-6 mb-3 ">
@@ -170,6 +175,11 @@
                         <tbody *ngFor="let eve of ars.proximo|slice:-5">
                             <tr>
                                 <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/calendar-regular.png" alt="" style="width: 14px;height: 14px;"> {{eve['Descripción de evento']}}</th>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="ars.val3">
+                            <tr>
+                                <th class="bg-danger" scope="row ">&nbsp;</th>
                             </tr>
                         </tbody>
                     </table>
