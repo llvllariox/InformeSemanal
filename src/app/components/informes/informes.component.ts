@@ -6,6 +6,8 @@ import { Exportador } from '../../common/exportador/Exportador';
 import html2canvas from 'html2canvas';
 import * as moment from 'moment'; // add this 1 of 4
 import Swal from 'sweetalert2';
+declare function init_customJS();
+
 
 @Component({
   selector: 'app-informes',
@@ -51,6 +53,7 @@ export class InformesComponent {
   mostrarVal = true;
 
   constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService) {
+    init_customJS();
 
     // tslint:disable-next-line: deprecation
     moment.lang('es');
