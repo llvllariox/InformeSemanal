@@ -896,7 +896,9 @@ export class JsonDataService {
 
   validaciones() {
 
+    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.jsonDataReqService.Requerimientos.length; i++) {
+      // tslint:disable-next-line: prefer-const
       let req = this.jsonDataReqService.Requerimientos[i];
 
       // Val 1 = Factorado > Incurrido
