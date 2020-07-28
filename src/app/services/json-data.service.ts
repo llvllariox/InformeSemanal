@@ -15,6 +15,7 @@ export class JsonDataService {
   ReqAgrupado = [];
   facAgrupado = [];
   fechaInformes: string;
+  conFact = true;
 
   constructor() {
 
@@ -53,15 +54,19 @@ export class JsonDataService {
   }
 
   consolidarArchivos() {
-
-    this.crearTablaFac();
+    if (this.conFact) {
+      this.crearTablaFac();
+    }
     this.AddEveToReq();
     this.eliminarExepcionados();
     this.AddTarToReq();
-    this.facObtieneMA();
-    this.crearHorasFact();
-    this.facSumarMA();
-    this.facAgregarReq();
+    if (this.conFact) {
+      this.facObtieneMA();
+      this.crearHorasFact();
+      this.facSumarMA();
+      this.facAgregarReq();
+    }
+
     this.groupReqOrigen();
     this.eliminarReqOrigen();
     this.unirReqconAgrupados();

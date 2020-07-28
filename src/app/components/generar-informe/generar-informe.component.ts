@@ -228,9 +228,14 @@ filtrarEve(jsonDataEve: any) {
 
         this.jsonDataService.fechaInformes = this.forma.value.fecha;
 
+        // if (this.jsonDataFac == null) {
+        //   this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
+        //   return;
+        // }
         if (this.jsonDataFac == null) {
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
-          return;
+          this.jsonDataService.conFact = false;
+        } else {
+          this.jsonDataService.conFact = true;
         }
 
         if (this.jsonDataTar == null) {
@@ -263,7 +268,7 @@ filtrarEve(jsonDataEve: any) {
       requerimientos : ['', [Validators.required]],
       tareas : ['', [Validators.required]],
       eventos : ['', [Validators.required]],
-      facturacion : ['', [Validators.required]],
+      facturacion : [''],
       fecha : ['', [Validators.required]],
     });
 
