@@ -88,6 +88,8 @@ export class GenerarInformeComponent implements OnInit {
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
       this.jsonDataTar = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
+        // console.log(sheet);
+        this.formatHeaders(sheet, 'BH1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
 
@@ -110,11 +112,11 @@ export class GenerarInformeComponent implements OnInit {
 filtrarTar(jsonDataReq: any) {
 
   jsonDataReq['Detalle Tareas'] = jsonDataReq['Detalle Tareas'].filter(a => {
-    return a['Línea de Servicio'] === 'Evolutivo Mayor';
+    return a.lineaDeServicio === 'Evolutivo Mayor';
   });
 
   jsonDataReq['Detalle Tareas'] = jsonDataReq['Detalle Tareas'].filter(a => {
-    return a['Tipo Contrato'] === 'Evolutivo';
+    return a.tipoContrato === 'Evolutivo';
   });
 
   this.jsonDataService.setjsonDataTarService(jsonDataReq);
@@ -131,7 +133,7 @@ filtrarTar(jsonDataReq: any) {
       workBook = XLSX.read(data, { type: 'binary', cellDates : true });
       this.jsonDataReq = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
-        const string = workBook.Strings;
+        // const string = workBook.Strings;
         this.formatHeaders(sheet, 'AO1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
@@ -157,8 +159,10 @@ filtrarTar(jsonDataReq: any) {
 
     let abc = ['A1',	'B1',	'C1',	'D1',	'E1',	'F1',	'G1',	'H1',	'I1',	'J1',	'K1',	'L1',
                'M1',	'N1',	'O1',	'P1',	'Q1',	'R1',	'S1',	'T1',	'U1',	'V1',	'W1',	'X1',
-               'Y1',	'Z1',	'AA1',	'AB1',	'AC1',	'AD1',	'AE1',	'AF1',	'AG1',	'AH1',
-               'AI1',	'AJ1',	'AK1',	'AL1',	'AM1',	'AN1',	'AO1',
+               'Y1',	'Z1',	'AA1',	'AB1',	'AC1',	'AD1',	'AE1',	'AF1',	'AG1', 'AH1',
+               'AI1',	'AJ1',	'AK1',	'AL1',	'AM1',	'AN1',	'AO1', 'AP1',	'AQ1', 'AR1',
+               'AS1',	'AT1',	'AU1',	'AV1',	'AW1',	'AX1',	'AY1',	'AZ1',	'BA1',	'BB1',
+               'BC1',	'BD1',	'BE1',	'BF1',	'BG1',	'BH1',
               ];
 
     for (const letra of abc) {
@@ -173,19 +177,19 @@ filtrarTar(jsonDataReq: any) {
 filtrarReq(jsonDataReq: any) {
 
   jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
-    return a['Línea de Servicio'] === 'Evolutivo Mayor';
+    return a.lineaDeServicio === 'Evolutivo Mayor';
   });
 
   jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
-    return a['Contrato'] === 'Evolutivo';
+    return a.contrato === 'Evolutivo';
   });
 
   jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
-    return a['Etapa'] !== 'Comprometido';
+    return a.etapa !== 'Comprometido';
   });
 
   jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
-    return a['Etapa'] !== 'Plan';
+    return a.etapa !== 'Plan';
   });
 
   this.jsonDataService.setjsonDataReqService(jsonDataReq);
