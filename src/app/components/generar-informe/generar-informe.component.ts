@@ -49,7 +49,10 @@ export class GenerarInformeComponent implements OnInit {
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
       this.jsonDataFac = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
-        console.log(sheet);
+        console.log(name);
+        if (name === 'Datos Facturación'){
+          this.formatHeaders(sheet, 'AB1');
+        }
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
         return initial;
