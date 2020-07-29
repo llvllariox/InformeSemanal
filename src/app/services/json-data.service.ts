@@ -73,6 +73,7 @@ export class JsonDataService {
     this.obtenerFechasQAPROD();
     this.validaciones();
     this.ordenFinalARS();
+    // this.convertJson();
     this.infoCargada = true;
 
   }
@@ -942,5 +943,14 @@ export class JsonDataService {
 
     }
   }
+
+  // convertJson(){
+  //   let jsonString = JSON.stringify(this.jsonDataReqService.Requerimientos);
+  //   jsonString = jsonString.toLowerCase();
+  //   jsonString.replace(' ', '_');
+  //   // console.log(jsonString);
+  //   let jsonConvert = JSON.parse(jsonString);
+  //   console.log(jsonConvert);
+  // }
 
 }
