@@ -132,82 +132,42 @@ filtrarTar(jsonDataReq: any) {
       this.jsonDataReq = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
         const string = workBook.Strings;
-        this.formatHeaders(sheet, string, 'AO1',41);
-        console.log('sheet ', sheet);
-        console.log('string ', string);
-        // let newSheet = this.formatHeaders(sheet, string, 'AO1');
+        this.formatHeaders(sheet, 'AO1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
-        // this.formatHeaders(sheet, 'AO1');
-        // initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
-        // console.log(initial);
         return initial;
       }, {});
       if (this.jsonDataReq.Requerimientos === undefined) {
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
         this.jsonDataReq = null;
       } else {
-        // this.filtrarReq(this.jsonDataReq);
+        this.filtrarReq(this.jsonDataReq);
         console.log(this.jsonDataReq);
       }
     };
     reader.readAsBinaryString(file);
  }
 
-  formatHeaders(sheet, string, limit, limitNum){
-
-  this.nuevosHeaders = [];
-
-  function camalize(str) {
-      str = str.replace(/\./g, '');
-      str = str.normalize('NFD').replace(/[\u0300-\u036f]/g,"");
-      return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
-  }
-
-  // function format_column_name(name: string) {
-  //   name = name.normalize('NFD').replace(/[\u0300-\u036f]/g,"").toLowerCase();
-  //   // let nuevo = name.replace('.', '');
-  //   name = name.replace(/\./g, '');
-  //   name = name.replace(/\s/g, '_');
-  //   // console.log(nuevo);
-  //   return name;
-  // }
-
-  let abc = ['A1',	'B1',	'C1',	'D1',	'E1',	'F1',	'G1',	'H1',	'I1',	'J1',	'K1',	'L1',
-             'M1',	'N1',	'O1',	'P1',	'Q1',	'R1',	'S1',	'T1',	'U1',	'V1',	'W1',	'X1',
-             'Y1',	'Z1',	'AA1',	'AB1',	'AC1',	'AD1',	'AE1',	'AF1',	'AG1',	'AH1',
-             'AI1',	'AJ1',	'AK1',	'AL1',	'AM1',	'AN1',	'AO1',
-            ];
-
-
-  for (const letra of abc) {
-    // sheet[letra].h = camalize(sheet[letra].h);
-    // sheet[letra].r = camalize(sheet[letra].r);
-    // sheet[letra].v = camalize(sheet[letra].v);
-    sheet[letra].w = camalize(sheet[letra].w);
-    // this.nuevosHeaders.push(sheet[letra].v);
-    // sheet[letra].w = format_column_name(sheet[letra].w);
-
-    if (letra == limit){
-      break;
+  formatHeaders(sheet, limit){
+    function camalize(str) {
+        str = str.replace(/\./g, '');
+        str = str.normalize('NFD').replace(/[\u0300-\u036f]/g,"");
+        return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
     }
-  }
-  // console.log(string.Count);
-  // for (let i = 0; i < limitNum; i++) {
-  //   string[i].h = camalize(string[i].h);
-  //   string[i].t = camalize(string[i].t);
-  //   string[i].r = camalize(string[i].r);
-  //   // console.log( string[i].t );
-  // }
-  // for (const numero of numeros) {
-  //   string[numero].h = camalize(string[numero].h);
-  //   string[numero].t = camalize(string[numero].t);
-  // }
-  // console.log(sheet);
-  // console.log(string);
-  // console.log(this.nuevosHeaders);
-  // return sheet;
-  // console.log;
+
+    let abc = ['A1',	'B1',	'C1',	'D1',	'E1',	'F1',	'G1',	'H1',	'I1',	'J1',	'K1',	'L1',
+               'M1',	'N1',	'O1',	'P1',	'Q1',	'R1',	'S1',	'T1',	'U1',	'V1',	'W1',	'X1',
+               'Y1',	'Z1',	'AA1',	'AB1',	'AC1',	'AD1',	'AE1',	'AF1',	'AG1',	'AH1',
+               'AI1',	'AJ1',	'AK1',	'AL1',	'AM1',	'AN1',	'AO1',
+              ];
+
+    for (const letra of abc) {
+      sheet[letra].w = camalize(sheet[letra].w);
+
+      if (letra == limit){
+        break;
+      }
+    }
  }
 
 filtrarReq(jsonDataReq: any) {
