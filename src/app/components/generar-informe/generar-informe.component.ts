@@ -49,6 +49,7 @@ export class GenerarInformeComponent implements OnInit {
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
       this.jsonDataFac = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
+        console.log(sheet);
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
         return initial;
@@ -88,7 +89,6 @@ export class GenerarInformeComponent implements OnInit {
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
       this.jsonDataTar = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
-        // console.log(sheet);
         this.formatHeaders(sheet, 'BH1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
@@ -133,7 +133,6 @@ filtrarTar(jsonDataReq: any) {
       workBook = XLSX.read(data, { type: 'binary', cellDates : true });
       this.jsonDataReq = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
-        // const string = workBook.Strings;
         this.formatHeaders(sheet, 'AO1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
@@ -207,6 +206,7 @@ uploadEve(event) {
     workBook = XLSX.read(data, { type: 'binary' , cellDates: true });
     this.jsonDataEve = workBook.SheetNames.reduce((initial, name) => {
       const sheet = workBook.Sheets[name];
+      this.formatHeaders(sheet, 'T1');
       initial[name] = XLSX.utils.sheet_to_json(sheet);
       this.sweetAlerService.close();
       return initial;
@@ -225,15 +225,15 @@ uploadEve(event) {
 filtrarEve(jsonDataEve: any) {
 
   jsonDataEve.Eventos = jsonDataEve.Eventos.filter(a => {
-    return a['Línea de servicio'] === 'Evolutivo Mayor';
+    return a.lineaDeServicio === 'Evolutivo Mayor';
   });
 
   jsonDataEve.Eventos = jsonDataEve.Eventos.filter(a => {
-    return a['Tipo de contrato'] === 'Evolutivo';
+    return a.tipoDeContrato === 'Evolutivo';
   });
 
   jsonDataEve.Eventos = jsonDataEve.Eventos.filter(a => {
-    return a['Tipo'] === 'REQ';
+    return a.tipo === 'REQ';
   });
 
   this.jsonDataService.setjsonDataEveService(jsonDataEve);
