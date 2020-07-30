@@ -152,7 +152,7 @@ filtrarTar(jsonDataReq: any) {
     reader.readAsBinaryString(file);
  }
 
-  formatHeaders(sheet, limit){
+ formatHeaders(sheet, limit){
     function camalize(str) {
         str = str.replace(/\./g, '');
         str = str.normalize('NFD').replace(/[\u0300-\u036f]/g,"");

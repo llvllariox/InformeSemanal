@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import * as XLSX from 'xlsx';
-import { JsonDataService } from 'src/app/services/json-data.service';
+// import { JsonDataService } from 'src/app/services/json-data.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
-import * as moment from 'moment'; // add this 1 of 4
+// import * as moment from 'moment'; // add this 1 of 4
 import { CapacityService } from '../../services/capacity.service';
 
 
@@ -48,6 +48,7 @@ export class GenerarCapacityComponent implements OnInit {
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
       this.jsonDataPlan = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
+        this.formatHeaders(sheet, 'BA1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
 
@@ -66,11 +67,34 @@ export class GenerarCapacityComponent implements OnInit {
 
  }
 
+ formatHeaders(sheet, limit){
+  function camalize(str) {
+      str = str.replace(/\./g, '');
+      str = str.normalize('NFD').replace(/[\u0300-\u036f]/g,"");
+      return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+  }
+
+  let abc = ['A1',	'B1',	'C1',	'D1',	'E1',	'F1',	'G1',	'H1',	'I1',	'J1',	'K1',	'L1',
+             'M1',	'N1',	'O1',	'P1',	'Q1',	'R1',	'S1',	'T1',	'U1',	'V1',	'W1',	'X1',
+             'Y1',	'Z1',	'AA1',	'AB1',	'AC1',	'AD1',	'AE1',	'AF1',	'AG1', 'AH1',
+             'AI1',	'AJ1',	'AK1',	'AL1',	'AM1',	'AN1',	'AO1', 'AP1',	'AQ1', 'AR1',
+             'AS1',	'AT1',	'AU1',	'AV1',	'AW1',	'AX1',	'AY1',	'AZ1',	'BA1',	'BB1',
+             'BC1',	'BD1',	'BE1',	'BF1',	'BG1',	'BH1',
+            ];
+
+  for (const letra of abc) {
+    sheet[letra].w = camalize(sheet[letra].w);
+
+    if (letra == limit){
+      break;
+    }
+  }
+}
 
 filtrarTar(jsonDataReq: any) {
 
   jsonDataReq['Detalle Horas Planificadas'] = jsonDataReq['Detalle Horas Planificadas'].filter(a => {
-    return a['Línea de Servicio'] === 'Evolutivo Mayor' || a['Línea de Servicio'] === 'Asesoramiento y Consulta';
+    return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Asesoramiento y Consulta';
   });
 
   // jsonDataReq['Detalle Tareas'] = jsonDataReq['Detalle Tareas'].filter(a => {
@@ -81,7 +105,7 @@ filtrarTar(jsonDataReq: any) {
 
 }
 
-  guardar() {
+guardar() {
 
     if (this.forma.invalid) {
       Object.values(this.forma.controls).forEach(control => {
