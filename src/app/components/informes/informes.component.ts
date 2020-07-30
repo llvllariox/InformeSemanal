@@ -93,19 +93,19 @@ export class InformesComponent {
         if (this.paramSeg === 'BO') {
           this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backoffice', this.jsonDataService.fechaInformes);
           this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-            return a['Área'] === 'Segmento Backoffice';
+            return a.area === 'Segmento Backoffice';
           });
           this.tablasFac();
         } else if (this.paramSeg === 'BE') {
           this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend', this.jsonDataService.fechaInformes);
           this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-            return a['Área'] === 'Segmento Backend' || a['Área'] === 'Nuevo Backend Crédito';
+            return a.area === 'Segmento Backend' || a.area === 'Nuevo Backend Crédito';
           });
           this.tablasFac();
         } else {
           this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Plataforma de Integración', this.jsonDataService.fechaInformes);
           this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-            return a['Área'] === 'Plataforma de Integración';
+            return a.area === 'Plataforma de Integración';
           });
           this.tablasFac();
         }

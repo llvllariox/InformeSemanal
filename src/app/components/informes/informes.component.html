@@ -33,7 +33,7 @@
         <div id="tareas">
             <div class="row" id="row{{i}}">
                 <div class="col-12 col-sm-8 ">
-                    <h3 class="pt-3 ">{{ars['Descripción']}}</h3>
+                    <h3 class="pt-3 ">{{ars.descripcion}}</h3>
                 </div>
                 <div class="d-none d-sm-inline-block col-sm-4 ">
                     <img src="/../../assets/images/logo_tbk.png " alt=" " class="imagen-logo ">
@@ -56,11 +56,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let tarea of ars['tareas']|slice:-10">
-                                <td class="small">{{tarea['Descripción Tarea']}}</td>
-                                <td class="small">{{tarea['Horas Estimadas']}}</td>
-                                <td class="small">{{tarea['Fecha Inicio Planificada']|fechas}}</td>
-                                <td class="small">{{tarea['Fecha Fin Planificada']|fechas}}</td>
+                            <tr *ngFor="let tarea of ars.tareas|slice:-10">
+                                <td class="small">{{tarea.descripcionTarea}}</td>
+                                <td class="small">{{tarea.horasEstimadas}}</td>
+                                <td class="small">{{tarea.fechaInicioPlanificada|fechas}}</td>
+                                <td class="small">{{tarea.fechaFinPlanificada|fechas}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -79,27 +79,27 @@
                         <tbody>
                             <tr>
                                 <th class="text-center text-dark " scope="row ">HH</th>
-                                <td [ngClass]="{'bg-danger text-light': ars.val4 && mostrarVal}" class="text-center text-secondary ">{{ars['Horas Estimadas']|number}}</td>
-                                <td class="text-center text-secondary ">{{ars['Horas Planificadas']|number}}</td>
-                                <td [ngClass]="{'bg-danger text-light': (ars.val1||ars.val4) && mostrarVal}" class="text-center text-secondary ">{{ars['Horas Incurridas']|number}}</td>
-                                <td [ngClass]="{'bg-danger text-light': ars.val1 && mostrarVal}" class="text-center text-secondary ">{{ars['horasFact']|number}}</td>
+                                <td [ngClass]="{'bg-danger text-light': ars.val4 && mostrarVal}" class="text-center text-secondary ">{{ars.horasEstimadas|number}}</td>
+                                <td class="text-center text-secondary ">{{ars.horasPlanificadas|number}}</td>
+                                <td [ngClass]="{'bg-danger text-light': (ars.val1||ars.val4) && mostrarVal}" class="text-center text-secondary ">{{ars.horasIncurridas|number}}</td>
+                                <td [ngClass]="{'bg-danger text-light': ars.val1 && mostrarVal}" class="text-center text-secondary ">{{ars.horasFact|number}}</td>
 
                             </tr>
                             <tr>
                                 <th class="text-center text-dark " scope="row ">Etapa</th>
-                                <td class="text-center text-secondary " colspan="4 ">{{ars['Etapa']}}</td>
+                                <td class="text-center text-secondary " colspan="4 ">{{ars.etapa}}</td>
                             </tr>
                             <tr>
                                 <th class="text-center text-dark " scope="row ">LD</th>
-                                <td class="text-center text-secondary " colspan="4 ">{{ars['Solicitante']}}</td>
+                                <td class="text-center text-secondary " colspan="4 ">{{ars.solicitante}}</td>
                             </tr>
                             <tr>
                                 <th class="text-center text-dark " scope="row ">PM</th>
-                                <td class="text-center text-secondary " colspan="4 ">{{ars['Origen']}}</td>
+                                <td class="text-center text-secondary " colspan="4 ">{{ars.origen}}</td>
                             </tr>
                             <tr>
                                 <th class="text-center text-dark " scope="row ">CECO</th>
-                                <td class="text-center text-secondary " colspan="4 ">{{ars['Código Externo']}}</td>
+                                <td class="text-center text-secondary " colspan="4 ">{{ars.codigoExterno}}</td>
                             </tr>
 
                         </tbody>
@@ -116,13 +116,13 @@
                         <tbody>
                             <tr>
                                 <th class="text-center text-dark " scope="row ">%</th>
-                                <td class="text-center text-secondary ">{{ars['avanceReal']}}%</td>
-                                <td class="text-center text-secondary ">{{ars['avanceEsperado']}}%</td>
+                                <td class="text-center text-secondary ">{{ars.avanceReal}}%</td>
+                                <td class="text-center text-secondary ">{{ars.avanceEsperado}}%</td>
 
-                                <td *ngIf="ars['Estado']!=='03 Suspendido' && ars['Etapa']!=='Detenido' && (ars['avanceEsperado'] - ars['avanceReal'] <= 5)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Verde.png" class="" alt="" style="width: 27px;height: 27px;"></td>
-                                <td *ngIf="ars['Estado']!=='03 Suspendido' && ars['Etapa']!=='Detenido' && (ars['avanceEsperado'] - ars['avanceReal'] > 5) && (ars['avanceEsperado'] - ars['avanceReal'] <=10)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Amarillo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
-                                <td *ngIf="ars['Estado']!=='03 Suspendido' && ars['Etapa']!=='Detenido' && (ars['avanceEsperado'] - ars['avanceReal'] > 11)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Rojo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
-                                <td *ngIf="ars['Estado']=='03 Suspendido' || ars['Etapa']=='Detenido'" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Gris.png" class="" alt="" style="width: 27px;height: 27px;"></td>
+                                <td *ngIf="ars.estado!=='03 Suspendido' && ars.etapa!=='Detenido' && (ars.avanceEsperado - ars.avanceReal <= 5)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Verde.png" class="" alt="" style="width: 27px;height: 27px;"></td>
+                                <td *ngIf="ars.estado!=='03 Suspendido' && ars.etapa!=='Detenido' && (ars.avanceEsperado - ars.avanceReal > 5) && (ars.avanceEsperado - ars.avanceReal <=10)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Amarillo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
+                                <td *ngIf="ars.estado!=='03 Suspendido' && ars.etapa!=='Detenido' && (ars.avanceEsperado - ars.avanceReal > 11)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Rojo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
+                                <td *ngIf="ars.estado=='03 Suspendido' || ars.etapa=='Detenido'" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Gris.png" class="" alt="" style="width: 27px;height: 27px;"></td>
 
                             </tr>
                         </tbody>
@@ -169,7 +169,7 @@
                         </thead>
                         <tbody *ngFor="let eve of ars.realizado|slice:-5">
                             <tr>
-                                <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/check-solid.png" alt="" style="width: 14px;height: 14px;"> {{eve['Descripción de evento']}}</th>
+                                <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/check-solid.png" alt="" style="width: 14px;height: 14px;"> {{eve.descripcionDeEvento}}</th>
                             </tr>
                         </tbody>
                         <tbody *ngIf="ars.val2 && mostrarVal">
@@ -189,7 +189,7 @@
                         </thead>
                         <tbody *ngFor="let eve of ars.proximo|slice:-5">
                             <tr>
-                                <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/calendar-regular.png" alt="" style="width: 14px;height: 14px;"> {{eve['Descripción de evento']}}</th>
+                                <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/calendar-regular.png" alt="" style="width: 14px;height: 14px;"> {{eve.descripcionDeEvento}}</th>
                             </tr>
                         </tbody>
                         <tbody *ngIf="ars.val3 && mostrarVal">
@@ -250,7 +250,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let ars of arr; let i=index">
-                    <td class="small">{{ars['Descripción']}}</td>
+                    <td class="small">{{ars.descripcion}}</td>
 
                     <td class="small">{{ars.total13 + ars.total14 + ars.total15 + ars.total16 + ars.total17 + ars.total18 + ars.total19 + ars.total20 + ars.total21 + ars.total22 + ars.total23 + ars.total24 + ars.total25}}</td>
                     <td class="small">{{ars.total12}}</td>
