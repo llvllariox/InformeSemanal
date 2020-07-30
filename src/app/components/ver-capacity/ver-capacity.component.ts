@@ -8,7 +8,9 @@ import { CapacityService } from '../../services/capacity.service';
 })
 export class VerCapacityComponent implements OnInit {
 
-  constructor(public capacityService: CapacityService ) { }
+  constructor(public capacityService: CapacityService ) {
+    
+  }
 
   ngOnInit(): void {
   }

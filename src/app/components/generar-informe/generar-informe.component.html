@@ -1,63 +1,66 @@
-<div class="row justify-content-center">
-    <div class="col-12 col-sm-6 ">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-6 ">
 
-        <div class="row">
-            <div class="col ">
-                <h4>Subir Archivos</h4>
+            <div class="row">
+                <div class="col ">
+                    <h4>Subir Archivos</h4>
+                </div>
             </div>
+            <form autocomplete="off" [formGroup]="forma" (ngSubmit)="guardar()">
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        Requerimientos:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="requerimientosNoValido" formControlName="requerimientos" type="file" class="form-control-file" (change)="uploadReq($event)">
+                        <small *ngIf="requerimientosNoValido" class="text-danger">Seleccione Archivo</small>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        Tareas:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="tareasNoValido " formControlName="tareas" type="file" class="form-control-file" (change)="uploadTar($event)">
+                        <small *ngIf="tareasNoValido " class="text-danger">Seleccione Archivo</small>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        Eventos:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="eventosNoValido " formControlName="eventos" type="file" class="form-control-file" (change)="uploadEve($event)">
+                        <small *ngIf="eventosNoValido " class="text-danger">Seleccione Archivo</small>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        Facturacion:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="facturacionNoValido " formControlName="facturacion" type="file" class="form-control-file" (change)="uploadFac($event)">
+                        <small *ngIf="facturacionNoValido " class="text-danger">Seleccione Archivo</small>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        Fecha:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="fechaNoValido " formControlName="fecha" type="date" class="date form-control">
+                        <small *ngIf="fechaNoValido " class="text-danger">Seleccione Fecha</small>
+                    </div>
+                </div>
+
+                <div class="row my-3 mt-5">
+                    <div class="col">
+                        <button class="btn btn-primary btn-block" type="submit">Generar</button>
+                    </div>
+                </div>
+            </form>
+
         </div>
-        <form autocomplete="off" [formGroup]="forma" (ngSubmit)="guardar()">
-            <div class="row my-3">
-                <div class="col-12 col-sm-4">
-                    Requerimientos:
-                </div>
-                <div class="col-12 col-sm-8">
-                    <input [class.is-invalid]="requerimientosNoValido" formControlName="requerimientos" type="file" class="form-control-file" (change)="uploadReq($event)">
-                    <small *ngIf="requerimientosNoValido" class="text-danger">Seleccione Archivo</small>
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-12 col-sm-4">
-                    Tareas:
-                </div>
-                <div class="col-12 col-sm-8">
-                    <input [class.is-invalid]="tareasNoValido " formControlName="tareas" type="file" class="form-control-file" (change)="uploadTar($event)">
-                    <small *ngIf="tareasNoValido " class="text-danger">Seleccione Archivo</small>
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-12 col-sm-4">
-                    Eventos:
-                </div>
-                <div class="col-12 col-sm-8">
-                    <input [class.is-invalid]="eventosNoValido " formControlName="eventos" type="file" class="form-control-file" (change)="uploadEve($event)">
-                    <small *ngIf="eventosNoValido " class="text-danger">Seleccione Archivo</small>
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-12 col-sm-4">
-                    Facturacion:
-                </div>
-                <div class="col-12 col-sm-8">
-                    <input [class.is-invalid]="facturacionNoValido " formControlName="facturacion" type="file" class="form-control-file" (change)="uploadFac($event)">
-                    <small *ngIf="facturacionNoValido " class="text-danger">Seleccione Archivo</small>
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-12 col-sm-4">
-                    Fecha:
-                </div>
-                <div class="col-12 col-sm-8">
-                    <input [class.is-invalid]="fechaNoValido " formControlName="fecha" type="date" class="date form-control">
-                    <small *ngIf="fechaNoValido " class="text-danger">Seleccione Fecha</small>
-                </div>
-            </div>
-
-            <div class="row my-3 mt-5">
-                <div class="col">
-                    <button class="btn btn-primary btn-block" type="submit">Generar</button>
-                </div>
-            </div>
-        </form>
-
     </div>
+</div>

@@ -22,7 +22,8 @@ export class GenerarCapacityComponent implements OnInit {
   // tslint:disable-next-line: max-line-length
   constructor(private formBuilder: FormBuilder, private capacityService: CapacityService, private sweetAlerService: SweetAlertService, private router: Router) {
 
-
+    this.capacityService.jsonDataPlanService = null;
+    this.capacityService.planAgrupado = [];
     // this.jsonDataService.jsonDataFacService = null;
     // this.jsonDataService.infoCargada = false;
 

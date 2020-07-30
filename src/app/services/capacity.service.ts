@@ -12,37 +12,37 @@ export class CapacityService {
   dias = [];
   planAgrupado = [];
   totales = {
-    dia1: Number,
-    dia2: Number,
-    dia3: Number,
-    dia4: Number,
-    dia5: Number,
-    dia6: Number,
-    dia7: Number,
-    dia8: Number,
-    dia9: Number,
-    dia10: Number,
-    dia11: Number,
-    dia12: Number,
-    dia13: Number,
-    dia14: Number,
-    dia15: Number,
-    dia16: Number,
-    dia17: Number,
-    dia18: Number,
-    dia19: Number,
-    dia20: Number,
-    dia21: Number,
-    dia22: Number,
-    dia23: Number,
-    dia24: Number,
-    dia25: Number,
-    dia26: Number,
-    dia27: Number,
-    dia28: Number,
-    dia29: Number,
-    dia30: Number,
-    dia31: Number,
+    'dia1': 0,
+    'dia2': 0,
+    'dia3': 0,
+    'dia4': 0,
+    'dia5': 0,
+    'dia6': 0,
+    'dia7': 0,
+    'dia8': 0,
+    'dia9': 0,
+    'dia10': 0,
+    'dia11': 0,
+    'dia12': 0,
+    'dia13': 0,
+    'dia14': 0,
+    'dia15': 0,
+    'dia16': 0,
+    'dia17': 0,
+    'dia18': 0,
+    'dia19': 0,
+    'dia20': 0,
+    'dia21': 0,
+    'dia22': 0,
+    'dia23': 0,
+    'dia24': 0,
+    'dia25': 0,
+    'dia26': 0,
+    'dia27': 0,
+    'dia28': 0,
+    'dia29': 0,
+    'dia30': 0,
+    'dia31': 0,
 
   }
   // ReqAgrupado = [];
@@ -176,15 +176,17 @@ export class CapacityService {
     }
 
     totalesDia(){
-
+      // this.totales = {};
       for (let i = 1; i < 32; i++) {
         let diaN = `dia${i}`;
         this.totales[diaN] = 0;
       }
-
+      console.log(this.totales);
+// return;
       for (let plan of this.jsonDataPlanService) {
         for (let i = 1; i < 32; i++) {
           let diaN = `dia${i}`;
+          // console.log(plan[diaN]);
           this.totales[diaN] = Number(this.totales[diaN]) + Number(plan[diaN]);
         }
       }

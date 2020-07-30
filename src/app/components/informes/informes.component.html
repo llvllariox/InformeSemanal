@@ -1,272 +1,274 @@
-<div class="row pb-3" *ngIf="jsonDataService.jsonDataReqService">
-    <div class="col-sm-12">
+<div class="container">
+    <div class="row pb-3" *ngIf="jsonDataService.jsonDataReqService">
+        <div class="col-sm-12">
 
-        <button class="btn waves-effect waves-light btn-rounded btn-danger " (click)="generarPDF()">
-            Exportar Informe PDF
-            <img
-            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABK0lEQVRIx+2UvUpDMRiGn6hQ/NucRHQT2sFJcOgViKB34Sh4Ed6Ag6u4CIKzToIiblZwc9GlXRxE/KGCYB8HoxyqR05az+a7hITkffIm+QL/SpG6pLbsXU11MesZugBNYKrPfTZDCNN5AP/iJEIIX74DCes2gTngOgWWAtgHqkCjLMAYcAJMlAWohhBugVpZgMHYXqYAir6iDjAL1CPgDBjNNe3hFR0CFWCbjzpZAe6BJ+CxcJyc6uyo8+qW+qIeqONqJbaTak29+1yQ9RwqwN0BLoAZYDcmWAfOgePY7wBvqQme1TV1WN1Q2z+ka6tX6kN2sMglvwLLwAJwChx1z/1N2UvOO6IGcBNj76WYf4PlJOjEXdeBkWTTTILSv+vuOlgFWv2YR49/Fdc7ntsGSiB6CfMAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjAtMDctMDdUMTc6MTM6MjIrMDA6MDCkJIB1AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIwLTA3LTA3VDE3OjEzOjIyKzAwOjAw1Xk4yQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
-            alt="">
-        </button> &nbsp;
+            <button class="btn waves-effect waves-light btn-rounded btn-danger " (click)="generarPDF()">
+                Exportar Informe PDF
+                <img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABK0lEQVRIx+2UvUpDMRiGn6hQ/NucRHQT2sFJcOgViKB34Sh4Ed6Ag6u4CIKzToIiblZwc9GlXRxE/KGCYB8HoxyqR05az+a7hITkffIm+QL/SpG6pLbsXU11MesZugBNYKrPfTZDCNN5AP/iJEIIX74DCes2gTngOgWWAtgHqkCjLMAYcAJMlAWohhBugVpZgMHYXqYAir6iDjAL1CPgDBjNNe3hFR0CFWCbjzpZAe6BJ+CxcJyc6uyo8+qW+qIeqONqJbaTak29+1yQ9RwqwN0BLoAZYDcmWAfOgePY7wBvqQme1TV1WN1Q2z+ka6tX6kN2sMglvwLLwAJwChx1z/1N2UvOO6IGcBNj76WYf4PlJOjEXdeBkWTTTILSv+vuOlgFWv2YR49/Fdc7ntsGSiB6CfMAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjAtMDctMDdUMTc6MTM6MjIrMDA6MDCkJIB1AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIwLTA3LTA3VDE3OjEzOjIyKzAwOjAw1Xk4yQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
+                alt="">
+            </button> &nbsp;
 
-    </div>
-    <div class="col-sm-12 mt-3">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" (click)="cambiaValor()" data-toggle="tooltip" data-html="true" title="<ul>
-                <li class='m-0 p-0 text-left small'>Factorado > Incurrido.</li>
-                <li class='m-0 p-0 text-left small'>Sin Actividades Realizadas.</li>
-                <li class='m-0 p-0 text-left small'>Sin Proximas Actividades.</li>
-                <li class='m-0 p-0 text-left small'>Si Estapa es QA o Produccion: Por Incurrir(QA+PROD) <> Por Incurrir ARS.</li>
-              </ul>">
-            <label class="form-check-label" for="defaultCheck1">Ocultar Validaciones</label>
         </div>
-    </div>
-</div>
-<div class="alert alert-danger" *ngIf="!jsonDataService.jsonDataReqService">Debes subir archivos</div>
-<div class="" *ngIf="jsonDataService.jsonDataReqService">
-
-    <div class="" *ngFor="let ars of JsonArray; let i=index ">
-
-        <div id="tareas">
-            <div class="row" id="row{{i}}">
-                <div class="col-12 col-sm-8 ">
-                    <h3 class="pt-3 ">{{ars.descripcion}}</h3>
-                </div>
-                <div class="d-none d-sm-inline-block col-sm-4 ">
-                    <img src="/../../assets/images/logo_tbk.png " alt=" " class="imagen-logo ">
-                </div>
-            </div>
-            <div class="row ">
-                <div class="col text-danger px-0 ">
-                    <hr color="red ">
-                </div>
-            </div>
-            <div class="row ">
-                <div class="col-12 col-sm-6 mb-3 ">
-                    <table class="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">Tarea</th>
-                                <th scope="col">Duracion HH</th>
-                                <th scope="col">Inicio</th>
-                                <th scope="col">Fin</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let tarea of ars.tareas|slice:-10">
-                                <td class="small">{{tarea.descripcionTarea}}</td>
-                                <td class="small">{{tarea.horasEstimadas}}</td>
-                                <td class="small">{{tarea.fechaInicioPlanificada|fechas}}</td>
-                                <td class="small">{{tarea.fechaFinPlanificada|fechas}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-12 col-sm-6 mb-3 ">
-                    <table class="table table-bordered table-sm mb-0 ">
-                        <thead>
-                            <tr>
-                                <th class="text-center bg-danger text-light " scope="col ">PROYECTO</th>
-                                <th class="text-center bg-danger text-light " scope="col ">Estimado</th>
-                                <th class="text-center bg-danger text-light " scope="col ">Planificado</th>
-                                <th class="text-center bg-danger text-light " scope="col ">Incurrido</th>
-                                <th class="text-center bg-danger text-light " scope="col ">Facturado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th class="text-center text-dark " scope="row ">HH</th>
-                                <td [ngClass]="{'bg-danger text-light': ars.val4 && mostrarVal}" class="text-center text-secondary ">{{ars.horasEstimadas|number}}</td>
-                                <td class="text-center text-secondary ">{{ars.horasPlanificadas|number}}</td>
-                                <td [ngClass]="{'bg-danger text-light': (ars.val1||ars.val4) && mostrarVal}" class="text-center text-secondary ">{{ars.horasIncurridas|number}}</td>
-                                <td [ngClass]="{'bg-danger text-light': ars.val1 && mostrarVal}" class="text-center text-secondary ">{{ars.horasFact|number}}</td>
-
-                            </tr>
-                            <tr>
-                                <th class="text-center text-dark " scope="row ">Etapa</th>
-                                <td class="text-center text-secondary " colspan="4 ">{{ars.etapa}}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-center text-dark " scope="row ">LD</th>
-                                <td class="text-center text-secondary " colspan="4 ">{{ars.solicitante}}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-center text-dark " scope="row ">PM</th>
-                                <td class="text-center text-secondary " colspan="4 ">{{ars.origen}}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-center text-dark " scope="row ">CECO</th>
-                                <td class="text-center text-secondary " colspan="4 ">{{ars.codigoExterno}}</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                    <table class="table table-bordered table-sm my-0 ">
-                        <thead>
-                            <tr>
-                                <th class="text-center bg-danger text-light " scope="col ">PLAN(Gantt)</th>
-                                <th class="text-center bg-danger text-light " scope="col ">Avance Real</th>
-                                <th class="text-center bg-danger text-light " scope="col " colspan="2 ">Avance Esperado</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th class="text-center text-dark " scope="row ">%</th>
-                                <td class="text-center text-secondary ">{{ars.avanceReal}}%</td>
-                                <td class="text-center text-secondary ">{{ars.avanceEsperado}}%</td>
-
-                                <td *ngIf="ars.estado!=='03 Suspendido' && ars.etapa!=='Detenido' && (ars.avanceEsperado - ars.avanceReal <= 5)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Verde.png" class="" alt="" style="width: 27px;height: 27px;"></td>
-                                <td *ngIf="ars.estado!=='03 Suspendido' && ars.etapa!=='Detenido' && (ars.avanceEsperado - ars.avanceReal > 5) && (ars.avanceEsperado - ars.avanceReal <=10)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Amarillo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
-                                <td *ngIf="ars.estado!=='03 Suspendido' && ars.etapa!=='Detenido' && (ars.avanceEsperado - ars.avanceReal > 11)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Rojo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
-                                <td *ngIf="ars.estado=='03 Suspendido' || ars.etapa=='Detenido'" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Gris.png" class="" alt="" style="width: 27px;height: 27px;"></td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-bordered table-sm my-0 ">
-                        <thead>
-                            <tr>
-                                <th class="text-center bg-danger text-light " scope="col ">SOPORTE</th>
-                                <th class="text-center bg-danger text-light " scope="col ">Estimado</th>
-                                <th class="text-center bg-danger text-light " scope="col ">Incurrido</th>
-                                <th class="text-center bg-danger text-light " scope="col ">Fecha Inicio</th>
-                                <th class="text-center bg-danger text-light " scope="col ">Fecha Fin</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th class="text-center text-dark " scope="row ">HH Soporte QA</th>
-                                <td [ngClass]="{'bg-danger text-light': ars.val4 && mostrarVal}" class="text-center text-secondary ">{{ars.estimadoQA|number}}</td>
-                                <td [ngClass]="{'bg-danger text-light': ars.val4 && mostrarVal}" class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
-                                <td class="text-center text-secondary ">{{ars.inicioQA|fechas}}</td>
-                                <td class="text-center text-secondary ">{{ars.finQA|fechas}}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-center text-dark " scope="row ">HH Soporte Produccion</th>
-                                <td [ngClass]="{'bg-danger text-light': ars.val4 && mostrarVal}" class="text-center text-secondary ">{{ars.estimadoProd|number}}</td>
-                                <td [ngClass]="{'bg-danger text-light': ars.val4 && mostrarVal}" class="text-center text-secondary ">{{ars.incurridoProd|number}}</td>
-                                <td class="text-center text-secondary ">{{ars.inicioProd|fechas}}</td>
-                                <td class="text-center text-secondary ">{{ars.finProd|fechas}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-            <div class="row " style="height: 220px;">
-                <div class="col-12 col-sm-6 mb-3 ">
-                    <table class="table table-sm mb-0  table-borderless ">
-                        <thead>
-                            <tr>
-                                <th class="text-center bg-primary text-light h5 " scope="col ">Actividades Realizadas</th>
-
-                            </tr>
-                        </thead>
-                        <tbody *ngFor="let eve of ars.realizado|slice:-5">
-                            <tr>
-                                <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/check-solid.png" alt="" style="width: 14px;height: 14px;"> {{eve.descripcionDeEvento}}</th>
-                            </tr>
-                        </tbody>
-                        <tbody *ngIf="ars.val2 && mostrarVal">
-                            <tr>
-                                <th class="bg-danger" scope="row ">&nbsp;</th>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-12 col-sm-6 mb-3 ">
-                    <table class="table table-sm mb-0  table-borderless">
-                        <thead>
-                            <tr>
-                                <th class="text-center bg-primary text-light h5 " scope="col ">Proximas Actividades</th>
-
-                            </tr>
-                        </thead>
-                        <tbody *ngFor="let eve of ars.proximo|slice:-5">
-                            <tr>
-                                <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/calendar-regular.png" alt="" style="width: 14px;height: 14px;"> {{eve.descripcionDeEvento}}</th>
-                            </tr>
-                        </tbody>
-                        <tbody *ngIf="ars.val3 && mostrarVal">
-                            <tr>
-                                <th class="bg-danger" scope="row ">&nbsp;</th>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="row pt-5">
-                <div class="col px-0 text-right">
-                    <small class="text-muted text-right">{{i+1}}</small>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 ml-5 px-0 text-left">
-                    <small class="text-muted text-left">Copyright © 2020 Accenture All rights
-            reserved.&nbsp;&nbsp;&nbsp;&nbsp;</small>
-                    <img src="../../../assets/images/Circulo_Verde.png" class="" alt="" style="width: 14px;height: 14px;">&nbsp;<small class="text-muted text-left">En
-            Curso</small>&nbsp;
-                    <img src="../../../assets/images/Circulo_Amarillo.png" class="" alt="" style="width: 14px;height: 14px;">&nbsp;<small class="text-muted text-left">Desvío
-            recuperable sin impacto en el plan</small>&nbsp;
-                    <img src="../../../assets/images/Circulo_Rojo.png" class="" alt="" style="width: 14px;height: 14px;">&nbsp;<small class="text-muted text-left">Desvío con
-            impacto en el plan</small>&nbsp;
-                    <img src="../../../assets/images/Circulo_Gris.png" class="" alt="" style="width: 14px;height: 14px;">&nbsp;<small class="text-muted text-left">Suspendido/Detenido</small>
-                </div>
-            </div>
-            <div class="row pb-5">
-                <div class="col px-0">
-                    <hr>
-                </div>
+        <div class="col-sm-12 mt-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" (click)="cambiaValor()" data-toggle="tooltip" data-html="true" title="<ul>
+                    <li class='m-0 p-0 text-left small'>Factorado > Incurrido.</li>
+                    <li class='m-0 p-0 text-left small'>Sin Actividades Realizadas.</li>
+                    <li class='m-0 p-0 text-left small'>Sin Proximas Actividades.</li>
+                    <li class='m-0 p-0 text-left small'>Si Estapa es QA o Produccion: Por Incurrir(QA+PROD) <> Por Incurrir ARS.</li>
+                  </ul>">
+                <label class="form-check-label" for="defaultCheck1">Ocultar Validaciones</label>
             </div>
         </div>
     </div>
-    <div class="div mb-5" id="tareas" *ngFor="let arr of tablaFac">
-        <table class="table table-striped table-bordered">
-            <thead class="bg-dark">
-                <tr>
-                    <th class="small font-weight-bold text-light" scope="col">Requerimiento</th>
+    <div class="alert alert-danger" *ngIf="!jsonDataService.jsonDataReqService">Debes subir archivos</div>
+    <div class="" *ngIf="jsonDataService.jsonDataReqService">
 
-                    <th class=" font-weight-bold text-light" scope="col">
-                        <</th>
-                            <th class="small font-weight-bold text-light" scope="col">{{fecha12}}</th>
-                            <th class="small font-weight-bold text-light" scope="col">{{fecha11}}</th>
-                            <th class="small font-weight-bold text-light" scope="col">{{fecha10}}</th>
-                            <th class="small font-weight-bold text-light" scope="col">{{fecha9}}</th>
-                            <th class="small font-weight-bold text-light" scope="col">{{fecha8}}</th>
-                            <th class="small font-weight-bold text-light" scope="col">{{fecha7}}</th>
-                            <th class="small font-weight-bold text-light" scope="col">{{fecha6}}</th>
-                            <th class="small font-weight-bold text-light" scope="col">{{fecha5}}</th>
-                            <th class="small font-weight-bold text-light" scope="col">{{fecha4}}</th>
-                            <th class="small font-weight-bold text-light" scope="col">{{fecha3}}</th>
-                            <th class="small font-weight-bold text-light" scope="col">{{fecha2}}</th>
-                            <th class="small font-weight-bold text-light" scope="col">{{fecha1}}</th>
-                            <th class="small font-weight-bold text-light" scope="col">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let ars of arr; let i=index">
-                    <td class="small">{{ars.descripcion}}</td>
+        <div class="" *ngFor="let ars of JsonArray; let i=index ">
 
-                    <td class="small">{{ars.total13 + ars.total14 + ars.total15 + ars.total16 + ars.total17 + ars.total18 + ars.total19 + ars.total20 + ars.total21 + ars.total22 + ars.total23 + ars.total24 + ars.total25}}</td>
-                    <td class="small">{{ars.total12}}</td>
-                    <td class="small">{{ars.total11}}</td>
-                    <td class="small">{{ars.total10}}</td>
-                    <td class="small">{{ars.total9}}</td>
-                    <td class="small">{{ars.total8}}</td>
-                    <td class="small">{{ars.total7}}</td>
-                    <td class="small">{{ars.total6}}</td>
-                    <td class="small">{{ars.total5}}</td>
-                    <td class="small">{{ars.total4}}</td>
-                    <td class="small">{{ars.total3}}</td>
-                    <td class="small">{{ars.total2}}</td>
-                    <td class="small">{{ars.total1}}</td>
+            <div id="tareas">
+                <div class="row" id="row{{i}}">
+                    <div class="col-12 col-sm-8 ">
+                        <h3 class="pt-3 ">{{ars.descripcion}}</h3>
+                    </div>
+                    <div class="d-none d-sm-inline-block col-sm-4 ">
+                        <img src="/../../assets/images/logo_tbk.png " alt=" " class="imagen-logo ">
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col text-danger px-0 ">
+                        <hr color="red ">
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-12 col-sm-6 mb-3 ">
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Tarea</th>
+                                    <th scope="col">Duracion HH</th>
+                                    <th scope="col">Inicio</th>
+                                    <th scope="col">Fin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let tarea of ars.tareas|slice:-10">
+                                    <td class="small">{{tarea.descripcionTarea}}</td>
+                                    <td class="small">{{tarea.horasEstimadas}}</td>
+                                    <td class="small">{{tarea.fechaInicioPlanificada|fechas}}</td>
+                                    <td class="small">{{tarea.fechaFinPlanificada|fechas}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-12 col-sm-6 mb-3 ">
+                        <table class="table table-bordered table-sm mb-0 ">
+                            <thead>
+                                <tr>
+                                    <th class="text-center bg-danger text-light " scope="col ">PROYECTO</th>
+                                    <th class="text-center bg-danger text-light " scope="col ">Estimado</th>
+                                    <th class="text-center bg-danger text-light " scope="col ">Planificado</th>
+                                    <th class="text-center bg-danger text-light " scope="col ">Incurrido</th>
+                                    <th class="text-center bg-danger text-light " scope="col ">Facturado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th class="text-center text-dark " scope="row ">HH</th>
+                                    <td [ngClass]="{'bg-danger text-light': ars.val4 && mostrarVal}" class="text-center text-secondary ">{{ars.horasEstimadas|number}}</td>
+                                    <td class="text-center text-secondary ">{{ars.horasPlanificadas|number}}</td>
+                                    <td [ngClass]="{'bg-danger text-light': (ars.val1||ars.val4) && mostrarVal}" class="text-center text-secondary ">{{ars.horasIncurridas|number}}</td>
+                                    <td [ngClass]="{'bg-danger text-light': ars.val1 && mostrarVal}" class="text-center text-secondary ">{{ars.horasFact|number}}</td>
 
-                    <td class="small font-weight-bold">{{ars.total1 + ars.total2 + ars.total3 + ars.total4 + ars.total5 + ars.total6 + ars.total7 + ars.total8 + ars.total9 + ars.total10 + ars.total11 + ars.total12 + ars.total13 + ars.total14 + ars.total15 + ars.total16 + ars.total17 +
-                        ars.total18 + ars.total19 + ars.total20 + ars.total21 + ars.total22 + ars.total23 + ars.total24 + ars.total25 }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                                </tr>
+                                <tr>
+                                    <th class="text-center text-dark " scope="row ">Etapa</th>
+                                    <td class="text-center text-secondary " colspan="4 ">{{ars.etapa}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center text-dark " scope="row ">LD</th>
+                                    <td class="text-center text-secondary " colspan="4 ">{{ars.solicitante}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center text-dark " scope="row ">PM</th>
+                                    <td class="text-center text-secondary " colspan="4 ">{{ars.origen}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center text-dark " scope="row ">CECO</th>
+                                    <td class="text-center text-secondary " colspan="4 ">{{ars.codigoExterno}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-sm my-0 ">
+                            <thead>
+                                <tr>
+                                    <th class="text-center bg-danger text-light " scope="col ">PLAN(Gantt)</th>
+                                    <th class="text-center bg-danger text-light " scope="col ">Avance Real</th>
+                                    <th class="text-center bg-danger text-light " scope="col " colspan="2 ">Avance Esperado</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th class="text-center text-dark " scope="row ">%</th>
+                                    <td class="text-center text-secondary ">{{ars.avanceReal}}%</td>
+                                    <td class="text-center text-secondary ">{{ars.avanceEsperado}}%</td>
+
+                                    <td *ngIf="ars.estado!=='03 Suspendido' && ars.etapa!=='Detenido' && (ars.avanceEsperado - ars.avanceReal <= 5)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Verde.png" class="" alt="" style="width: 27px;height: 27px;"></td>
+                                    <td *ngIf="ars.estado!=='03 Suspendido' && ars.etapa!=='Detenido' && (ars.avanceEsperado - ars.avanceReal > 5) && (ars.avanceEsperado - ars.avanceReal <=10)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Amarillo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
+                                    <td *ngIf="ars.estado!=='03 Suspendido' && ars.etapa!=='Detenido' && (ars.avanceEsperado - ars.avanceReal > 11)" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Rojo.png" class="" alt="" style="width: 27px;height: 27px;"></td>
+                                    <td *ngIf="ars.estado=='03 Suspendido' || ars.etapa=='Detenido'" class="text-center text-secondary my-0 py-0 "><img src="../../../assets/images/Circulo_Gris.png" class="" alt="" style="width: 27px;height: 27px;"></td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-sm my-0 ">
+                            <thead>
+                                <tr>
+                                    <th class="text-center bg-danger text-light " scope="col ">SOPORTE</th>
+                                    <th class="text-center bg-danger text-light " scope="col ">Estimado</th>
+                                    <th class="text-center bg-danger text-light " scope="col ">Incurrido</th>
+                                    <th class="text-center bg-danger text-light " scope="col ">Fecha Inicio</th>
+                                    <th class="text-center bg-danger text-light " scope="col ">Fecha Fin</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th class="text-center text-dark " scope="row ">HH Soporte QA</th>
+                                    <td [ngClass]="{'bg-danger text-light': ars.val4 && mostrarVal}" class="text-center text-secondary ">{{ars.estimadoQA|number}}</td>
+                                    <td [ngClass]="{'bg-danger text-light': ars.val4 && mostrarVal}" class="text-center text-secondary ">{{ars.incurridoQA|number}}</td>
+                                    <td class="text-center text-secondary ">{{ars.inicioQA|fechas}}</td>
+                                    <td class="text-center text-secondary ">{{ars.finQA|fechas}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center text-dark " scope="row ">HH Soporte Produccion</th>
+                                    <td [ngClass]="{'bg-danger text-light': ars.val4 && mostrarVal}" class="text-center text-secondary ">{{ars.estimadoProd|number}}</td>
+                                    <td [ngClass]="{'bg-danger text-light': ars.val4 && mostrarVal}" class="text-center text-secondary ">{{ars.incurridoProd|number}}</td>
+                                    <td class="text-center text-secondary ">{{ars.inicioProd|fechas}}</td>
+                                    <td class="text-center text-secondary ">{{ars.finProd|fechas}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="row " style="height: 220px;">
+                    <div class="col-12 col-sm-6 mb-3 ">
+                        <table class="table table-sm mb-0  table-borderless ">
+                            <thead>
+                                <tr>
+                                    <th class="text-center bg-primary text-light h5 " scope="col ">Actividades Realizadas</th>
+
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let eve of ars.realizado|slice:-5">
+                                <tr>
+                                    <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/check-solid.png" alt="" style="width: 14px;height: 14px;"> {{eve.descripcionDeEvento}}</th>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="ars.val2 && mostrarVal">
+                                <tr>
+                                    <th class="bg-danger" scope="row ">&nbsp;</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-12 col-sm-6 mb-3 ">
+                        <table class="table table-sm mb-0  table-borderless">
+                            <thead>
+                                <tr>
+                                    <th class="text-center bg-primary text-light h5 " scope="col ">Proximas Actividades</th>
+
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let eve of ars.proximo|slice:-5">
+                                <tr>
+                                    <th class="text-left text-dark font-weight-normal" scope="row "><img src="../../../assets/images/calendar-regular.png" alt="" style="width: 14px;height: 14px;"> {{eve.descripcionDeEvento}}</th>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="ars.val3 && mostrarVal">
+                                <tr>
+                                    <th class="bg-danger" scope="row ">&nbsp;</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row pt-5">
+                    <div class="col px-0 text-right">
+                        <small class="text-muted text-right">{{i+1}}</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 ml-5 px-0 text-left">
+                        <small class="text-muted text-left">Copyright © 2020 Accenture All rights
+                reserved.&nbsp;&nbsp;&nbsp;&nbsp;</small>
+                        <img src="../../../assets/images/Circulo_Verde.png" class="" alt="" style="width: 14px;height: 14px;">&nbsp;<small class="text-muted text-left">En
+                Curso</small>&nbsp;
+                        <img src="../../../assets/images/Circulo_Amarillo.png" class="" alt="" style="width: 14px;height: 14px;">&nbsp;<small class="text-muted text-left">Desvío
+                recuperable sin impacto en el plan</small>&nbsp;
+                        <img src="../../../assets/images/Circulo_Rojo.png" class="" alt="" style="width: 14px;height: 14px;">&nbsp;<small class="text-muted text-left">Desvío con
+                impacto en el plan</small>&nbsp;
+                        <img src="../../../assets/images/Circulo_Gris.png" class="" alt="" style="width: 14px;height: 14px;">&nbsp;<small class="text-muted text-left">Suspendido/Detenido</small>
+                    </div>
+                </div>
+                <div class="row pb-5">
+                    <div class="col px-0">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="div mb-5" id="tareas" *ngFor="let arr of tablaFac">
+            <table class="table table-striped table-bordered">
+                <thead class="bg-dark">
+                    <tr>
+                        <th class="small font-weight-bold text-light" scope="col">Requerimiento</th>
+
+                        <th class=" font-weight-bold text-light" scope="col">
+                            <</th>
+                                <th class="small font-weight-bold text-light" scope="col">{{fecha12}}</th>
+                                <th class="small font-weight-bold text-light" scope="col">{{fecha11}}</th>
+                                <th class="small font-weight-bold text-light" scope="col">{{fecha10}}</th>
+                                <th class="small font-weight-bold text-light" scope="col">{{fecha9}}</th>
+                                <th class="small font-weight-bold text-light" scope="col">{{fecha8}}</th>
+                                <th class="small font-weight-bold text-light" scope="col">{{fecha7}}</th>
+                                <th class="small font-weight-bold text-light" scope="col">{{fecha6}}</th>
+                                <th class="small font-weight-bold text-light" scope="col">{{fecha5}}</th>
+                                <th class="small font-weight-bold text-light" scope="col">{{fecha4}}</th>
+                                <th class="small font-weight-bold text-light" scope="col">{{fecha3}}</th>
+                                <th class="small font-weight-bold text-light" scope="col">{{fecha2}}</th>
+                                <th class="small font-weight-bold text-light" scope="col">{{fecha1}}</th>
+                                <th class="small font-weight-bold text-light" scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ars of arr; let i=index">
+                        <td class="small">{{ars.descripcion}}</td>
+
+                        <td class="small">{{ars.total13 + ars.total14 + ars.total15 + ars.total16 + ars.total17 + ars.total18 + ars.total19 + ars.total20 + ars.total21 + ars.total22 + ars.total23 + ars.total24 + ars.total25}}</td>
+                        <td class="small">{{ars.total12}}</td>
+                        <td class="small">{{ars.total11}}</td>
+                        <td class="small">{{ars.total10}}</td>
+                        <td class="small">{{ars.total9}}</td>
+                        <td class="small">{{ars.total8}}</td>
+                        <td class="small">{{ars.total7}}</td>
+                        <td class="small">{{ars.total6}}</td>
+                        <td class="small">{{ars.total5}}</td>
+                        <td class="small">{{ars.total4}}</td>
+                        <td class="small">{{ars.total3}}</td>
+                        <td class="small">{{ars.total2}}</td>
+                        <td class="small">{{ars.total1}}</td>
+
+                        <td class="small font-weight-bold">{{ars.total1 + ars.total2 + ars.total3 + ars.total4 + ars.total5 + ars.total6 + ars.total7 + ars.total8 + ars.total9 + ars.total10 + ars.total11 + ars.total12 + ars.total13 + ars.total14 + ars.total15 + ars.total16 + ars.total17
+                            + ars.total18 + ars.total19 + ars.total20 + ars.total21 + ars.total22 + ars.total23 + ars.total24 + ars.total25 }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
