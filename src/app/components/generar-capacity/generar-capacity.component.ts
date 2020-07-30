@@ -131,7 +131,7 @@ guardar() {
         this.sweetAlerService.mensajeOK('Capacity Generado Exitosamente').then(
           resp => {
             if (resp.value) {
-              // this.router.navigateByUrl('/informes/BO');
+              this.router.navigateByUrl('/verCapacity');
             }
           }
         );

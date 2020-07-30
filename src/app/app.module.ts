@@ -9,6 +9,7 @@ import { GenerarInformeComponent } from './components/generar-informe/generar-in
 import {ReactiveFormsModule} from '@angular/forms';
 import { FechasPipe } from './pipes/fechas.pipe';
 import { GenerarCapacityComponent } from './components/generar-capacity/generar-capacity.component';
+import { VerCapacityComponent } from './components/ver-capacity/ver-capacity.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { GenerarCapacityComponent } from './components/generar-capacity/generar-
     GenerarInformeComponent,
     FechasPipe,
     GenerarCapacityComponent,
+    VerCapacityComponent,
   ],
   imports: [
     BrowserModule,

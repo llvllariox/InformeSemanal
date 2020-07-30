@@ -11,6 +11,40 @@ export class CapacityService {
   finMes;
   dias = [];
   planAgrupado = [];
+  totales = {
+    dia1: Number,
+    dia2: Number,
+    dia3: Number,
+    dia4: Number,
+    dia5: Number,
+    dia6: Number,
+    dia7: Number,
+    dia8: Number,
+    dia9: Number,
+    dia10: Number,
+    dia11: Number,
+    dia12: Number,
+    dia13: Number,
+    dia14: Number,
+    dia15: Number,
+    dia16: Number,
+    dia17: Number,
+    dia18: Number,
+    dia19: Number,
+    dia20: Number,
+    dia21: Number,
+    dia22: Number,
+    dia23: Number,
+    dia24: Number,
+    dia25: Number,
+    dia26: Number,
+    dia27: Number,
+    dia28: Number,
+    dia29: Number,
+    dia30: Number,
+    dia31: Number,
+
+  }
   // ReqAgrupado = [];
 
   constructor() {
@@ -45,6 +79,7 @@ export class CapacityService {
     this.sumaHH();
     this.ordenarPorARS();
     this.agruparARS();
+    this.totalesDia();
 
 
   }
@@ -138,6 +173,22 @@ export class CapacityService {
     this.jsonDataPlanService = this.planAgrupado;
 
     console.log('jsonDataPlanService', this.jsonDataPlanService);
+    }
+
+    totalesDia(){
+
+      for (let i = 1; i < 32; i++) {
+        let diaN = `dia${i}`;
+        this.totales[diaN] = 0;
+      }
+
+      for (let plan of this.jsonDataPlanService) {
+        for (let i = 1; i < 32; i++) {
+          let diaN = `dia${i}`;
+          this.totales[diaN] = Number(this.totales[diaN]) + Number(plan[diaN]);
+        }
+      }
+      console.log(this.totales);
     }
 }
 
