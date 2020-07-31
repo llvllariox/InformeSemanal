@@ -14,6 +14,12 @@ export class VerCapacityComponent implements OnInit {
   fecha2;
   Mttovalor1 = 2700.00;
   Mttovalor2 = 900.00;
+  Mttovalor3 = 0.00;
+  Mttovalor4 = 0.00;
+  Reservavalor1 = 0;
+  Reservavalor2 = 0;
+  Ejecucion2 = 0;
+
   constructor(public capacityService: CapacityService ) {
     init_customJS();
     // numberMas
