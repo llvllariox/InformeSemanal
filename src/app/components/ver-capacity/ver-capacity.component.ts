@@ -3,7 +3,6 @@ import { CapacityService } from '../../services/capacity.service';
 declare function init_customJS();
 import * as moment from 'moment'; //
 
-
 @Component({
   selector: 'app-ver-capacity',
   templateUrl: './ver-capacity.component.html',
@@ -13,13 +12,15 @@ export class VerCapacityComponent implements OnInit {
 
   fecha1;
   fecha2;
-
+  Mttovalor1 = 2700.00;
+  Mttovalor2 = 900.00;
   constructor(public capacityService: CapacityService ) {
     init_customJS();
     // numberMas
     // moment.lang('es');
     this.fecha1 = moment().format('MMMM-YY');
     this.fecha2 = moment().add(1, 'months').format('MMMM-YY');
+
 
 
   }

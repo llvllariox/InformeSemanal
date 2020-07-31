@@ -37,17 +37,17 @@
                     </tr>
                     <tr class="" style="background-color: rgb(180, 198, 231)">
                         <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Mantención y Centro de Compentencia</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">3,600.00</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{(Mttovalor1 + Mttovalor2)|number:'1.2'}}</td>
                         <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">3,600.00</td>
                     </tr>
                     <tr class="" style="background-color: rgb(255, 255, 255)">
                         <td class="small text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">&nbsp; &nbsp;Mantención y Centro de Compentencia + BUC</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" class="text-right" pattern="" type="text" style="border: 0px;"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor1" class="text-right" pattern="" type="text" style="border: 0px;"></td>
                         <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">2,700.00</td>
                     </tr>
                     <tr class="" style="background-color: rgb(255, 255, 255)">
                         <td class="small text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">&nbsp; &nbsp;Mantención Backend</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">900.00</td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor2" class="text-right" pattern="" type="text" style="border: 0px;"></td>
                         <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">900.00</td>
                     </tr>
                     <tr class="" style="background-color: rgb(180, 198, 231)">

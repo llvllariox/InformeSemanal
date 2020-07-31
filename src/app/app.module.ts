@@ -11,6 +11,7 @@ import { FechasPipe } from './pipes/fechas.pipe';
 import { GenerarCapacityComponent } from './components/generar-capacity/generar-capacity.component';
 import { VerCapacityComponent } from './components/ver-capacity/ver-capacity.component';
 import { CurrencyMaskModule } from "ng2-currency-mask";
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { CurrencyMaskModule } from "ng2-currency-mask";
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    CurrencyMaskModule
+    CurrencyMaskModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
