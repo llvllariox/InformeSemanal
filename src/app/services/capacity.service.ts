@@ -7,10 +7,12 @@ import * as moment from 'moment';
 export class CapacityService {
 
   jsonDataPlanService;
+  jsonDataPlanServiceCS;
   inicioMes;
   finMes;
   dias = [];
   planAgrupado = [];
+  planAgrupadoCS = [];
   totales = {
     'dia1': 0,
     'dia2': 0,
@@ -74,6 +76,15 @@ export class CapacityService {
     this.jsonDataPlanService = jsonDataPlanService;
   }
 
+  getJsonDataPlanServiceCS() {
+    return this.jsonDataPlanServiceCS;
+  }
+
+  setjsonDataPlanServiceCS(jsonDataPlanServiceCS: any) {
+    this.jsonDataPlanServiceCS = jsonDataPlanServiceCS;
+    // console.log(this.jsonDataPlanServiceCS);
+  }
+
   generarCapacity() {
 
     this.agregaFechas();
@@ -81,6 +92,10 @@ export class CapacityService {
     this.ordenarPorARS();
     this.agruparARS();
     this.totalesDia();
+
+    // Capacity Service x 180
+    this.ordenarPorARSCS();
+    this.agruparARSCS();
 
 
   }
@@ -182,7 +197,7 @@ export class CapacityService {
         let diaN = `dia${i}`;
         this.totales[diaN] = 0;
       }
-      console.log(this.totales);
+      // console.log(this.totales);
 // return;
       for (let plan of this.jsonDataPlanService) {
         for (let i = 1; i < 32; i++) {
@@ -199,59 +214,32 @@ export class CapacityService {
       this.totales.dia24 + this.totales.dia25 + this.totales.dia26 + this.totales.dia27 + this.totales.dia28 + this.totales.dia29 +
       this.totales.dia30 + this.totales.dia31;
     }
+
+    ordenarPorARSCS(){
+      this.jsonDataPlanServiceCS.sort((a, b) => {
+        return a.numeroArs - b.numeroArs;
+      });
+    }
+
+    agruparARSCS(){
+
+      let planPadreCS: any = [];
+
+      // tslint:disable-next-line: prefer-const
+      for (let plan of this.jsonDataPlanServiceCS) {
+  
+          if (plan.numeroArs !== planPadreCS.numeroArs) {
+            if (planPadreCS) {
+              planPadreCS.horas1 = 180;
+              planPadreCS.horas2 = 180;
+              this.planAgrupadoCS.push(planPadreCS);
+            }
+            planPadreCS = plan;
+          }
+        }
+      // console.log('Agrupado', this.planAgrupado);
+      this.planAgrupadoCS.splice(0, 1);
+      this.jsonDataPlanServiceCS = this.planAgrupadoCS;
+      console.log('jsonDataPlanServiceCS', this.jsonDataPlanServiceCS);
+      }
 }
-
-  // generarCapacity() {
-
-  //   this.jsonDataPlanService['Detalle Horas Planificadas'].sort((a, b) => {
-  //     const keyA = a.numeroArs + a.fechaPlanificada;
-  //     const keyB = b.numeroArs + b.fechaPlanificada;
-
-  //     return keyA.localeCompare(keyB);
-  //   });
-
-  //   const x = 0;
-  //   let facpadre: any = [];
-
-  //   // tslint:disable-next-line: prefer-const
-  //   for (let fac of this.jsonDataPlanService['Detalle Horas Planificadas']) {
-
-  //     const keyA = fac.numeroArs + fac.fechaPlanificada;
-  //     const keyB = facpadre.numeroArs + facpadre.fechaPlanificada;
-
-  //     if (keyA !== keyB) {
-  //       if (facpadre) {
-
-  //         this.planAgrupado.push(facpadre);
-  //         facpadre = [];
-  //       }
-  //       facpadre = fac;
-  //     } else {
-  //       facpadre.horasPlanificadas = Number(facpadre.horasPlanificadas) + Number(fac.horasPlanificadas);
-
-  //     }
-
-  //   }
-
-  //   const arreglo = [];
-  //   let i = 0;
-  //   for (const dia of this.dias) {
-  //     for (const plan of this.planAgrupado) {
-
-  //       // console.log(plan['Fecha Planificada']);
-  //       if (moment(dia.diaN).isSame(plan.fechaPlanificada, 'day')) {
-  //         const total = plan.horasPlanificadas;
-  //         const ars = plan.numeroArs;
-  //         const desc = plan.descripcion;
-  //         const diaMes = dia.diaN;
-  //         // arreglo.push({diaMes,ars,desc,total});
-  //         dia[i] = {diaMes, ars, desc, total};
-  //         i++;
-
-  //       }
-  //     }
-  //   }
-  //   console.log(this.dias);
-
-  // }
-// }

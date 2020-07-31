@@ -18,12 +18,15 @@ export class GenerarCapacityComponent implements OnInit {
   forma: FormGroup;
   name = 'This is XLSX TO JSON CONVERTER';
   jsonDataPlan = null;
+  jsonDataPlanCS = null;
 
   // tslint:disable-next-line: max-line-length
   constructor(private formBuilder: FormBuilder, private capacityService: CapacityService, private sweetAlerService: SweetAlertService, private router: Router) {
 
     this.capacityService.jsonDataPlanService = null;
+    this.capacityService.jsonDataPlanServiceCS = null;
     this.capacityService.planAgrupado = [];
+    this.capacityService.planAgrupadoCS = [];
     // this.jsonDataService.jsonDataFacService = null;
     // this.jsonDataService.infoCargada = false;
 
@@ -94,8 +97,15 @@ export class GenerarCapacityComponent implements OnInit {
 
 filtrarTar(jsonDataReq: any) {
 
+  let jsonDataCS = [...jsonDataReq['Detalle Horas Planificadas']];
+  console.log(jsonDataCS);
+
   jsonDataReq['Detalle Horas Planificadas'] = jsonDataReq['Detalle Horas Planificadas'].filter(a => {
     return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Asesoramiento y Consulta';
+  });
+
+  jsonDataCS = jsonDataCS.filter(a => {
+    return a.lineaDeServicio === 'Capacity Service';
   });
 
   // jsonDataReq['Detalle Tareas'] = jsonDataReq['Detalle Tareas'].filter(a => {
@@ -103,6 +113,7 @@ filtrarTar(jsonDataReq: any) {
   // });
 
   this.capacityService.setjsonDataPlanService(jsonDataReq);
+  this.capacityService.setjsonDataPlanServiceCS(jsonDataCS);
 
 }
 
