@@ -10,6 +10,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { FechasPipe } from './pipes/fechas.pipe';
 import { GenerarCapacityComponent } from './components/generar-capacity/generar-capacity.component';
 import { VerCapacityComponent } from './components/ver-capacity/ver-capacity.component';
+import { CurrencyMaskModule } from "ng2-currency-mask";
+
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { VerCapacityComponent } from './components/ver-capacity/ver-capacity.com
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CurrencyMaskModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -44,7 +44,8 @@ export class CapacityService {
     'dia30': 0,
     'dia31': 0,
 
-  }
+  };
+  totalMes = 0;
   // ReqAgrupado = [];
 
   constructor() {
@@ -190,7 +191,13 @@ export class CapacityService {
           this.totales[diaN] = Number(this.totales[diaN]) + Number(plan[diaN]);
         }
       }
-      console.log(this.totales);
+      // console.log(this.totales);
+      this.totalMes = this.totales.dia1 + this.totales.dia2 + this.totales.dia3 + this.totales.dia4 + this.totales.dia5 +
+      this.totales.dia6 + this.totales.dia7 + this.totales.dia8      + this.totales.dia9 + this.totales.dia10 + this.totales.dia11 +
+      this.totales.dia12 + this.totales.dia13 + this.totales.dia14 + this.totales.dia15 + this.totales.dia16  + this.totales.dia17 +
+      this.totales.dia18 + this.totales.dia19 + this.totales.dia20 + this.totales.dia21 + this.totales.dia22 + this.totales.dia23 +
+      this.totales.dia24 + this.totales.dia25 + this.totales.dia26 + this.totales.dia27 + this.totales.dia28 + this.totales.dia29 +
+      this.totales.dia30 + this.totales.dia31;
     }
 }
 
