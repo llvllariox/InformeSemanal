@@ -27,6 +27,7 @@ export class VerCapacityComponent implements OnInit {
     // moment.lang('es');
     this.fecha1 = moment().format('MMMM-YY');
     this.fecha2 = moment().add(1, 'months').format('MMMM-YY');
+    console.log(new Intl.NumberFormat('es-ES', {minimumFractionDigits: 2}).format(this.Ejecucion2));
   }
 
   ngOnInit(): void {
@@ -39,19 +40,120 @@ export class VerCapacityComponent implements OnInit {
   /*name of the excel-file which will be downloaded. */ 
   
 
-  exportexcel(): void 
+  exportexcel(): void
     {
-       /* table id is passed over here */   
-       let element = document.getElementById('excel-table');
-       const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+       /* table id is passed over here */
+       let element1 = document.getElementById('excel-table1');
+       const ws1: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element1);
+       let element2 = document.getElementById('excel-table2');
+       const ws2: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element2);
+       let element3 = document.getElementById('excel-table3');
+       const ws3: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element3);
+      //  console.log(ws1);
+      //  console.log(element3);
+      //  element3.removeAttribute('Col1');
+      //  let col1 = document.getElementById('Col1');
+      //  console.log(col1);
+      //  col1.remove();
+
+      //  ws1["A1"].s = {
+      //  font: {
+      //     name: ' ',
+      //     sz: 24,
+      //     bold: true,
+      //     underline: true,
+      //     color: {
+      //         rgb: "FFFFAA00"
+      //     }
+      //  },
+      // alignment: {
+      //     horizontal: "center",
+      //     vertical: "center",
+      //     wrap_text: true
+      //  },
+      // fill: {
+      //      bgColor: {
+      //          rgb: 'ffff00'
+      //      }
+      //  }
+      // };
+
+      //  delete ws1["A1"].s; // delete old formatted text if it exists
+      //  XLSX.utils.format_cell(ws1["A1"]); // refresh cell
+       const wscols = [
+        {wch: 40},
+        {wch: 12},
+        {wch: 12},
+       ];
+
+       const wscols3 = [
+        {wch: -1},
+        {wch: 60},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+        {wch: 7.25},
+       ];
+
+       ws1['!cols'] = wscols;
+       ws2['!cols'] = wscols;
+       ws3['!cols'] = wscols3;
+      //  ws1["C5"].v = new Intl.NumberFormat('es-ES', {minimumFractionDigits: 2}).format(this.Ejecucion2);
+      //  ws1["C5"].t = "n";
+       ws1["C5"].v = this.Ejecucion2;
+       ws1["C5"].t = "n";
+       ws1["B6"].v = this.Reservavalor1;
+       ws1["B6"].t = "n";
+       ws1["C6"].v = this.Reservavalor2;
+       ws1["C6"].t = "n";
+       ws1["B8"].v = this.Mttovalor1;
+       ws1["B8"].t = "n";
+       ws1["C8"].v = this.Mttovalor2;
+       ws1["C8"].t = "n";
+       ws1["B9"].v = this.Mttovalor3;
+       ws1["B9"].t = "n";
+       ws1["C9"].v = this.Mttovalor4;
+       ws1["C9"].t = "n";
+       
 
        /* generate workbook and add the worksheet */
        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+       XLSX.utils.book_append_sheet(wb, ws1, 'Sheet1');
+       XLSX.utils.book_append_sheet(wb, ws2, 'Sheet2');
+       XLSX.utils.book_append_sheet(wb, ws3, 'Sheet3');
 
+        console.log(wb);
        /* save to file */
        XLSX.writeFile(wb, this.fileName);
-			
+
     }
 
   // static toExportFileName(excelFileName: string): string {

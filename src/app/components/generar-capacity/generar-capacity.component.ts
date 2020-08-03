@@ -50,8 +50,10 @@ export class GenerarCapacityComponent implements OnInit {
     reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
+      console.log(workBook);
       this.jsonDataPlan = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
+        // console.log(sheet);
         this.formatHeaders(sheet, 'BA1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
