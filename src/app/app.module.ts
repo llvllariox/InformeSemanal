@@ -12,6 +12,7 @@ import { GenerarCapacityComponent } from './components/generar-capacity/generar-
 import { VerCapacityComponent } from './components/ver-capacity/ver-capacity.component';
 import { CurrencyMaskModule } from "ng2-currency-mask";
 import { FormsModule } from '@angular/forms';
+// import { DatePipe } from '@angular/common';
 
 
 @NgModule({

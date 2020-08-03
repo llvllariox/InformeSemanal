@@ -3,6 +3,13 @@ import { CapacityService } from '../../services/capacity.service';
 declare function init_customJS();
 import * as moment from 'moment'; //
 import * as XLSX from 'xlsx';
+import { Workbook } from 'exceljs';
+// import { DatePipe } from '@angular/common';
+import * as fs from 'file-saver';
+
+
+// import * as ExcelJS from 'exceljs';
+// const exportToExcel = require('export-to-excel')
 @Component({
   selector: 'app-ver-capacity',
   templateUrl: './ver-capacity.component.html',
@@ -12,6 +19,7 @@ export class VerCapacityComponent implements OnInit {
 
   fecha1;
   fecha2;
+  hoy;
   Mttovalor1 = 2700.00;
   Mttovalor2 = 900.00;
   Mttovalor3 = 0.00;
@@ -20,12 +28,14 @@ export class VerCapacityComponent implements OnInit {
   Reservavalor2 = 0;
   Ejecucion2 = 0;
   fileName = 'ExcelSheet.xlsx';
+  // datePipeString : string;
 
-  constructor(public capacityService: CapacityService ) {
+  constructor(public capacityService: CapacityService) {
     init_customJS();
     // numberMas
     // moment.lang('es');
     this.fecha1 = moment().format('MMMM-YY');
+    this.hoy = moment().format('DD-MMMM-YY');
     this.fecha2 = moment().add(1, 'months').format('MMMM-YY');
     console.log(new Intl.NumberFormat('es-ES', {minimumFractionDigits: 2}).format(this.Ejecucion2));
   }
@@ -166,4 +176,159 @@ export class VerCapacityComponent implements OnInit {
   //   XLSX.writeFile(workbook, VerCapacityComponent.toExportFileName(excelFileName));
   // }
 
+  generateExcel() {
+
+    // Excel Title, Header, Data
+    const title = 'Capacity';
+    const header = ['Distribución Capacity en HH	', this.fecha1, this.fecha2];
+    const data = [
+      ['FTE Comprometido', 49.50, 49.50],
+      ['Total Capacity Mes Comprometido', 8910.00,  8910.00],
+      ['Evolutivos', this.capacityService.totalMes + this.Reservavalor1,  this.Ejecucion2 + this.Reservavalor2],
+      ['   En ejecución	', this.capacityService.totalMes, this.Ejecucion2],
+      ['   Reservado	', this.Reservavalor1, this.Reservavalor2],
+      ['Mantención y Centro de Compentencia', this.Mttovalor1 + this.Mttovalor2, this.Mttovalor3 + this.Mttovalor4],
+      ['   Mantención y Centro de Compentencia + BUC	', this.Mttovalor1 , this.Mttovalor2],
+      ['   Mantención Backend		', this.Mttovalor3 , this.Mttovalor4],
+      // tslint:disable-next-line: max-line-length
+      ['Capacity disponible SWF	', 8910 - this.capacityService.totalMes - (this.Mttovalor1 + this.Mttovalor2), 8910 - this.Ejecucion2 - (this.Mttovalor3 + this.Mttovalor4)],
+      // tslint:disable-next-line: max-line-length
+      ['Capacity sin asignar SWF', 8910 - (this.capacityService.totalMes + this.Reservavalor1) - (this.Mttovalor1 + this.Mttovalor2), 8910 - (this.Ejecucion2 + this.Reservavalor2) - (this.Mttovalor3 + this.Mttovalor4)],
+    ];
+    // Create workbook and worksheet
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Capacity');
+    let subTitleRow = worksheet.addRow(['Date : ' + this.hoy]);
+
+    worksheet.mergeCells('A1:C2');
+    // Blank Row;
+    worksheet.addRow([]);
+    // Add Header Row
+    let headerRow = worksheet.addRow(header);
+
+    // Cell Style : Fill and Border
+    headerRow.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '203764' },
+        bgColor: { argb: '203764' },
+
+      };
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      cell.font = {
+        color: {argb: 'FFFFFF'},
+        bold: true,
+      };
+    });
+    // Add Data and Conditional Formatting
+    data.forEach(d => {
+      let row = worksheet.addRow(d);
+      row.getCell(2).style = {numFmt: '#,##0.00'};
+      row.getCell(3).style = {numFmt: '#,##0.00'};
+      row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(3).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+    }
+    );
+
+    worksheet.getColumn(1).width = 42;
+    worksheet.getColumn(2).width = 20;
+    worksheet.getColumn(3).width = 20;
+    worksheet.getRow(5).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'F2F2F2' }, bgColor: { argb: 'F2F2F2' }};
+    worksheet.getRow(5).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'F2F2F2' }, bgColor: { argb: 'F2F2F2' }};
+    worksheet.getRow(5).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'F2F2F2' }, bgColor: { argb: 'F2F2F2' }};
+    worksheet.getRow(6).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9E1F2' }, bgColor: { argb: 'D9E1F2' }};
+    worksheet.getRow(6).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9E1F2' }, bgColor: { argb: 'D9E1F2' }};
+    worksheet.getRow(6).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9E1F2' }, bgColor: { argb: 'D9E1F2' }};
+    worksheet.getRow(7).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(7).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(7).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(10).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(10).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(10).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(13).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(13).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(13).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(14).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(14).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(14).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+
+    worksheet.getRow(7).getCell(1).font = {bold: true};
+    worksheet.getRow(7).getCell(2).font = {bold: true};
+    worksheet.getRow(7).getCell(3).font = {bold: true};
+    worksheet.getRow(10).getCell(1).font = {bold: true};
+    worksheet.getRow(10).getCell(2).font = {bold: true};
+    worksheet.getRow(10).getCell(3).font = {bold: true};
+    worksheet.getRow(13).getCell(1).font = {bold: true};
+    worksheet.getRow(13).getCell(2).font = {bold: true};
+    worksheet.getRow(13).getCell(3).font = {bold: true};
+    worksheet.getRow(14).getCell(1).font = {bold: true};
+    worksheet.getRow(14).getCell(2).font = {bold: true};
+    worksheet.getRow(14).getCell(3).font = {bold: true};
+    worksheet.addRow([]);
+
+    const headerCS = [
+      'Capacidad Adicional', this.fecha1, this.fecha2
+    ];
+    let headerRowCS = worksheet.addRow(headerCS);
+
+    // Cell Style : Fill and Border
+    headerRowCS.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '203764' },
+        bgColor: { argb: '203764' },
+
+      };
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      cell.font = {
+        color: {argb: 'FFFFFF'},
+        bold: true,
+      };
+    });
+
+    this.capacityService.jsonDataPlanServiceCS.forEach(d => {
+      // let rowCS = [d.descripcion , 180, 180];
+      let row = worksheet.addRow([d.descripcion , 180, 180]);
+      row.getCell(2).style = {numFmt: '#,##0.00'};
+      row.getCell(3).style = {numFmt: '#,##0.00'};
+      row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(3).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+    });
+
+    const totalCS = [
+      'Total', 180.00 * this.capacityService.jsonDataPlanServiceCS.length, 180.00 * this.capacityService.jsonDataPlanServiceCS.length
+    ];
+    let totalRowCS = worksheet.addRow(totalCS);
+
+    totalRowCS.getCell(2).style = {numFmt: '#,##0.00'};
+    totalRowCS.getCell(3).style = {numFmt: '#,##0.00'};
+
+    totalRowCS.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '203764' },
+        bgColor: { argb: '203764' },
+
+      };
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      cell.font = {
+        color: {argb: 'FFFFFF'},
+        bold: true,
+      };
+    });
+
+    workbook.addWorksheet('Horas');
+
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'Capacity.xlsx');
+    });
+  }
+  
 }
