@@ -28,16 +28,21 @@ export class VerCapacityComponent implements OnInit {
   Reservavalor2 = 0;
   Ejecucion2 = 0;
   fileName = 'ExcelSheet.xlsx';
+  finMes;
+  dias;
   // datePipeString : string;
 
   constructor(public capacityService: CapacityService) {
     init_customJS();
     // numberMas
     // moment.lang('es');
-    this.fecha1 = moment().format('MMMM-YY');
-    this.hoy = moment().format('DD-MMMM-YY');
-    this.fecha2 = moment().add(1, 'months').format('MMMM-YY');
-    console.log(new Intl.NumberFormat('es-ES', {minimumFractionDigits: 2}).format(this.Ejecucion2));
+    this.fecha1 = moment().lang('es').format('MMMM-YY');
+    this.hoy = moment().lang('es').format('DD-MMMM-YY');
+    this.finMes = moment().endOf('month');
+    this.fecha2 = moment().lang('es').add(1, 'months').format('MMMM-YY');
+    this.dias =  Number(this.finMes.format('DD'));
+    console.log(this.dias);
+    // console.log(new Intl.NumberFormat('es-ES', {minimumFractionDigits: 2}).format(this.Ejecucion2));
   }
 
   ngOnInit(): void {
@@ -47,134 +52,6 @@ export class VerCapacityComponent implements OnInit {
     this.capacityService.jsonDataPlanService.splice(i, 1);
     this.capacityService.totalesDia();
   }
-  /*name of the excel-file which will be downloaded. */ 
-  
-
-  exportexcel(): void
-    {
-       /* table id is passed over here */
-       let element1 = document.getElementById('excel-table1');
-       const ws1: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element1);
-       let element2 = document.getElementById('excel-table2');
-       const ws2: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element2);
-       let element3 = document.getElementById('excel-table3');
-       const ws3: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element3);
-      //  console.log(ws1);
-      //  console.log(element3);
-      //  element3.removeAttribute('Col1');
-      //  let col1 = document.getElementById('Col1');
-      //  console.log(col1);
-      //  col1.remove();
-
-      //  ws1["A1"].s = {
-      //  font: {
-      //     name: ' ',
-      //     sz: 24,
-      //     bold: true,
-      //     underline: true,
-      //     color: {
-      //         rgb: "FFFFAA00"
-      //     }
-      //  },
-      // alignment: {
-      //     horizontal: "center",
-      //     vertical: "center",
-      //     wrap_text: true
-      //  },
-      // fill: {
-      //      bgColor: {
-      //          rgb: 'ffff00'
-      //      }
-      //  }
-      // };
-
-      //  delete ws1["A1"].s; // delete old formatted text if it exists
-      //  XLSX.utils.format_cell(ws1["A1"]); // refresh cell
-       const wscols = [
-        {wch: 40},
-        {wch: 12},
-        {wch: 12},
-       ];
-
-       const wscols3 = [
-        {wch: -1},
-        {wch: 60},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-        {wch: 7.25},
-       ];
-
-       ws1['!cols'] = wscols;
-       ws2['!cols'] = wscols;
-       ws3['!cols'] = wscols3;
-      //  ws1["C5"].v = new Intl.NumberFormat('es-ES', {minimumFractionDigits: 2}).format(this.Ejecucion2);
-      //  ws1["C5"].t = "n";
-       ws1["C5"].v = this.Ejecucion2;
-       ws1["C5"].t = "n";
-       ws1["B6"].v = this.Reservavalor1;
-       ws1["B6"].t = "n";
-       ws1["C6"].v = this.Reservavalor2;
-       ws1["C6"].t = "n";
-       ws1["B8"].v = this.Mttovalor1;
-       ws1["B8"].t = "n";
-       ws1["C8"].v = this.Mttovalor2;
-       ws1["C8"].t = "n";
-       ws1["B9"].v = this.Mttovalor3;
-       ws1["B9"].t = "n";
-       ws1["C9"].v = this.Mttovalor4;
-       ws1["C9"].t = "n";
-       
-
-       /* generate workbook and add the worksheet */
-       const wb: XLSX.WorkBook = XLSX.utils.book_new();
-       XLSX.utils.book_append_sheet(wb, ws1, 'Sheet1');
-       XLSX.utils.book_append_sheet(wb, ws2, 'Sheet2');
-       XLSX.utils.book_append_sheet(wb, ws3, 'Sheet3');
-
-        console.log(wb);
-       /* save to file */
-       XLSX.writeFile(wb, this.fileName);
-
-    }
-
-  // static toExportFileName(excelFileName: string): string {
-  //   return `${excelFileName}_export_${new Date().getTime()}.xlsx`;
-  // }
-
-  // public exportAsExcelFile(json: any[], excelFileName: string): void {
-  //   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-  //   const workbook: XLSX.WorkBook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
-  //   XLSX.writeFile(workbook, VerCapacityComponent.toExportFileName(excelFileName));
-  // }
 
   generateExcel() {
 
@@ -198,7 +75,7 @@ export class VerCapacityComponent implements OnInit {
     // Create workbook and worksheet
     let workbook = new Workbook();
     let worksheet = workbook.addWorksheet('Capacity');
-    let subTitleRow = worksheet.addRow(['Date : ' + this.hoy]);
+    let subTitleRow = worksheet.addRow(['Fecha Reporte : ' + this.hoy]);
 
     worksheet.mergeCells('A1:C2');
     // Blank Row;
@@ -322,13 +199,193 @@ export class VerCapacityComponent implements OnInit {
       };
     });
 
-    workbook.addWorksheet('Horas');
+    let worksheet2 = workbook.addWorksheet('Horas');
+    // for
+    let headerHH = [
+      'Requerimiento'];
+
+    for (let i = 0; i < 28; i++) {
+      // let diaN = `dia${i + 1}`;
+      let dia = i + 1;
+      // console.log(this.capacityService.totales[diaN]);
+      headerHH.push(dia.toString());
+      }
+    if (29 <= Number(this.dias)){
+     headerHH.push('29');
+    }
+    if (30 <= Number(this.dias)){
+      headerHH.push('30');
+    }
+    if (31 <= Number(this.dias)){
+      headerHH.push('31');
+    }
+
+    // for (let i = 0; i < 31; i++) {
+    //   let diaN = `dia${i + 1}`;
+    //   let dia = i + 1;
+    //   console.log(this.capacityService.totales[diaN]);
+    //   if (this.capacityService.totales[diaN] > 0){
+    //     headerHH.push(dia.toString());
+    //   }
+    // }
+    headerHH.push('Total');
+    console.log(headerHH);
 
 
+    let headerRowHH = worksheet2.addRow(headerHH);
+
+    // Cell Style : Fill and Border
+    headerRowHH.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '203764' },
+        bgColor: { argb: '203764' },
+
+      };
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      cell.font = {
+        color: {argb: 'FFFFFF'},
+        bold: true,
+      };
+    });
+
+    this.capacityService.jsonDataPlanService.forEach(d => {
+      let dFinal = [d.descripcion, d.dia1, d.dia2, d.dia3, d.dia4, d.dia5, d.dia6, d.dia7,
+                                  d.dia8, d.dia9, d.dia10, d.dia11, d.dia12, d.dia13, d.dia14,
+                                  d.dia15, d.dia16, d.dia17, d.dia18, d.dia19, d.dia20, d.dia21,
+                                  d.dia22, d.dia23, d.dia24, d.dia25, d.dia26, d.dia27, d.dia28];
+
+      if (29 <= Number(this.dias)){
+        dFinal.push(d.dia29);
+      }
+      if (30 <= Number(this.dias)){
+        dFinal.push(d.dia30);
+      }
+      if (31 <= Number(this.dias)){
+        dFinal.push(d.dia31);
+      }
+
+      let totaldia = 0;
+      totaldia = d.dia1 +  d.dia2 +  d.dia3 +  d.dia4 +  d.dia5 +  d.dia6 +  d.dia7 +
+                 d.dia8 +  d.dia9 +  d.dia10 +  d.dia11 +  d.dia12 +  d.dia13 +  d.dia14 +
+                 d.dia15 +  d.dia16 +  d.dia17 +  d.dia18 +  d.dia19 +  d.dia20 +  d.dia21 +
+                 d.dia22 +  d.dia23 +  d.dia24 +  d.dia25 +  d.dia26 +  d.dia27 +  d.dia28 + d.dia29 + d.dia30 + d.dia31;
+
+      dFinal.push(totaldia);
+
+ 
+      let row = worksheet2.addRow(dFinal);
+      row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+
+      for (let i = 2; i < 30; i++) {
+        row.getCell(i).style = {numFmt: '#,##0.00'};
+        row.getCell(i).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      }
+
+      if (29 <= Number(this.dias)){
+        row.getCell(30).style = {numFmt: '#,##0.00'};
+        row.getCell(30).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      }
+      if (30 <= Number(this.dias)){
+        row.getCell(31).style = {numFmt: '#,##0.00'};
+        row.getCell(31).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      }
+      if (31 <= Number(this.dias)){
+        row.getCell(32).style = {numFmt: '#,##0.00'};
+        row.getCell(32).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      }
+      row.getCell(this.dias + 2).style = {numFmt: '#,##0.00'};
+      row.getCell(this.dias + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    }
+    );
+
+    const dTotal = ['Capacidad Utilizada', this.capacityService.totales.dia1, this.capacityService.totales.dia2,
+                                           this.capacityService.totales.dia3, this.capacityService.totales.dia4,
+                                           this.capacityService.totales.dia5, this.capacityService.totales.dia6,
+                                           this.capacityService.totales.dia7, this.capacityService.totales.dia8,
+                                           this.capacityService.totales.dia9, this.capacityService.totales.dia10,
+                                           this.capacityService.totales.dia11, this.capacityService.totales.dia12,
+                                           this.capacityService.totales.dia13, this.capacityService.totales.dia14,
+                                           this.capacityService.totales.dia15, this.capacityService.totales.dia16,
+                                           this.capacityService.totales.dia17, this.capacityService.totales.dia18,
+                                           this.capacityService.totales.dia19, this.capacityService.totales.dia20,
+                                           this.capacityService.totales.dia21, this.capacityService.totales.dia22,
+                                           this.capacityService.totales.dia23, this.capacityService.totales.dia24,
+                                           this.capacityService.totales.dia25, this.capacityService.totales.dia26,
+                                           this.capacityService.totales.dia27, this.capacityService.totales.dia28];
+
+    if (29 <= Number(this.dias)){
+      dTotal.push(this.capacityService.totales.dia29);
+    }
+    if (30 <= Number(this.dias)){
+      dTotal.push(this.capacityService.totales.dia30);
+    }
+    if (31 <= Number(this.dias)){
+      dTotal.push(this.capacityService.totales.dia31);
+    }
+
+    let totaldia = 0;
+    totaldia =  this.capacityService.totales.dia1 + this.capacityService.totales.dia2 +
+                this.capacityService.totales.dia3 + this.capacityService.totales.dia4 +
+                this.capacityService.totales.dia5 + this.capacityService.totales.dia6 +
+                this.capacityService.totales.dia7 + this.capacityService.totales.dia8 +
+                this.capacityService.totales.dia9 + this.capacityService.totales.dia10 +
+                this.capacityService.totales.dia11 + this.capacityService.totales.dia12 +
+                this.capacityService.totales.dia13 + this.capacityService.totales.dia14 +
+                this.capacityService.totales.dia15 + this.capacityService.totales.dia16 +
+                this.capacityService.totales.dia17 + this.capacityService.totales.dia18 +
+                this.capacityService.totales.dia19 + this.capacityService.totales.dia20 +
+                this.capacityService.totales.dia21 + this.capacityService.totales.dia22 +
+                this.capacityService.totales.dia23 + this.capacityService.totales.dia24 +
+                this.capacityService.totales.dia25 + this.capacityService.totales.dia26 +
+                this.capacityService.totales.dia27 + this.capacityService.totales.dia28 +
+                this.capacityService.totales.dia29 + this.capacityService.totales.dia30 +
+                this.capacityService.totales.dia31;
+
+    dTotal.push(totaldia);
+
+
+    let row = worksheet2.addRow(dTotal);
+    row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    row.getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+    row.getCell(1).font = {color: {argb: 'FFFFFF'}, bold: true,};
+
+    for (let i = 2; i < 30; i++) {
+      row.getCell(i).style = {numFmt: '#,##0.00'};
+      row.getCell(i).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(i).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+      row.getCell(i).font = {color: {argb: 'FFFFFF'}, bold: true,};
+    }
+
+    if (29 <= Number(this.dias)){
+      row.getCell(30).style = {numFmt: '#,##0.00'};
+      row.getCell(30).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(30).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+      row.getCell(30).font = {color: {argb: 'FFFFFF'}, bold: true,};
+    }
+    if (30 <= Number(this.dias)){
+      row.getCell(31).style = {numFmt: '#,##0.00'};
+      row.getCell(31).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(31).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+      row.getCell(31).font = {color: {argb: 'FFFFFF'}, bold: true,};
+    }
+    if (31 <= Number(this.dias)){
+      row.getCell(32).style = {numFmt: '#,##0.00'};
+      row.getCell(32).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(32).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+      row.getCell(32).font = {color: {argb: 'FFFFFF'}, bold: true,};
+    }
+    row.getCell(this.dias + 2).style = {numFmt: '#,##0.00'};
+    // tslint:disable-next-line: max-line-length
+    row.getCell(this.dias + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    row.getCell(this.dias + 2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+    row.getCell(this.dias + 2).font = {color: {argb: 'FFFFFF'}, bold: true,};
+
+    worksheet2.getColumn(1).width = 65;
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      fs.saveAs(blob, 'Capacity.xlsx');
+      fs.saveAs(blob, `Capacity_${this.hoy}.xlsx`);
     });
   }
-  
 }
