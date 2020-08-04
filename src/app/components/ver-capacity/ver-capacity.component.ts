@@ -34,12 +34,16 @@ export class VerCapacityComponent implements OnInit {
 
   constructor(public capacityService: CapacityService) {
     init_customJS();
+
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     // numberMas
     // moment.lang('es');
-    this.fecha1 = moment().lang('es').format('MMMM-YY');
-    this.hoy = moment().lang('es').format('DD-MMMM-YY');
+    this.fecha1 = capitalizeFirstLetter(moment().lang('es').format('MMMM-YY'));
+    this.hoy = moment().lang('es').format('DD-MM-YYYY');
     this.finMes = moment().endOf('month');
-    this.fecha2 = moment().lang('es').add(1, 'months').format('MMMM-YY');
+    this.fecha2 = capitalizeFirstLetter(moment().lang('es').add(1, 'months').format('MMMM-YY'));
     this.dias =  Number(this.finMes.format('DD'));
     console.log(this.dias);
     // console.log(new Intl.NumberFormat('es-ES', {minimumFractionDigits: 2}).format(this.Ejecucion2));
