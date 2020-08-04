@@ -118,6 +118,7 @@ export class VerCapacityComponent implements OnInit {
     worksheet.getColumn(2).width = 20;
     worksheet.getColumn(3).width = 20;
     worksheet.getRow(5).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'F2F2F2' }, bgColor: { argb: 'F2F2F2' }};
+    worksheet.getRow(5).getCell(1).alignment = {horizontal: 'center'};
     worksheet.getRow(5).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'F2F2F2' }, bgColor: { argb: 'F2F2F2' }};
     worksheet.getRow(5).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'F2F2F2' }, bgColor: { argb: 'F2F2F2' }};
     worksheet.getRow(6).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9E1F2' }, bgColor: { argb: 'D9E1F2' }};
@@ -136,6 +137,9 @@ export class VerCapacityComponent implements OnInit {
     worksheet.getRow(14).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
     worksheet.getRow(14).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
 
+    worksheet.getRow(6).getCell(1).font = {bold: true};
+    worksheet.getRow(6).getCell(2).font = {bold: true};
+    worksheet.getRow(6).getCell(3).font = {bold: true};
     worksheet.getRow(7).getCell(1).font = {bold: true, italic: true};
     // worksheet.getRow(7).getCell(2).font = {bold: true};
     // worksheet.getRow(7).getCell(3).font = {bold: true};

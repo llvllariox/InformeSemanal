@@ -39,6 +39,9 @@ export class GenerarInformeComponent implements OnInit {
   }
 
   uploadFac(event) {
+    if (!this.validarTipo(event)){
+      return;
+    }
     this.jsonDataFac = null;
     this.sweetAlerService.mensajeEsperar();
     let workBook = null;
@@ -47,6 +50,12 @@ export class GenerarInformeComponent implements OnInit {
     reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
+      // console.log(workBook);
+      if (workBook.SheetNames[3] !== 'Datos Facturación'){
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
+        this.jsonDataEve = null;
+        return;
+      }
       this.jsonDataFac = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
         // console.log(name);
@@ -82,6 +91,9 @@ export class GenerarInformeComponent implements OnInit {
   }
 
   uploadTar(event) {
+    if (!this.validarTipo(event)){
+      return;
+    }
     this.jsonDataTar = null;
     this.sweetAlerService.mensajeEsperar();
     let workBook = null;
@@ -90,6 +102,11 @@ export class GenerarInformeComponent implements OnInit {
     reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
+      if (workBook.SheetNames[0] !== 'Detalle Tareas'){
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
+        this.jsonDataEve = null;
+        return;
+      }
       this.jsonDataTar = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
         this.formatHeaders(sheet, 'BH1');
@@ -126,6 +143,9 @@ filtrarTar(jsonDataReq: any) {
 
 }
   uploadReq(event) {
+    if (!this.validarTipo(event)){
+      return;
+    }
     this.jsonDataReq = null;
     this.sweetAlerService.mensajeEsperar();
     let workBook = null;
@@ -134,6 +154,11 @@ filtrarTar(jsonDataReq: any) {
     reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates : true });
+      if (workBook.SheetNames[0] !== 'Requerimientos'){
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos');
+        this.jsonDataEve = null;
+        return;
+      }
       this.jsonDataReq = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
         this.formatHeaders(sheet, 'AO1');
@@ -199,6 +224,9 @@ filtrarReq(jsonDataReq: any) {
 }
 
 uploadEve(event) {
+  if (!this.validarTipo(event)){
+    return;
+  }
   this.jsonDataEve = null;
   this.sweetAlerService.mensajeEsperar();
   let workBook = null;
@@ -207,6 +235,11 @@ uploadEve(event) {
   reader.onload = () => {
     const data = reader.result;
     workBook = XLSX.read(data, { type: 'binary' , cellDates: true });
+    if (workBook.SheetNames[0] !== 'Eventos'){
+      this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos');
+      this.jsonDataEve = null;
+      return;
+    }
     this.jsonDataEve = workBook.SheetNames.reduce((initial, name) => {
       const sheet = workBook.Sheets[name];
       this.formatHeaders(sheet, 'T1');
@@ -241,6 +274,19 @@ filtrarEve(jsonDataEve: any) {
 
   this.jsonDataService.setjsonDataEveService(jsonDataEve);
 
+}
+
+validarTipo(event){
+
+  let tipo = event.target.files[0].type;
+  // console.log(tipo);
+  if (!tipo.includes('sheet')) {
+    // console.log('entro');
+    this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo es invalido');
+    return false;
+  }else{
+    return true;
+  }
 }
   guardar() {
 

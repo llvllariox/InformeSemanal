@@ -42,6 +42,10 @@ export class GenerarCapacityComponent implements OnInit {
   }
 
   uploadPlan(event) {
+    console.log(event);
+    if (!this.validarTipo(event)){
+      return;
+    }
     this.jsonDataPlan = null;
     this.sweetAlerService.mensajeEsperar();
     let workBook = null;
@@ -50,10 +54,15 @@ export class GenerarCapacityComponent implements OnInit {
     reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
-      console.log(workBook);
+      // console.log(workBook);
+      if (workBook.SheetNames[0] !== 'Detalle Horas Planificadas'){
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Plan');
+        this.jsonDataPlan = null;
+        return;
+      }
       this.jsonDataPlan = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
-        // console.log(sheet);
+        console.log(sheet);
         this.formatHeaders(sheet, 'BA1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
@@ -118,6 +127,18 @@ filtrarTar(jsonDataReq: any) {
   this.capacityService.setjsonDataPlanServiceCS(jsonDataCS);
 
 }
+  validarTipo(event){
+
+    let tipo = event.target.files[0].type;
+    // console.log(tipo);
+    if (!tipo.includes('sheet')) {
+      // console.log('entro');
+      this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Plan');
+      return false;
+    }else{
+      return true;
+    }
+  }
 
 guardar() {
 
