@@ -45,7 +45,7 @@ export class VerCapacityComponent implements OnInit {
     this.finMes = moment().endOf('month');
     this.fecha2 = capitalizeFirstLetter(moment().lang('es').add(1, 'months').format('MMMM-YY'));
     this.dias =  Number(this.finMes.format('DD'));
-    console.log(this.dias);
+    // console.log(this.dias);
     // console.log(new Intl.NumberFormat('es-ES', {minimumFractionDigits: 2}).format(this.Ejecucion2));
   }
 
@@ -69,8 +69,8 @@ export class VerCapacityComponent implements OnInit {
       ['   En ejecución	', this.capacityService.totalMes, this.Ejecucion2],
       ['   Reservado	', this.Reservavalor1, this.Reservavalor2],
       ['Mantención y Centro de Compentencia', this.Mttovalor1 + this.Mttovalor2, this.Mttovalor3 + this.Mttovalor4],
-      ['   Mantención y Centro de Compentencia + BUC	', this.Mttovalor1 , this.Mttovalor2],
-      ['   Mantención Backend		', this.Mttovalor3 , this.Mttovalor4],
+      ['   Mantención y Centro de Compentencia + BUC	', this.Mttovalor1 , this.Mttovalor3],
+      ['   Mantención Backend		', this.Mttovalor2 , this.Mttovalor4],
       // tslint:disable-next-line: max-line-length
       ['Capacity disponible SWF	', 8910 - this.capacityService.totalMes - (this.Mttovalor1 + this.Mttovalor2), 8910 - this.Ejecucion2 - (this.Mttovalor3 + this.Mttovalor4)],
       // tslint:disable-next-line: max-line-length
@@ -100,6 +100,7 @@ export class VerCapacityComponent implements OnInit {
       cell.font = {
         color: {argb: 'FFFFFF'},
         bold: true,
+        italic: true
       };
     });
     // Add Data and Conditional Formatting
@@ -135,18 +136,18 @@ export class VerCapacityComponent implements OnInit {
     worksheet.getRow(14).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
     worksheet.getRow(14).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
 
-    worksheet.getRow(7).getCell(1).font = {bold: true};
-    worksheet.getRow(7).getCell(2).font = {bold: true};
-    worksheet.getRow(7).getCell(3).font = {bold: true};
-    worksheet.getRow(10).getCell(1).font = {bold: true};
-    worksheet.getRow(10).getCell(2).font = {bold: true};
-    worksheet.getRow(10).getCell(3).font = {bold: true};
-    worksheet.getRow(13).getCell(1).font = {bold: true};
-    worksheet.getRow(13).getCell(2).font = {bold: true};
-    worksheet.getRow(13).getCell(3).font = {bold: true};
-    worksheet.getRow(14).getCell(1).font = {bold: true};
-    worksheet.getRow(14).getCell(2).font = {bold: true};
-    worksheet.getRow(14).getCell(3).font = {bold: true};
+    worksheet.getRow(7).getCell(1).font = {bold: true, italic: true};
+    // worksheet.getRow(7).getCell(2).font = {bold: true};
+    // worksheet.getRow(7).getCell(3).font = {bold: true};
+    worksheet.getRow(10).getCell(1).font = {bold: true, italic: true};
+    // worksheet.getRow(10).getCell(2).font = {bold: true};
+    // worksheet.getRow(10).getCell(3).font = {bold: true};
+    worksheet.getRow(13).getCell(1).font = {bold: true, italic: true};
+    // worksheet.getRow(13).getCell(2).font = {bold: true};
+    // worksheet.getRow(13).getCell(3).font = {bold: true};
+    worksheet.getRow(14).getCell(1).font = {bold: true, italic: true};
+    // worksheet.getRow(14).getCell(2).font = {bold: true};
+    // worksheet.getRow(14).getCell(3).font = {bold: true};
     worksheet.addRow([]);
 
     const headerCS = [
@@ -168,6 +169,9 @@ export class VerCapacityComponent implements OnInit {
         color: {argb: 'FFFFFF'},
         bold: true,
       };
+      if (cell.address === 'A16'){
+         cell.font = cell.font = {color: {argb: 'FFFFFF'}, bold: true, italic: true};
+      }
     });
 
     this.capacityService.jsonDataPlanServiceCS.forEach(d => {
@@ -185,23 +189,32 @@ export class VerCapacityComponent implements OnInit {
     ];
     let totalRowCS = worksheet.addRow(totalCS);
 
+    totalRowCS.getCell(1).fill  = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' }};
+    totalRowCS.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    totalRowCS.getCell(1).font = {color: {argb: 'FFFFFF'}, bold: true, italic: true};
     totalRowCS.getCell(2).style = {numFmt: '#,##0.00'};
+    totalRowCS.getCell(2).fill  = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'C5D9F1' }, bgColor: { argb: 'C5D9F1' }};
+    totalRowCS.getCell(2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    totalRowCS.getCell(2).font = {bold: true};
     totalRowCS.getCell(3).style = {numFmt: '#,##0.00'};
+    totalRowCS.getCell(3).fill  = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'C5D9F1' }, bgColor: { argb: 'C5D9F1' }};
+    totalRowCS.getCell(3).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    totalRowCS.getCell(3).font = {bold: true};
 
-    totalRowCS.eachCell((cell, number) => {
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: '203764' },
-        bgColor: { argb: '203764' },
+    // totalRowCS.eachCell((cell, number) => {
+    //   cell.fill = {
+    //     type: 'pattern',
+    //     pattern: 'solid',
+    //     fgColor: { argb: '203764' },
+    //     bgColor: { argb: '203764' },
 
-      };
-      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-      cell.font = {
-        color: {argb: 'FFFFFF'},
-        bold: true,
-      };
-    });
+    //   };
+    //   cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    //   cell.font = {
+    //     color: {argb: 'FFFFFF'},
+    //     bold: true,
+    //   };
+    // });
 
     let worksheet2 = workbook.addWorksheet('Horas');
     // for
@@ -233,7 +246,7 @@ export class VerCapacityComponent implements OnInit {
     //   }
     // }
     headerHH.push('Total');
-    console.log(headerHH);
+    // console.log(headerHH);
 
 
     let headerRowHH = worksheet2.addRow(headerHH);

@@ -64,7 +64,7 @@ export class CapacityService {
       this.dias.push({diaN, total});
 
     }
-    console.log(this.dias);
+    // console.log(this.dias);
 
    }
 
