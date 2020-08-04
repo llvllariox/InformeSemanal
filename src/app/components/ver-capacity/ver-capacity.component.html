@@ -144,7 +144,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let plan of capacityService.jsonDataPlanService; let i=index">
+                        <tr *ngFor="let plan of capacityService.jsonDataPlanService; let i=index" [ngClass]="{'bg-warning': plan.descripcion.substr(0,2)==='CS'}">
                             <td class="small text-center puntero text-danger" scope="col" style="width: 36px" (click)="eliminar(i)" id="Col2">X</td>
                             <td class="small text-dark text-left text-truncate" scope="col" style="width: 300px;text-overflow: ellipsis;">{{plan.descripcion}}</td>
                             <td *ngIf="capacityService.totales.dia1>0" [ngClass]="{'text-light': plan.dia1==0, 'text-dark': plan.dia1>0}" class="small text-dark text-right" scope="col" style="width: 36px">{{plan.dia1}}</td>

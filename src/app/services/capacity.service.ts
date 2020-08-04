@@ -10,6 +10,7 @@ export class CapacityService {
   jsonDataPlanServiceCS;
   inicioMes;
   finMes;
+  ultDia;
   dias = [];
   planAgrupado = [];
   planAgrupadoCS = [];
@@ -55,6 +56,7 @@ export class CapacityService {
     this.inicioMes = moment().startOf('month');
     this.finMes = moment().endOf('month');
     const diaFin = Number(this.finMes.format('DD'));
+    this.ultDia =  Number(this.finMes.format('DD'));
     let diaN;
     // tslint:disable-next-line: prefer-const
     let total = 0;
@@ -91,6 +93,7 @@ export class CapacityService {
     this.sumaHH();
     this.ordenarPorARS();
     this.agruparARS();
+    this.CSlineaBase();
     this.totalesDia();
 
     // Capacity Service x 180
@@ -206,13 +209,38 @@ export class CapacityService {
           this.totales[diaN] = Number(this.totales[diaN]) + Number(plan[diaN]);
         }
       }
-      // console.log(this.totales);
+      console.log(this.totales);
       this.totalMes = this.totales.dia1 + this.totales.dia2 + this.totales.dia3 + this.totales.dia4 + this.totales.dia5 +
       this.totales.dia6 + this.totales.dia7 + this.totales.dia8      + this.totales.dia9 + this.totales.dia10 + this.totales.dia11 +
       this.totales.dia12 + this.totales.dia13 + this.totales.dia14 + this.totales.dia15 + this.totales.dia16  + this.totales.dia17 +
       this.totales.dia18 + this.totales.dia19 + this.totales.dia20 + this.totales.dia21 + this.totales.dia22 + this.totales.dia23 +
       this.totales.dia24 + this.totales.dia25 + this.totales.dia26 + this.totales.dia27 + this.totales.dia28 + this.totales.dia29 +
       this.totales.dia30 + this.totales.dia31;
+    }
+
+    CSlineaBase(){
+      for (let plan of this.jsonDataPlanService) {
+        if (plan.descripcion.substr(0, 2) === 'CS'){
+            console.log('entro');
+            let total = plan.dia1 + plan.dia2 + plan.dia3 + plan.dia4 + plan.dia5 +
+                        plan.dia6 + plan.dia7 + plan.dia8 + plan.dia9 + plan.dia10 +
+                        plan.dia11 + plan.dia12 + plan.dia13 + plan.dia14 + plan.dia15 +
+                        plan.dia16 + plan.dia17 + plan.dia18 + plan.dia19 + plan.dia20 +
+                        plan.dia21 + plan.dia22 + plan.dia23 + plan.dia24 + plan.dia25 +
+                        plan.dia26 + plan.dia27 + plan.dia28 + plan.dia29 + plan.dia30 +
+                        plan.dia31;
+            let diaN = `dia${this.ultDia}`;
+            if (total > 180) {
+                let dif = total - 180;
+                plan[diaN] = plan[diaN] - dif;
+            }
+            if (total < 180) {
+              let dif = 180 - total;
+              plan[diaN] = plan[diaN] + dif;
+            }
+        }
+      }
+
     }
 
     ordenarPorARSCS(){
