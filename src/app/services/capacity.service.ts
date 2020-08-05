@@ -392,6 +392,7 @@ export class CapacityService {
 
     totCapacidadDisponible(){
       this.TotalcapacidadporDia = [];
+      this.totalTotal = 0;
       for (const dia of this.dias) {
         // let diaN = `dia${x + 1}`;
         let diaF = moment(dia.diaN).format('YYYY-MM-DD');
