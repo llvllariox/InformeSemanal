@@ -56,6 +56,9 @@ export class CapacityService {
   dias2 = [];
   totalMes1 = 0;
   totalMes2 = 0;
+  totalMes1CS = 0;
+  totalMes2CS = 0;
+  totalDia = [];
 
   constructor() {
 
@@ -119,6 +122,7 @@ export class CapacityService {
     this.ordenarPorARSCS();
     this.filtrarCS();
     this.totalEjecucion();
+    this.totalporDia();
     console.log('ulitmo', this.jsonDataPlanServiceCS);
     // return;
     // this.agruparARSCS();
@@ -375,8 +379,35 @@ export class CapacityService {
       // let totalMes2 = 0;
       for (let plan of this.jsonDataPlanService) {
         this.totalMes1 = this.totalMes1 + plan.mes1.totalMes1;
-        this.totalMes2 = this.totalMes2 + plan.mes2.totalMes1;
+        this.totalMes2 = this.totalMes2 + plan.mes2.totalMes2;
       }
+      console.log(this.totalMes1);
+      console.log(this.totalMes2);
+
+      for (let planCS of this.jsonDataPlanServiceCS) {
+        this.totalMes1CS = this.totalMes1CS + planCS.mes1.totalMes1;
+        this.totalMes2CS = this.totalMes2CS + planCS.mes2.totalMes2;
+      }
+      console.log(this.totalMes1CS);
+      console.log(this.totalMes2CS);
+    }
+
+    totalporDia(){
+      let total = 0;
+      for (const dia of this.dias) {
+        let diaF = moment(dia.diaN).format('DD-MM-YYYY');
+        // console.log(diaF);
+        this.totalDia.push({diaF, total: 0});
+      }
+      // this.totalDia = [...this.dias, 0];
+     
+
+      for (const plan of this.jsonDataPlanService) {
+        for (let i = 0; i < plan.mes1.length; i++) {
+          this.totalDia[i].total = this.totalDia[i].total + plan.mes1[i].total;
+        }
+      }
+      console.log(this.totalDia);
     }
 
     // agruparARSCS(){
