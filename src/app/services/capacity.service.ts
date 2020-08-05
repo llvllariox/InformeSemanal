@@ -294,7 +294,7 @@ export class CapacityService {
     CSlineaBase(){
       for (let plan of this.jsonDataPlanService) {
         if (plan.descripcion.substr(0, 2) === 'CS'){
-            console.log('entro');
+            // console.log('entro');
             let totalMes1 = 0;
             let totalMes2 = 0;
 
@@ -383,15 +383,15 @@ export class CapacityService {
         this.totalMes1 = this.totalMes1 + plan.mes1.totalMes1;
         this.totalMes2 = this.totalMes2 + plan.mes2.totalMes2;
       }
-      console.log(this.totalMes1);
-      console.log(this.totalMes2);
+      // console.log(this.totalMes1);
+      // console.log(this.totalMes2);
 
       for (let planCS of this.jsonDataPlanServiceCS) {
         this.totalMes1CS = this.totalMes1CS + planCS.mes1.totalMes1;
         this.totalMes2CS = this.totalMes2CS + planCS.mes2.totalMes2;
       }
-      console.log(this.totalMes1CS);
-      console.log(this.totalMes2CS);
+      // console.log(this.totalMes1CS);
+      // console.log(this.totalMes2CS);
     }
 
     totalporDia(){

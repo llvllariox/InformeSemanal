@@ -42,7 +42,7 @@ export class GenerarCapacityComponent implements OnInit {
   }
 
   uploadPlan(event) {
-    console.log(event);
+    // console.log(event);
     if (!this.validarTipo(event)){
       return;
     }
@@ -62,7 +62,7 @@ export class GenerarCapacityComponent implements OnInit {
       }
       this.jsonDataPlan = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
-        console.log(sheet);
+        // console.log(sheet);
         this.formatHeaders(sheet, 'BA1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
