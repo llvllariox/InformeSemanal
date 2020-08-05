@@ -109,7 +109,6 @@ export class CapacityService {
     this.agruparARS();
     this.CSlineaBase();
     this.totalesMes();
-    // Capacity Service x 180
     this.ordenarPorARSCS();
     this.filtrarCS();
     this.totalEjecucion();
@@ -117,9 +116,7 @@ export class CapacityService {
     this.capacidadDisponible();
     this.totCapacidadDisponible();
     console.log('ulitmo', this.jsonDataPlanServiceCS);
-    // return;
-    // this.agruparARSCS();
-
+    console.log('ulitmoCS', this.jsonDataPlanService);
 
   }
 
@@ -154,19 +151,6 @@ export class CapacityService {
       this.jsonDataPlanService['Detalle Horas Planificadas'][i] = {...this.jsonDataPlanService['Detalle Horas Planificadas'][i], mes2};
       i++;
     }
-
-    // let i2 = 0;
-    // for (let plan2 of this.jsonDataPlanService['Detalle Horas Planificadas']) {
-    //   let x2 = 0;
-    //   for (const dia2 of this.dias2) {
-    //     let diaN2 = `dia${x2 + 1}`;
-    //     plan2[diaN2] = 0;
-    //     x2++;
-    //   }
-    //   i2++;
-    // }
-
-    // console.log(this.jsonDataPlanService);
   }
 
   sumaHH(){
@@ -186,20 +170,6 @@ export class CapacityService {
           }
         }
       }
-
-    // }
-    // let i = 0;
-    // for (let plan of this.jsonDataPlanService['Detalle Horas Planificadas']) {
-    //   let x = 0;
-    //   let fecha = moment(plan.fechaPlanificada).format('L');
-    //   for (let dia of this.dias) {
-    //     if (Number(fecha.toString().substr(3, 2)) == Number(x + 1)){
-    //       let diaN = `dia${x + 1}`;
-    //       plan[diaN] = plan.horasPlanificadas;
-    //     }
-    //     x++;
-    //   }
-    // }
   }
 
   ordenarPorARS(){
@@ -261,27 +231,6 @@ export class CapacityService {
         }
         plan.mes2.totalMes2 = totalMes2;
       }
-      // this.totales = {};
-//       for (let i = 1; i < 32; i++) {
-//         let diaN = `dia${i}`;
-//         this.totales[diaN] = 0;
-//       }
-//       // console.log(this.totales);
-// // return;
-//       for (let plan of this.jsonDataPlanService) {
-//         for (let i = 1; i < 32; i++) {
-//           let diaN = `dia${i}`;
-//           // console.log(plan[diaN]);
-//           this.totales[diaN] = Number(this.totales[diaN]) + Number(plan[diaN]);
-//         }
-//       }
-//       console.log(this.totales);
-//       this.totalMes = this.totales.dia1 + this.totales.dia2 + this.totales.dia3 + this.totales.dia4 + this.totales.dia5 +
-//       this.totales.dia6 + this.totales.dia7 + this.totales.dia8      + this.totales.dia9 + this.totales.dia10 + this.totales.dia11 +
-//       this.totales.dia12 + this.totales.dia13 + this.totales.dia14 + this.totales.dia15 + this.totales.dia16  + this.totales.dia17 +
-//       this.totales.dia18 + this.totales.dia19 + this.totales.dia20 + this.totales.dia21 + this.totales.dia22 + this.totales.dia23 +
-//       this.totales.dia24 + this.totales.dia25 + this.totales.dia26 + this.totales.dia27 + this.totales.dia28 + this.totales.dia29 +
-//       this.totales.dia30 + this.totales.dia31;
     }
 
     CSlineaBase(){
@@ -325,25 +274,6 @@ export class CapacityService {
               plan.mes2[ultDia - 1].total =  plan.mes2[ultDia - 1].total + dif;
 
             }
-
-            
-            // console.log('entro');
-            // let total = plan.dia1 + plan.dia2 + plan.dia3 + plan.dia4 + plan.dia5 +
-            //             plan.dia6 + plan.dia7 + plan.dia8 + plan.dia9 + plan.dia10 +
-            //             plan.dia11 + plan.dia12 + plan.dia13 + plan.dia14 + plan.dia15 +
-            //             plan.dia16 + plan.dia17 + plan.dia18 + plan.dia19 + plan.dia20 +
-            //             plan.dia21 + plan.dia22 + plan.dia23 + plan.dia24 + plan.dia25 +
-            //             plan.dia26 + plan.dia27 + plan.dia28 + plan.dia29 + plan.dia30 +
-            //             plan.dia31;
-            // let diaN = `dia${this.ultDia}`;
-            // if (total > 180) {
-            //     let dif = total - 180;
-            //     plan[diaN] = plan[diaN] - dif;
-            // }
-            // if (total < 180) {
-            //   let dif = 180 - total;
-            //   plan[diaN] = plan[diaN] + dif;
-            // }
         }
       }
 
@@ -376,15 +306,11 @@ export class CapacityService {
         this.totalMes1 = this.totalMes1 + plan.mes1.totalMes1;
         this.totalMes2 = this.totalMes2 + plan.mes2.totalMes2;
       }
-      // console.log(this.totalMes1);
-      // console.log(this.totalMes2);
 
       for (let planCS of this.jsonDataPlanServiceCS) {
         this.totalMes1CS = this.totalMes1CS + planCS.mes1.totalMes1;
         this.totalMes2CS = this.totalMes2CS + planCS.mes2.totalMes2;
       }
-      // console.log(this.totalMes1CS);
-      // console.log(this.totalMes2CS);
     }
 
     totalporDia(){
@@ -395,7 +321,6 @@ export class CapacityService {
         // console.log(diaF);
         this.totalDia.push({diaF, total: 0});
       }
-      // this.totalDia = [...this.dias, 0];
 
       for (const plan of this.jsonDataPlanService) {
         for (let i = 0; i < plan.mes1.length; i++) {
@@ -438,14 +363,22 @@ export class CapacityService {
           cantDiasHabiles = cantDiasHabiles + 1;
         }
       }
-      console.log(this.horasMtto);
+      // console.log(this.horasMtto);
       let HHporDias = (8910 -  this.horasMtto) / cantDiasHabiles;
-      // console.log(HHporDias);
+      let difHH = (HHporDias - Math.round(HHporDias)) * cantDiasHabiles;
+      // console.log(difHH);
 
+      let x = 0;
       for (let dia of this.capacidadporDia) {
-        if(dia.habil){
+        if (dia.habil){
           dia.total = Math.round(HHporDias);
+          if ((x + 1 ) == cantDiasHabiles){
+            // console.log(x);
+            // console.log(difHH);
+            dia.total = dia.total + difHH;
+          }
           this.totalDisponible = this.totalDisponible + dia.total;
+          x++;
         }
       }
 
