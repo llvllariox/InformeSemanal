@@ -31,7 +31,8 @@
                     </tr>
                     <tr class="" style="background-color: rgb(255, 255, 255)">
                         <td class="small text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">&nbsp; &nbsp;En ejecución</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{capacityService.totalMes|number:'1.2'}}</td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="capacityService.totalMes" class="text-right" pattern="" type="text" style="border: 0px;"></td>
+                        <!-- <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{capacityService.totalMes|number:'1.2'}}</td> -->
                         <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Ejecucion2" class="text-right" pattern="" type="text" style="border: 0px;"></td>
                     </tr>
                     <tr class="" style="background-color: rgb(255, 255, 255)">

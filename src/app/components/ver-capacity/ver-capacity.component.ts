@@ -20,10 +20,10 @@ export class VerCapacityComponent implements OnInit {
   fecha1;
   fecha2;
   hoy;
-  Mttovalor1 = 2700.00;
+  Mttovalor1 = 2880.00;
   Mttovalor2 = 900.00;
-  Mttovalor3 = 0.00;
-  Mttovalor4 = 0.00;
+  Mttovalor3 = 2880.00;
+  Mttovalor4 = 900.00;
   Reservavalor1 = 0;
   Reservavalor2 = 0;
   Ejecucion2 = 0;
