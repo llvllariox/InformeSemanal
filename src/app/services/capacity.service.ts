@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
+import { FeriadosChileService } from './feriados-chile.service';
+import { SweetAlertService } from './sweet-alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -59,9 +61,11 @@ export class CapacityService {
   totalMes1CS = 0;
   totalMes2CS = 0;
   totalDia = [];
+  feriados = [];
 
-  constructor() {
+  constructor(private feriadosService: FeriadosChileService, private sweetService: SweetAlertService) {
 
+    // this.inicioMes = moment().add(1,'months').startOf('month');
     this.inicioMes = moment().startOf('month');
     this.finMes = moment().endOf('month');
     const diaFin = Number(this.finMes.format('DD'));
@@ -77,6 +81,7 @@ export class CapacityService {
     }
     console.log(this.dias);
 
+    // this.inicioMes2 = moment().startOf('month');
     this.inicioMes2 = moment().add(1, 'month').startOf('month');
     this.finMes2 = moment().add(1, 'month').endOf('month');
     const diaFin2 = Number(this.finMes2.format('DD'));
@@ -89,7 +94,20 @@ export class CapacityService {
       diaN2 = moment(this.inicioMes2).add(i, 'day');
       this.dias2.push({diaN2, total});
     }
-    console.log(this.dias2);
+    // console.log(this.dias2);
+
+    let anno = Number(moment(). format('YYYY'));
+    // let mes = Number(moment().add(1, 'month').format('MM'));
+    let mes = Number(moment(). format('MM'));
+    // console.log(anno);
+    // console.log(mes);
+
+    this.feriadosService.obtenerProductos(anno, mes).subscribe(resp => {
+        this.feriados = resp;
+        console.log('feriados', this.feriados);
+    }, err => {
+      this.sweetService.mensajeError('Error al obtener productos', err.error.mensaje || err.error.errors.message);
+    });
 
    }
 
@@ -123,6 +141,7 @@ export class CapacityService {
     this.filtrarCS();
     this.totalEjecucion();
     this.totalporDia();
+    this.capacidadDisponible();
     console.log('ulitmo', this.jsonDataPlanServiceCS);
     // return;
     // this.agruparARSCS();
@@ -411,6 +430,52 @@ export class CapacityService {
         }
       }
       console.log(this.totalDia);
+    }
+
+    capacidadDisponible(){
+      let capacidadporDia = [];
+
+      for (const dia of this.dias) {
+        // let diaN = `dia${x + 1}`;
+        let diaF = moment(dia.diaN).format('YYYY-MM-DD');
+        capacidadporDia.push({'fecha' : diaF, 'total': 0, 'habil': true});
+
+      }
+      console.log('capacidad', capacidadporDia);
+
+      for (let dia of capacidadporDia) {
+        let diaS = Number(moment(dia.fecha).day());
+        console.log(diaS);
+        if (diaS == 0 || diaS == 6){
+            dia.habil = false;
+        }
+      }
+
+      for (let dia of capacidadporDia) {
+        for (const feriado of this.feriados) {
+            if (dia.fecha == feriado.fecha){
+                dia.habil = false;
+            }
+        }
+      }
+
+      let cantDiasHabiles = 0;
+      for (const dia of capacidadporDia) {
+        if (dia.habil){
+          cantDiasHabiles = cantDiasHabiles + 1;
+        }
+      }
+      
+
+      let HHporDias = 8149 / cantDiasHabiles;
+      console.log(HHporDias);
+
+      for (let dia of capacidadporDia) {
+        if(dia.habil){
+          dia.total = Math.round(HHporDias);
+        }
+      }
+
     }
 
     // agruparARSCS(){
