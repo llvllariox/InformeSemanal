@@ -12,7 +12,8 @@ import { GenerarCapacityComponent } from './components/generar-capacity/generar-
 import { VerCapacityComponent } from './components/ver-capacity/ver-capacity.component';
 import { CurrencyMaskModule } from "ng2-currency-mask";
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule , HttpClientJsonpModule} from '@angular/common/http';
+
 // import { DatePipe } from '@angular/common';
 
 
@@ -32,7 +33,8 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     CurrencyMaskModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    HttpClientJsonpModule
   ],
   providers: [],
   bootstrap: [AppComponent]
