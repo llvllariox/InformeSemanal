@@ -438,7 +438,7 @@ export class CapacityService {
           cantDiasHabiles = cantDiasHabiles + 1;
         }
       }
-
+      console.log(this.horasMtto);
       let HHporDias = (8910 -  this.horasMtto) / cantDiasHabiles;
       // console.log(HHporDias);
 

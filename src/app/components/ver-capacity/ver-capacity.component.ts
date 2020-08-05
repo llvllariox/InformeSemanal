@@ -47,6 +47,8 @@ export class VerCapacityComponent implements OnInit {
     this.dias =  Number(this.finMes.format('DD'));
     // console.log(this.dias);
     // console.log(new Intl.NumberFormat('es-ES', {minimumFractionDigits: 2}).format(this.Ejecucion2));
+    // console.log(this.Mttovalor1);
+    // console.log(this.Mttovalor2);
     this.capacityService.horasMtto = this.Mttovalor1 + this.Mttovalor2;
   }
 
@@ -57,11 +59,14 @@ export class VerCapacityComponent implements OnInit {
     this.capacityService.jsonDataPlanService.splice(i, 1);
     this.capacityService.totalporDia();
     this.capacityService.totalEjecucion();
+    this.capacityService.capacidadDisponible();
+    this.capacityService.totCapacidadDisponible();
   }
   cambiarTotal(){
     // console.log('onChange');
     this.capacityService.horasMtto = this.Mttovalor1 + this.Mttovalor2;
     this.capacityService.capacidadDisponible();
+    this.capacityService.totCapacidadDisponible();
   }
   generateExcel() {
 
