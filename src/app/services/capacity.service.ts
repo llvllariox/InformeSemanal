@@ -16,40 +16,7 @@ export class CapacityService {
   dias = [];
   planAgrupado = [];
   planAgrupadoCS = [];
-  totales = {
-    'dia1': 0,
-    'dia2': 0,
-    'dia3': 0,
-    'dia4': 0,
-    'dia5': 0,
-    'dia6': 0,
-    'dia7': 0,
-    'dia8': 0,
-    'dia9': 0,
-    'dia10': 0,
-    'dia11': 0,
-    'dia12': 0,
-    'dia13': 0,
-    'dia14': 0,
-    'dia15': 0,
-    'dia16': 0,
-    'dia17': 0,
-    'dia18': 0,
-    'dia19': 0,
-    'dia20': 0,
-    'dia21': 0,
-    'dia22': 0,
-    'dia23': 0,
-    'dia24': 0,
-    'dia25': 0,
-    'dia26': 0,
-    'dia27': 0,
-    'dia28': 0,
-    'dia29': 0,
-    'dia30': 0,
-    'dia31': 0,
-
-  };
+  // -------------------------------
   totalMes = 0;
   // ReqAgrupado = [];
   inicioMes2;
@@ -62,6 +29,11 @@ export class CapacityService {
   totalMes2CS = 0;
   totalDia = [];
   feriados = [];
+  capacidadporDia = [];
+  TotalcapacidadporDia = [];
+  totalTotal = 0;
+  totalDisponible = 0;
+  horasMtto = 0;
 
   constructor(private feriadosService: FeriadosChileService, private sweetService: SweetAlertService) {
 
@@ -79,7 +51,7 @@ export class CapacityService {
       this.dias.push({diaN, total});
 
     }
-    console.log(this.dias);
+    // console.log(this.dias);
 
     // this.inicioMes2 = moment().startOf('month');
     this.inicioMes2 = moment().add(1, 'month').startOf('month');
@@ -104,7 +76,7 @@ export class CapacityService {
 
     this.feriadosService.obtenerProductos(anno, mes).subscribe(resp => {
         this.feriados = resp;
-        console.log('feriados', this.feriados);
+        // console.log('feriados', this.feriados);
     }, err => {
       this.sweetService.mensajeError('Error al obtener productos', err.error.mensaje || err.error.errors.message);
     });
@@ -142,6 +114,7 @@ export class CapacityService {
     this.totalEjecucion();
     this.totalporDia();
     this.capacidadDisponible();
+    this.totCapacidadDisponible();
     console.log('ulitmo', this.jsonDataPlanServiceCS);
     // return;
     // this.agruparARSCS();
@@ -422,36 +395,35 @@ export class CapacityService {
         this.totalDia.push({diaF, total: 0});
       }
       // this.totalDia = [...this.dias, 0];
-     
 
       for (const plan of this.jsonDataPlanService) {
         for (let i = 0; i < plan.mes1.length; i++) {
           this.totalDia[i].total = this.totalDia[i].total + plan.mes1[i].total;
         }
       }
-      console.log(this.totalDia);
+      // console.log(this.totalDia);
     }
 
     capacidadDisponible(){
-      let capacidadporDia = [];
-
+      this.capacidadporDia = [];
+      this.totalDisponible = 0;
       for (const dia of this.dias) {
         // let diaN = `dia${x + 1}`;
         let diaF = moment(dia.diaN).format('YYYY-MM-DD');
-        capacidadporDia.push({'fecha' : diaF, 'total': 0, 'habil': true});
+        this.capacidadporDia.push({'fecha' : diaF, 'total': 0, 'habil': true});
 
       }
-      console.log('capacidad', capacidadporDia);
+      // console.log('capacidad', this.capacidadporDia);
 
-      for (let dia of capacidadporDia) {
+      for (let dia of this.capacidadporDia) {
         let diaS = Number(moment(dia.fecha).day());
-        console.log(diaS);
+        // console.log(diaS);
         if (diaS == 0 || diaS == 6){
             dia.habil = false;
         }
       }
 
-      for (let dia of capacidadporDia) {
+      for (let dia of this.capacidadporDia) {
         for (const feriado of this.feriados) {
             if (dia.fecha == feriado.fecha){
                 dia.habil = false;
@@ -460,22 +432,39 @@ export class CapacityService {
       }
 
       let cantDiasHabiles = 0;
-      for (const dia of capacidadporDia) {
+      for (const dia of this.capacidadporDia) {
         if (dia.habil){
           cantDiasHabiles = cantDiasHabiles + 1;
         }
       }
-      
 
-      let HHporDias = 8149 / cantDiasHabiles;
-      console.log(HHporDias);
+      let HHporDias = (8910 -  this.horasMtto) / cantDiasHabiles;
+      // console.log(HHporDias);
 
-      for (let dia of capacidadporDia) {
+      for (let dia of this.capacidadporDia) {
         if(dia.habil){
           dia.total = Math.round(HHporDias);
+          this.totalDisponible = this.totalDisponible + dia.total;
         }
       }
 
+    }
+
+    totCapacidadDisponible(){
+
+      for (const dia of this.dias) {
+        // let diaN = `dia${x + 1}`;
+        let diaF = moment(dia.diaN).format('YYYY-MM-DD');
+        this.TotalcapacidadporDia.push({'fecha' : diaF, 'total': 0});
+      }
+
+      for (let i = 0; i < this.TotalcapacidadporDia.length; i++) {
+        this.TotalcapacidadporDia[i].total = this.capacidadporDia[i].total - this.totalDia[i].total;
+        this.totalTotal = this.totalTotal + this.TotalcapacidadporDia[i].total;
+        // console.log(this.capacidadporDia[i]);
+        // console.log(this.totalDia[i]);
+      }
+      // console.log('TotalcapacidadporDia', this.TotalcapacidadporDia);
     }
 
     // agruparARSCS(){
@@ -505,4 +494,5 @@ export class CapacityService {
     //   this.jsonDataPlanServiceCS = this.planAgrupadoCS;
     //   console.log('jsonDataPlanServiceCS', this.jsonDataPlanServiceCS);
     //   }
+    
 }

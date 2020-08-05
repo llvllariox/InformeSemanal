@@ -47,6 +47,7 @@ export class VerCapacityComponent implements OnInit {
     this.dias =  Number(this.finMes.format('DD'));
     // console.log(this.dias);
     // console.log(new Intl.NumberFormat('es-ES', {minimumFractionDigits: 2}).format(this.Ejecucion2));
+    this.capacityService.horasMtto = this.Mttovalor1 + this.Mttovalor2;
   }
 
   ngOnInit(): void {
@@ -57,7 +58,11 @@ export class VerCapacityComponent implements OnInit {
     this.capacityService.totalporDia();
     this.capacityService.totalEjecucion();
   }
-
+  cambiarTotal(){
+    // console.log('onChange');
+    this.capacityService.horasMtto = this.Mttovalor1 + this.Mttovalor2;
+    this.capacityService.capacidadDisponible();
+  }
   generateExcel() {
 
     // Excel Title, Header, Data
