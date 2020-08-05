@@ -115,7 +115,7 @@ export class VerCapacityComponent implements OnInit {
     }
     );
 
-    worksheet.getColumn(1).width = 42;
+    worksheet.getColumn(1).width = 55;
     worksheet.getColumn(2).width = 20;
     worksheet.getColumn(3).width = 20;
     worksheet.getRow(5).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'F2F2F2' }, bgColor: { argb: 'F2F2F2' }};
@@ -173,15 +173,16 @@ export class VerCapacityComponent implements OnInit {
       cell.font = {
         color: {argb: 'FFFFFF'},
         bold: true,
+        italic: true
       };
-      if (cell.address === 'A16'){
-         cell.font = cell.font = {color: {argb: 'FFFFFF'}, bold: true, italic: true};
-      }
+      // if (cell.address === 'A16'){
+      //    cell.font = cell.font = {color: {argb: 'FFFFFF'}, bold: true, italic: true};
+      // }
     });
 
     this.capacityService.jsonDataPlanServiceCS.forEach(d => {
       // let rowCS = [d.descripcion , 180, 180];
-      let row = worksheet.addRow([d.descripcion , 180, 180]);
+      let row = worksheet.addRow([d.descripcion , d.mes1.totalMes1, d.mes2.totalMes2]);
       row.getCell(2).style = {numFmt: '#,##0.00'};
       row.getCell(3).style = {numFmt: '#,##0.00'};
       row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
@@ -190,7 +191,7 @@ export class VerCapacityComponent implements OnInit {
     });
 
     const totalCS = [
-      'Total', 180.00 * this.capacityService.jsonDataPlanServiceCS.length, 180.00 * this.capacityService.jsonDataPlanServiceCS.length
+      'Total', this.capacityService.totalMes1CS, this.capacityService.totalMes2CS
     ];
     let totalRowCS = worksheet.addRow(totalCS);
 
@@ -226,30 +227,11 @@ export class VerCapacityComponent implements OnInit {
     let headerHH = [
       'Requerimiento'];
 
-    for (let i = 0; i < 28; i++) {
-      // let diaN = `dia${i + 1}`;
-      let dia = i + 1;
-      // console.log(this.capacityService.totales[diaN]);
-      headerHH.push(dia.toString());
-      }
-    if (29 <= Number(this.dias)){
-     headerHH.push('29');
+    for (let i = 0; i < this.capacityService.dias.length; i++) {
+      let dia = (i + 1).toString();
+      headerHH.push(dia);
     }
-    if (30 <= Number(this.dias)){
-      headerHH.push('30');
-    }
-    if (31 <= Number(this.dias)){
-      headerHH.push('31');
-    }
-
-    // for (let i = 0; i < 31; i++) {
-    //   let diaN = `dia${i + 1}`;
-    //   let dia = i + 1;
-    //   console.log(this.capacityService.totales[diaN]);
-    //   if (this.capacityService.totales[diaN] > 0){
-    //     headerHH.push(dia.toString());
-    //   }
-    // }
+    // console.log(headerHH);
     headerHH.push('Total');
     // console.log(headerHH);
 
@@ -273,99 +255,38 @@ export class VerCapacityComponent implements OnInit {
     });
 
     this.capacityService.jsonDataPlanService.forEach(d => {
-      let dFinal = [d.descripcion, d.dia1, d.dia2, d.dia3, d.dia4, d.dia5, d.dia6, d.dia7,
-                                  d.dia8, d.dia9, d.dia10, d.dia11, d.dia12, d.dia13, d.dia14,
-                                  d.dia15, d.dia16, d.dia17, d.dia18, d.dia19, d.dia20, d.dia21,
-                                  d.dia22, d.dia23, d.dia24, d.dia25, d.dia26, d.dia27, d.dia28];
-
-      if (29 <= Number(this.dias)){
-        dFinal.push(d.dia29);
+      let dFinal = [];
+      dFinal.push(d.descripcion);
+      for (const dia of d.mes1) {
+        dFinal.push(dia.total);
       }
-      if (30 <= Number(this.dias)){
-        dFinal.push(d.dia30);
-      }
-      if (31 <= Number(this.dias)){
-        dFinal.push(d.dia31);
-      }
-
-      let totaldia = 0;
-      totaldia = d.dia1 +  d.dia2 +  d.dia3 +  d.dia4 +  d.dia5 +  d.dia6 +  d.dia7 +
-                 d.dia8 +  d.dia9 +  d.dia10 +  d.dia11 +  d.dia12 +  d.dia13 +  d.dia14 +
-                 d.dia15 +  d.dia16 +  d.dia17 +  d.dia18 +  d.dia19 +  d.dia20 +  d.dia21 +
-                 d.dia22 +  d.dia23 +  d.dia24 +  d.dia25 +  d.dia26 +  d.dia27 +  d.dia28 + d.dia29 + d.dia30 + d.dia31;
-
-      dFinal.push(totaldia);
+      dFinal.push(d.mes1.totalMes1);
+      // console.log('dFinal0', dFinal);
 
  
       let row = worksheet2.addRow(dFinal);
       row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
 
-      for (let i = 2; i < 30; i++) {
+      for (let i = 2; i < this.capacityService.dias.length + 2; i++) {
         row.getCell(i).style = {numFmt: '#,##0.00'};
         row.getCell(i).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+        // console.log(row.getCell(i)._value.model.value);
       }
 
-      if (29 <= Number(this.dias)){
-        row.getCell(30).style = {numFmt: '#,##0.00'};
-        row.getCell(30).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-      }
-      if (30 <= Number(this.dias)){
-        row.getCell(31).style = {numFmt: '#,##0.00'};
-        row.getCell(31).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-      }
-      if (31 <= Number(this.dias)){
-        row.getCell(32).style = {numFmt: '#,##0.00'};
-        row.getCell(32).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-      }
-      row.getCell(this.dias + 2).style = {numFmt: '#,##0.00'};
-      row.getCell(this.dias + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(this.capacityService.dias.length + 2).style = {numFmt: '#,##0.00'};
+      // tslint:disable-next-line: max-line-length
+      row.getCell(this.capacityService.dias.length + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
     }
     );
 
-    const dTotal = ['Capacidad Utilizada', this.capacityService.totales.dia1, this.capacityService.totales.dia2,
-                                           this.capacityService.totales.dia3, this.capacityService.totales.dia4,
-                                           this.capacityService.totales.dia5, this.capacityService.totales.dia6,
-                                           this.capacityService.totales.dia7, this.capacityService.totales.dia8,
-                                           this.capacityService.totales.dia9, this.capacityService.totales.dia10,
-                                           this.capacityService.totales.dia11, this.capacityService.totales.dia12,
-                                           this.capacityService.totales.dia13, this.capacityService.totales.dia14,
-                                           this.capacityService.totales.dia15, this.capacityService.totales.dia16,
-                                           this.capacityService.totales.dia17, this.capacityService.totales.dia18,
-                                           this.capacityService.totales.dia19, this.capacityService.totales.dia20,
-                                           this.capacityService.totales.dia21, this.capacityService.totales.dia22,
-                                           this.capacityService.totales.dia23, this.capacityService.totales.dia24,
-                                           this.capacityService.totales.dia25, this.capacityService.totales.dia26,
-                                           this.capacityService.totales.dia27, this.capacityService.totales.dia28];
+    let dTotal = [];
+    dTotal.push('Capacidad Utilizada');
 
-    if (29 <= Number(this.dias)){
-      dTotal.push(this.capacityService.totales.dia29);
-    }
-    if (30 <= Number(this.dias)){
-      dTotal.push(this.capacityService.totales.dia30);
-    }
-    if (31 <= Number(this.dias)){
-      dTotal.push(this.capacityService.totales.dia31);
+    for (const dias of this.capacityService.totalDia) {
+      dTotal.push(dias.total);
     }
 
-    let totaldia = 0;
-    totaldia =  this.capacityService.totales.dia1 + this.capacityService.totales.dia2 +
-                this.capacityService.totales.dia3 + this.capacityService.totales.dia4 +
-                this.capacityService.totales.dia5 + this.capacityService.totales.dia6 +
-                this.capacityService.totales.dia7 + this.capacityService.totales.dia8 +
-                this.capacityService.totales.dia9 + this.capacityService.totales.dia10 +
-                this.capacityService.totales.dia11 + this.capacityService.totales.dia12 +
-                this.capacityService.totales.dia13 + this.capacityService.totales.dia14 +
-                this.capacityService.totales.dia15 + this.capacityService.totales.dia16 +
-                this.capacityService.totales.dia17 + this.capacityService.totales.dia18 +
-                this.capacityService.totales.dia19 + this.capacityService.totales.dia20 +
-                this.capacityService.totales.dia21 + this.capacityService.totales.dia22 +
-                this.capacityService.totales.dia23 + this.capacityService.totales.dia24 +
-                this.capacityService.totales.dia25 + this.capacityService.totales.dia26 +
-                this.capacityService.totales.dia27 + this.capacityService.totales.dia28 +
-                this.capacityService.totales.dia29 + this.capacityService.totales.dia30 +
-                this.capacityService.totales.dia31;
-
-    dTotal.push(totaldia);
+    dTotal.push(this.capacityService.totalMes1);
 
 
     let row = worksheet2.addRow(dTotal);
@@ -373,36 +294,19 @@ export class VerCapacityComponent implements OnInit {
     row.getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
     row.getCell(1).font = {color: {argb: 'FFFFFF'}, bold: true,};
 
-    for (let i = 2; i < 30; i++) {
+    for (let i = 2; i < this.capacityService.dias.length + 2; i++) {
       row.getCell(i).style = {numFmt: '#,##0.00'};
       row.getCell(i).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
       row.getCell(i).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
       row.getCell(i).font = {color: {argb: 'FFFFFF'}, bold: true,};
     }
 
-    if (29 <= Number(this.dias)){
-      row.getCell(30).style = {numFmt: '#,##0.00'};
-      row.getCell(30).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-      row.getCell(30).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-      row.getCell(30).font = {color: {argb: 'FFFFFF'}, bold: true,};
-    }
-    if (30 <= Number(this.dias)){
-      row.getCell(31).style = {numFmt: '#,##0.00'};
-      row.getCell(31).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-      row.getCell(31).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-      row.getCell(31).font = {color: {argb: 'FFFFFF'}, bold: true,};
-    }
-    if (31 <= Number(this.dias)){
-      row.getCell(32).style = {numFmt: '#,##0.00'};
-      row.getCell(32).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-      row.getCell(32).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-      row.getCell(32).font = {color: {argb: 'FFFFFF'}, bold: true,};
-    }
-    row.getCell(this.dias + 2).style = {numFmt: '#,##0.00'};
+    row.getCell(this.capacityService.dias.length + 2).style = {numFmt: '#,##0.00'};
     // tslint:disable-next-line: max-line-length
-    row.getCell(this.dias + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-    row.getCell(this.dias + 2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-    row.getCell(this.dias + 2).font = {color: {argb: 'FFFFFF'}, bold: true,};
+    row.getCell(this.capacityService.dias.length + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    // tslint:disable-next-line: max-line-length
+    row.getCell(this.capacityService.dias.length + 2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+    row.getCell(this.capacityService.dias.length + 2).font = {color: {argb: 'FFFFFF'}, bold: true,};
 
     worksheet2.getColumn(1).width = 65;
     workbook.xlsx.writeBuffer().then((data) => {
