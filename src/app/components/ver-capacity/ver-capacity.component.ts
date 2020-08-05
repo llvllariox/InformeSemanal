@@ -307,16 +307,83 @@ export class VerCapacityComponent implements OnInit {
     for (let i = 2; i < this.capacityService.dias.length + 2; i++) {
       row.getCell(i).style = {numFmt: '#,##0.00'};
       row.getCell(i).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-      row.getCell(i).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-      row.getCell(i).font = {color: {argb: 'FFFFFF'}, bold: true,};
+      // row.getCell(i).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+      // row.getCell(i).font = {color: {argb: 'FFFFFF'}};
     }
 
     row.getCell(this.capacityService.dias.length + 2).style = {numFmt: '#,##0.00'};
     // tslint:disable-next-line: max-line-length
     row.getCell(this.capacityService.dias.length + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
     // tslint:disable-next-line: max-line-length
-    row.getCell(this.capacityService.dias.length + 2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-    row.getCell(this.capacityService.dias.length + 2).font = {color: {argb: 'FFFFFF'}, bold: true,};
+    // row.getCell(this.capacityService.dias.length + 2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+    // row.getCell(this.capacityService.dias.length + 2).font = {color: {argb: 'FFFFFF'}};
+
+
+    let dTotalDisp = [];
+    dTotalDisp.push('Capacidad Disponible');
+
+    for (const dias of this.capacityService.capacidadporDia) {
+      dTotalDisp.push(dias.total);
+    }
+
+    dTotalDisp.push(this.capacityService.totalDisponible);
+
+
+    let row2 = worksheet2.addRow(dTotalDisp);
+    row2.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    row2.getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+    row2.getCell(1).font = {color: {argb: 'FFFFFF'}, bold: true,};
+
+    for (let i = 2; i < this.capacityService.dias.length + 2; i++) {
+      row2.getCell(i).style = {numFmt: '#,##0.00'};
+      row2.getCell(i).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      // row2.getCell(i).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+      // row2.getCell(i).font = {color: {argb: 'FFFFFF'}, bold: true,};
+    }
+
+    row2.getCell(this.capacityService.dias.length + 2).style = {numFmt: '#,##0.00'};
+    // tslint:disable-next-line: max-line-length
+    row2.getCell(this.capacityService.dias.length + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    // tslint:disable-next-line: max-line-length
+    // row2.getCell(this.capacityService.dias.length + 2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+    // row2.getCell(this.capacityService.dias.length + 2).font = {color: {argb: 'FFFFFF'}, bold: true,};
+
+
+    let dTotalTotal = [];
+    dTotalTotal.push('Total');
+
+    for (const dias of this.capacityService.TotalcapacidadporDia) {
+      dTotalTotal.push(dias.total);
+    }
+
+    dTotalTotal.push(this.capacityService.totalTotal);
+
+
+    let row3 = worksheet2.addRow(dTotalTotal);
+    row3.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    row3.getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+    row3.getCell(1).font = {color: {argb: 'FFFFFF'}, bold: true,};
+
+    for (let i = 2; i < this.capacityService.dias.length + 2; i++) {
+      row3.getCell(i).style = {numFmt: '#,##0.00'};
+      row3.getCell(i).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row3.getCell(i).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+      row3.getCell(i).font = {color: {argb: 'FFFFFF'}, bold: true,};
+    }
+
+    row3.getCell(this.capacityService.dias.length + 2).style = {numFmt: '#,##0.00'};
+    // tslint:disable-next-line: max-line-length
+    row3.getCell(this.capacityService.dias.length + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    // tslint:disable-next-line: max-line-length
+    row3.getCell(this.capacityService.dias.length + 2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
+    row3.getCell(this.capacityService.dias.length + 2).font = {color: {argb: 'FFFFFF'}, bold: true,};
+
+
+
+
+
+    
+
 
     worksheet2.getColumn(1).width = 65;
     workbook.xlsx.writeBuffer().then((data) => {
