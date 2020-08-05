@@ -116,7 +116,7 @@ filtrarTar(jsonDataReq: any) {
   });
 
   jsonDataCS = jsonDataCS.filter(a => {
-    return a.lineaDeServicio === 'Capacity Service';
+    return a.lineaDeServicio === 'Capacity Service' &&  a.numeroArs !== 434;
   });
 
   // jsonDataReq['Detalle Tareas'] = jsonDataReq['Detalle Tareas'].filter(a => {

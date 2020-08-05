@@ -98,6 +98,8 @@ export class CapacityService {
 
     // Capacity Service x 180
     this.ordenarPorARSCS();
+    // console.log('ulitmo', this.jsonDataPlanServiceCS);
+    // return;
     this.agruparARSCS();
 
 
@@ -143,6 +145,8 @@ export class CapacityService {
   agruparARS(){
 
     let planPadre: any = [];
+    let maximo = this.jsonDataPlanService['Detalle Horas Planificadas'].length;
+    let i = 0;
 
     // tslint:disable-next-line: prefer-const
     for (let plan of this.jsonDataPlanService['Detalle Horas Planificadas']) {
@@ -186,7 +190,13 @@ export class CapacityService {
           planPadre.dia30 = Number(planPadre.dia30) + Number(plan.dia30);
           planPadre.dia31 = Number(planPadre.dia31) + Number(plan.dia31);
         }
+        i++
+
+        if (i== maximo -1){
+          this.planAgrupado.push(planPadre);
+        }
       }
+
     // console.log('Agrupado', this.planAgrupado);
     this.planAgrupado.splice(0, 1);
     this.jsonDataPlanService = this.planAgrupado;
@@ -252,10 +262,11 @@ export class CapacityService {
     agruparARSCS(){
 
       let planPadreCS: any = [];
-
+      let maximo = this.jsonDataPlanServiceCS.length;
+      let i = 0;
       // tslint:disable-next-line: prefer-const
       for (let plan of this.jsonDataPlanServiceCS) {
-  
+
           if (plan.numeroArs !== planPadreCS.numeroArs) {
             if (planPadreCS) {
               planPadreCS.horas1 = 180;
@@ -263,6 +274,11 @@ export class CapacityService {
               this.planAgrupadoCS.push(planPadreCS);
             }
             planPadreCS = plan;
+          }
+          i++
+
+          if (i== maximo -1){
+            this.planAgrupadoCS.push(planPadreCS);
           }
         }
       // console.log('Agrupado', this.planAgrupado);
