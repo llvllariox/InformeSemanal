@@ -50,6 +50,12 @@ export class CapacityService {
   };
   totalMes = 0;
   // ReqAgrupado = [];
+  inicioMes2;
+  finMes2;
+  ultDia2;
+  dias2 = [];
+  totalMes1 = 0;
+  totalMes2 = 0;
 
   constructor() {
 
@@ -66,7 +72,21 @@ export class CapacityService {
       this.dias.push({diaN, total});
 
     }
-    // console.log(this.dias);
+    console.log(this.dias);
+
+    this.inicioMes2 = moment().add(1, 'month').startOf('month');
+    this.finMes2 = moment().add(1, 'month').endOf('month');
+    const diaFin2 = Number(this.finMes2.format('DD'));
+    this.ultDia2 =  Number(this.finMes2.format('DD'));
+    let diaN2;
+    // tslint:disable-next-line: prefer-const
+    // let total = 0;
+
+    for (let i = 0; i < diaFin2; i++) {
+      diaN2 = moment(this.inicioMes2).add(i, 'day');
+      this.dias2.push({diaN2, total});
+    }
+    console.log(this.dias2);
 
    }
 
@@ -94,13 +114,14 @@ export class CapacityService {
     this.ordenarPorARS();
     this.agruparARS();
     this.CSlineaBase();
-    this.totalesDia();
-
+    this.totalesMes();
     // Capacity Service x 180
     this.ordenarPorARSCS();
-    // console.log('ulitmo', this.jsonDataPlanServiceCS);
+    this.filtrarCS();
+    this.totalEjecucion();
+    console.log('ulitmo', this.jsonDataPlanServiceCS);
     // return;
-    this.agruparARSCS();
+    // this.agruparARSCS();
 
 
   }
@@ -108,15 +129,45 @@ export class CapacityService {
     agregaFechas(){
 
     let i = 0;
+    // let mes1 = [];
+
     for (let plan of this.jsonDataPlanService['Detalle Horas Planificadas']) {
       let x = 0;
+      let mes1 = [];
       for (const dia of this.dias) {
-        let diaN = `dia${x + 1}`;
-        plan[diaN] = 0;
+        // let diaN = `dia${x + 1}`;
+        let diaF = moment(dia.diaN).format('DD-MM-YYYY');
+        mes1.push({'fecha' : diaF, 'total': 0});
         x++;
       }
+      this.jsonDataPlanService['Detalle Horas Planificadas'][i] = {...this.jsonDataPlanService['Detalle Horas Planificadas'][i], mes1};
       i++;
     }
+
+    i = 0;
+    for (let plan of this.jsonDataPlanService['Detalle Horas Planificadas']) {
+      let x = 0;
+      let mes2 = [];
+      for (const dia of this.dias2) {
+        // let diaN = `dia${x + 1}`;
+        let diaF = moment(dia.diaN2).format('DD-MM-YYYY');
+        mes2.push({'fecha' : diaF, 'total': 0});
+        x++;
+      }
+      this.jsonDataPlanService['Detalle Horas Planificadas'][i] = {...this.jsonDataPlanService['Detalle Horas Planificadas'][i], mes2};
+      i++;
+    }
+
+    // let i2 = 0;
+    // for (let plan2 of this.jsonDataPlanService['Detalle Horas Planificadas']) {
+    //   let x2 = 0;
+    //   for (const dia2 of this.dias2) {
+    //     let diaN2 = `dia${x2 + 1}`;
+    //     plan2[diaN2] = 0;
+    //     x2++;
+    //   }
+    //   i2++;
+    // }
 
     // console.log(this.jsonDataPlanService);
   }
@@ -124,16 +175,34 @@ export class CapacityService {
   sumaHH(){
     let i = 0;
     for (let plan of this.jsonDataPlanService['Detalle Horas Planificadas']) {
-      let x = 0;
-      let fecha = moment(plan.fechaPlanificada).format('L');
-      for (let dia of this.dias) {
-        if (Number(fecha.toString().substr(3, 2)) == Number(x + 1)){
-          let diaN = `dia${x + 1}`;
-          plan[diaN] = plan.horasPlanificadas;
+        let x = 0;
+        let fecha = moment(plan.fechaPlanificada).format('DD-MM-YYYY');
+        for (const planMes1 of plan.mes1) {
+          if (fecha == planMes1.fecha){
+            planMes1.total = plan.horasPlanificadas;
+          }
         }
-        x++;
+
+        for (const planMes2 of plan.mes2) {
+          if (fecha == planMes2.fecha){
+            planMes2.total = plan.horasPlanificadas;
+          }
+        }
       }
-    }
+
+    // }
+    // let i = 0;
+    // for (let plan of this.jsonDataPlanService['Detalle Horas Planificadas']) {
+    //   let x = 0;
+    //   let fecha = moment(plan.fechaPlanificada).format('L');
+    //   for (let dia of this.dias) {
+    //     if (Number(fecha.toString().substr(3, 2)) == Number(x + 1)){
+    //       let diaN = `dia${x + 1}`;
+    //       plan[diaN] = plan.horasPlanificadas;
+    //     }
+    //     x++;
+    //   }
+    // }
   }
 
   ordenarPorARS(){
@@ -158,37 +227,15 @@ export class CapacityService {
           }
           planPadre = plan;
         } else {
-          planPadre.dia1 = Number(planPadre.dia1) + Number(plan.dia1);
-          planPadre.dia2 = Number(planPadre.dia2) + Number(plan.dia2);
-          planPadre.dia3 = Number(planPadre.dia3) + Number(plan.dia3);
-          planPadre.dia4 = Number(planPadre.dia4) + Number(plan.dia4);
-          planPadre.dia5 = Number(planPadre.dia5) + Number(plan.dia5);
-          planPadre.dia6 = Number(planPadre.dia6) + Number(plan.dia6);
-          planPadre.dia7 = Number(planPadre.dia7) + Number(plan.dia7);
-          planPadre.dia8 = Number(planPadre.dia8) + Number(plan.dia8);
-          planPadre.dia9 = Number(planPadre.dia9) + Number(plan.dia9);
-          planPadre.dia10 = Number(planPadre.dia10) + Number(plan.dia10);
-          planPadre.dia11 = Number(planPadre.dia11) + Number(plan.dia11);
-          planPadre.dia12 = Number(planPadre.dia12) + Number(plan.dia12);
-          planPadre.dia13 = Number(planPadre.dia13) + Number(plan.dia13);
-          planPadre.dia14 = Number(planPadre.dia14) + Number(plan.dia14);
-          planPadre.dia15 = Number(planPadre.dia15) + Number(plan.dia15);
-          planPadre.dia16 = Number(planPadre.dia16) + Number(plan.dia16);
-          planPadre.dia17 = Number(planPadre.dia17) + Number(plan.dia17);
-          planPadre.dia18 = Number(planPadre.dia18) + Number(plan.dia18);
-          planPadre.dia19 = Number(planPadre.dia19) + Number(plan.dia19);
-          planPadre.dia20 = Number(planPadre.dia20) + Number(plan.dia20);
-          planPadre.dia21 = Number(planPadre.dia21) + Number(plan.dia21);
-          planPadre.dia22 = Number(planPadre.dia22) + Number(plan.dia22);
-          planPadre.dia23 = Number(planPadre.dia23) + Number(plan.dia23);
-          planPadre.dia24 = Number(planPadre.dia24) + Number(plan.dia24);
-          planPadre.dia25 = Number(planPadre.dia25) + Number(plan.dia25);
-          planPadre.dia26 = Number(planPadre.dia26) + Number(plan.dia26);
-          planPadre.dia27 = Number(planPadre.dia27) + Number(plan.dia27);
-          planPadre.dia28 = Number(planPadre.dia28) + Number(plan.dia28);
-          planPadre.dia29 = Number(planPadre.dia29) + Number(plan.dia29);
-          planPadre.dia30 = Number(planPadre.dia30) + Number(plan.dia30);
-          planPadre.dia31 = Number(planPadre.dia31) + Number(plan.dia31);
+
+          for (let i = 0; i < plan.mes1.length; i++) {
+            planPadre.mes1[i].total = Number(planPadre.mes1[i].total) + Number(plan.mes1[i].total);
+          }
+
+          for (let i = 0; i < plan.mes2.length; i++) {
+            planPadre.mes2[i].total = Number(planPadre.mes2[i].total) + Number(plan.mes2[i].total);
+            // console.log(plan.mes2[i].total);
+          }
         }
         i++
 
@@ -197,93 +244,166 @@ export class CapacityService {
         }
       }
 
-    // console.log('Agrupado', this.planAgrupado);
     this.planAgrupado.splice(0, 1);
     this.jsonDataPlanService = this.planAgrupado;
 
-    console.log('jsonDataPlanService', this.jsonDataPlanService);
     }
 
-    totalesDia(){
-      // this.totales = {};
-      for (let i = 1; i < 32; i++) {
-        let diaN = `dia${i}`;
-        this.totales[diaN] = 0;
-      }
-      // console.log(this.totales);
-// return;
+    totalesMes(){
+
       for (let plan of this.jsonDataPlanService) {
-        for (let i = 1; i < 32; i++) {
-          let diaN = `dia${i}`;
-          // console.log(plan[diaN]);
-          this.totales[diaN] = Number(this.totales[diaN]) + Number(plan[diaN]);
+        let totalMes1 = 0;
+        for (const dia of plan.mes1) {
+          totalMes1 = totalMes1 + dia.total;
         }
+        plan.mes1.totalMes1 = totalMes1;
+
+        let totalMes2 = 0;
+        for (const dia2 of plan.mes2) {
+          totalMes2 = totalMes2 + dia2.total;
+        }
+        plan.mes2.totalMes2 = totalMes2;
       }
-      console.log(this.totales);
-      this.totalMes = this.totales.dia1 + this.totales.dia2 + this.totales.dia3 + this.totales.dia4 + this.totales.dia5 +
-      this.totales.dia6 + this.totales.dia7 + this.totales.dia8      + this.totales.dia9 + this.totales.dia10 + this.totales.dia11 +
-      this.totales.dia12 + this.totales.dia13 + this.totales.dia14 + this.totales.dia15 + this.totales.dia16  + this.totales.dia17 +
-      this.totales.dia18 + this.totales.dia19 + this.totales.dia20 + this.totales.dia21 + this.totales.dia22 + this.totales.dia23 +
-      this.totales.dia24 + this.totales.dia25 + this.totales.dia26 + this.totales.dia27 + this.totales.dia28 + this.totales.dia29 +
-      this.totales.dia30 + this.totales.dia31;
+      // this.totales = {};
+//       for (let i = 1; i < 32; i++) {
+//         let diaN = `dia${i}`;
+//         this.totales[diaN] = 0;
+//       }
+//       // console.log(this.totales);
+// // return;
+//       for (let plan of this.jsonDataPlanService) {
+//         for (let i = 1; i < 32; i++) {
+//           let diaN = `dia${i}`;
+//           // console.log(plan[diaN]);
+//           this.totales[diaN] = Number(this.totales[diaN]) + Number(plan[diaN]);
+//         }
+//       }
+//       console.log(this.totales);
+//       this.totalMes = this.totales.dia1 + this.totales.dia2 + this.totales.dia3 + this.totales.dia4 + this.totales.dia5 +
+//       this.totales.dia6 + this.totales.dia7 + this.totales.dia8      + this.totales.dia9 + this.totales.dia10 + this.totales.dia11 +
+//       this.totales.dia12 + this.totales.dia13 + this.totales.dia14 + this.totales.dia15 + this.totales.dia16  + this.totales.dia17 +
+//       this.totales.dia18 + this.totales.dia19 + this.totales.dia20 + this.totales.dia21 + this.totales.dia22 + this.totales.dia23 +
+//       this.totales.dia24 + this.totales.dia25 + this.totales.dia26 + this.totales.dia27 + this.totales.dia28 + this.totales.dia29 +
+//       this.totales.dia30 + this.totales.dia31;
     }
 
     CSlineaBase(){
       for (let plan of this.jsonDataPlanService) {
         if (plan.descripcion.substr(0, 2) === 'CS'){
             console.log('entro');
-            let total = plan.dia1 + plan.dia2 + plan.dia3 + plan.dia4 + plan.dia5 +
-                        plan.dia6 + plan.dia7 + plan.dia8 + plan.dia9 + plan.dia10 +
-                        plan.dia11 + plan.dia12 + plan.dia13 + plan.dia14 + plan.dia15 +
-                        plan.dia16 + plan.dia17 + plan.dia18 + plan.dia19 + plan.dia20 +
-                        plan.dia21 + plan.dia22 + plan.dia23 + plan.dia24 + plan.dia25 +
-                        plan.dia26 + plan.dia27 + plan.dia28 + plan.dia29 + plan.dia30 +
-                        plan.dia31;
-            let diaN = `dia${this.ultDia}`;
-            if (total > 180) {
-                let dif = total - 180;
-                plan[diaN] = plan[diaN] - dif;
+            let totalMes1 = 0;
+            let totalMes2 = 0;
+
+            for (const planMes1 of plan.mes1) {
+              totalMes1 = totalMes1 + planMes1.total;
             }
-            if (total < 180) {
-              let dif = 180 - total;
-              plan[diaN] = plan[diaN] + dif;
+            for (const planMes2 of plan.mes2) {
+              totalMes2 = totalMes2 + planMes2.total;
             }
+
+            if (totalMes1 > 180 && totalMes1 > 0) {
+              let ultDia = plan.mes1.length;
+              let dif = totalMes1 - 180;
+              plan.mes1[ultDia - 1].total =  plan.mes1[ultDia - 1].total - dif;
+
+            }
+
+            if (totalMes1 < 180 && totalMes1 > 0) {
+              let ultDia = plan.mes1.length;
+              let dif = 180 - totalMes1;
+              plan.mes1[ultDia - 1].total =  plan.mes1[ultDia - 1].total + dif;
+
+            }
+
+            if (totalMes2 > 180 && totalMes2 > 0) {
+              let ultDia = plan.mes2.length;
+              let dif = totalMes2 - 180;
+              plan.mes2[ultDia - 1].total =  plan.mes2[ultDia - 1].total - dif;
+
+            }
+
+            if (totalMes2 < 180 && totalMes2 > 0) {
+              let ultDia = plan.mes2.length;
+              let dif = 180 - totalMes2;
+              plan.mes2[ultDia - 1].total =  plan.mes2[ultDia - 1].total + dif;
+
+            }
+
+            
+            // console.log('entro');
+            // let total = plan.dia1 + plan.dia2 + plan.dia3 + plan.dia4 + plan.dia5 +
+            //             plan.dia6 + plan.dia7 + plan.dia8 + plan.dia9 + plan.dia10 +
+            //             plan.dia11 + plan.dia12 + plan.dia13 + plan.dia14 + plan.dia15 +
+            //             plan.dia16 + plan.dia17 + plan.dia18 + plan.dia19 + plan.dia20 +
+            //             plan.dia21 + plan.dia22 + plan.dia23 + plan.dia24 + plan.dia25 +
+            //             plan.dia26 + plan.dia27 + plan.dia28 + plan.dia29 + plan.dia30 +
+            //             plan.dia31;
+            // let diaN = `dia${this.ultDia}`;
+            // if (total > 180) {
+            //     let dif = total - 180;
+            //     plan[diaN] = plan[diaN] - dif;
+            // }
+            // if (total < 180) {
+            //   let dif = 180 - total;
+            //   plan[diaN] = plan[diaN] + dif;
+            // }
         }
       }
 
     }
 
+    filtrarCS(){
+      this.jsonDataPlanService = this.jsonDataPlanService.filter(a => {
+        return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Asesoramiento y Consulta';
+      });
+
+    }
     ordenarPorARSCS(){
+      let jsonDataCS = [...this.jsonDataPlanService];
+      // console.log('jsonDataCS',jsonDataCS);
+      this.jsonDataPlanServiceCS = jsonDataCS.filter(a => {
+        return a.lineaDeServicio === 'Capacity Service' &&  a.numeroArs !== 434;
+      });
+
       this.jsonDataPlanServiceCS.sort((a, b) => {
         return a.numeroArs - b.numeroArs;
       });
     }
 
-    agruparARSCS(){
-
-      let planPadreCS: any = [];
-      let maximo = this.jsonDataPlanServiceCS.length;
-      let i = 0;
-      // tslint:disable-next-line: prefer-const
-      for (let plan of this.jsonDataPlanServiceCS) {
-
-          if (plan.numeroArs !== planPadreCS.numeroArs) {
-            if (planPadreCS) {
-              planPadreCS.horas1 = 180;
-              planPadreCS.horas2 = 180;
-              this.planAgrupadoCS.push(planPadreCS);
-            }
-            planPadreCS = plan;
-          }
-          i++
-
-          if (i== maximo -1){
-            this.planAgrupadoCS.push(planPadreCS);
-          }
-        }
-      // console.log('Agrupado', this.planAgrupado);
-      this.planAgrupadoCS.splice(0, 1);
-      this.jsonDataPlanServiceCS = this.planAgrupadoCS;
-      console.log('jsonDataPlanServiceCS', this.jsonDataPlanServiceCS);
+    totalEjecucion(){
+      // let totalMes1 = 0;
+      // let totalMes2 = 0;
+      for (let plan of this.jsonDataPlanService) {
+        this.totalMes1 = this.totalMes1 + plan.mes1.totalMes1;
+        this.totalMes2 = this.totalMes2 + plan.mes2.totalMes1;
       }
+    }
+
+    // agruparARSCS(){
+
+    //   let planPadreCS: any = [];
+    //   let maximo = this.jsonDataPlanServiceCS.length;
+    //   let i = 0;
+    //   // tslint:disable-next-line: prefer-const
+    //   for (let plan of this.jsonDataPlanServiceCS) {
+
+    //       if (plan.numeroArs !== planPadreCS.numeroArs) {
+    //         if (planPadreCS) {
+    //           planPadreCS.horas1 = plan.mes1.total;
+    //           planPadreCS.horas2 = plan.mes2.total;
+    //           this.planAgrupadoCS.push(planPadreCS);
+    //         }
+    //         planPadreCS = plan;
+    //       }
+    //       i++
+
+    //       if (i== maximo -1){
+    //         this.planAgrupadoCS.push(planPadreCS);
+    //       }
+    //     }
+    //   // console.log('Agrupado', this.planAgrupado);
+    //   this.planAgrupadoCS.splice(0, 1);
+    //   this.jsonDataPlanServiceCS = this.planAgrupadoCS;
+    //   console.log('jsonDataPlanServiceCS', this.jsonDataPlanServiceCS);
+    //   }
 }

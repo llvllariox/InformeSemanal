@@ -108,23 +108,23 @@ export class GenerarCapacityComponent implements OnInit {
 
 filtrarTar(jsonDataReq: any) {
 
-  let jsonDataCS = [...jsonDataReq['Detalle Horas Planificadas']];
-  console.log(jsonDataCS);
+  // let jsonDataCS = [...jsonDataReq['Detalle Horas Planificadas']];
+  // console.log(jsonDataCS);
 
-  jsonDataReq['Detalle Horas Planificadas'] = jsonDataReq['Detalle Horas Planificadas'].filter(a => {
-    return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Asesoramiento y Consulta';
-  });
+  // jsonDataReq['Detalle Horas Planificadas'] = jsonDataReq['Detalle Horas Planificadas'].filter(a => {
+  //   return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Asesoramiento y Consulta';
+  // });
 
-  jsonDataCS = jsonDataCS.filter(a => {
-    return a.lineaDeServicio === 'Capacity Service' &&  a.numeroArs !== 434;
-  });
+  // jsonDataCS = jsonDataCS.filter(a => {
+  //   return a.lineaDeServicio === 'Capacity Service' &&  a.numeroArs !== 434;
+  // });
 
   // jsonDataReq['Detalle Tareas'] = jsonDataReq['Detalle Tareas'].filter(a => {
   //   return a['Tipo Contrato'] === 'Evolutivo';
   // });
 
   this.capacityService.setjsonDataPlanService(jsonDataReq);
-  this.capacityService.setjsonDataPlanServiceCS(jsonDataCS);
+  // this.capacityService.setjsonDataPlanServiceCS(jsonDataCS);
 
 }
   validarTipo(event){
