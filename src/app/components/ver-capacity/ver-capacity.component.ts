@@ -54,7 +54,8 @@ export class VerCapacityComponent implements OnInit {
 
   eliminar(i){
     this.capacityService.jsonDataPlanService.splice(i, 1);
-    this.capacityService.totalesMes();
+    this.capacityService.totalporDia();
+    this.capacityService.totalEjecucion();
   }
 
   generateExcel() {

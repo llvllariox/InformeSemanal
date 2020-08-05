@@ -375,8 +375,10 @@ export class CapacityService {
     }
 
     totalEjecucion(){
-      // let totalMes1 = 0;
-      // let totalMes2 = 0;
+      this.totalMes1 = 0;
+      this.totalMes2 = 0;
+      this.totalMes1CS = 0;
+      this.totalMes2CS = 0;
       for (let plan of this.jsonDataPlanService) {
         this.totalMes1 = this.totalMes1 + plan.mes1.totalMes1;
         this.totalMes2 = this.totalMes2 + plan.mes2.totalMes2;
@@ -394,6 +396,7 @@ export class CapacityService {
 
     totalporDia(){
       let total = 0;
+      this.totalDia = [];
       for (const dia of this.dias) {
         let diaF = moment(dia.diaN).format('DD-MM-YYYY');
         // console.log(diaF);
