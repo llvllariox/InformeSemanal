@@ -60,6 +60,10 @@ export class VerCapacityComponent implements OnInit {
     this.capacityService.capacidadDisponible();
     this.capacityService.totCapacidadDisponible();
   }
+  cambiarTotalCS(){
+    // Si se cambian valores de CS se recalcula el total
+    this.capacityService.totalEjecucion();
+  }
   generateExcel() {
 
     // Se crea Tabla de Capacity
