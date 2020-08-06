@@ -54,6 +54,12 @@ export class VerCapacityComponent implements OnInit {
     this.capacityService.capacidadDisponible();
     this.capacityService.totCapacidadDisponible();
   }
+
+  eliminarCS(i){
+    // se elimina registro del arreglo y se recalculan los totales
+    this.capacityService.jsonDataPlanServiceCS.splice(i, 1);
+    this.capacityService.totalEjecucion();
+  }
   cambiarTotal(){
     // Si se cambian valores de manteniemiento se recalculan la capacidad disponible y total de capacidad por dia.
     this.capacityService.horasMtto = this.Mttovalor1 + this.Mttovalor2;

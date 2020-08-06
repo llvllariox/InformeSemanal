@@ -77,23 +77,25 @@
             <table class="table table-striped table-bordered table-sm" id="excel-table2">
                 <thead class="" style="background-color: rgb(32, 55, 100);">
                     <tr class="">
+                        <th class="small font-weight-bold text-light text-right ml-0" scope="col" style="width: 20px" id="Col1">&nbsp;</th>
                         <th class="small font-weight-bold text-light" scope="col" style="width: 300px;text-overflow: ellipsis;">Capacidad Adicional</th>
-                        <th class="small font-weight-bold text-light text-center" scope="col" style="width: 200px;text-overflow: ellipsis;">{{fecha1}}</th>
-                        <th class="small font-weight-bold text-light text-center" scope="col" style="width: 200px;text-overflow: ellipsis;">{{fecha2}}</th>
+                        <th class="small font-weight-bold text-light text-center" scope="col" style="width: 180px;text-overflow: ellipsis;">{{fecha1}}</th>
+                        <th class="small font-weight-bold text-light text-center" scope="col" style="width: 180px;text-overflow: ellipsis;">{{fecha2}}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let CS of capacityService.jsonDataPlanServiceCS" class="" style="background-color: rgb(255, 255, 255)">
-                        <td class="small text-dark text-left" scope="col" style="width: 300px;text-overflow: ellipsis;">{{CS.descripcion}}</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotalCS()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="CS.mes1.totalMes1" class="text-right" pattern="" type="text" style="border: 0px;"></td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotalCS()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="CS.mes2.totalMes2" class="text-right" pattern="" type="text" style="border: 0px;"></td>
-                        <!-- <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{CS.mes1.totalMes1}}</td> -->
-                        <!-- <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{CS.mes2.totalMes2}}</td> -->
+                    <tr *ngFor="let CS of capacityService.jsonDataPlanServiceCS; let i = index" class="" style="background-color: rgb(255, 255, 255)">
+                        <td class="small text-center puntero text-danger" scope="col" style="width: 20px" (click)="eliminarCS(i)" id="Col2">X</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 350px;text-overflow: ellipsis;">{{CS.descripcion}}</td>
+                        <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;"><input (keyup)="cambiarTotalCS()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="CS.mes1.totalMes1" class="text-right" pattern="" type="text" style="border: 0px;"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;"><input (keyup)="cambiarTotalCS()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="CS.mes2.totalMes2" class="text-right" pattern="" type="text" style="border: 0px;"></td>
+                        <!-- <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;">{{CS.mes1.totalMes1}}</td> -->
+                        <!-- <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;">{{CS.mes2.totalMes2}}</td> -->
                     </tr>
                     <tr class="" style="background-color: rgb(32, 55, 100)">
-                        <td class="small font-weight-bold text-light text-center" scope="col" style="width: 300px;text-overflow: ellipsis;">Total</td>
-                        <td class="small font-weight-bold text-light text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{capacityService.totalMes1CS|number:'1.2'}}</td>
-                        <td class="small font-weight-bold text-light text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{capacityService.totalMes2CS|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-light text-center" scope="col" colspan="2" style="width: 300px;text-overflow: ellipsis;">Total</td>
+                        <td class="small font-weight-bold text-light text-right" scope="col" style="width: 180px;text-overflow: ellipsis;">{{capacityService.totalMes1CS|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-light text-right" scope="col" style="width: 180px;text-overflow: ellipsis;">{{capacityService.totalMes2CS|number:'1.2'}}</td>
                     </tr>
 
                 </tbody>
