@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import {HttpClientModule, HttpClientJsonpModule, HttpClient} from '@angular/common/http';
-
-
+import { HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +8,8 @@ import {HttpClientModule, HttpClientJsonpModule, HttpClient} from '@angular/comm
 export class FeriadosChileService {
 
   constructor(public http: HttpClient) { }
-  // const url = `https://apis.digital.gob.cl/fl/feriados/`;
 
+  // Se llama al servicio de feriados mediante JsonP
   obtenerProductos(anno: number, mes: number) {
     const url = `https://apis.digital.gob.cl/fl/feriados/${anno}/${mes}`;
     return this.http.jsonp(url, 'callback').pipe(
@@ -22,18 +19,4 @@ export class FeriadosChileService {
       }));
   }
 }
-
-//   obtenerProductos(anno: number, mes: number) {
-//     const url = `https://apis.digital.gob.cl/fl/feriados/${anno}/${mes}`;
-//     console.log(url);
-//     return this.http.get(url)
-    // .pipe(
-    //   map((resp: any) => {
-    //     console.log(resp);
-    //     return resp;
-    //   }));
-// }
-
-// }
-
 

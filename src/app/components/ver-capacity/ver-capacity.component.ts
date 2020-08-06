@@ -2,14 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CapacityService } from '../../services/capacity.service';
 declare function init_customJS();
 import * as moment from 'moment'; //
-import * as XLSX from 'xlsx';
 import { Workbook } from 'exceljs';
-// import { DatePipe } from '@angular/common';
 import * as fs from 'file-saver';
 
-
-// import * as ExcelJS from 'exceljs';
-// const exportToExcel = require('export-to-excel')
 @Component({
   selector: 'app-ver-capacity',
   templateUrl: './ver-capacity.component.html',
@@ -30,7 +25,6 @@ export class VerCapacityComponent implements OnInit {
   fileName = 'ExcelSheet.xlsx';
   finMes;
   dias;
-  // datePipeString : string;
 
   constructor(public capacityService: CapacityService) {
     init_customJS();
@@ -38,17 +32,14 @@ export class VerCapacityComponent implements OnInit {
     function capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
-    // numberMas
-    // moment.lang('es');
+
+    // Se obtienen fecha del mes en curso y el siguiente
     this.fecha1 = capitalizeFirstLetter(moment().lang('es').format('MMMM-YY'));
     this.hoy = moment().lang('es').format('DD-MM-YYYY');
     this.finMes = moment().endOf('month');
     this.fecha2 = capitalizeFirstLetter(moment().lang('es').add(1, 'months').format('MMMM-YY'));
     this.dias =  Number(this.finMes.format('DD'));
-    // console.log(this.dias);
-    // console.log(new Intl.NumberFormat('es-ES', {minimumFractionDigits: 2}).format(this.Ejecucion2));
-    // console.log(this.Mttovalor1);
-    // console.log(this.Mttovalor2);
+
     this.capacityService.horasMtto = this.Mttovalor1 + this.Mttovalor2;
   }
 
@@ -56,6 +47,7 @@ export class VerCapacityComponent implements OnInit {
   }
 
   eliminar(i){
+    // se elimina registro del arreglo y se recalculan los totales
     this.capacityService.jsonDataPlanService.splice(i, 1);
     this.capacityService.totalporDia();
     this.capacityService.totalEjecucion();
@@ -63,14 +55,14 @@ export class VerCapacityComponent implements OnInit {
     this.capacityService.totCapacidadDisponible();
   }
   cambiarTotal(){
-    // console.log('onChange');
+    // Si se cambian valores de manteniemiento se recalculan la capacidad disponible y total de capacidad por dia.
     this.capacityService.horasMtto = this.Mttovalor1 + this.Mttovalor2;
     this.capacityService.capacidadDisponible();
     this.capacityService.totCapacidadDisponible();
   }
   generateExcel() {
 
-    // Excel Title, Header, Data
+    // Se crea Tabla de Capacity
     const title = 'Capacity';
     const header = ['Distribución Capacity en HH	', this.fecha1, this.fecha2];
     const data = [
@@ -114,7 +106,7 @@ export class VerCapacityComponent implements OnInit {
         italic: true
       };
     });
-    // Add Data and Conditional Formatting
+    // se correo arreglo de tabla de capacity dandole formato a cada celda
     data.forEach(d => {
       let row = worksheet.addRow(d);
       row.getCell(2).style = {numFmt: '#,##0.00'};
@@ -125,9 +117,12 @@ export class VerCapacityComponent implements OnInit {
     }
     );
 
+    // Se establecen anchos de las columnas
     worksheet.getColumn(1).width = 55;
     worksheet.getColumn(2).width = 20;
     worksheet.getColumn(3).width = 20;
+
+    // se formateando alguna celdas segun tabla de capacity(Backgournd color, bold, italic entre otras)
     worksheet.getRow(5).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'F2F2F2' }, bgColor: { argb: 'F2F2F2' }};
     worksheet.getRow(5).getCell(1).alignment = {horizontal: 'center'};
     worksheet.getRow(5).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'F2F2F2' }, bgColor: { argb: 'F2F2F2' }};
@@ -152,19 +147,12 @@ export class VerCapacityComponent implements OnInit {
     worksheet.getRow(6).getCell(2).font = {bold: true};
     worksheet.getRow(6).getCell(3).font = {bold: true};
     worksheet.getRow(7).getCell(1).font = {bold: true, italic: true};
-    // worksheet.getRow(7).getCell(2).font = {bold: true};
-    // worksheet.getRow(7).getCell(3).font = {bold: true};
     worksheet.getRow(10).getCell(1).font = {bold: true, italic: true};
-    // worksheet.getRow(10).getCell(2).font = {bold: true};
-    // worksheet.getRow(10).getCell(3).font = {bold: true};
     worksheet.getRow(13).getCell(1).font = {bold: true, italic: true};
-    // worksheet.getRow(13).getCell(2).font = {bold: true};
-    // worksheet.getRow(13).getCell(3).font = {bold: true};
     worksheet.getRow(14).getCell(1).font = {bold: true, italic: true};
-    // worksheet.getRow(14).getCell(2).font = {bold: true};
-    // worksheet.getRow(14).getCell(3).font = {bold: true};
     worksheet.addRow([]);
 
+    // se crear arreglo para tabla de capacidad adicional
     const headerCS = [
       'Capacidad Adicional', this.fecha1, this.fecha2
     ];
@@ -185,13 +173,10 @@ export class VerCapacityComponent implements OnInit {
         bold: true,
         italic: true
       };
-      // if (cell.address === 'A16'){
-      //    cell.font = cell.font = {color: {argb: 'FFFFFF'}, bold: true, italic: true};
-      // }
     });
 
+    // se recorre arreglo de planCS dandole formate a las celdas
     this.capacityService.jsonDataPlanServiceCS.forEach(d => {
-      // let rowCS = [d.descripcion , 180, 180];
       let row = worksheet.addRow([d.descripcion , d.mes1.totalMes1, d.mes2.totalMes2]);
       row.getCell(2).style = {numFmt: '#,##0.00'};
       row.getCell(3).style = {numFmt: '#,##0.00'};
@@ -200,11 +185,13 @@ export class VerCapacityComponent implements OnInit {
       row.getCell(3).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
     });
 
+    // se crear arreglo con el total de la tabla de capacidad adicional
     const totalCS = [
       'Total', this.capacityService.totalMes1CS, this.capacityService.totalMes2CS
     ];
     let totalRowCS = worksheet.addRow(totalCS);
 
+    // se formatean celdas de total de capcidad adicional
     totalRowCS.getCell(1).fill  = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' }};
     totalRowCS.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
     totalRowCS.getCell(1).font = {color: {argb: 'FFFFFF'}, bold: true, italic: true};
@@ -217,38 +204,22 @@ export class VerCapacityComponent implements OnInit {
     totalRowCS.getCell(3).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
     totalRowCS.getCell(3).font = {bold: true};
 
-    // totalRowCS.eachCell((cell, number) => {
-    //   cell.fill = {
-    //     type: 'pattern',
-    //     pattern: 'solid',
-    //     fgColor: { argb: '203764' },
-    //     bgColor: { argb: '203764' },
-
-    //   };
-    //   cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-    //   cell.font = {
-    //     color: {argb: 'FFFFFF'},
-    //     bold: true,
-    //   };
-    // });
-
+    // Se crear segunda hoja para el detalle de horas
     let worksheet2 = workbook.addWorksheet('Horas');
-    // for
+
+    // se crea arreglo para las cabeceras
     let headerHH = [
       'Requerimiento'];
 
+    // se recorren los dias del mes para agregar un header por dia
     for (let i = 0; i < this.capacityService.dias.length; i++) {
       let dia = (i + 1).toString();
       headerHH.push(dia);
     }
-    // console.log(headerHH);
     headerHH.push('Total');
-    // console.log(headerHH);
-
-
     let headerRowHH = worksheet2.addRow(headerHH);
 
-    // Cell Style : Fill and Border
+    // se recorren headers para insertarlos en excel y formatear celdas
     headerRowHH.eachCell((cell, number) => {
       cell.fill = {
         type: 'pattern',
@@ -264,128 +235,124 @@ export class VerCapacityComponent implements OnInit {
       };
     });
 
+    // se recorre arreglo de planificacion para incorporar en excel
     this.capacityService.jsonDataPlanService.forEach(d => {
       let dFinal = [];
       dFinal.push(d.descripcion);
       for (const dia of d.mes1) {
         dFinal.push(dia.total);
       }
+      // se agrega el total de planificacion del mes.
       dFinal.push(d.mes1.totalMes1);
-      // console.log('dFinal0', dFinal);
 
- 
       let row = worksheet2.addRow(dFinal);
       row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
 
+      // se formatean solo las celdas que son numericas
       for (let i = 2; i < this.capacityService.dias.length + 2; i++) {
         row.getCell(i).style = {numFmt: '#,##0.00'};
         row.getCell(i).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-        // console.log(row.getCell(i)._value.model.value);
       }
 
+      // se formatea celda total
       row.getCell(this.capacityService.dias.length + 2).style = {numFmt: '#,##0.00'};
       // tslint:disable-next-line: max-line-length
       row.getCell(this.capacityService.dias.length + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
     }
     );
 
+    // se crear arreglo para total capacidad utilizada
     let dTotal = [];
     dTotal.push('Capacidad Utilizada');
 
+    // se agregan los dias del mes en arreglo
     for (const dias of this.capacityService.totalDia) {
       dTotal.push(dias.total);
     }
 
+    // se agrega al final el total de toda la capcidad utilizada
     dTotal.push(this.capacityService.totalMes1);
 
 
     let row = worksheet2.addRow(dTotal);
     row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
     row.getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-    row.getCell(1).font = {color: {argb: 'FFFFFF'}, bold: true,};
+    row.getCell(1).font = {color: {argb: 'FFFFFF'}, bold: true};
 
+    // se formatean solo celdas numericas
     for (let i = 2; i < this.capacityService.dias.length + 2; i++) {
       row.getCell(i).style = {numFmt: '#,##0.00'};
       row.getCell(i).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-      // row.getCell(i).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-      // row.getCell(i).font = {color: {argb: 'FFFFFF'}};
     }
 
+    // se formatean celtas de total
     row.getCell(this.capacityService.dias.length + 2).style = {numFmt: '#,##0.00'};
     // tslint:disable-next-line: max-line-length
     row.getCell(this.capacityService.dias.length + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-    // tslint:disable-next-line: max-line-length
-    // row.getCell(this.capacityService.dias.length + 2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-    // row.getCell(this.capacityService.dias.length + 2).font = {color: {argb: 'FFFFFF'}};
 
 
+    // se crea arreglo para capacidad disponible por dia
     let dTotalDisp = [];
     dTotalDisp.push('Capacidad Disponible');
-
+    // se agregan los dias del mes
     for (const dias of this.capacityService.capacidadporDia) {
       dTotalDisp.push(dias.total);
     }
-
+    // se agrega total disponible
     dTotalDisp.push(this.capacityService.totalDisponible);
 
 
     let row2 = worksheet2.addRow(dTotalDisp);
     row2.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
     row2.getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-    row2.getCell(1).font = {color: {argb: 'FFFFFF'}, bold: true,};
+    row2.getCell(1).font = {color: {argb: 'FFFFFF'}, bold: true};
 
+    // se formatean solo numericos
     for (let i = 2; i < this.capacityService.dias.length + 2; i++) {
       row2.getCell(i).style = {numFmt: '#,##0.00'};
       row2.getCell(i).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-      // row2.getCell(i).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-      // row2.getCell(i).font = {color: {argb: 'FFFFFF'}, bold: true,};
     }
 
+    // se formatean celdas total
     row2.getCell(this.capacityService.dias.length + 2).style = {numFmt: '#,##0.00'};
     // tslint:disable-next-line: max-line-length
     row2.getCell(this.capacityService.dias.length + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-    // tslint:disable-next-line: max-line-length
-    // row2.getCell(this.capacityService.dias.length + 2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-    // row2.getCell(this.capacityService.dias.length + 2).font = {color: {argb: 'FFFFFF'}, bold: true,};
 
-
+    // se crea arreglo para total (plan - disponible)
     let dTotalTotal = [];
     dTotalTotal.push('Total');
-
+    // se agregan dias del mes
     for (const dias of this.capacityService.TotalcapacidadporDia) {
       dTotalTotal.push(dias.total);
     }
-
+    // se agrega total final
     dTotalTotal.push(this.capacityService.totalTotal);
 
 
     let row3 = worksheet2.addRow(dTotalTotal);
     row3.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
     row3.getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-    row3.getCell(1).font = {color: {argb: 'FFFFFF'}, bold: true,};
+    row3.getCell(1).font = {color: {argb: 'FFFFFF'}, bold: true};
 
+    // se formatean celdas numericas
     for (let i = 2; i < this.capacityService.dias.length + 2; i++) {
       row3.getCell(i).style = {numFmt: '#,##0.00'};
       row3.getCell(i).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
       row3.getCell(i).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-      row3.getCell(i).font = {color: {argb: 'FFFFFF'}, bold: true,};
+      row3.getCell(i).font = {color: {argb: 'FFFFFF'}, bold: true};
     }
 
+    // se formatea celdas total
     row3.getCell(this.capacityService.dias.length + 2).style = {numFmt: '#,##0.00'};
     // tslint:disable-next-line: max-line-length
     row3.getCell(this.capacityService.dias.length + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
     // tslint:disable-next-line: max-line-length
     row3.getCell(this.capacityService.dias.length + 2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' } };
-    row3.getCell(this.capacityService.dias.length + 2).font = {color: {argb: 'FFFFFF'}, bold: true,};
+    row3.getCell(this.capacityService.dias.length + 2).font = {color: {argb: 'FFFFFF'}, bold: true};
 
-
-
-
-
-    
-
-
+    // se establece ancho de primera columna
     worksheet2.getColumn(1).width = 65;
+    // se genera excel para descargar
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       fs.saveAs(blob, `Capacity_${this.hoy}.xlsx`);

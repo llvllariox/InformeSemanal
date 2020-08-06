@@ -16,9 +16,7 @@ export class CapacityService {
   dias = [];
   planAgrupado = [];
   planAgrupadoCS = [];
-  // -------------------------------
   totalMes = 0;
-  // ReqAgrupado = [];
   inicioMes2;
   finMes2;
   ultDia2;
@@ -37,49 +35,41 @@ export class CapacityService {
 
   constructor(private feriadosService: FeriadosChileService, private sweetService: SweetAlertService) {
 
-    // this.inicioMes = moment().add(1,'months').startOf('month');
+    // Se obtienen todos los dias del mes en curso en arreglo this.dias
     this.inicioMes = moment().startOf('month');
     this.finMes = moment().endOf('month');
     const diaFin = Number(this.finMes.format('DD'));
     this.ultDia =  Number(this.finMes.format('DD'));
     let diaN;
-    // tslint:disable-next-line: prefer-const
-    let total = 0;
+    const total = 0;
 
     for (let i = 0; i < diaFin; i++) {
       diaN = moment( this.inicioMes).add(i, 'day');
       this.dias.push({diaN, total});
 
     }
-    // console.log(this.dias);
 
-    // this.inicioMes2 = moment().startOf('month');
+    // Se obtienen todo los dias del proximo mes en arreglo this.dias2
     this.inicioMes2 = moment().add(1, 'month').startOf('month');
     this.finMes2 = moment().add(1, 'month').endOf('month');
     const diaFin2 = Number(this.finMes2.format('DD'));
     this.ultDia2 =  Number(this.finMes2.format('DD'));
     let diaN2;
-    // tslint:disable-next-line: prefer-const
-    // let total = 0;
 
     for (let i = 0; i < diaFin2; i++) {
       diaN2 = moment(this.inicioMes2).add(i, 'day');
       this.dias2.push({diaN2, total});
     }
-    // console.log(this.dias2);
 
-    let anno = Number(moment(). format('YYYY'));
-    // let mes = Number(moment().add(1, 'month').format('MM'));
-    let mes = Number(moment(). format('MM'));
-    // console.log(anno);
-    // console.log(mes);
+    const anno = Number(moment(). format('YYYY'));
+    const mes = Number(moment(). format('MM'));
 
+    // Se obtienen los feriados del mes y anno actual
     this.feriadosService.obtenerProductos(anno, mes).subscribe(resp => {
         this.feriados = resp;
-        // console.log('feriados', this.feriados);
     }, err => {
       console.log(err);
-      this.sweetService.mensajeError('Error al obtener productos', err.error.mensaje || err.error.errors.message);
+      this.sweetService.mensajeError('Error al obtener productos', err);
     });
 
    }
@@ -98,7 +88,6 @@ export class CapacityService {
 
   setjsonDataPlanServiceCS(jsonDataPlanServiceCS: any) {
     this.jsonDataPlanServiceCS = jsonDataPlanServiceCS;
-    // console.log(this.jsonDataPlanServiceCS);
   }
 
   generarCapacity() {
@@ -123,13 +112,11 @@ export class CapacityService {
     agregaFechas(){
 
     let i = 0;
-    // let mes1 = [];
-
+    // Se recorre planificacion para ir agregando el arreglo mes1 con todos los dias del mes1
     for (let plan of this.jsonDataPlanService['Detalle Horas Planificadas']) {
       let x = 0;
       let mes1 = [];
       for (const dia of this.dias) {
-        // let diaN = `dia${x + 1}`;
         let diaF = moment(dia.diaN).format('DD-MM-YYYY');
         mes1.push({'fecha' : diaF, 'total': 0});
         x++;
@@ -138,12 +125,12 @@ export class CapacityService {
       i++;
     }
 
+    // Se recorre planificacion para ir agregando el arreglo mes2 con todos los dias del mes2
     i = 0;
     for (let plan of this.jsonDataPlanService['Detalle Horas Planificadas']) {
       let x = 0;
       let mes2 = [];
       for (const dia of this.dias2) {
-        // let diaN = `dia${x + 1}`;
         let diaF = moment(dia.diaN2).format('DD-MM-YYYY');
         mes2.push({'fecha' : diaF, 'total': 0});
         x++;
@@ -154,6 +141,8 @@ export class CapacityService {
   }
 
   sumaHH(){
+    // Se recorre planificacion obteniendo la fecha de planificacion y compararla con las fechas del mes1,
+    // si son iguales se agrega la cantidad de horas al mes1.total o al mes2.total segun corresponda.
     let i = 0;
     for (let plan of this.jsonDataPlanService['Detalle Horas Planificadas']) {
         let x = 0;
@@ -173,13 +162,15 @@ export class CapacityService {
   }
 
   ordenarPorARS(){
+    // Se ordena planificacion por numero de ARS
     this.jsonDataPlanService['Detalle Horas Planificadas'].sort((a, b) => {
       return a.numeroArs - b.numeroArs;
     });
   }
 
   agruparARS(){
-
+    // Se agrupan todas las planificacaiones por numero de ars,
+    // si son iguales los ars se van sumando las horas de mes1 y mes2 para dejar en un unico registro toda la suma de los meses.
     let planPadre: any = [];
     let maximo = this.jsonDataPlanService['Detalle Horas Planificadas'].length;
     let i = 0;
@@ -187,37 +178,33 @@ export class CapacityService {
     // tslint:disable-next-line: prefer-const
     for (let plan of this.jsonDataPlanService['Detalle Horas Planificadas']) {
 
-
         if (plan.numeroArs !== planPadre.numeroArs) {
           if (planPadre) {
             this.planAgrupado.push(planPadre);
           }
           planPadre = plan;
         } else {
-
           for (let i = 0; i < plan.mes1.length; i++) {
             planPadre.mes1[i].total = Number(planPadre.mes1[i].total) + Number(plan.mes1[i].total);
           }
-
           for (let i = 0; i < plan.mes2.length; i++) {
             planPadre.mes2[i].total = Number(planPadre.mes2[i].total) + Number(plan.mes2[i].total);
-            // console.log(plan.mes2[i].total);
           }
         }
-        i++
-
-        if (i== maximo -1){
+        i++;
+        // Se guarda el ultimo registro ya que se estaba perdiendo
+        if (i == maximo - 1 ){
           this.planAgrupado.push(planPadre);
         }
       }
-
     this.planAgrupado.splice(0, 1);
     this.jsonDataPlanService = this.planAgrupado;
 
     }
 
     totalesMes(){
-
+      // se recorre planificacion agrupada y se suman todas las horas de cada dia de mes1 y mes2,
+      // creando una nueva variable para cada mes con el total de horas
       for (let plan of this.jsonDataPlanService) {
         let totalMes1 = 0;
         for (const dia of plan.mes1) {
@@ -240,9 +227,10 @@ export class CapacityService {
     }
 
     CSlineaBase(){
+      // Se recorre planificaciones identificando las descripciones que comienzan con CS (Capacity Service),
+      // Si con comienzan con CS se saca la diferencia entre 180hrs y lo planificado, para luego descontar/sumar del ultimo dia planificado.
       for (let plan of this.jsonDataPlanService) {
         if (plan.descripcion.substr(0, 2) === 'CS'){
-            // console.log('entro');
             let totalMes1 = 0;
             let totalMes2 = 0;
 
@@ -286,14 +274,15 @@ export class CapacityService {
     }
 
     filtrarCS(){
+      // se mantienen solo los registros que son Evolutivo Mayor o Asesoramiento y Consulta
       this.jsonDataPlanService = this.jsonDataPlanService.filter(a => {
         return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Asesoramiento y Consulta';
       });
 
     }
     ordenarPorARSCS(){
+      // se crear nuevo arreglo desde el plan, se filtra solo lo Capacity Service y se ordena por ARS.
       let jsonDataCS = [...this.jsonDataPlanService];
-      // console.log('jsonDataCS',jsonDataCS);
       this.jsonDataPlanServiceCS = jsonDataCS.filter(a => {
         return a.lineaDeServicio === 'Capacity Service' &&  a.numeroArs !== 434;
       });
@@ -304,6 +293,7 @@ export class CapacityService {
     }
 
     totalEjecucion(){
+      // se recorren los arreglos para ir sumando todas las horas y asi obtener el total de todo el mes1 y mes 2;
       this.totalMes1 = 0;
       this.totalMes2 = 0;
       this.totalMes1CS = 0;
@@ -320,7 +310,8 @@ export class CapacityService {
     }
 
     totalporDia(){
-      let total = 0;
+      // se crear arreglo con todos los dias del mes1
+      const total = 0;
       this.totalDia = [];
       for (const dia of this.dias) {
         let diaF = moment(dia.diaN).format('DD-MM-YYYY');
@@ -328,15 +319,16 @@ export class CapacityService {
         this.totalDia.push({diaF, total: 0});
       }
 
+      // se recorre planificacionen para ir sumando por dia cada ars y dejarlo en el arreglo de totales por dia.
       for (const plan of this.jsonDataPlanService) {
         for (let i = 0; i < plan.mes1.length; i++) {
           this.totalDia[i].total = this.totalDia[i].total + plan.mes1[i].total;
         }
       }
-      // console.log(this.totalDia);
     }
 
     capacidadDisponible(){
+      // se crear arreglo con capacidad disponible por dia y se llena con cada dia del mes1
       this.capacidadporDia = [];
       this.totalDisponible = 0;
       for (const dia of this.dias) {
@@ -345,16 +337,15 @@ export class CapacityService {
         this.capacidadporDia.push({'fecha' : diaF, 'total': 0, 'habil': true});
 
       }
-      // console.log('capacidad', this.capacidadporDia);
 
+      // se recorre arreglo de capacidad para ir detectanto si es sabado  o domingo y marcar el dia como no habil.
       for (let dia of this.capacidadporDia) {
         let diaS = Number(moment(dia.fecha).day());
-        // console.log(diaS);
         if (diaS == 0 || diaS == 6){
             dia.habil = false;
         }
       }
-
+      // se recorre arreglo de capadidad para ir detectando si es feriado y marcar dia como no habil.
       for (let dia of this.capacidadporDia) {
         for (const feriado of this.feriados) {
             if (dia.fecha == feriado.fecha){
@@ -363,24 +354,25 @@ export class CapacityService {
         }
       }
 
+      // se recorre arreglo para contar cuantos dias quedaron como habiles
       let cantDiasHabiles = 0;
       for (const dia of this.capacidadporDia) {
         if (dia.habil){
           cantDiasHabiles = cantDiasHabiles + 1;
         }
       }
-      // console.log(this.horasMtto);
+
+    // se calcula horas por dia disponibles
       let HHporDias = (8910 -  this.horasMtto) / cantDiasHabiles;
       let difHH = (HHporDias - Math.round(HHporDias)) * cantDiasHabiles;
-      // console.log(difHH);
 
+      // se recorre arreglo de capacidad para ir agregando la cantidad de horar por dia redondeada
       let x = 0;
       for (let dia of this.capacidadporDia) {
         if (dia.habil){
           dia.total = Math.round(HHporDias);
+          // si llegamos al ulitmo dia habil se suma o resta la diferencia perdida por el redondeo.
           if ((x + 1 ) == cantDiasHabiles){
-            // console.log(x);
-            // console.log(difHH);
             dia.total = dia.total + difHH;
           }
           this.totalDisponible = this.totalDisponible + dia.total;
@@ -391,49 +383,18 @@ export class CapacityService {
     }
 
     totCapacidadDisponible(){
+      // se crear arreglo para guardar y llena con fechas mes 1
       this.TotalcapacidadporDia = [];
       this.totalTotal = 0;
       for (const dia of this.dias) {
-        // let diaN = `dia${x + 1}`;
         let diaF = moment(dia.diaN).format('YYYY-MM-DD');
         this.TotalcapacidadporDia.push({'fecha' : diaF, 'total': 0});
       }
 
+      // se recorre nuevo arreglo para ir guardando la diferencia entre lo total planificado por dia y la capcidad disponible por dia.
       for (let i = 0; i < this.TotalcapacidadporDia.length; i++) {
         this.TotalcapacidadporDia[i].total = this.capacidadporDia[i].total - this.totalDia[i].total;
         this.totalTotal = this.totalTotal + this.TotalcapacidadporDia[i].total;
-        // console.log(this.capacidadporDia[i]);
-        // console.log(this.totalDia[i]);
       }
-      // console.log('TotalcapacidadporDia', this.TotalcapacidadporDia);
     }
-
-    // agruparARSCS(){
-
-    //   let planPadreCS: any = [];
-    //   let maximo = this.jsonDataPlanServiceCS.length;
-    //   let i = 0;
-    //   // tslint:disable-next-line: prefer-const
-    //   for (let plan of this.jsonDataPlanServiceCS) {
-
-    //       if (plan.numeroArs !== planPadreCS.numeroArs) {
-    //         if (planPadreCS) {
-    //           planPadreCS.horas1 = plan.mes1.total;
-    //           planPadreCS.horas2 = plan.mes2.total;
-    //           this.planAgrupadoCS.push(planPadreCS);
-    //         }
-    //         planPadreCS = plan;
-    //       }
-    //       i++
-
-    //       if (i== maximo -1){
-    //         this.planAgrupadoCS.push(planPadreCS);
-    //       }
-    //     }
-    //   // console.log('Agrupado', this.planAgrupado);
-    //   this.planAgrupadoCS.splice(0, 1);
-    //   this.jsonDataPlanServiceCS = this.planAgrupadoCS;
-    //   console.log('jsonDataPlanServiceCS', this.jsonDataPlanServiceCS);
-    //   }
-    
 }
