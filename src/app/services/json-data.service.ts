@@ -79,7 +79,7 @@ export class JsonDataService {
   }
 
   AddEveToReq() {
-
+    // se agregan eventos a los requerimientos como un arreglo
     let x = 0;
     // tslint:disable-next-line: prefer-const
     for (let req of this.jsonDataReqService.Requerimientos) {
@@ -131,6 +131,7 @@ export class JsonDataService {
   }
 
   AddTarToReq() {
+    // se agregan tareas a los requerimientos como un arreglo
 
     let x = 0;
     // tslint:disable-next-line: prefer-const
@@ -157,6 +158,8 @@ export class JsonDataService {
             }
             incluir = true;
             let orden = 0;
+
+            // se establece un orden para mostrar las tareas en la gantt
             switch (true) {
               case  tar.descripcionTarea.includes('Análisis', 0):
                 orden = 1;
@@ -218,6 +221,9 @@ export class JsonDataService {
       }
       // tslint:disable-next-line: max-line-length
       this.jsonDataReqService.Requerimientos[x] = {...this.jsonDataReqService.Requerimientos[x], estimadoQA, incurridoQA, estimadoProd, incurridoProd};
+
+      // se ordenan tareas segun peso y fecha planificada, si la fecha es minima se setea un peso mayor para dejarlas al final,
+      // pero manteniendo el orden establecido.
       if (tareas.length > 0) {
         tareas.sort((a, b) => {
 
@@ -254,7 +260,7 @@ export class JsonDataService {
     }
   }
   crearHorasFact() {
-
+    // se recorre requerimientos para agregar 25fechas para acumular el facturado por mes.
     // tslint:disable-next-line: prefer-const
     for (let req of this.jsonDataReqService.Requerimientos) {
       req.horasFact = 0;
@@ -322,6 +328,7 @@ export class JsonDataService {
     let ultCECO = '';
     let ultTareas = [];
 
+    // se ordenan ars por requerimiento origen.
     this.jsonDataReqService.Requerimientos.sort((a, b) => {
 
       let keyA = 0;
@@ -342,6 +349,8 @@ export class JsonDataService {
       return keyA - keyB;
     });
 
+    // se recorren los requermientos y agrupando en uno solo (el primero)
+    // las informacion del resto de los ars que estan vinculados por nro.req.origen.
     // tslint:disable-next-line: prefer-const
     for (let req of this.jsonDataReqService.Requerimientos) {
 
@@ -419,6 +428,7 @@ export class JsonDataService {
   }
 
   eliminarReqOrigen() {
+    // se eliminan todos los ars que tienen numero de req origen informado.
    for (let i = 0; i < this.jsonDataReqService.Requerimientos.length;) {
 
     // tslint:disable-next-line: prefer-const
@@ -436,7 +446,7 @@ export class JsonDataService {
   }
 
   eliminarExepcionados() {
-
+  // se eliminan todos los ars que tienen el evento de excepcion
   for (let i = 0; i < this.jsonDataReqService.Requerimientos.length;) {
 
       // tslint:disable-next-line: prefer-const
@@ -450,6 +460,7 @@ export class JsonDataService {
   }
 
   unirReqconAgrupados() {
+    // se juntan los requerimiento sin num de req origien mas los agrupados por req origen.
     const tamaño = this.jsonDataReqService.Requerimientos.length;
     this.jsonDataReqService.Requerimientos.concat(this.ReqAgrupado);
     this.jsonDataReqService.Requerimientos.splice(tamaño, 1);
@@ -457,7 +468,7 @@ export class JsonDataService {
   }
 
   obtenerFechasQAPROD() {
-
+    // se obienten fechas de qa y produccion de las tareas
     let i = 0;
     let inicioQA = null;
     let finQA = null;
@@ -491,6 +502,7 @@ export class JsonDataService {
 
 
   facObtieneMA() {
+    // se obtienen codigo MA de la descipcion de la facturacion
     let MA = '';
     let i = 0;
     // tslint:disable-next-line: prefer-const
@@ -500,14 +512,14 @@ export class JsonDataService {
       this.jsonDataFacService['Datos Facturación'][i] = {...this.jsonDataFacService['Datos Facturación'][i], MA};
       i++;
     }
-
+    // se ordena facturacion por codigo MA
     this.jsonDataFacService['Datos Facturación'].sort((a, b) => {
       return a.MA.localeCompare(b.MA);
     });
   }
 
   facSumarMA() {
-
+  // se suman todas las facturaciones por MA;
     let facpadre:any = [];
 
     // tslint:disable-next-line: prefer-const
@@ -554,6 +566,8 @@ export class JsonDataService {
   }
 
   facAgregarReq() {
+
+    // se agregan la suma de facturaciones a los requerimientos
     this.facAgrupado.splice(0, 1);
     let i = 0;
     // tslint:disable-next-line: prefer-const
@@ -651,6 +665,7 @@ export class JsonDataService {
   }
 
   ordenFinalARS() {
+    // se ordena el json final para los informes por numero de ars.
     this.jsonDataReqService.Requerimientos.sort((a, b) => {
       return a.nroReq - b.nroReq;
     });
@@ -659,7 +674,7 @@ export class JsonDataService {
   }
 
   crearTablaFac() {
-
+    // se crear tabla de facturacion con detalla por mes;
     // tslint:disable-next-line: deprecation
     moment.lang('es');
     const fecha1 = moment().subtract(0, 'months');
@@ -901,6 +916,7 @@ export class JsonDataService {
   }
 
   validaciones() {
+    // se crean indicadores de validaciones para marcar en rojo en el front las celdas que estan inconsistentes.
 
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.jsonDataReqService.Requerimientos.length; i++) {
@@ -943,14 +959,5 @@ export class JsonDataService {
 
     }
   }
-
-  // convertJson(){
-  //   let jsonString = JSON.stringify(this.jsonDataReqService.Requerimientos);
-  //   jsonString = jsonString.toLowerCase();
-  //   jsonString.replace(' ', '_');
-  //   // console.log(jsonString);
-  //   let jsonConvert = JSON.parse(jsonString);
-  //   console.log(jsonConvert);
-  // }
 
 }
