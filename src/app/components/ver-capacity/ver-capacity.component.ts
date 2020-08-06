@@ -25,6 +25,7 @@ export class VerCapacityComponent implements OnInit {
   fileName = 'ExcelSheet.xlsx';
   finMes;
   dias;
+  mostrarVal = true;
 
   constructor(public capacityService: CapacityService) {
     init_customJS();
@@ -70,6 +71,11 @@ export class VerCapacityComponent implements OnInit {
     // Si se cambian valores de CS se recalcula el total
     this.capacityService.totalEjecucion();
   }
+
+  cambiaValor() {
+    this.mostrarVal = !this.mostrarVal;
+  }
+
   generateExcel() {
 
     // Se crea Tabla de Capacity
