@@ -219,7 +219,6 @@ export class CapacityService {
         plan.mes2.totalMes2 = totalMes2;
 
         if (plan.numeroArs == 2732){
-          console.log('entro');
           plan.mes2.totalMes2 = 180;
           console.log(plan.mes2.totalMes2);
         }
