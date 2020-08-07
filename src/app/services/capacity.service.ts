@@ -9,6 +9,7 @@ import { SweetAlertService } from './sweet-alert.service';
 export class CapacityService {
 
   jsonDataPlanService;
+  jsonDataPlanService2;
   jsonDataPlanServiceCS;
   inicioMes;
   finMes;
@@ -104,6 +105,8 @@ export class CapacityService {
     this.totalporDia();
     this.capacidadDisponible();
     this.totCapacidadDisponible();
+    this.filtrarSoloMes2();
+    this.filtrarSoloMes1();
     console.log('ulitmo', this.jsonDataPlanService);
     console.log('ulitmoCS', this.jsonDataPlanServiceCS);
 
@@ -278,6 +281,7 @@ export class CapacityService {
       });
 
     }
+  
     ordenarPorARSCS(){
       // se crear nuevo arreglo desde el plan, se filtra solo lo Capacity Service y se ordena por ARS.
       let jsonDataCS = [...this.jsonDataPlanService];
@@ -393,5 +397,21 @@ export class CapacityService {
         this.TotalcapacidadporDia[i].total = this.capacidadporDia[i].total - this.totalDia[i].total;
         this.totalTotal = this.totalTotal + this.TotalcapacidadporDia[i].total;
       }
+    }
+
+    filtrarSoloMes1(){
+      // se mantienen solo los registros que tienen horas en el mes1
+      this.jsonDataPlanService = this.jsonDataPlanService.filter(a => {
+        return a.mes1.totalMes1 > 0;
+      });
+    }
+
+    filtrarSoloMes2(){
+      // se crear nuevo arreglo desde el plan, se filtra solo con el mes 2
+      let jsonData2 = [...this.jsonDataPlanService];
+      this.jsonDataPlanService2 = jsonData2.filter(a => {
+        return a.mes2.totalMes2 > 0;
+      });
+      console.log('mes2',  this.jsonDataPlanService2);
     }
 }
