@@ -132,7 +132,7 @@
                         <tr *ngFor="let plan of capacityService.jsonDataPlanService; let i=index" [ngClass]="{'colorcs': plan.descripcion.substr(0,2)==='CS'}">
                             <td *ngIf="mostrarVal" class="small text-center puntero text-danger" scope="col" style="width: 20px" (click)="eliminar(i)" id="Col2">X</td>
                             <td class="small text-dark text-left text-truncate" scope="col" style="width: 300px;text-overflow: ellipsis;">{{plan.descripcion}}</td>
-                            <td *ngFor="let dias of plan.mes1" [ngClass]="{'text-light': dias.total==0, 'text-dark': dias.total>0}" class="small text-dark text-right" scope="col" style="width: 35px">{{dias.total}}</td>
+                            <td *ngFor="let dias of plan.mes1" [ngClass]="{'text-light': dias.total==0, 'text-dark': dias.total>0}" class="small text-dark text-right" scope="col" style="width: 35px;padding-left:2px;padding-right: 2px;">{{dias.total}}</td>
                             <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 40px">{{plan.mes1.totalMes1}}
                             </td>
 
@@ -140,7 +140,7 @@
                         <tr>
                             <td *ngIf="mostrarVal" class="small text-light text-left font-weight-bold" scope="col" colspan="2" style="width: 300px;background-color: rgb(79, 129, 189);">Capacidad Utilizada</td>
                             <td *ngIf="!mostrarVal" class="small text-light text-left font-weight-bold" scope="col" colspan="1" style="width: 300px;background-color: rgb(79, 129, 189);">Capacidad Utilizada</td>
-                            <td *ngFor="let dia of capacityService.totalDia" class="small text-dark text-right " scope="col" style="width: 35px">{{dia.total|number:'1.1'}}</td>
+                            <td *ngFor="let dia of capacityService.totalDia" class="small text-dark text-right " scope="col" style="width: 35px;padding-left:2px;padding-right: 2px;">{{dia.total|number:'1.1'}}</td>
                             <td class="small text-dark text-right" scope="col" style="width: 35px">{{ capacityService.totalMes1|number:'1.1'}}
                             </td>
 
@@ -148,7 +148,7 @@
                         <tr>
                             <td *ngIf="mostrarVal" class="small text-light text-left font-weight-bold" scope="col" colspan="2" style="width: 300px;background-color: rgb(79, 129, 189);">Capacidad Disponible</td>
                             <td *ngIf="!mostrarVal" class="small text-light text-left font-weight-bold" scope="col" colspan="1" style="width: 300px;background-color: rgb(79, 129, 189);">Capacidad Disponible</td>
-                            <td *ngFor="let dia of capacityService.capacidadporDia" class="small text-dark text-right" scope="col" style="width: 35px">{{dia.total|number:'1.1'}}</td>
+                            <td *ngFor="let dia of capacityService.capacidadporDia" class="small text-dark text-right" scope="col" style="width: 35px;padding-left:2px;padding-right: 2px;">{{dia.total|number:'1.1'}}</td>
                             <td class="small text-dark text-right" scope="col" style="width: 35px">{{capacityService.totalDisponible|number:'1.1'}}
                             </td>
 
@@ -156,7 +156,7 @@
                         <tr style="background-color: rgb(79, 129, 189);">
                             <td *ngIf="mostrarVal" class="small text-light text-left font-weight-bold" scope="col" colspan="2" style="width: 300px;">Total</td>
                             <td *ngIf="!mostrarVal" class="small text-light text-left font-weight-bold" scope="col" colspan="1" style="width: 300px;">Total</td>
-                            <td *ngFor="let dia of capacityService.TotalcapacidadporDia" class="small text-light text-right" scope="col" style="width: 35px">{{dia.total|number:'1.1'}}</td>
+                            <td *ngFor="let dia of capacityService.TotalcapacidadporDia" class="small text-light text-right" scope="col" style="width: 35px;padding-left:2px;padding-right: 2px;">{{dia.total|number:'1.1'}}</td>
                             <td class="small font-weight-bold text-light text-right" scope="col" style="width: 40px">{{capacityService.totalTotal|number:'1.1'}}
                             </td>
 
