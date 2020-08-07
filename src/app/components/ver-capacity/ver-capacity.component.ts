@@ -250,7 +250,7 @@ export class VerCapacityComponent implements OnInit {
         bold: true,
       };
     });
-
+    let filaCS = false;
     // se recorre arreglo de planificacion para incorporar en excel
     this.capacityService.jsonDataPlanService.forEach(d => {
       let dFinal = [];
@@ -274,6 +274,27 @@ export class VerCapacityComponent implements OnInit {
       row.getCell(this.capacityService.dias.length + 2).style = {numFmt: '#,##0.00'};
       // tslint:disable-next-line: max-line-length
       row.getCell(this.capacityService.dias.length + 2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+
+      // si la celda es comienza con CS se marca toda la fila amarillo
+      row.eachCell((cell:any, num) => {
+        let valor = cell._value.model.value;
+        let valorString = valor.toString();
+        if (valorString.substr(0, 2) === 'CS'){
+          filaCS = true;
+          cell.fill  = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'FCFFA8' }, bgColor: { argb: 'FCFFA8' }};
+        }else{
+          if (filaCS && num > 1){
+            cell.fill  = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'FCFFA8' }, bgColor: { argb: 'FCFFA8' }};
+          }else{
+            filaCS = false;
+          }
+        }
+
+        if (cell._value.model.value == 0){
+          cell.font = {color: {argb: 'FFFFFF'}};
+        }
+
+      });
     }
     );
 

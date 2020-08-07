@@ -14,7 +14,6 @@ export class FeriadosChileService {
     const url = `https://apis.digital.gob.cl/fl/feriados/${anno}/${mes}`;
     return this.http.jsonp(url, 'callback').pipe(
       map((resp: any) => {
-        console.log(resp);
         return resp;
       }));
   }

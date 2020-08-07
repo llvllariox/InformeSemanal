@@ -104,8 +104,8 @@ export class CapacityService {
     this.totalporDia();
     this.capacidadDisponible();
     this.totCapacidadDisponible();
-    console.log('ulitmo', this.jsonDataPlanServiceCS);
-    console.log('ulitmoCS', this.jsonDataPlanService);
+    console.log('ulitmo', this.jsonDataPlanService);
+    console.log('ulitmoCS', this.jsonDataPlanServiceCS);
 
   }
 
@@ -220,7 +220,6 @@ export class CapacityService {
 
         if (plan.numeroArs == 2732){
           plan.mes2.totalMes2 = 180;
-          console.log(plan.mes2.totalMes2);
         }
       }
     }
@@ -314,7 +313,6 @@ export class CapacityService {
       this.totalDia = [];
       for (const dia of this.dias) {
         let diaF = moment(dia.diaN).format('DD-MM-YYYY');
-        // console.log(diaF);
         this.totalDia.push({diaF, total: 0});
       }
 
