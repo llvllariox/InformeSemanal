@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx';
 import { JsonDataService } from 'src/app/services/json-data.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
+import { JspdfService } from '../../services/jspdf.service';
 
 @Component({
   selector: 'app-generar-informe',
@@ -21,7 +22,8 @@ export class GenerarInformeComponent implements OnInit {
   nuevosHeaders = [];
 
   // tslint:disable-next-line: max-line-length
-  constructor(private formBuilder: FormBuilder, private jsonDataService: JsonDataService, private sweetAlerService: SweetAlertService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private jsonDataService: JsonDataService, private sweetAlerService: SweetAlertService, private router: Router
+    , jspdfService: JspdfService) {
 
     this.jsonDataService.jsonDataReqService = null;
     this.jsonDataService.jsonDataEveService = null;

@@ -24,6 +24,7 @@
         "html-to-image": "^0.1.1",
         "html2canvas": "^1.0.0-rc.5",
         "jspdf": "^1.5.3",
+        "jspdf-autotable": "^3.5.6",
         "moment": "^2.27.0",
         "ng2-currency-mask": "^9.0.2",
         "pptxgenjs": "^3.2.1",
