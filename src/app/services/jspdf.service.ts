@@ -23,14 +23,15 @@ export class JspdfService {
   generaPDF(json){
     console.log('jspdf', json);
     // se crear doc
-    let doc = new jsPDF('landscape', 'mm', [480, 846]);
+    // let doc = new jsPDF('landscape', 'mm', [480, 846]);
+    let doc = new jsPDF('landscape', 'mm', [540, 846]);
 
     // Nota 300 maximo de ancho;
     for (let i = 0; i < json.length; i++) {
         // Titulo ARS
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(20);
-      doc.text(20, 20, json[i].descripcion, {maxWidth: 190});
+      doc.text(20, 16, json[i].descripcion, {maxWidth: 190});
 
       // Logo TBK
       doc.addImage(this.logoTBK, 'jpg', 215, 8, 65, 14);
@@ -51,7 +52,7 @@ export class JspdfService {
         const fechaFinPlanificada = this.transform(tar.fechaFinPlanificada);
         tareasBody.push([descripcionTarea, horasEstimadas, fechaInicioPlanificada, fechaFinPlanificada]);
       }
-      console.log('tareasBody', tareasBody);
+      // console.log('tareasBody', tareasBody);
       
 
       // Tabla Gantt
@@ -59,7 +60,7 @@ export class JspdfService {
         headStyles: {fillColor: [177, 181, 178], textColor: [0, 0, 0]},
         startY: 32,
         margin: {top: 0, left: 16},
-        styles: { fontSize: 7},
+        styles: { fontSize: 7,overflow:'ellipsize'},
         columnStyles: {
           0: {cellWidth: 70},
           1: {cellWidth: 20},
@@ -165,96 +166,118 @@ export class JspdfService {
         },
         head: [['SOPORTE', 'Estimado', 'Incurrido', 'Fecha Inicio', 'Fecha Fin']],
         body: [
-          ['HH Soporte QA', json[i].estimadoQA, json[i].incurridoQA,json[i].inicioQA, json[i].finQA],
-          ['HH Soporte Producción', json[i].estimadoProd,json[i].incurridoProd, json[i].inicioProd, json[i].finProd],
+          ['HH Soporte QA', json[i].estimadoQA, json[i].incurridoQA, this.transform(json[i].inicioQA), this.transform(json[i].finQA)],
+          ['HH Soporte Producción', json[i].estimadoProd,json[i].incurridoProd, this.transform(json[i].inicioProd), this.transform(json[i].finProd)],
         ],
       });
 
+      let actRealizadaArray = [];
+      let actRealizadaBody  = [];
+      if ( json[i].realizado !== undefined){
+        actRealizadaArray = json[i].realizado.slice(json[i].realizado.length - 5);
+        // console.log(actRealizadaArray);
+      }
+      
+      // console.log('tareasArray', actRealizadaArray);
+      for (const act of actRealizadaArray) {
+        const descripcionEvento = act.descripcionDeEvento;
+        actRealizadaBody.push([descripcionEvento]);
+      }
+
+      if(actRealizadaBody.length == 0){
+        actRealizadaBody.push(['Sin Actividades']);
+      }
+      // console.log(actRealizadaBody);
       // Actividades Realizadas
       doc.autoTable({
         headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8},
         startY: 115,
         margin: {top: 0, left: 16},
-        styles: { fontSize: 7},
+        styles: { fontSize: 7, overflow:'linebreak'},
         columnStyles: {
           0: {cellWidth: 130},
         },
         head: [['Actividades Realizadas']],
-        body: [
-          ['Actividad 1 se realizo entrega de bla bla bla'],
-          ['Actividad 1 se realizo entrega de bla bla bla'],
-          ['Actividad 1 se realizo entrega de bla bla bla'],
-          ['Actividad 1 se realizo entrega de bla bla bla'],
-          ['Actividad 1 se realizo entrega de bla bla bla'],
-    
-        ],
+        body: actRealizadaBody,
       });
   
+      let actProximaArray = [];
+      let actProximaBody  = [];
+      if ( json[i].proximo !== undefined){
+        actProximaArray = json[i].proximo.slice(json[i].proximo.length - 5);
+        // console.log(actProximaArray);
+      }
+      
+      // console.log('tareasArray', actProximaArray);
+      for (const act of actProximaArray) {
+        const descripcionEvento = act.descripcionDeEvento;
+        actProximaBody.push([descripcionEvento]);
+      }
+
+      if(actProximaBody.length == 0){
+        actProximaBody.push(['Sin Actividades']);
+      }
       // Proximas Actividades
       doc.autoTable({
         headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8},
         startY: 115,
         margin: {top: 0, left: 151},
-        styles: { fontSize: 7},
+        styles: { fontSize: 7, overflow:'linebreak'},
         columnStyles: {
           0: {cellWidth: 130},
         },
         head: [['Proximas Actividades']],
-        body: [
-          ['Actividad 1 se realizo entrega de bla bla bla'],
-          ['Actividad 1 se realizo entrega de bla bla bla'],
-          ['Actividad 1 se realizo entrega de bla bla bla'],
-          ['Actividad 1 se realizo entrega de bla bla bla'],
-          ['Actividad 1 se realizo entrega de bla bla bla'],
-        ],
+        body: actProximaBody
       });
   
       // Pie
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
-      doc.text(20, 165, 'Copyright © 2020 Accenture All rights reserved.');
+      // doc.text(20, 165, 'Copyright © 2020 Accenture All rights reserved.');
+      doc.text(20, 180, 'Copyright © 2020 Accenture All rights reserved.');
   
       //en curso verde
       doc.setDrawColor(0);
       doc.setFillColor(0, 129, 2);
-      doc.circle(70, 164.2, 1.5, 'F');
+      // doc.circle(70, 164.2, 1.5, 'F');
+      doc.circle(70, 179.5, 1.5, 'F');
   
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
-      doc.text(72, 165, 'En curso');
+      doc.text(72, 180, 'En curso');
   
       //Desvio amarillo
       doc.setDrawColor(0);
       doc.setFillColor(234, 227, 0);
-      doc.circle(85, 164.2, 1.5, 'F');
+      doc.circle(85, 179.5, 1.5, 'F');
   
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
-      doc.text(87, 165, 'Desvío recupareable sin impacto en el plan');
+      doc.text(87, 180, 'Desvío recupareable sin impacto en el plan');
   
       //Desvio rojo
       doc.setDrawColor(0);
       doc.setFillColor(255, 0, 0);
-      doc.circle(132, 164.2, 1.5, 'F');
+      doc.circle(132, 179.5, 1.5, 'F');
   
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
-      doc.text(134, 165, 'Desvío con impacto en el plan');
+      doc.text(134, 180, 'Desvío con impacto en el plan');
   
       //detenido gris
       doc.setDrawColor(0);
       doc.setFillColor(114, 114, 114);
-      doc.circle(166, 164.2, 1.5, 'F');
+      doc.circle(166, 179.5, 1.5, 'F');
   
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
-      doc.text(168, 165, 'Detenido/Suspendido');
+      doc.text(168, 180, 'Detenido/Suspendido');
   
   
       //numero de pagina
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
-      doc.text(280, 165, '1');
+      doc.text(280, 180, '1');
   
   
       doc.addPage();
