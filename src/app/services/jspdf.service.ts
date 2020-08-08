@@ -105,7 +105,7 @@ export class JspdfService {
       ],
     });
 
-    // Tabla Horas parte 3
+    // Tabla Horas parte 2
     doc.autoTable({
       theme: 'grid',
       headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
@@ -114,16 +114,40 @@ export class JspdfService {
       margin: {top: 0, left: 151},
       styles: { fontSize: 7},
       columnStyles: {
-        0: {cellWidth: 10, fontStyle: 'bold'},
-        1: {cellWidth: 10},
-        2: {cellWidth: 10},
-
+        0: {cellWidth: 44, fontStyle: 'bold'},
+        1: {cellWidth: 43},
+        2: {cellWidth: 21.5},
+        3: {cellWidth: 21.5},
       },
-      head: [['PLAN(Gantt)', 'Avance Real', 'Avance Esperado']],
-      // body: [
-      //   ['HH', '4,072.25', '3,293.25', '2,989.75', '3,239.25'],
-      // ],
+      head: [['PLAN (Gantt)', 'Avance Real',{ content: 'Avance Esperado', colSpan: 2 }]],
+      body: [
+        ['%', '72%', '81%', 'color'],
+      ],
     });
+  
+    // Tabla Horas parte 2
+    doc.autoTable({
+      theme: 'grid',
+      headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
+      bodyStyles: {halign: 'center'},
+      startY: 83.5,
+      margin: {top: 0, left: 151},
+      styles: { fontSize: 7},
+      columnStyles: {
+        0: {cellWidth: 40, fontStyle: 'bold'},
+        1: {cellWidth: 15},
+        2: {cellWidth: 15},
+        3: {cellWidth: 30},
+        4: {cellWidth: 30},
+      },
+      head: [['SOPORTE', 'Estimado', 'Incurrido', 'Fecha Inicio', 'Fecha Fin']],
+      body: [
+        ['HH Soporte QA', '519', '200','07/08/2020', '07/08/2020'],
+        ['HH Soporte Producción', '100','519', '07/08/2020', '07/08/2020'],
+      ],
+    });
+
+  
 
 
 
