@@ -89,7 +89,7 @@ export class JspdfService {
       theme: 'grid',
       // headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
       bodyStyles: {halign: 'center'},
-      startY: 45,
+      startY: 44.5,
       margin: {top: 0, left: 151},
       styles: { fontSize: 7},
       columnStyles: {
@@ -110,7 +110,7 @@ export class JspdfService {
       theme: 'grid',
       headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
       bodyStyles: {halign: 'center'},
-      startY: 70.5,
+      startY: 70,
       margin: {top: 0, left: 151},
       styles: { fontSize: 7},
       columnStyles: {
@@ -121,16 +121,21 @@ export class JspdfService {
       },
       head: [['PLAN (Gantt)', 'Avance Real',{ content: 'Avance Esperado', colSpan: 2 }]],
       body: [
-        ['%', '72%', '81%', 'color'],
+        ['%', '72%', '81%', ''],
       ],
     });
-  
+
+    // Circulo de Avance
+    doc.setDrawColor(0);
+    doc.setFillColor(255, 0, 0);
+    doc.circle(270, 79.4, 2.5, 'F');
+
     // Tabla Horas parte 2
     doc.autoTable({
       theme: 'grid',
       headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
       bodyStyles: {halign: 'center'},
-      startY: 83.5,
+      startY: 82.5,
       margin: {top: 0, left: 151},
       styles: { fontSize: 7},
       columnStyles: {
@@ -147,57 +152,97 @@ export class JspdfService {
       ],
     });
 
-  
-
-
-
     // Actividades Realizadas
     doc.autoTable({
-      headStyles: {fillColor: [177, 181, 178], textColor: [0, 0, 0]},
+      headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8},
       startY: 115,
       margin: {top: 0, left: 16},
       styles: { fontSize: 7},
       columnStyles: {
-        0: {cellWidth: 70},
-        1: {cellWidth: 20},
-        2: {cellWidth: 20},
-        3: {cellWidth: 20},
+        0: {cellWidth: 130},
       },
-      head: [['Tarea', 'Duracion HH', 'Inicio', 'Fin']],
+      head: [['Actividades Realizadas']],
       body: [
-        ['Analisis y DiseñoXXXXXXXXX', '481.5', '10/02/2020', '27/03/2020'],
-        ['Analisis y Diseño', '481.5', '10/02/2020', '27/03/2020'],
-        ['Analisis y Diseño', '481.5', '10/02/2020', '27/03/2020'],
-        ['Analisis y Diseño', '481.5', '10/02/2020', '27/03/2020'],
-        ['Analisis y Diseño', '481.5', '10/02/2020', '27/03/2020'],
+        ['Actividad 1 se realizo entrega de bla bla bla'],
+        ['Actividad 1 se realizo entrega de bla bla bla'],
+        ['Actividad 1 se realizo entrega de bla bla bla'],
+        ['Actividad 1 se realizo entrega de bla bla bla'],
+        ['Actividad 1 se realizo entrega de bla bla bla'],
+  
       ],
     });
 
     // Proximas Actividades
     doc.autoTable({
-      headStyles: {fillColor: [177, 181, 178], textColor: [0, 0, 0]},
+      headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8},
       startY: 115,
       margin: {top: 0, left: 151},
       styles: { fontSize: 7},
       columnStyles: {
-        0: {cellWidth: 70},
-        1: {cellWidth: 20},
-        2: {cellWidth: 20},
-        3: {cellWidth: 20},
+        0: {cellWidth: 130},
       },
-      head: [['Tarea', 'Duracion HH', 'Inicio', 'Fin']],
+      head: [['Proximas Actividades']],
       body: [
-        ['Analisis y DiseñoXXXXXXXXX', '481.5', '10/02/2020', '27/03/2020'],
-        ['Analisis y Diseño', '481.5', '10/02/2020', '27/03/2020'],
-        ['Analisis y Diseño', '481.5', '10/02/2020', '27/03/2020'],
-        ['Analisis y Diseño', '481.5', '10/02/2020', '27/03/2020'],
-        ['Analisis y Diseño', '481.5', '10/02/2020', '27/03/2020'],
+        ['Actividad 1 se realizo entrega de bla bla bla'],
+        ['Actividad 1 se realizo entrega de bla bla bla'],
+        ['Actividad 1 se realizo entrega de bla bla bla'],
+        ['Actividad 1 se realizo entrega de bla bla bla'],
+        ['Actividad 1 se realizo entrega de bla bla bla'],
       ],
     });
 
     // Pie
     doc.setFontSize(6);
+    doc.setTextColor(94, 94, 94);
     doc.text(20, 165, 'Copyright © 2020 Accenture All rights reserved.');
+
+    //en curso verde
+    doc.setDrawColor(0);
+    doc.setFillColor(0, 129, 2);
+    doc.circle(70, 164.2, 1.5, 'F');
+
+    doc.setFontSize(6);
+    doc.setTextColor(94, 94, 94);
+    doc.text(72, 165, 'En curso');
+
+    //Desvio amarillo
+    doc.setDrawColor(0);
+    doc.setFillColor(234, 227, 0);
+    doc.circle(85, 164.2, 1.5, 'F');
+
+    doc.setFontSize(6);
+    doc.setTextColor(94, 94, 94);
+    doc.text(87, 165, 'Desvío recupareable sin impacto en el plan');
+
+    //Desvio rojo
+    doc.setDrawColor(0);
+    doc.setFillColor(255, 0, 0);
+    doc.circle(132, 164.2, 1.5, 'F');
+
+    doc.setFontSize(6);
+    doc.setTextColor(94, 94, 94);
+    doc.text(134, 165, 'Desvío con impacto en el plan');
+
+    //detenido gris
+    doc.setDrawColor(0);
+    doc.setFillColor(114, 114, 114);
+    doc.circle(166, 164.2, 1.5, 'F');
+
+    doc.setFontSize(6);
+    doc.setTextColor(94, 94, 94);
+    doc.text(168, 165, 'Detenido/Suspendido');
+
+
+    //numero de pagina
+    doc.setFontSize(6);
+    doc.setTextColor(94, 94, 94);
+    doc.text(280, 165, '1');
+
+
+
+
+
+
 
     doc.addPage();
 
