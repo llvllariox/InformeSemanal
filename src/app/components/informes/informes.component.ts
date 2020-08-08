@@ -6,6 +6,7 @@ import { Exportador } from '../../common/exportador/Exportador';
 import html2canvas from 'html2canvas';
 import * as moment from 'moment'; // add this 1 of 4
 import Swal from 'sweetalert2';
+import { JspdfService } from '../../services/jspdf.service';
 declare function init_customJS();
 
 
@@ -52,7 +53,7 @@ export class InformesComponent {
   contProgress = 0;
   mostrarVal = true;
 
-  constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService) {
+  constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService, private pdfService: JspdfService) {
     init_customJS();
 
     // tslint:disable-next-line: deprecation
@@ -112,7 +113,9 @@ export class InformesComponent {
       });
     }
   }
-
+  generaNuevoPDF(){
+    this.pdfService.generaPDF(this.JsonArray);
+  }
   tablasFac() {
   this.tablaFac = [];
   this.tablaFac.push(this.JsonArray);
