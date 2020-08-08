@@ -190,10 +190,11 @@ export class JspdfService {
       // console.log(actRealizadaBody);
       // Actividades Realizadas
       doc.autoTable({
-        headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8},
+        // theme:'grid',
+        headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8,rowHeight :7},
         startY: 115,
         margin: {top: 0, left: 16},
-        styles: { fontSize: 7, overflow:'linebreak'},
+        styles: { fontSize: 7, overflow:'linebreak', cellPadding: 2,rowHeight :9},
         columnStyles: {
           0: {cellWidth: 130},
         },
@@ -219,65 +220,66 @@ export class JspdfService {
       }
       // Proximas Actividades
       doc.autoTable({
-        headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8},
+        headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8,rowHeight :7},
         startY: 115,
         margin: {top: 0, left: 151},
-        styles: { fontSize: 7, overflow:'linebreak'},
+        styles: { fontSize: 7, overflow:'linebreak',rowHeight :9},
         columnStyles: {
           0: {cellWidth: 130},
         },
         head: [['Proximas Actividades']],
         body: actProximaBody
       });
+      
   
       // Pie
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
       // doc.text(20, 165, 'Copyright © 2020 Accenture All rights reserved.');
-      doc.text(20, 180, 'Copyright © 2020 Accenture All rights reserved.');
+      doc.text(20, 185, 'Copyright © 2020 Accenture All rights reserved.');
   
       //en curso verde
       doc.setDrawColor(0);
       doc.setFillColor(0, 129, 2);
       // doc.circle(70, 164.2, 1.5, 'F');
-      doc.circle(70, 179.5, 1.5, 'F');
+      doc.circle(70, 184.2, 1.5, 'F');
   
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
-      doc.text(72, 180, 'En curso');
+      doc.text(72, 185, 'En curso');
   
       //Desvio amarillo
       doc.setDrawColor(0);
       doc.setFillColor(234, 227, 0);
-      doc.circle(85, 179.5, 1.5, 'F');
+      doc.circle(85, 184.2, 1.5, 'F');
   
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
-      doc.text(87, 180, 'Desvío recupareable sin impacto en el plan');
+      doc.text(87, 185, 'Desvío recupareable sin impacto en el plan');
   
       //Desvio rojo
       doc.setDrawColor(0);
       doc.setFillColor(255, 0, 0);
-      doc.circle(132, 179.5, 1.5, 'F');
+      doc.circle(132, 184.2, 1.5, 'F');
   
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
-      doc.text(134, 180, 'Desvío con impacto en el plan');
+      doc.text(134, 185, 'Desvío con impacto en el plan');
   
       //detenido gris
       doc.setDrawColor(0);
       doc.setFillColor(114, 114, 114);
-      doc.circle(166, 179.5, 1.5, 'F');
+      doc.circle(166, 184.2, 1.5, 'F');
   
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
-      doc.text(168, 180, 'Detenido/Suspendido');
+      doc.text(168, 185, 'Detenido/Suspendido');
   
   
       //numero de pagina
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
-      doc.text(280, 180, '1');
+      doc.text(280, 185, '1');
   
   
       doc.addPage();
