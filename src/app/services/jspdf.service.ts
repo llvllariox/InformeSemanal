@@ -21,7 +21,7 @@ export class JspdfService {
   }
 
   generaPDF(json){
-    console.log('jspdf', json);
+    // console.log('jspdf', json);
     // se crear doc
     // let doc = new jsPDF('landscape', 'mm', [480, 846]);
     let doc = new jsPDF('landscape', 'mm', [540, 846]);
@@ -191,10 +191,10 @@ export class JspdfService {
       // Actividades Realizadas
       doc.autoTable({
         // theme:'grid',
-        headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8,rowHeight :7},
+        headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8, minCellHeigh:7},
         startY: 115,
         margin: {top: 0, left: 16},
-        styles: { fontSize: 7, overflow:'linebreak', cellPadding: 2,rowHeight :9},
+        styles: { fontSize: 7, overflow:'linebreak', cellPadding: 2, minCellHeigh:9},
         columnStyles: {
           0: {cellWidth: 130},
         },
@@ -220,10 +220,10 @@ export class JspdfService {
       }
       // Proximas Actividades
       doc.autoTable({
-        headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8,rowHeight :7},
+        headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8, minCellHeigh :7},
         startY: 115,
         margin: {top: 0, left: 151},
-        styles: { fontSize: 7, overflow:'linebreak',rowHeight :9},
+        styles: { fontSize: 7, overflow:'linebreak', minCellHeigh :9},
         columnStyles: {
           0: {cellWidth: 130},
         },
@@ -275,11 +275,11 @@ export class JspdfService {
       doc.setTextColor(94, 94, 94);
       doc.text(168, 185, 'Detenido/Suspendido');
   
-  
+      let contador = (i + 1).toString();
       //numero de pagina
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
-      doc.text(280, 185, '1');
+      doc.text(280, 185,contador);
   
   
       doc.addPage();
