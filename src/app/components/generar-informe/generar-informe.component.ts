@@ -5,6 +5,8 @@ import { JsonDataService } from 'src/app/services/json-data.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
 import { JspdfService } from '../../services/jspdf.service';
+import * as moment from 'moment'; // add this 1 of 4
+
 
 @Component({
   selector: 'app-generar-informe',
@@ -20,6 +22,7 @@ export class GenerarInformeComponent implements OnInit {
   jsonDataEve = null;
   jsonDataFac = null;
   nuevosHeaders = [];
+  fechaHoy = '';
 
   // tslint:disable-next-line: max-line-length
   constructor(private formBuilder: FormBuilder, private jsonDataService: JsonDataService, private sweetAlerService: SweetAlertService, private router: Router
@@ -34,7 +37,8 @@ export class GenerarInformeComponent implements OnInit {
     this.jsonDataService.ReqAgrupado = [];
     this.jsonDataService.facAgrupado = [];
     this.crearFormulario();
-
+    const currentDate = new Date().toISOString().substring(0, 10);
+    this.forma.controls['fecha'].setValue(currentDate);
   }
 
   ngOnInit(): void {
@@ -305,7 +309,7 @@ validarTipo(event){
         }
       });
     } else {
-
+        // console.log(this.forma.value.fecha);
         this.jsonDataService.fechaInformes = this.forma.value.fecha;
         this.jspdfService.fechaInformes = this.forma.value.fecha;
 
