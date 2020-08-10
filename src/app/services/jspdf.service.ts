@@ -59,8 +59,8 @@ export class JspdfService {
     // console.log('jspdf', json);
     // se crear doc
     // let doc = new jsPDF('landscape', 'mm', [480, 846]);
-    console.log(this.segmento);
-    console.log(this.fechaInformes);
+    // console.log(this.segmento);
+    // console.log(this.fechaInformes);
     let doc = new jsPDF('landscape', 'mm', [540, 846]);
     moment.lang('es');
     this.fecha1 = moment().format('MM/YY');
@@ -274,7 +274,7 @@ export class JspdfService {
 
       // console.log('tareasArray', actRealizadaArray);
       for (const act of actRealizadaArray) {
-        const descripcionEvento = act.descripcionDeEvento;
+        const descripcionEvento = act.descripcionDeEvento.trimEnd();
         actRealizadaBody.push([descripcionEvento]);
       }
 
@@ -288,9 +288,9 @@ export class JspdfService {
         headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8, minCellHeigh:7},
         startY: 116,
         margin: {top: 0, left: 16},
-        styles: { fontSize: 8, overflow:'linebreak', cellPadding: 2, minCellHeigh:9},
+        styles: { fontSize: 8, overflow:'linebreak'},
         columnStyles: {
-          0: {cellWidth: 130, cellPadding:{top:2, bottom: 2, left:5}},
+          0: {cellWidth: 130, cellPadding:{top:2, bottom: 0, left:5}},
         },
         head: [['Actividades Realizadas']],
         body: actRealizadaBody,
@@ -317,7 +317,7 @@ export class JspdfService {
 
       // console.log('tareasArray', actProximaArray);
       for (const act of actProximaArray) {
-        const descripcionEvento = act.descripcionDeEvento;
+        const descripcionEvento = act.descripcionDeEvento.trimEnd();
         actProximaBody.push([descripcionEvento]);
       }
 
@@ -329,9 +329,9 @@ export class JspdfService {
         headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8, minCellHeigh :7},
         startY: 116,
         margin: {top: 0, left: 151},
-        styles: { fontSize: 8, overflow:'linebreak', minCellHeigh :9},
+        styles: { fontSize: 8, overflow:'linebreak'},
         columnStyles: {
-          0: {cellWidth: 130,cellPadding:{top:2, bottom: 2, left:5}},
+          0: {cellWidth: 130,cellPadding:{top:2, bottom: 0, left:5}},
         },
         head: [['Próximas Actividades']],
         body: actProximaBody,
