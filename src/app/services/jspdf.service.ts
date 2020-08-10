@@ -96,7 +96,12 @@ export class JspdfService {
       doc.line(15, 26, 282, 26);
       let tareasArray = [];
       let tareasBody  = [];
-      tareasArray = json[i].tareas.slice(json[i].tareas.length - 10);
+      if (json[i].tareas.length > 10){
+        tareasArray = json[i].tareas.slice(json[i].tareas.length - 10);
+      }else{
+        tareasArray = json[i].tareas;
+      }
+
       // console.log('tareasArray', tareasArray);
       for (const tar of tareasArray) {
         const descripcionTarea = tar.descripcionTarea;
@@ -227,7 +232,12 @@ export class JspdfService {
       let actRealizadaArray = [];
       let actRealizadaBody  = [];
       if ( json[i].realizado !== undefined){
-        actRealizadaArray = json[i].realizado.slice(json[i].realizado.length - 5);
+        if (json[i].realizado.length > 5){
+
+          actRealizadaArray = json[i].realizado.slice(json[i].realizado.length - 5);
+        }else{
+          actRealizadaArray = json[i].realizado;
+        }
         // console.log(actRealizadaArray);
       }
 
@@ -265,7 +275,12 @@ export class JspdfService {
       let actProximaArray = [];
       let actProximaBody  = [];
       if ( json[i].proximo !== undefined){
-        actProximaArray = json[i].proximo.slice(json[i].proximo.length - 5);
+        if(json[i].proximo.length>5){
+
+          actProximaArray = json[i].proximo.slice(json[i].proximo.length - 5);
+        }else{
+          actProximaArray = json[i].proximo;
+        }
         // console.log(actProximaArray);
       }
 
