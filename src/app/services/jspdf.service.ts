@@ -115,7 +115,7 @@ export class JspdfService {
       // Titulo ARS
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(20);
-      doc.text(20, 16, json[i].descripcion, {maxWidth: 190});
+      doc.text(20, 20, json[i].descripcion, {maxWidth: 190});
 
       // Logo TBK
       doc.addImage(this.logoTBK, 'jpg', 215, 8, 65, 14);
@@ -124,7 +124,7 @@ export class JspdfService {
       // donde parte, altura inicio, ancho linea, alturo fin
       doc.setLineWidth(0.5);
       doc.setDrawColor(255, 0, 0);
-      doc.line(15, 26, 282, 26);
+      doc.line(15, 30, 282, 30);
       let tareasArray = [];
       let tareasBody  = [];
       if (json[i].tareas.length > 10){
@@ -146,7 +146,7 @@ export class JspdfService {
       // Tabla Gantt
       doc.autoTable({
         headStyles: {fillColor: [177, 181, 178], textColor: [0, 0, 0]},
-        startY: 32,
+        startY: 33,
         margin: {top: 0, left: 16},
         styles: { fontSize: 7,overflow:'ellipsize'},
         columnStyles: {
@@ -164,7 +164,7 @@ export class JspdfService {
         theme: 'grid',
         headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center',lineWidth: 0.13, lineColor:[129,129,140]},
         bodyStyles: {halign: 'center'},
-        startY: 32,
+        startY: 33,
         margin: {top: 0, left: 151},
         styles: { fontSize: 7},
         columnStyles: {
@@ -185,7 +185,7 @@ export class JspdfService {
         theme: 'grid',
         // headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
         bodyStyles: {halign: 'center'},
-        startY: 44.5,
+        startY: 45.5,
         margin: {top: 0, left: 151},
         styles: { fontSize: 7},
         columnStyles: {
@@ -206,7 +206,7 @@ export class JspdfService {
         theme: 'grid',
         headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center',lineWidth: 0.13, lineColor:[129,129,140]},
         bodyStyles: {halign: 'center'},
-        startY: 70,
+        startY: 71,
         margin: {top: 0, left: 151},
         styles: { fontSize: 7},
         columnStyles: {
@@ -235,14 +235,14 @@ export class JspdfService {
       // Circulo de Avance
       doc.setDrawColor(0);
       // doc.setFillColor(255, 0, 0);
-      doc.circle(270, 79.4, 2.5, 'F');
+      doc.circle(270, 80.4, 2.5, 'F');
   
       // Tabla Horas parte 2
       doc.autoTable({
         theme: 'grid',
         headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center',lineWidth: 0.13, lineColor:[129,129,140]},
         bodyStyles: {halign: 'center'},
-        startY: 82.5,
+        startY: 83.5,
         margin: {top: 0, left: 151},
         styles: { fontSize: 7},
         columnStyles: {
@@ -286,7 +286,7 @@ export class JspdfService {
       doc.autoTable({
         // theme:'grid',
         headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8, minCellHeigh:7},
-        startY: 115,
+        startY: 116,
         margin: {top: 0, left: 16},
         styles: { fontSize: 7, overflow:'linebreak', cellPadding: 2, minCellHeigh:9},
         columnStyles: {
@@ -327,7 +327,7 @@ export class JspdfService {
       // Proximas Actividades
       doc.autoTable({
         headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8, minCellHeigh :7},
-        startY: 115,
+        startY: 116,
         margin: {top: 0, left: 151},
         styles: { fontSize: 7, overflow:'linebreak', minCellHeigh :9},
         columnStyles: {
@@ -439,26 +439,26 @@ export class JspdfService {
     // tabla de facturacion
     doc.autoTable({
       theme: 'grid',
-      headStyles: {fillColor: [177, 181, 178], textColor: [0, 0, 0], lineWidth: 0.13, lineColor:[129,129,140]},
+      headStyles: {fillColor: [177, 181, 178], textColor: [0, 0, 0], lineWidth: 0.13, lineColor:[129,129,140], halign:'center'},
       startY: 15,
       margin: {top: 15, left: 14},
-      styles: { fontSize: 6, overflow: 'ellipsize', halign:'right'},
+      styles: { fontSize: 6, overflow: 'ellipsize'},
       columnStyles: {
         0: {cellWidth: 102, halign:'left'},
-        1: {cellWidth: 12},
-        2: {cellWidth: 12},
-        3: {cellWidth: 12},
-        4: {cellWidth: 12},
-        5: {cellWidth: 12},
-        6: {cellWidth: 12},
-        7: {cellWidth: 12},
-        8: {cellWidth: 12},
-        9: {cellWidth: 12},
-        10: {cellWidth: 12},
-        11: {cellWidth: 12},
-        12: {cellWidth: 12},
-        13: {cellWidth: 12},
-        14: {cellWidth: 12, fontStyle:'bold'},
+        1: {cellWidth: 12, halign:'right'},
+        2: {cellWidth: 12, halign:'right'},
+        3: {cellWidth: 12, halign:'right'},
+        4: {cellWidth: 12, halign:'right'},
+        5: {cellWidth: 12, halign:'right'},
+        6: {cellWidth: 12, halign:'right'},
+        7: {cellWidth: 12, halign:'right'},
+        8: {cellWidth: 12, halign:'right'},
+        9: {cellWidth: 12, halign:'right'},
+        10: {cellWidth: 12, halign:'right'},
+        11: {cellWidth: 12, halign:'right'},
+        12: {cellWidth: 12, halign:'right'},
+        13: {cellWidth: 12, halign:'right'},
+        14: {cellWidth: 12, fontStyle:'bold', halign:'right'},
       },
       head: [['Requerimiento', '<', this.fecha12,  this.fecha11,  this.fecha10,  this.fecha9, this.fecha8, this.fecha7,
               this.fecha6, this.fecha5, this.fecha4, this.fecha3, this.fecha2, this.fecha1,'Total']],
