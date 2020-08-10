@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-
+import * as moment from 'moment'; 
 // interface jsPDFWithPlugin extends jsPDF {
 //   autotable: (options: UserOptions) => jsPDF;
 // }
@@ -17,17 +17,67 @@ export class JspdfService {
   check = 'data:image/png;base64,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';
 
   calendar = 'data:image/png;base64,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';
-
+  fecha1 = '';
+  fecha2 = '';
+  fecha3 = '';
+  fecha4 = '';
+  fecha5 = '';
+  fecha6 = '';
+  fecha7 = '';
+  fecha8 = '';
+  fecha9 = '';
+  fecha10 = '';
+  fecha11 = '';
+  fecha12 = '';
+  fecha13 = '';
+  fecha14 = '';
+  fecha15 = '';
+  fecha16 = '';
+  fecha17 = '';
+  fecha18 = '';
+  fecha19 = '';
+  fecha20 = '';
+  fecha21 = '';
+  fecha22 = '';
+  fecha23 = '';
+  fecha24 = '';
+  fecha25 = '';
   constructor() {
     
 
   }
 
-  generaPDF(json){
+  generaPDF(json, jsonFact){
     // console.log('jspdf', json);
     // se crear doc
     // let doc = new jsPDF('landscape', 'mm', [480, 846]);
     let doc = new jsPDF('landscape', 'mm', [540, 846]);
+    moment.lang('es');
+    this.fecha1 = moment().format('MM/YY');
+    this.fecha2 = moment().subtract(1, 'months').format('MM/YY');
+    this.fecha3 = moment().subtract(2, 'months').format('MM/YY');
+    this.fecha4 = moment().subtract(3, 'months').format('MM/YY');
+    this.fecha5 = moment().subtract(4, 'months').format('MM/YY');
+    this.fecha6 = moment().subtract(5, 'months').format('MM/YY');
+    this.fecha7 = moment().subtract(6, 'months').format('MM/YY');
+    this.fecha8 = moment().subtract(7, 'months').format('MM/YY');
+    this.fecha9 = moment().subtract(8, 'months').format('MM/YY');
+    this.fecha10 = moment().subtract(9, 'months').format('MM/YY');
+    this.fecha11 = moment().subtract(10, 'months').format('MM/YY');
+    this.fecha12 = moment().subtract(11, 'months').format('MM/YY');
+    this.fecha13 = moment().subtract(12, 'months').format('MM/YY');
+    this.fecha14 = moment().subtract(13, 'months').format('MM/YY');
+    this.fecha15 = moment().subtract(14, 'months').format('MM/YY');
+    this.fecha16 = moment().subtract(15, 'months').format('MM/YY');
+    this.fecha17 = moment().subtract(16, 'months').format('MM/YY');
+    this.fecha18 = moment().subtract(17, 'months').format('MM/YY');
+    this.fecha19 = moment().subtract(18, 'months').format('MM/YY');
+    this.fecha20 = moment().subtract(19, 'months').format('MM/YY');
+    this.fecha21 = moment().subtract(20, 'months').format('MM/YY');
+    this.fecha22 = moment().subtract(21, 'months').format('MM/YY');
+    this.fecha23 = moment().subtract(22, 'months').format('MM/YY');
+    this.fecha24 = moment().subtract(23, 'months').format('MM/YY');
+    this.fecha25 = moment().subtract(24, 'months').format('MM/YY');
 
     // Nota 300 maximo de ancho;
     for (let i = 0; i < json.length; i++) {
@@ -47,7 +97,7 @@ export class JspdfService {
       let tareasArray = [];
       let tareasBody  = [];
       tareasArray = json[i].tareas.slice(json[i].tareas.length - 10);
-      console.log('tareasArray', tareasArray);
+      // console.log('tareasArray', tareasArray);
       for (const tar of tareasArray) {
         const descripcionTarea = tar.descripcionTarea;
         const horasEstimadas = tar.horasEstimadas;
@@ -56,7 +106,6 @@ export class JspdfService {
         tareasBody.push([descripcionTarea, horasEstimadas, fechaInicioPlanificada, fechaFinPlanificada]);
       }
       // console.log('tareasBody', tareasBody);
-      
 
       // Tabla Gantt
       doc.autoTable({
@@ -94,7 +143,7 @@ export class JspdfService {
           ['HH', json[i].horasEstimadas, json[i].horasPlanificadas, json[i].horasIncurridas , json[i].horasFact ],
         ],
       });
-  
+
       // Tabla Horas parte 2
       doc.autoTable({
         theme: 'grid',
@@ -170,7 +219,8 @@ export class JspdfService {
         head: [['SOPORTE', 'Estimado', 'Incurrido', 'Fecha Inicio', 'Fecha Fin']],
         body: [
           ['HH Soporte QA', json[i].estimadoQA, json[i].incurridoQA, this.transform(json[i].inicioQA), this.transform(json[i].finQA)],
-          ['HH Soporte Producción', json[i].estimadoProd,json[i].incurridoProd, this.transform(json[i].inicioProd), this.transform(json[i].finProd)],
+          // tslint:disable-next-line: max-line-length
+          ['HH Soporte Producción', json[i].estimadoProd,json[i].incurridoProd, this.transform(json[i].inicioProd), this.transform(json[i].finProd)]
         ],
       });
 
@@ -180,7 +230,7 @@ export class JspdfService {
         actRealizadaArray = json[i].realizado.slice(json[i].realizado.length - 5);
         // console.log(actRealizadaArray);
       }
-      
+
       // console.log('tareasArray', actRealizadaArray);
       for (const act of actRealizadaArray) {
         const descripcionEvento = act.descripcionDeEvento;
@@ -211,14 +261,14 @@ export class JspdfService {
           }
         },
       });
-  
+
       let actProximaArray = [];
       let actProximaBody  = [];
       if ( json[i].proximo !== undefined){
         actProximaArray = json[i].proximo.slice(json[i].proximo.length - 5);
         // console.log(actProximaArray);
       }
-      
+
       // console.log('tareasArray', actProximaArray);
       for (const act of actProximaArray) {
         const descripcionEvento = act.descripcionDeEvento;
@@ -246,62 +296,128 @@ export class JspdfService {
           }
         },
       });
-      
-  
+
       // Pie
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
       // doc.text(20, 165, 'Copyright © 2020 Accenture All rights reserved.');
       doc.text(20, 185, 'Copyright © 2020 Accenture All rights reserved.');
-  
-      //en curso verde
+
+      // en curso verde
       doc.setDrawColor(0);
       doc.setFillColor(0, 129, 2);
       // doc.circle(70, 164.2, 1.5, 'F');
       doc.circle(70, 184.2, 1.5, 'F');
-  
+
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
       doc.text(72, 185, 'En curso');
-  
-      //Desvio amarillo
+
+      // Desvio amarillo
       doc.setDrawColor(0);
       doc.setFillColor(234, 227, 0);
       doc.circle(85, 184.2, 1.5, 'F');
-  
+
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
       doc.text(87, 185, 'Desvío recupareable sin impacto en el plan');
-  
-      //Desvio rojo
+
+      // Desvio rojo
       doc.setDrawColor(0);
       doc.setFillColor(255, 0, 0);
       doc.circle(132, 184.2, 1.5, 'F');
-  
+
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
       doc.text(134, 185, 'Desvío con impacto en el plan');
-  
-      //detenido gris
+
+      // detenido gris
       doc.setDrawColor(0);
       doc.setFillColor(114, 114, 114);
       doc.circle(166, 184.2, 1.5, 'F');
-  
+
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
       doc.text(168, 185, 'Detenido/Suspendido');
-  
+
       let contador = (i + 1).toString();
-      //numero de pagina
+      // numero de pagina
       doc.setFontSize(6);
       doc.setTextColor(94, 94, 94);
       doc.text(280, 185,contador);
-  
-  
+
       doc.addPage();
 
     }
-    
+
+    let tablaFact = [];
+    // console.log('jsonFact', jsonFact);
+    // for (let i = 0; i < jsonFact.length; i++) {
+    //   console.log(jsonFact[0][i].descripcion);      
+    // }
+    for (const fact of jsonFact[0]) {
+      // console.log(fact.descripcion);
+      let mesesAnt = fact.total13 + fact.total14 + fact.total15 + fact.total16 + fact.total17 +
+                     fact.total18 + fact.total19 + fact.total20 + fact.total21 + fact.total22 +
+                     fact.total23 + fact.total24 + fact.total25;
+      let total = mesesAnt + fact.total12 +
+                  fact.total11 +
+                  fact.total10 +
+                  fact.total9 +
+                  fact.total8 +
+                  fact.total7 +
+                  fact.total6 +
+                  fact.total5 +
+                  fact.total4 +
+                  fact.total3 +
+                  fact.total2 +
+                  fact.total1;
+
+      tablaFact.push([fact.descripcion, mesesAnt,
+                      fact.total12,
+                      fact.total11,
+                      fact.total10,
+                      fact.total9,
+                      fact.total8,
+                      fact.total7,
+                      fact.total6,
+                      fact.total5,
+                      fact.total4,
+                      fact.total3,
+                      fact.total2,
+                      fact.total1,
+                      total]);
+
+    }
+    // console.log('tablaFact', tablaFact);
+    // tabla de facturacion
+    doc.autoTable({
+      theme: 'grid',
+      headStyles: {fillColor: [177, 181, 178], textColor: [0, 0, 0], lineWidth: 0.13, lineColor:[129,129,140]},
+      startY: 15,
+      margin: {top: 15, left: 15},
+      styles: { fontSize: 6, overflow: 'ellipsize', halign:'right'},
+      columnStyles: {
+        0: {cellWidth: 102, halign:'left'},
+        1: {cellWidth: 12},
+        2: {cellWidth: 12},
+        3: {cellWidth: 12},
+        4: {cellWidth: 12},
+        5: {cellWidth: 12},
+        6: {cellWidth: 12},
+        7: {cellWidth: 12},
+        8: {cellWidth: 12},
+        9: {cellWidth: 12},
+        10: {cellWidth: 12},
+        11: {cellWidth: 12},
+        12: {cellWidth: 12},
+        13: {cellWidth: 12},
+        14: {cellWidth: 12, fontStyle:'bold'},
+      },
+      head: [['Requerimiento', '<', this.fecha12,  this.fecha11,  this.fecha10,  this.fecha9, this.fecha8, this.fecha7,
+              this.fecha6, this.fecha5, this.fecha4, this.fecha3, this.fecha2, this.fecha1,'Total']],
+      body: tablaFact
+    });
     // Guardar PDF
     doc.save('Nombre.pdf');
 

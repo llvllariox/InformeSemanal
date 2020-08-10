@@ -114,7 +114,7 @@ export class InformesComponent {
     }
   }
   generaNuevoPDF(){
-    this.pdfService.generaPDF(this.JsonArray);
+    this.pdfService.generaPDF(this.JsonArray, this.tablaFac);
   }
   tablasFac() {
   this.tablaFac = [];
