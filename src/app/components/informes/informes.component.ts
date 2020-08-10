@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { JsonDataService } from 'src/app/services/json-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from '../../services/sweet-alert.service';
-import { Exportador } from '../../common/exportador/Exportador';
-import html2canvas from 'html2canvas';
 import * as moment from 'moment'; // add this 1 of 4
 import Swal from 'sweetalert2';
 import { JspdfService } from '../../services/jspdf.service';
@@ -21,7 +19,6 @@ export class InformesComponent {
   paramSeg = '';
   JsonArray: [] = [];
   icon = '';
-  exportador: Exportador;
   dimensiones = [];
   fecha1 = '';
   fecha2 = '';
@@ -122,78 +119,6 @@ export class InformesComponent {
   tablasFac() {
   this.tablaFac = [];
   this.tablaFac.push(this.JsonArray);
-  }
-
-  async generarPDF() {
-    this.contProgress = 0;
-    let timerInterval;
-    Swal.fire({
-      title: 'Generando PDF...',
-      html: `Generando <b></b>`,
-      timer: this.imagnesDeTareas.length,
-      timerProgressBar: true,
-      onBeforeOpen: () => {
-        Swal.showLoading();
-        timerInterval = setInterval(() => {
-          const content = Swal.getContent();
-          if (content) {
-            const b = content.querySelector('b');
-            if (b) {
-              b.textContent  = `${this.contProgress.toString()} de ${this.JsonArray.length + 1} Hojas` ;
-            }
-          }
-        }, 100);
-      },
-      onClose: () => {
-        clearInterval(timerInterval);
-      }
-    }).then((result) => {
-      if (result.dismiss === Swal.DismissReason.timer) {
-      }
-    });
-
-    // tslint:disable-next-line: prefer-const
-    let imagenes = await this.imagnesDeTareas();
-    this.exportador.exportarPDF(imagenes, this.dimensiones);
-    this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
-
-  }
-
-  async imagnesDeTareas() {
-    const elements: any = document.querySelectorAll('#tareas');
-    // tslint:disable-next-line: prefer-const
-    let imagenes = [];
-
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < elements.length; i++) {
-      try {
-        imagenes.push(await this.generarImagenfromDiv2(elements[i]));
-      } catch (error) {
-        throw error;
-      }
-
-    }
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < elements.length; i++) {
-      this.dimensiones.push({widht: elements[i].clientWidth, height: elements[i].clientHeight});
-    }
-
-    return imagenes;
-  }
-
-  async generarImagenfromDiv2(divElement) {
-    return new Promise((resolve, reject) => {
-      html2canvas(divElement, {scale: 2, width: 1300,
-        height: divElement.clientHeight})
-        .then(canvas => {
-          this.contProgress = this.contProgress + 1;
-          resolve(canvas.toDataURL('image/jpeg'));
-
-        }).catch(error => {
-          reject('error al generar imagen desde div');
-        });
-
-    });
   }
 
   cambiaValor() {
