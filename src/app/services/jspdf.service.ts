@@ -155,7 +155,7 @@ export class JspdfService {
           2: {cellWidth: 20},
           3: {cellWidth: 20},
         },
-        head: [['Tarea', 'Duracion HH', 'Inicio', 'Fin']],
+        head: [['Tarea', 'Duración HH', 'Inicio', 'Fin']],
         body: tareasBody
       });
 
@@ -166,7 +166,7 @@ export class JspdfService {
         bodyStyles: {halign: 'center'},
         startY: 33,
         margin: {top: 0, left: 151},
-        styles: { fontSize: 7},
+        styles: { fontSize: 8},
         columnStyles: {
           0: {cellWidth: 26, fontStyle: 'bold'},
           1: {cellWidth: 26},
@@ -187,7 +187,7 @@ export class JspdfService {
         bodyStyles: {halign: 'center'},
         startY: 45.5,
         margin: {top: 0, left: 151},
-        styles: { fontSize: 7},
+        styles: { fontSize: 8},
         columnStyles: {
           0: {cellWidth: 26, fontStyle: 'bold'},
           1: {cellWidth: 104},
@@ -208,7 +208,7 @@ export class JspdfService {
         bodyStyles: {halign: 'center'},
         startY: 71,
         margin: {top: 0, left: 151},
-        styles: { fontSize: 7},
+        styles: { fontSize: 8},
         columnStyles: {
           0: {cellWidth: 44, fontStyle: 'bold'},
           1: {cellWidth: 43},
@@ -217,7 +217,7 @@ export class JspdfService {
         },
         head: [['PLAN (Gantt)', 'Avance Real',{ content: 'Avance Esperado', colSpan: 2 }]],
         body: [
-          ['%', json[i].avanceReal, json[i].avanceEsperado, ''],
+          ['%', json[i].avanceReal + '%', json[i].avanceEsperado + '%', ''],
         ],
       });
 
@@ -244,13 +244,13 @@ export class JspdfService {
         bodyStyles: {halign: 'center'},
         startY: 83.5,
         margin: {top: 0, left: 151},
-        styles: { fontSize: 7},
+        styles: { fontSize: 8},
         columnStyles: {
           0: {cellWidth: 40, fontStyle: 'bold'},
-          1: {cellWidth: 15},
-          2: {cellWidth: 15},
-          3: {cellWidth: 30},
-          4: {cellWidth: 30},
+          1: {cellWidth: 18},
+          2: {cellWidth: 18},
+          3: {cellWidth: 27},
+          4: {cellWidth: 27},
         },
         head: [['SOPORTE', 'Estimado', 'Incurrido', 'Fecha Inicio', 'Fecha Fin']],
         body: [
@@ -288,7 +288,7 @@ export class JspdfService {
         headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8, minCellHeigh:7},
         startY: 116,
         margin: {top: 0, left: 16},
-        styles: { fontSize: 7, overflow:'linebreak', cellPadding: 2, minCellHeigh:9},
+        styles: { fontSize: 8, overflow:'linebreak', cellPadding: 2, minCellHeigh:9},
         columnStyles: {
           0: {cellWidth: 130, cellPadding:{top:2, bottom: 2, left:5}},
         },
@@ -329,11 +329,11 @@ export class JspdfService {
         headStyles: {fillColor: [24, 141, 252], textColor: [255, 255, 255], halign: 'center',fontSize:8, minCellHeigh :7},
         startY: 116,
         margin: {top: 0, left: 151},
-        styles: { fontSize: 7, overflow:'linebreak', minCellHeigh :9},
+        styles: { fontSize: 8, overflow:'linebreak', minCellHeigh :9},
         columnStyles: {
           0: {cellWidth: 130,cellPadding:{top:2, bottom: 2, left:5}},
         },
-        head: [['Proximas Actividades']],
+        head: [['Próximas Actividades']],
         body: actProximaBody,
         didDrawCell: (data) => {
           if (data.section === 'body' && data.column.index === 0) {
@@ -401,6 +401,24 @@ export class JspdfService {
     // for (let i = 0; i < jsonFact.length; i++) {
     //   console.log(jsonFact[0][i].descripcion);      
     // }
+
+    doc.setLineWidth(0.5);
+    doc.setDrawColor(255, 0, 0);
+    doc.line(15, 30, 282, 30);
+
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(20);
+    doc.text(20, 20, `Horas Facturadas ${this.segmento}`);
+
+    // Logo TBK
+    doc.addImage(this.logoTBK, 'jpg', 215, 8, 65, 14);
+
+    // Linea Roja Horizontal
+    // donde parte, altura inicio, ancho linea, alturo fin
+    doc.setLineWidth(0.5);
+    doc.setDrawColor(255, 0, 0);
+    doc.line(15, 30, 282, 30);
+
     for (const fact of jsonFact[0]) {
       // console.log(fact.descripcion);
       let mesesAnt = fact.total13 + fact.total14 + fact.total15 + fact.total16 + fact.total17 +
@@ -440,11 +458,11 @@ export class JspdfService {
     doc.autoTable({
       theme: 'grid',
       headStyles: {fillColor: [177, 181, 178], textColor: [0, 0, 0], lineWidth: 0.13, lineColor:[129,129,140], halign:'center'},
-      startY: 15,
-      margin: {top: 15, left: 14},
+      startY: 33,
+      margin: {top: 20, left: 16},
       styles: { fontSize: 6, overflow: 'ellipsize'},
       columnStyles: {
-        0: {cellWidth: 102, halign:'left'},
+        0: {cellWidth: 97, halign:'left'},
         1: {cellWidth: 12, halign:'right'},
         2: {cellWidth: 12, halign:'right'},
         3: {cellWidth: 12, halign:'right'},
