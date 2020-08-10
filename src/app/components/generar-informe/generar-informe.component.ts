@@ -23,7 +23,7 @@ export class GenerarInformeComponent implements OnInit {
 
   // tslint:disable-next-line: max-line-length
   constructor(private formBuilder: FormBuilder, private jsonDataService: JsonDataService, private sweetAlerService: SweetAlertService, private router: Router
-    , jspdfService: JspdfService) {
+            , private jspdfService: JspdfService) {
 
     this.jsonDataService.jsonDataReqService = null;
     this.jsonDataService.jsonDataEveService = null;
@@ -307,6 +307,7 @@ validarTipo(event){
     } else {
 
         this.jsonDataService.fechaInformes = this.forma.value.fecha;
+        this.jspdfService.fechaInformes = this.forma.value.fecha;
 
         // if (this.jsonDataFac == null) {
         //   this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');

@@ -92,19 +92,22 @@ export class InformesComponent {
       this.route.params.subscribe(params => {
         this.paramSeg = params['segmento'];
         if (this.paramSeg === 'BO') {
-          this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backoffice', this.jsonDataService.fechaInformes);
+          // this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backoffice', this.jsonDataService.fechaInformes);
+          this.pdfService.segmento =  'Segmento Backoffice';
           this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
             return a.area === 'Segmento Backoffice';
           });
           this.tablasFac();
         } else if (this.paramSeg === 'BE') {
-          this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend', this.jsonDataService.fechaInformes);
+          // this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend', this.jsonDataService.fechaInformes);
+          this.pdfService.segmento =  'Segmento Backend';
           this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
             return a.area === 'Segmento Backend' || a.area === 'Nuevo Backend Crédito';
           });
           this.tablasFac();
         } else {
-          this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Plataforma de Integración', this.jsonDataService.fechaInformes);
+          // this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Plataforma de Integración', this.jsonDataService.fechaInformes);
+          this.pdfService.segmento =  'Plataforma de Integración';
           this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
             return a.area === 'Plataforma de Integración';
           });

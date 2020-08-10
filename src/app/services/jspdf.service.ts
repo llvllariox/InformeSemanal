@@ -42,6 +42,14 @@ export class JspdfService {
   fecha23 = '';
   fecha24 = '';
   fecha25 = '';
+  pathUltimaPagina: string = '../../assets/images/generacionPPT/Slide13.PNG';
+  pathPrimeraPagina: string = '../../assets/images/generacionPPT/slide-1-accn.png';
+  segmento = '';
+  fechaInformes: string;
+  tituloPresentacion = 'Servicio de Mantenimiento de \nDesarrollo de Aplicaciones para Transbank \nInforme semanal';
+
+  // pathUltimaPagina: string = '/assets/images/generacionPPT/Slide13.PNG';
+  // pathPrimeraPagina: string = '/assets/images/generacionPPT/slide-1-accn.png';
   constructor() {
     
 
@@ -51,6 +59,8 @@ export class JspdfService {
     // console.log('jspdf', json);
     // se crear doc
     // let doc = new jsPDF('landscape', 'mm', [480, 846]);
+    console.log(this.segmento);
+    console.log(this.fechaInformes);
     let doc = new jsPDF('landscape', 'mm', [540, 846]);
     moment.lang('es');
     this.fecha1 = moment().format('MM/YY');
@@ -79,9 +89,30 @@ export class JspdfService {
     this.fecha24 = moment().subtract(23, 'months').format('MM/YY');
     this.fecha25 = moment().subtract(24, 'months').format('MM/YY');
 
+    // Portada
+    let portada = new Image();
+    portada.src = this.pathPrimeraPagina;
+    doc.addImage(portada, 'JPEG', 0, 0,300,191);
+    const offcetHeigth = 55;
+    const offcetWidth = 10;
+    const tituloInforme = `${this.tituloPresentacion}  ${this.segmento}`;
+    doc.setFontSize(32);
+    doc.setFontType('bold');
+    doc.setTextColor(255, 255, 255);
+    doc.text(0.69 + offcetWidth, 1.46 + offcetHeigth, tituloInforme);
+
+    const offcetHeigthFecha = 90;
+    const offcetWidthFecha = 10;
+    let fechaFormat = moment(this.fechaInformes).format('DD-MM-YYYY');
+    doc.setFontSize(20);
+    doc.setFontType('normal');
+    doc.setTextColor(255, 255, 255);
+    doc.text(0.69 + offcetWidthFecha, 3.39 + offcetHeigthFecha, fechaFormat);
+
     // Nota 300 maximo de ancho;
     for (let i = 0; i < json.length; i++) {
-        // Titulo ARS
+      doc.addPage();  
+      // Titulo ARS
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(20);
       doc.text(20, 16, json[i].descripcion, {maxWidth: 190});
@@ -131,7 +162,7 @@ export class JspdfService {
       // Tabla Horas parte 1
       doc.autoTable({
         theme: 'grid',
-        headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
+        headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center',lineWidth: 0.13, lineColor:[129,129,140]},
         bodyStyles: {halign: 'center'},
         startY: 32,
         margin: {top: 0, left: 151},
@@ -173,7 +204,7 @@ export class JspdfService {
       // Tabla Horas parte 2
       doc.autoTable({
         theme: 'grid',
-        headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
+        headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center',lineWidth: 0.13, lineColor:[129,129,140]},
         bodyStyles: {halign: 'center'},
         startY: 70,
         margin: {top: 0, left: 151},
@@ -209,7 +240,7 @@ export class JspdfService {
       // Tabla Horas parte 2
       doc.autoTable({
         theme: 'grid',
-        headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
+        headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center',lineWidth: 0.13, lineColor:[129,129,140]},
         bodyStyles: {halign: 'center'},
         startY: 82.5,
         margin: {top: 0, left: 151},
@@ -361,10 +392,10 @@ export class JspdfService {
       doc.setTextColor(94, 94, 94);
       doc.text(280, 185,contador);
 
-      doc.addPage();
+
 
     }
-
+    doc.addPage();
     let tablaFact = [];
     // console.log('jsonFact', jsonFact);
     // for (let i = 0; i < jsonFact.length; i++) {
@@ -410,7 +441,7 @@ export class JspdfService {
       theme: 'grid',
       headStyles: {fillColor: [177, 181, 178], textColor: [0, 0, 0], lineWidth: 0.13, lineColor:[129,129,140]},
       startY: 15,
-      margin: {top: 15, left: 15},
+      margin: {top: 15, left: 14},
       styles: { fontSize: 6, overflow: 'ellipsize', halign:'right'},
       columnStyles: {
         0: {cellWidth: 102, halign:'left'},
@@ -433,8 +464,14 @@ export class JspdfService {
               this.fecha6, this.fecha5, this.fecha4, this.fecha3, this.fecha2, this.fecha1,'Total']],
       body: tablaFact
     });
+
+    // Ultima Pagina
+    doc.addPage();
+    let paginaFinal = new Image();
+    paginaFinal.src = this.pathUltimaPagina;
+    doc.addImage(paginaFinal, 'JPEG', 0, 0,300,191);
     // Guardar PDF
-    doc.save('Nombre.pdf');
+    doc.save(`Informe Semanal Evolutivo - ${this.segmento} - ${fechaFormat}.pdf`);
 
 
   }
@@ -457,12 +494,12 @@ export class JspdfService {
              newFecha = `${DIA}/0${MES + 1}/${ANO}`;
           } else {
             newFecha = `${DIA}/${MES + 1}/${ANO}`;
-  
+
           }
           return newFecha;
         }
       }
       return 'TBD';
     }
-  
+
 }
