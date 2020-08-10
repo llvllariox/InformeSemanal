@@ -114,7 +114,9 @@ export class InformesComponent {
     }
   }
   generaNuevoPDF(){
-    this.pdfService.generaPDF(this.JsonArray, this.tablaFac);
+    this.pdfService.generaPDF(this.JsonArray, this.tablaFac).then(resp => {
+      this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
+    });
   }
   tablasFac() {
   this.tablaFac = [];

@@ -55,7 +55,7 @@ export class JspdfService {
 
   }
 
-  generaPDF(json, jsonFact){
+  async generaPDF(json, jsonFact){
     // console.log('jspdf', json);
     // se crear doc
     // let doc = new jsPDF('landscape', 'mm', [480, 846]);
@@ -471,7 +471,8 @@ export class JspdfService {
     paginaFinal.src = this.pathUltimaPagina;
     doc.addImage(paginaFinal, 'JPEG', 0, 0,300,191);
     // Guardar PDF
-    doc.save(`Informe Semanal Evolutivo - ${this.segmento} - ${fechaFormat}.pdf`);
+    await doc.save(`Informe Semanal Evolutivo - ${this.segmento} - ${fechaFormat}.pdf`, {returnPromise: true});
+   
 
 
   }
