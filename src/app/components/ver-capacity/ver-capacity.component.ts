@@ -84,7 +84,7 @@ export class VerCapacityComponent implements OnInit {
     const data = [
       ['FTE Comprometido', 49.50, 49.50],
       ['Total Capacity Mes Comprometido', 8910.00,  8910.00],
-      ['Evolutivos', this.capacityService.totalMes + this.Reservavalor1,  this.capacityService.totalMes2 + this.Reservavalor2],
+      ['Evolutivos', this.capacityService.totalMes1 + this.Reservavalor1,  this.capacityService.totalMes2 + this.Reservavalor2],
       ['   En ejecución	', this.capacityService.totalMes1, this.capacityService.totalMes2],
       ['   Reservado	', this.Reservavalor1, this.Reservavalor2],
       ['Mantención y Centro de Compentencia', this.Mttovalor1 + this.Mttovalor2, this.Mttovalor3 + this.Mttovalor4],
