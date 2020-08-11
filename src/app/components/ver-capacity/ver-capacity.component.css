@@ -27,3 +27,7 @@ tr:hover {
 .danger {
     color: red !important;
 }
+
+input[type="text"][disabled] {
+    color: black;
+}

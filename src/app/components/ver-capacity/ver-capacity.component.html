@@ -37,14 +37,14 @@
                     </tr>
                     <tr class="" style="background-color: rgb(255, 255, 255)">
                         <td class="small text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">&nbsp; &nbsp;En ejecución</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="capacityService.totalMes1" class="text-right" pattern="" type="text" style="border: 0px;"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="capacityService.totalMes1" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                         <!-- <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{capacityService.totalMes|number:'1.2'}}</td> -->
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="capacityService.totalMes2" class="text-right" pattern="" type="text" style="border: 0px;"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="capacityService.totalMes2" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                     </tr>
                     <tr class="" style="background-color: rgb(255, 255, 255)">
                         <td class="small text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">&nbsp; &nbsp;Reservado</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Reservavalor1" class="text-right" pattern="" type="text" style="border: 0px;"></td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Reservavalor2" class="text-right" pattern="" type="text" style="border: 0px;"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Reservavalor1" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Reservavalor2" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                     </tr>
                     <tr class="" style="background-color: rgb(180, 198, 231)">
                         <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Mantención y Centro de Compentencia</td>
@@ -53,13 +53,13 @@
                     </tr>
                     <tr class="" style="background-color: rgb(255, 255, 255)">
                         <td class="small text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">&nbsp; &nbsp;Mantención y Centro de Compentencia + BUC</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotal()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor1" class="text-right" pattern="" type="text" style="border: 0px;"></td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor3" class="text-right" pattern="" type="text" style="border: 0px;"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotal()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor1" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor3" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                     </tr>
                     <tr class="" style="background-color: rgb(255, 255, 255)">
                         <td class="small text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">&nbsp; &nbsp;Mantención Backend</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotal()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor2" class="text-right" pattern="" type="text" style="border: 0px;"></td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor4" class="text-right" pattern="" type="text" style="border: 0px;"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotal()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor2" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor4" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                     </tr>
                     <tr class="" style="background-color: rgb(180, 198, 231)">
                         <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Capacity disponible SWF</td>
@@ -93,8 +93,8 @@
                     <tr *ngFor="let CS of capacityService.jsonDataPlanServiceCS; let i = index" class="" style="background-color: rgb(255, 255, 255)">
                         <td *ngIf="mostrarVal" class="small text-center puntero text-danger" scope="col" style="width: 20px" (click)="eliminarCS(i)" id="Col2">X</td>
                         <td class="small text-dark text-left" scope="col" style="width: 350px;text-overflow: ellipsis;">{{CS.descripcion}}</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;"><input (keyup)="cambiarTotalCS()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="CS.mes1.totalMes1" class="text-right" pattern="" type="text" style="border: 0px;"></td>
-                        <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;"><input (keyup)="cambiarTotalCS()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="CS.mes2.totalMes2" class="text-right" pattern="" type="text" style="border: 0px;"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;"><input (keyup)="cambiarTotalCS()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="CS.mes1.totalMes1" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;"><input (keyup)="cambiarTotalCS()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="CS.mes2.totalMes2" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                         <!-- <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;">{{CS.mes1.totalMes1}}</td> -->
                         <!-- <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;">{{CS.mes2.totalMes2}}</td> -->
                     </tr>
