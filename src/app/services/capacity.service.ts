@@ -102,6 +102,7 @@ export class CapacityService {
     this.ordenarPorARSCS();
     this.filtrarCS();
     this.totalEjecucion();
+    this.totalEjecucionCS();
     this.totalporDia();
     this.capacidadDisponible();
     this.totCapacidadDisponible();
@@ -298,12 +299,17 @@ export class CapacityService {
       // se recorren los arreglos para ir sumando todas las horas y asi obtener el total de todo el mes1 y mes 2;
       this.totalMes1 = 0;
       this.totalMes2 = 0;
-      this.totalMes1CS = 0;
-      this.totalMes2CS = 0;
       for (let plan of this.jsonDataPlanService) {
         this.totalMes1 = this.totalMes1 + plan.mes1.totalMes1;
         this.totalMes2 = this.totalMes2 + plan.mes2.totalMes2;
       }
+
+    }
+
+    totalEjecucionCS(){
+      // se recorren los arreglos para ir sumando todas las horas y asi obtener el total de todo el mes1 y mes 2;
+      this.totalMes1CS = 0;
+      this.totalMes2CS = 0;
 
       for (let planCS of this.jsonDataPlanServiceCS) {
         this.totalMes1CS = this.totalMes1CS + planCS.mes1.totalMes1;

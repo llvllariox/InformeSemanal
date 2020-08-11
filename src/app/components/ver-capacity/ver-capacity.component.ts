@@ -69,7 +69,7 @@ export class VerCapacityComponent implements OnInit {
   }
   cambiarTotalCS(){
     // Si se cambian valores de CS se recalcula el total
-    this.capacityService.totalEjecucion();
+    this.capacityService.totalEjecucionCS();
   }
 
   cambiaValor() {
