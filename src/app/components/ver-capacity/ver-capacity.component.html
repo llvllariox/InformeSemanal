@@ -4,8 +4,8 @@
     </div>
     <div class="row mt-2">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" (click)="cambiaValor()">
-            <label class="form-check-label" for="defaultCheck1">Ocultar Edicion</label>
+            <input [ngClass]="{'border-0': !mostrarVal,'d-none': !mostrarVal}" class="form-check-input" type="checkbox" value="" id="defaultCheck1" (click)="cambiaValor()">
+            <label [ngClass]="{'text-white': !mostrarVal}" class="form-check-label" for="defaultCheck1">Ocultar Edicion</label>
         </div>
     </div>
 
