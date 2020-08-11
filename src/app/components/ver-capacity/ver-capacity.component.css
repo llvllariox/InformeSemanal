@@ -23,3 +23,7 @@ tr:hover {
     border-radius: 5px !important; */
     /* text-decoration-color: crimson; */
 }
+
+.danger {
+    color: red !important;
+}
