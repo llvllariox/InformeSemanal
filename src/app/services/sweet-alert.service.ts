@@ -43,6 +43,19 @@ export class SweetAlertService {
 
   }
 
+  mensajeEsperar2() {
+
+    return Swal.fire({
+      allowOutsideClick: false,
+      text: 'Espere por favor...',
+      icon: 'info',
+      timer: 500,
+      showCancelButton: false,
+      showConfirmButton: false
+    });
+
+  }
+
   mensajeConfirmacion(titulo: string , texto: string ) {
     return  Swal.fire({
       title: titulo,

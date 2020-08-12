@@ -12,6 +12,7 @@ export class FeriadosChileService {
   // Se llama al servicio de feriados mediante JsonP
   obtenerProductos(anno: number, mes: number) {
     const url = `https://apis.digital.gob.cl/fl/feriados/${anno}/${mes}`;
+    console.log(url);
     return this.http.jsonp(url, 'callback').pipe(
       map((resp: any) => {
         return resp;

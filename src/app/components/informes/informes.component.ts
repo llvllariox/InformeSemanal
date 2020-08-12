@@ -50,7 +50,7 @@ export class InformesComponent {
   contProgress = 0;
   mostrarVal = true;
 
-  constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService, private pdfService: JspdfService) {
+  constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService, public pdfService: JspdfService) {
     init_customJS();
 
     // tslint:disable-next-line: deprecation
@@ -112,12 +112,19 @@ export class InformesComponent {
         }
       });
     }
+
+    // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+
   }
+
   generaNuevoPDF(){
-    this.pdfService.generaPDF(this.JsonArray, this.tablaFac).then(resp => {
-      this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
+    this.sweetAlerService.mensajeEsperar2().then(resp=>{
+      this.pdfService.generaPDF(this.JsonArray, this.tablaFac).then(resp => {
+        this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
+      });
     });
   }
+
   tablasFac() {
   this.tablaFac = [];
   this.tablaFac.push(this.JsonArray);

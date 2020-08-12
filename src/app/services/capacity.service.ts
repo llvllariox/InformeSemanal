@@ -70,7 +70,7 @@ export class CapacityService {
         this.feriados = resp;
     }, err => {
       console.log(err);
-      this.sweetService.mensajeError('Error al obtener productos', err);
+      this.sweetService.mensajeError('Error al obtener Feriados', err.og.message);
     });
 
    }
