@@ -43,7 +43,7 @@ export class JspdfService {
   fecha24 = '';
   fecha25 = '';
   pathUltimaPagina: string = '../../assets/images/generacionPPT/Slide13.PNG';
-  pathPrimeraPagina: string = '../../assets/images/generacionPPT/slide-1-accn.png';
+  pathPrimeraPagina: string = '../../assets/images/generacionPPT/portada.PNG';
   segmento = '';
   fechaInformes: string;
   tituloPresentacion = 'Servicio de Mantenimiento de \nDesarrollo de Aplicaciones para Transbank \nInforme semanal';
