@@ -207,7 +207,7 @@ export class JspdfService {
         theme: 'grid',
         headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center',lineWidth: 0.13, lineColor:[129,129,140]},
         bodyStyles: {halign: 'center'},
-        startY: 71,
+        startY: 72,
         margin: {top: 0, left: 151},
         styles: { fontSize: 8},
         columnStyles: {
@@ -236,14 +236,14 @@ export class JspdfService {
       // Circulo de Avance
       doc.setDrawColor(0);
       // doc.setFillColor(255, 0, 0);
-      doc.circle(270, 80.4, 2.5, 'F');
+      doc.circle(270, 81.8, 2.5, 'F');
   
       // Tabla Horas parte 2
       doc.autoTable({
         theme: 'grid',
         headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center',lineWidth: 0.13, lineColor:[129,129,140]},
         bodyStyles: {halign: 'center'},
-        startY: 83.5,
+        startY: 85,
         margin: {top: 0, left: 151},
         styles: { fontSize: 8},
         columnStyles: {
