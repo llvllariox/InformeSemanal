@@ -160,7 +160,7 @@ guardar() {
           this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Plan');
           return;
         }
-        this.capacityService.horasMtto = 3780;
+        // this.capacityService.horasMtto = 3780;
         this.capacityService.generarCapacity();
 
         this.sweetAlerService.mensajeOK('Capacity Generado Exitosamente').then(

@@ -15,9 +15,9 @@ export class VerCapacityComponent implements OnInit {
   fecha1;
   fecha2;
   hoy;
-  Mttovalor1 = 2880.00;
+  Mttovalor1 = 2340.00;
   Mttovalor2 = 900.00;
-  Mttovalor3 = 2880.00;
+  Mttovalor3 = 2340.00;
   Mttovalor4 = 900.00;
   Reservavalor1 = 0;
   Reservavalor2 = 0;
@@ -41,7 +41,7 @@ export class VerCapacityComponent implements OnInit {
     this.fecha2 = capitalizeFirstLetter(moment().lang('es').add(1, 'months').format('MMMM-YY'));
     this.dias =  Number(this.finMes.format('DD'));
 
-    this.capacityService.horasMtto = this.Mttovalor1 + this.Mttovalor2;
+    // this.capacityService.horasMtto = this.Mttovalor1 + this.Mttovalor2;
   }
 
   ngOnInit(): void {
@@ -63,9 +63,18 @@ export class VerCapacityComponent implements OnInit {
   }
   cambiarTotal(){
     // Si se cambian valores de manteniemiento se recalculan la capacidad disponible y total de capacidad por dia.
-    this.capacityService.horasMtto = this.Mttovalor1 + this.Mttovalor2;
+    // this.capacityService.horasMtto = this.Mttovalor1 + this.Mttovalor2;
+    this.capacityService.totalHorasMtto1 = this.capacityService.horasMttoBO1 + this.capacityService.horasMttoBE1;
+    // this.capacityService.totalHorasMtto2 =  this.capacityService.horasMttoBO2 + this.capacityService.horasMttoBE2;
     this.capacityService.capacidadDisponible();
     this.capacityService.totCapacidadDisponible();
+
+  }
+
+  cambiarTotal2(){
+    // Si se cambian valores de manteniemiento se recalculan la capacidad disponible y total de capacidad por dia.
+    this.capacityService.totalHorasMtto2 =  this.capacityService.horasMttoBO2 + this.capacityService.horasMttoBE2;
+
   }
   cambiarTotalCS(){
     // Si se cambian valores de CS se recalcula el total
@@ -84,16 +93,17 @@ export class VerCapacityComponent implements OnInit {
     const data = [
       ['FTE Comprometido', 49.50, 49.50],
       ['Total Capacity Mes Comprometido', 8910.00,  8910.00],
-      ['Evolutivos', this.capacityService.totalMes + this.Reservavalor1,  this.capacityService.totalMes2 + this.Reservavalor2],
+      ['Evolutivos', this.capacityService.totalMes1 + this.Reservavalor1,  this.capacityService.totalMes2 + this.Reservavalor2],
       ['   En ejecución	', this.capacityService.totalMes1, this.capacityService.totalMes2],
       ['   Reservado	', this.Reservavalor1, this.Reservavalor2],
-      ['Mantención y Centro de Compentencia', this.Mttovalor1 + this.Mttovalor2, this.Mttovalor3 + this.Mttovalor4],
-      ['   Mantención y Centro de Compentencia + BUC	', this.Mttovalor1 , this.Mttovalor3],
-      ['   Mantención Backend		', this.Mttovalor2 , this.Mttovalor4],
+      // ['Mantención', this.Mttovalor1 + this.Mttovalor2, this.Mttovalor3 + this.Mttovalor4],
+      ['Mantención', this.capacityService.totalHorasMtto1, this.capacityService.totalHorasMtto2],
+      ['   Mantención Backoffice', this.capacityService.horasMttoBO1 , this.capacityService.horasMttoBO2],
+      ['   Mantención Backend		', this.capacityService.horasMttoBE1 , this.capacityService.horasMttoBE2],
       // tslint:disable-next-line: max-line-length
-      ['Capacity disponible SWF	', 8910 - this.capacityService.totalMes1 - (this.Mttovalor1 + this.Mttovalor2), 8910 - this.capacityService.totalMes2 - (this.Mttovalor3 + this.Mttovalor4)],
+      ['Capacity disponible SWF	', 8910 - this.capacityService.totalMes1 - this.capacityService.totalHorasMtto1, 8910 - this.capacityService.totalMes2 - this.capacityService.totalHorasMtto2],
       // tslint:disable-next-line: max-line-length
-      ['Capacity sin asignar SWF', 8910 - (this.capacityService.totalMes1 + this.Reservavalor1) - (this.Mttovalor1 + this.Mttovalor2), 8910 - (this.capacityService.totalMes2 + this.Reservavalor2) - (this.Mttovalor3 + this.Mttovalor4)],
+      ['Capacity sin asignar SWF', 8910 - (this.capacityService.totalMes1 + this.Reservavalor1) - (this.capacityService.totalHorasMtto1), 8910 - (this.capacityService.totalMes2 + this.Reservavalor2) - (this.capacityService.totalHorasMtto2)],
     ];
     // Create workbook and worksheet
     let workbook = new Workbook();

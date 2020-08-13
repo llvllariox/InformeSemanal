@@ -11,6 +11,8 @@ export class CapacityService {
   jsonDataPlanService;
   jsonDataPlanService2;
   jsonDataPlanServiceCS;
+  jsonDataPlanMttoBO;
+  jsonDataPlanMttoBE;
   inicioMes;
   finMes;
   ultDia;
@@ -33,6 +35,12 @@ export class CapacityService {
   totalTotal = 0;
   totalDisponible = 0;
   horasMtto = 0;
+  horasMttoBO1 = 0;
+  horasMttoBO2 = 0;
+  horasMttoBE1 = 0;
+  horasMttoBE2 = 0;
+  totalHorasMtto1 = 0;
+  totalHorasMtto2 = 0;
 
   constructor(private feriadosService: FeriadosChileService, private sweetService: SweetAlertService) {
 
@@ -100,6 +108,7 @@ export class CapacityService {
     this.CSlineaBase();
     this.totalesMes();
     this.ordenarPorARSCS();
+    this.filtrarMantenimiento();
     this.filtrarCS();
     this.totalEjecucion();
     this.totalEjecucionCS();
@@ -108,6 +117,7 @@ export class CapacityService {
     this.totCapacidadDisponible();
     this.filtrarSoloMes2();
     this.filtrarSoloMes1();
+    
     console.log('ulitmo', this.jsonDataPlanService);
     console.log('ulitmoCS', this.jsonDataPlanServiceCS);
 
@@ -275,6 +285,36 @@ export class CapacityService {
 
     }
 
+    filtrarMantenimiento(){
+
+      let jsonDataMttoBO = [...this.jsonDataPlanService];
+      this.jsonDataPlanMttoBO = jsonDataMttoBO.filter(a => {
+        return a.numeroArs === 2747;
+      });
+
+      console.log('jsonDataPlanMttoBO', this.jsonDataPlanMttoBO);
+
+      let jsonDataMttoBE = [...this.jsonDataPlanService];
+      this.jsonDataPlanMttoBE = jsonDataMttoBE.filter(a => {
+        return a.numeroArs === 2749;
+      });
+      console.log('jsonDataPlanMttoBE', this.jsonDataPlanMttoBE);
+
+      this.horasMttoBO1 = this.jsonDataPlanMttoBO[0].mes1.totalMes1 * 9;
+      this.horasMttoBO2 = this.jsonDataPlanMttoBO[0].mes2.totalMes2 * 9;
+      this.horasMttoBE1 = this.jsonDataPlanMttoBE[0].mes1.totalMes1 * 9;
+      this.horasMttoBE2 = this.jsonDataPlanMttoBE[0].mes2.totalMes2 * 9;
+
+      this.totalHorasMtto1 = this.horasMttoBO1 + this.horasMttoBE1;
+      this.totalHorasMtto2 =  this.horasMttoBO2 + this.horasMttoBE2;
+
+      console.log(this.horasMttoBO1);
+      console.log(this.horasMttoBO2);
+      console.log(this.horasMttoBE1);
+      console.log(this.horasMttoBE2);
+
+    }
+
     filtrarCS(){
       // se mantienen solo los registros que son Evolutivo Mayor o Asesoramiento y Consulta
       this.jsonDataPlanService = this.jsonDataPlanService.filter(a => {
@@ -368,9 +408,9 @@ export class CapacityService {
           cantDiasHabiles = cantDiasHabiles + 1;
         }
       }
-
+      // console.log(this.totalHorasMtto1);
     // se calcula horas por dia disponibles
-      let HHporDias = (8910 -  this.horasMtto) / cantDiasHabiles;
+      let HHporDias = (8910 -  this.totalHorasMtto1) / cantDiasHabiles;
       let difHH = (HHporDias - Math.round(HHporDias)) * cantDiasHabiles;
 
       // se recorre arreglo de capacidad para ir agregando la cantidad de horar por dia redondeada

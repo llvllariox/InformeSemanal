@@ -47,29 +47,29 @@
                         <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Reservavalor2" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                     </tr>
                     <tr class="" style="background-color: rgb(180, 198, 231)">
-                        <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Mantención y Centro de Compentencia</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{(Mttovalor1 + Mttovalor2)|number:'1.2'}}</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{(Mttovalor3 + Mttovalor4)|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Mantención</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{(capacityService.totalHorasMtto1)|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{(capacityService.totalHorasMtto2)|number:'1.2'}}</td>
                     </tr>
                     <tr class="" style="background-color: rgb(255, 255, 255)">
-                        <td class="small text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">&nbsp; &nbsp;Mantención y Centro de Compentencia + BUC</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotal()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor1" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor3" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
+                        <td class="small text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">&nbsp; &nbsp;Mantención Backoffice</td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotal()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="capacityService.horasMttoBO1" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotal2()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="capacityService.horasMttoBO2" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                     </tr>
                     <tr class="" style="background-color: rgb(255, 255, 255)">
                         <td class="small text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">&nbsp; &nbsp;Mantención Backend</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotal()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor2" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Mttovalor4" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotal()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="capacityService.horasMttoBE1" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotal2()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="capacityService.horasMttoBE2" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                     </tr>
                     <tr class="" style="background-color: rgb(180, 198, 231)">
                         <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Capacity disponible SWF</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{8910 - capacityService.totalMes1 - (Mttovalor1 + Mttovalor2)|number:'1.2'}}</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{8910 - capacityService.totalMes2 - (Mttovalor3 + Mttovalor4)|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{8910 - capacityService.totalMes1 - (capacityService.totalHorasMtto1)|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{8910 - capacityService.totalMes2 - (capacityService.totalHorasMtto2)|number:'1.2'}}</td>
                     </tr>
                     <tr class="" style="background-color: rgb(180, 198, 231)">
                         <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Capacity sin asignar SWF</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{8910 - (capacityService.totalMes1 + Reservavalor1) - (Mttovalor1 + Mttovalor2)|number:'1.2'}}</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{8910 - (capacityService.totalMes2 + Reservavalor2) - (Mttovalor3 + Mttovalor4)|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{8910 - (capacityService.totalMes1 + Reservavalor1) - (capacityService.totalHorasMtto1)|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{8910 - (capacityService.totalMes2 + Reservavalor2) - (capacityService.totalHorasMtto2)|number:'1.2'}}</td>
                     </tr>
                 </tbody>
             </table>
