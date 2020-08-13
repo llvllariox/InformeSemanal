@@ -227,7 +227,7 @@ export class JspdfService {
       // tslint:disable-next-line: max-line-length
       }else if (json[i].estado !== '03 Suspendido' && json[i].etapa !== 'Detenido' && (json[i].avanceEsperado - json[i].avanceReal > 5) && (json[i].avanceEsperado - json[i].avanceReal <= 10)){
         doc.setFillColor(234, 227, 0);
-      }else if ( json[i].estado !== '03 Suspendido' && json[i].etapa !== 'Detenido' && (json[i].avanceEsperado - json[i].avanceReal > 11)){
+      }else if ( json[i].estado !== '03 Suspendido' && json[i].etapa !== 'Detenido' && (json[i].avanceEsperado - json[i].avanceReal >= 11)){
         doc.setFillColor(255, 0, 0);
       }else if(json[i].estado =='03 Suspendido' || json[i].etapa == 'Detenido'){
         doc.setFillColor(114, 114, 114);
