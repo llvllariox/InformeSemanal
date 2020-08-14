@@ -56,7 +56,6 @@ export class GenerarInformeComponent implements OnInit {
     reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
-      // console.log(workBook);
       if (workBook.SheetNames[3] !== 'Datos Facturación'){
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
         this.jsonDataEve = null;
@@ -64,7 +63,6 @@ export class GenerarInformeComponent implements OnInit {
       }
       this.jsonDataFac = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
-        // console.log(name);
         if (name === 'Datos Facturación'){
           this.formatHeaders(sheet, 'AB1');
         }
@@ -285,9 +283,7 @@ filtrarEve(jsonDataEve: any) {
 validarTipo(event){
 
   let tipo = event.target.files[0].type;
-  // console.log(tipo);
   if (!tipo.includes('sheet')) {
-    // console.log('entro');
     this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo es invalido');
     return false;
   }else{
@@ -309,14 +305,9 @@ validarTipo(event){
         }
       });
     } else {
-        // console.log(this.forma.value.fecha);
         this.jsonDataService.fechaInformes = this.forma.value.fecha;
         this.jspdfService.fechaInformes = this.forma.value.fecha;
 
-        // if (this.jsonDataFac == null) {
-        //   this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
-        //   return;
-        // }
         if (this.jsonDataFac == null) {
           this.jsonDataService.conFact = false;
         } else {

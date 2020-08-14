@@ -292,13 +292,10 @@ export class CapacityService {
         return a.numeroArs === 2747;
       });
 
-      console.log('jsonDataPlanMttoBO', this.jsonDataPlanMttoBO);
-
       let jsonDataMttoBE = [...this.jsonDataPlanService];
       this.jsonDataPlanMttoBE = jsonDataMttoBE.filter(a => {
         return a.numeroArs === 2749;
       });
-      console.log('jsonDataPlanMttoBE', this.jsonDataPlanMttoBE);
 
       this.horasMttoBO1 = this.jsonDataPlanMttoBO[0].mes1.totalMes1 * 9;
       this.horasMttoBO2 = this.jsonDataPlanMttoBO[0].mes2.totalMes2 * 9;
@@ -307,11 +304,6 @@ export class CapacityService {
 
       this.totalHorasMtto1 = this.horasMttoBO1 + this.horasMttoBE1;
       this.totalHorasMtto2 =  this.horasMttoBO2 + this.horasMttoBE2;
-
-      console.log(this.horasMttoBO1);
-      console.log(this.horasMttoBO2);
-      console.log(this.horasMttoBE1);
-      console.log(this.horasMttoBE2);
 
     }
 
@@ -408,7 +400,6 @@ export class CapacityService {
           cantDiasHabiles = cantDiasHabiles + 1;
         }
       }
-      // console.log(this.totalHorasMtto1);
     // se calcula horas por dia disponibles
       let HHporDias = (8910 -  this.totalHorasMtto1) / cantDiasHabiles;
       let difHH = (HHporDias - Math.round(HHporDias)) * cantDiasHabiles;
@@ -458,6 +449,5 @@ export class CapacityService {
       this.jsonDataPlanService2 = jsonData2.filter(a => {
         return a.mes2.totalMes2 > 0;
       });
-      console.log('mes2',  this.jsonDataPlanService2);
     }
 }

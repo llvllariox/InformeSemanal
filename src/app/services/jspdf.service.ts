@@ -57,11 +57,6 @@ export class JspdfService {
 
   generaPDF(json, jsonFact){
     return new Promise((resolve, reject) => {
-    // console.log('jspdf', json);
-    // se crear doc
-    // let doc = new jsPDF('landscape', 'mm', [480, 846]);
-    // console.log(this.segmento);
-    // console.log(this.fechaInformes);
     let doc = new jsPDF('landscape', 'mm', [540, 846]);
     moment.lang('es');
     this.fecha1 = moment().format('MM/YY');
@@ -134,7 +129,6 @@ export class JspdfService {
         tareasArray = json[i].tareas;
       }
 
-      // console.log('tareasArray', tareasArray);
       for (const tar of tareasArray) {
         const descripcionTarea = tar.descripcionTarea;
         const horasEstimadas = tar.horasEstimadas;
@@ -142,7 +136,6 @@ export class JspdfService {
         const fechaFinPlanificada = this.transform(tar.fechaFinPlanificada);
         tareasBody.push([descripcionTarea, horasEstimadas, fechaInicioPlanificada, fechaFinPlanificada]);
       }
-      // console.log('tareasBody', tareasBody);
 
       // Tabla Gantt
       doc.autoTable({
@@ -270,10 +263,8 @@ export class JspdfService {
         }else{
           actRealizadaArray = json[i].realizado;
         }
-        // console.log(actRealizadaArray);
       }
 
-      // console.log('tareasArray', actRealizadaArray);
       for (const act of actRealizadaArray) {
         const descripcionEvento = act.descripcionDeEvento.trimEnd();
         actRealizadaBody.push([descripcionEvento]);
@@ -282,7 +273,6 @@ export class JspdfService {
       if(actRealizadaBody.length == 0){
         actRealizadaBody.push(['Sin Actividades']);
       }
-      // console.log(actRealizadaBody);
       // Actividades Realizadas
       doc.autoTable({
         // theme:'grid',
@@ -313,10 +303,8 @@ export class JspdfService {
         }else{
           actProximaArray = json[i].proximo;
         }
-        // console.log(actProximaArray);
       }
 
-      // console.log('tareasArray', actProximaArray);
       for (const act of actProximaArray) {
         const descripcionEvento = act.descripcionDeEvento.trimEnd();
         actProximaBody.push([descripcionEvento]);
@@ -398,10 +386,6 @@ export class JspdfService {
     }
     doc.addPage();
     let tablaFact = [];
-    // console.log('jsonFact', jsonFact);
-    // for (let i = 0; i < jsonFact.length; i++) {
-    //   console.log(jsonFact[0][i].descripcion);      
-    // }
 
     doc.setLineWidth(0.5);
     doc.setDrawColor(255, 0, 0);
@@ -421,7 +405,6 @@ export class JspdfService {
     doc.line(15, 30, 282, 30);
 
     for (const fact of jsonFact[0]) {
-      // console.log(fact.descripcion);
       let mesesAnt = fact.total13 + fact.total14 + fact.total15 + fact.total16 + fact.total17 +
                      fact.total18 + fact.total19 + fact.total20 + fact.total21 + fact.total22 +
                      fact.total23 + fact.total24 + fact.total25;
@@ -454,7 +437,6 @@ export class JspdfService {
                       total]);
 
     }
-    // console.log('tablaFact', tablaFact);
     // tabla de facturacion
     doc.autoTable({
       theme: 'grid',

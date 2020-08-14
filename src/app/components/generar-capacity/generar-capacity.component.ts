@@ -42,7 +42,6 @@ export class GenerarCapacityComponent implements OnInit {
   }
 
   uploadPlan(event) {
-    // console.log(event);
     if (!this.validarTipo(event)){
       return;
     }
@@ -54,7 +53,6 @@ export class GenerarCapacityComponent implements OnInit {
     reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
-      // console.log(workBook);
       if (workBook.SheetNames[0] !== 'Detalle Horas Planificadas'){
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Plan');
         this.jsonDataPlan = null;
@@ -62,7 +60,6 @@ export class GenerarCapacityComponent implements OnInit {
       }
       this.jsonDataPlan = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
-        // console.log(sheet);
         this.formatHeaders(sheet, 'BA1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
@@ -108,31 +105,13 @@ export class GenerarCapacityComponent implements OnInit {
 
 filtrarTar(jsonDataReq: any) {
 
-  // let jsonDataCS = [...jsonDataReq['Detalle Horas Planificadas']];
-  // console.log(jsonDataCS);
-
-  // jsonDataReq['Detalle Horas Planificadas'] = jsonDataReq['Detalle Horas Planificadas'].filter(a => {
-  //   return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Asesoramiento y Consulta';
-  // });
-
-  // jsonDataCS = jsonDataCS.filter(a => {
-  //   return a.lineaDeServicio === 'Capacity Service' &&  a.numeroArs !== 434;
-  // });
-
-  // jsonDataReq['Detalle Tareas'] = jsonDataReq['Detalle Tareas'].filter(a => {
-  //   return a['Tipo Contrato'] === 'Evolutivo';
-  // });
-
   this.capacityService.setjsonDataPlanService(jsonDataReq);
-  // this.capacityService.setjsonDataPlanServiceCS(jsonDataCS);
 
 }
   validarTipo(event){
 
     let tipo = event.target.files[0].type;
-    // console.log(tipo);
     if (!tipo.includes('sheet')) {
-      // console.log('entro');
       this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Plan');
       return false;
     }else{
