@@ -117,7 +117,7 @@ export class CapacityService {
     this.totCapacidadDisponible();
     this.filtrarSoloMes2();
     this.filtrarSoloMes1();
-    
+
     console.log('ulitmo', this.jsonDataPlanService);
     console.log('ulitmoCS', this.jsonDataPlanServiceCS);
 
@@ -157,18 +157,16 @@ export class CapacityService {
   sumaHH(){
     // Se recorre planificacion obteniendo la fecha de planificacion y compararla con las fechas del mes1,
     // si son iguales se agrega la cantidad de horas al mes1.total o al mes2.total segun corresponda.
-    let i = 0;
     for (let plan of this.jsonDataPlanService['Detalle Horas Planificadas']) {
-        let x = 0;
         let fecha = moment(plan.fechaPlanificada).format('DD-MM-YYYY');
         for (const planMes1 of plan.mes1) {
-          if (fecha == planMes1.fecha){
+          if (fecha === planMes1.fecha){
             planMes1.total = plan.horasPlanificadas;
           }
         }
 
         for (const planMes2 of plan.mes2) {
-          if (fecha == planMes2.fecha){
+          if (fecha === planMes2.fecha){
             planMes2.total = plan.horasPlanificadas;
           }
         }
@@ -207,7 +205,7 @@ export class CapacityService {
         }
         i++;
         // Se guarda el ultimo registro ya que se estaba perdiendo
-        if (i == maximo - 1 ){
+        if (i === maximo - 1 ){
           this.planAgrupado.push(planPadre);
         }
       }
@@ -380,14 +378,14 @@ export class CapacityService {
       // se recorre arreglo de capacidad para ir detectanto si es sabado  o domingo y marcar el dia como no habil.
       for (let dia of this.capacidadporDia) {
         let diaS = Number(moment(dia.fecha).day());
-        if (diaS == 0 || diaS == 6){
+        if (diaS === 0 || diaS === 6){
             dia.habil = false;
         }
       }
       // se recorre arreglo de capadidad para ir detectando si es feriado y marcar dia como no habil.
       for (let dia of this.capacidadporDia) {
         for (const feriado of this.feriados) {
-            if (dia.fecha == feriado.fecha){
+            if (dia.fecha === feriado.fecha){
                 dia.habil = false;
             }
         }

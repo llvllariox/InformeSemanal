@@ -320,7 +320,7 @@ export class JsonDataService {
 
   groupReqOrigen() {
 
-    let Reqpadre:any = [];
+    let Reqpadre: any = [];
     let ultEtapa = '';
     let ultLD = '';
     let ultPM = '';
@@ -519,7 +519,7 @@ export class JsonDataService {
 
   facSumarMA() {
   // se suman todas las facturaciones por MA;
-    let facpadre:any = [];
+    let facpadre: any = [];
 
     // tslint:disable-next-line: prefer-const
     for (let fac of this.jsonDataFacService['Datos Facturación']) {

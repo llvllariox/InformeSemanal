@@ -78,7 +78,7 @@ export class VerCapacityComponent implements OnInit {
   }
   cambiarTotalCS(){
     // Si se cambian valores de CS se recalcula el total
-    this.capacityService.totalEjecucion();
+    this.capacityService.totalEjecucionCS();
   }
 
   cambiaValor() {
@@ -231,7 +231,7 @@ export class VerCapacityComponent implements OnInit {
     totalRowCS.getCell(3).font = {bold: true};
 
     // Se crear segunda hoja para el detalle de horas
-    let worksheet2 = workbook.addWorksheet('Horas');
+    let worksheet2 = workbook.addWorksheet(`Detalle ${this.fecha1}`);
 
     // se crea arreglo para las cabeceras
     let headerHH = [
