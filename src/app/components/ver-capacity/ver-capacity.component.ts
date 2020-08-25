@@ -26,6 +26,8 @@ export class VerCapacityComponent implements OnInit {
   finMes;
   dias;
   mostrarVal = true;
+  mostrarVal2 = true;
+  textoVar = 'Detalle';
 
   constructor(public capacityService: CapacityService) {
     init_customJS();
@@ -83,6 +85,15 @@ export class VerCapacityComponent implements OnInit {
 
   cambiaValor() {
     this.mostrarVal = !this.mostrarVal;
+  }
+  cambiaValor2() {
+    this.mostrarVal2 = !this.mostrarVal2;
+
+    if (!this.mostrarVal2){
+      this.textoVar = 'Resumen';
+    } else {
+      this.textoVar = 'Detalle';
+    }
   }
 
   generateExcel() {
