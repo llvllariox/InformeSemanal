@@ -31,6 +31,7 @@ export class CapacityService {
   totalDia = [];
   feriados = [];
   capacidadporDia = [];
+  capacidadporDia2 = [];
   TotalcapacidadporDia = [];
   totalTotal = 0;
   totalDisponible = 0;
@@ -41,6 +42,10 @@ export class CapacityService {
   horasMttoBE2 = 0;
   totalHorasMtto1 = 0;
   totalHorasMtto2 = 0;
+  totalDiasMes1 = 0;
+  totalDiasMes2 = 0;
+  cantDiasHabiles = 0;
+  cantDiasHabiles2 = 0;
 
   constructor(private feriadosService: FeriadosChileService, private sweetService: SweetAlertService) {
 
@@ -105,6 +110,7 @@ export class CapacityService {
     this.sumaHH();
     this.ordenarPorARS();
     this.agruparARS();
+    this.obtieneDiasHabiles();
     this.CSlineaBase();
     this.totalesMes();
     this.ordenarPorARSCS();
@@ -236,6 +242,71 @@ export class CapacityService {
       }
     }
 
+    obtieneDiasHabiles(){
+
+      this.capacidadporDia = [];
+      this.capacidadporDia2 = [];
+      this.totalDisponible = 0;
+      for (const dia of this.dias) {
+        // let diaN = `dia${x + 1}`;
+        let diaF = moment(dia.diaN).format('YYYY-MM-DD');
+        this.capacidadporDia.push({'fecha' : diaF, 'total': 0, 'habil': true});
+
+      }
+      for (const dia of this.dias2) {
+        // let diaN = `dia${x + 1}`;
+        let diaF = moment(dia.diaN2).format('YYYY-MM-DD');
+        this.capacidadporDia2.push({'fecha' : diaF, 'total': 0, 'habil': true});
+
+      }
+
+      // se recorre arreglo de capacidad para ir detectanto si es sabado  o domingo y marcar el dia como no habil.
+      for (let dia of this.capacidadporDia) {
+        let diaS = Number(moment(dia.fecha).day());
+        if (diaS === 0 || diaS === 6){
+            dia.habil = false;
+        }
+      }
+      for (let dia of this.capacidadporDia2) {
+        let diaS = Number(moment(dia.fecha).day());
+        if (diaS === 0 || diaS === 6){
+            dia.habil = false;
+        }
+      }
+      // se recorre arreglo de capadidad para ir detectando si es feriado y marcar dia como no habil.
+      for (let dia of this.capacidadporDia) {
+        for (const feriado of this.feriados) {
+            if (dia.fecha === feriado.fecha){
+                dia.habil = false;
+            }
+        }
+      }
+      for (let dia of this.capacidadporDia2) {
+        for (const feriado of this.feriados) {
+            if (dia.fecha === feriado.fecha){
+                dia.habil = false;
+            }
+        }
+      }
+
+      // se recorre arreglo para contar cuantos dias quedaron como habiles
+      this.cantDiasHabiles = 0;
+      for (const dia of this.capacidadporDia) {
+        if (dia.habil){
+          this.cantDiasHabiles = this.cantDiasHabiles + 1;
+        }
+      }
+
+      this.cantDiasHabiles2 = 0;
+      for (const dia of this.capacidadporDia2) {
+        if (dia.habil){
+          this.cantDiasHabiles2 = this.cantDiasHabiles2 + 1;
+        }
+      }
+      // console.log( this.cantDiasHabiles);
+      // console.log( this.cantDiasHabiles2);
+    }
+
     CSlineaBase(){
       // Se recorre planificaciones identificando las descripciones que comienzan con CS (Capacity Service),
       // Si con comienzan con CS se saca la diferencia entre 180hrs y lo planificado, para luego descontar/sumar del ultimo dia planificado.
@@ -247,9 +318,6 @@ export class CapacityService {
             for (const planMes1 of plan.mes1) {
               totalMes1 = totalMes1 + planMes1.total;
             }
-            for (const planMes2 of plan.mes2) {
-              totalMes2 = totalMes2 + planMes2.total;
-            }
 
             if (totalMes1 > 180 && totalMes1 > 0) {
               let ultDia = plan.mes1.length;
@@ -258,11 +326,15 @@ export class CapacityService {
 
             }
 
-            if (totalMes1 < 180 && totalMes1 > 0) {
+            if (totalMes1 < 180 && totalMes1 > 0 && totalMes1 > (this.cantDiasHabiles * 9)) {
               let ultDia = plan.mes1.length;
               let dif = 180 - totalMes1;
               plan.mes1[ultDia - 1].total =  plan.mes1[ultDia - 1].total + dif;
 
+            }
+
+            for (const planMes2 of plan.mes2) {
+              totalMes2 = totalMes2 + planMes2.total;
             }
 
             if (totalMes2 > 180 && totalMes2 > 0) {
@@ -272,7 +344,7 @@ export class CapacityService {
 
             }
 
-            if (totalMes2 < 180 && totalMes2 > 0) {
+            if (totalMes2 < 180 && totalMes2 > 0 && totalMes2 > (this.cantDiasHabiles2 * 9)) {
               let ultDia = plan.mes2.length;
               let dif = 180 - totalMes2;
               plan.mes2[ultDia - 1].total =  plan.mes2[ultDia - 1].total + dif;
@@ -366,41 +438,71 @@ export class CapacityService {
 
     capacidadDisponible(){
       // se crear arreglo con capacidad disponible por dia y se llena con cada dia del mes1
-      this.capacidadporDia = [];
+      // this.capacidadporDia = [];
+      // this.capacidadporDia2 = [];
       this.totalDisponible = 0;
-      for (const dia of this.dias) {
-        // let diaN = `dia${x + 1}`;
-        let diaF = moment(dia.diaN).format('YYYY-MM-DD');
-        this.capacidadporDia.push({'fecha' : diaF, 'total': 0, 'habil': true});
+      // for (const dia of this.dias) {
+      //   // let diaN = `dia${x + 1}`;
+      //   let diaF = moment(dia.diaN).format('YYYY-MM-DD');
+      //   this.capacidadporDia.push({'fecha' : diaF, 'total': 0, 'habil': true});
 
-      }
+      // }
+      // for (const dia of this.dias2) {
+      //   // let diaN = `dia${x + 1}`;
+      //   let diaF = moment(dia.diaN2).format('YYYY-MM-DD');
+      //   this.capacidadporDia2.push({'fecha' : diaF, 'total': 0, 'habil': true});
 
-      // se recorre arreglo de capacidad para ir detectanto si es sabado  o domingo y marcar el dia como no habil.
-      for (let dia of this.capacidadporDia) {
-        let diaS = Number(moment(dia.fecha).day());
-        if (diaS === 0 || diaS === 6){
-            dia.habil = false;
-        }
-      }
-      // se recorre arreglo de capadidad para ir detectando si es feriado y marcar dia como no habil.
-      for (let dia of this.capacidadporDia) {
-        for (const feriado of this.feriados) {
-            if (dia.fecha === feriado.fecha){
-                dia.habil = false;
-            }
-        }
-      }
+      // }
 
-      // se recorre arreglo para contar cuantos dias quedaron como habiles
-      let cantDiasHabiles = 0;
-      for (const dia of this.capacidadporDia) {
-        if (dia.habil){
-          cantDiasHabiles = cantDiasHabiles + 1;
-        }
-      }
+      // // se recorre arreglo de capacidad para ir detectanto si es sabado  o domingo y marcar el dia como no habil.
+      // for (let dia of this.capacidadporDia) {
+      //   let diaS = Number(moment(dia.fecha).day());
+      //   if (diaS === 0 || diaS === 6){
+      //       dia.habil = false;
+      //   }
+      // }
+      // for (let dia of this.capacidadporDia2) {
+      //   let diaS = Number(moment(dia.fecha).day());
+      //   if (diaS === 0 || diaS === 6){
+      //       dia.habil = false;
+      //   }
+      // }
+      // // se recorre arreglo de capadidad para ir detectando si es feriado y marcar dia como no habil.
+      // for (let dia of this.capacidadporDia) {
+      //   for (const feriado of this.feriados) {
+      //       if (dia.fecha === feriado.fecha){
+      //           dia.habil = false;
+      //       }
+      //   }
+      // }
+      // for (let dia of this.capacidadporDia2) {
+      //   for (const feriado of this.feriados) {
+      //       if (dia.fecha === feriado.fecha){
+      //           dia.habil = false;
+      //       }
+      //   }
+      // }
+
+      // // se recorre arreglo para contar cuantos dias quedaron como habiles
+      // this.cantDiasHabiles = 0;
+      // for (const dia of this.capacidadporDia) {
+      //   if (dia.habil){
+      //     this.cantDiasHabiles = this.cantDiasHabiles + 1;
+      //   }
+      // }
+
+      // this.cantDiasHabiles2 = 0;
+      // for (const dia of this.capacidadporDia2) {
+      //   if (dia.habil){
+      //     this.cantDiasHabiles2 = this.cantDiasHabiles2 + 1;
+      //   }
+      // }
+      // console.log(cantDiasHabiles);
+      // console.log(cantDiasHabiles2);
+      // console.log(this.capacidadporDia2);
     // se calcula horas por dia disponibles
-      let HHporDias = (8910 -  this.totalHorasMtto1) / cantDiasHabiles;
-      let difHH = (HHporDias - Math.round(HHporDias)) * cantDiasHabiles;
+      let HHporDias = (8910 -  this.totalHorasMtto1) / this.cantDiasHabiles;
+      let difHH = (HHporDias - Math.round(HHporDias)) * this.cantDiasHabiles;
 
       // se recorre arreglo de capacidad para ir agregando la cantidad de horar por dia redondeada
       let x = 0;
@@ -408,7 +510,7 @@ export class CapacityService {
         if (dia.habil){
           dia.total = Math.round(HHporDias);
           // si llegamos al ulitmo dia habil se suma o resta la diferencia perdida por el redondeo.
-          if ((x + 1 ) == cantDiasHabiles){
+          if ((x + 1 ) == this.cantDiasHabiles){
             dia.total = dia.total + difHH;
           }
           this.totalDisponible = this.totalDisponible + dia.total;
