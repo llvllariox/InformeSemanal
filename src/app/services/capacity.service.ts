@@ -13,6 +13,8 @@ export class CapacityService {
   jsonDataPlanServiceCS;
   jsonDataPlanMttoBO;
   jsonDataPlanMttoBE;
+  jsonDataPlanMttoBOReal;
+  jsonDataPlanMttoBEReal;
   inicioMes;
   finMes;
   ultDia;
@@ -40,6 +42,10 @@ export class CapacityService {
   horasMttoBO2 = 0;
   horasMttoBE1 = 0;
   horasMttoBE2 = 0;
+  horasMttoBO1Real = 0;
+  horasMttoBO2Real = 0;
+  horasMttoBE1Real = 0;
+  horasMttoBE2Real = 0;
   totalHorasMtto1 = 0;
   totalHorasMtto2 = 0;
   totalDiasMes1 = 0;
@@ -114,7 +120,9 @@ export class CapacityService {
     this.CSlineaBase();
     this.totalesMes();
     this.ordenarPorARSCS();
-    this.filtrarMantenimiento();
+    this.filtrarMantenimientoBolsas();
+    this.filtrarMantenimientoReal();
+    this.sumarMantenimientoReal();
     this.filtrarCS();
     this.totalEjecucion();
     this.totalEjecucionCS();
@@ -355,7 +363,18 @@ export class CapacityService {
 
     }
 
-    filtrarMantenimiento(){
+    filtrarMantenimientoBolsas(){
+
+      this.horasMttoBO1 = 0;
+      this.horasMttoBO2 = 0;
+      this.horasMttoBE1 = 0;
+      this.horasMttoBE2 = 0;
+      this.horasMttoBO1Real = 0;
+      this.horasMttoBO2Real = 0;
+      this.horasMttoBE1Real = 0;
+      this.horasMttoBE2Real = 0;
+      this.totalHorasMtto1 = 0;
+      this.totalHorasMtto2 = 0;
 
       let jsonDataMttoBO = [...this.jsonDataPlanService];
       this.jsonDataPlanMttoBO = jsonDataMttoBO.filter(a => {
@@ -367,15 +386,63 @@ export class CapacityService {
         return a.numeroArs === 2749;
       });
 
-      this.horasMttoBO1 = this.jsonDataPlanMttoBO[0].mes1.totalMes1 * 9;
-      this.horasMttoBO2 = this.jsonDataPlanMttoBO[0].mes2.totalMes2 * 9;
-      this.horasMttoBE1 = this.jsonDataPlanMttoBE[0].mes1.totalMes1 * 9;
-      this.horasMttoBE2 = this.jsonDataPlanMttoBE[0].mes2.totalMes2 * 9;
+      this.horasMttoBO1 = this.jsonDataPlanMttoBO[0].mes1.totalMes1;
+      this.horasMttoBO2 = this.jsonDataPlanMttoBO[0].mes2.totalMes2;
+      this.horasMttoBE1 = this.jsonDataPlanMttoBE[0].mes1.totalMes1;
+      this.horasMttoBE2 = this.jsonDataPlanMttoBE[0].mes2.totalMes2;
+      // this.horasMttoBO1 = this.jsonDataPlanMttoBO[0].mes1.totalMes1 * 9;
+      // this.horasMttoBO2 = this.jsonDataPlanMttoBO[0].mes2.totalMes2 * 9;
+      // this.horasMttoBE1 = this.jsonDataPlanMttoBE[0].mes1.totalMes1 * 9;
+      // this.horasMttoBE2 = this.jsonDataPlanMttoBE[0].mes2.totalMes2 * 9;
+
+      // this.totalHorasMtto1 = this.horasMttoBO1 + this.horasMttoBE1;
+      // this.totalHorasMtto2 =  this.horasMttoBO2 + this.horasMttoBE2;
+
+    }
+
+    filtrarMantenimientoReal(){
+
+      let jsonDataMttoBOReal = [...this.jsonDataPlanService];
+      this.jsonDataPlanMttoBOReal = jsonDataMttoBOReal.filter(a => {
+        return a.tipoContrato === 'Mantenimiento' && a.lineaDeServicio !== 'General' && a.grupoDeTrabajoAsignado === 'Mantenimiento - Keyciren Trigo';
+      });
+
+      console.log('jsonDataPlanMttoBOReal',this.jsonDataPlanMttoBOReal);
+
+      let jsonDataMttoBEReal = [...this.jsonDataPlanService];
+      this.jsonDataPlanMttoBEReal = jsonDataMttoBEReal.filter(a => {
+        return a.tipoContrato === 'Mantenimiento' && a.lineaDeServicio !== 'General' && a.grupoDeTrabajoAsignado === 'Mantenimiento - Iñigo Navarro';
+      });
+      console.log('jsonDataPlanMttoBEReal', this.jsonDataPlanMttoBEReal);
+
+    }
+
+    sumarMantenimientoReal(){
+
+      for (const plan of this.jsonDataPlanMttoBOReal) {
+
+      this.horasMttoBO1Real = this.horasMttoBO1Real + plan.mes1.totalMes1;
+      this.horasMttoBO2Real =  this.horasMttoBO2Real + plan.mes2.totalMes2;
+      }
+
+      for (const plan of this.jsonDataPlanMttoBEReal) {
+
+      this.horasMttoBE1Real = this.horasMttoBE1Real + plan.mes1.totalMes1;
+      this.horasMttoBE2Real =  this.horasMttoBE2Real + plan.mes2.totalMes2;
+      }
+
+      // Variables definitivas para mostrar en capacity
+
+      this.horasMttoBO1 = this.horasMttoBO1 + this.horasMttoBO1Real;
+      this.horasMttoBO2 = this.horasMttoBO2 + this.horasMttoBO2Real;
+      this.horasMttoBE1 = this.horasMttoBE1 + this.horasMttoBE1Real;
+      this.horasMttoBE2 = this.horasMttoBE2 + this.horasMttoBE2Real;
 
       this.totalHorasMtto1 = this.horasMttoBO1 + this.horasMttoBE1;
       this.totalHorasMtto2 =  this.horasMttoBO2 + this.horasMttoBE2;
 
     }
+
 
     filtrarCS(){
       // se mantienen solo los registros que son Evolutivo Mayor o Asesoramiento y Consulta
