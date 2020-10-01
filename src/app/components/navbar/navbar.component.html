@@ -1,24 +1,27 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Informes TBK</a>
+    <a class="navbar-brand" href="#"> <img src="../../../assets//images/logo2.png" style="height: 35px;"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['generar']" routerLinkActive="active">Informe Semanal</a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item mr-3">
+                <a class="nav-link" href="#" [routerLink]="['generar']" routerLinkActive="active"><i class="far fa-file-pdf"></i>&nbsp; Informe Semanal</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" [routerLink]="['capacity']" routerLinkActive="active">Capacity</a>
+            <li class="nav-item mr-auto">
+                <a class="nav-link" href="#" [routerLink]="['capacity']" routerLinkActive="active"><i class="fas fa-users"></i>&nbsp; Capacity</a>
             </li>
-            <li class="nav-item">
-                <a *ngIf="jsonDataService.infoCargada" class="nav-link" href="#" [routerLink]="['informes','BO']" routerLinkActive="active">Backoffice</a>
+
+        </ul>
+        <ul class="navbar-nav mr-3">
+            <li class="nav-item ">
+                <a *ngIf="jsonDataService.infoCargada" class="nav-link" href="#" [routerLink]="['informes','BO']" routerLinkActive="active"><i class="fas fa-laptop"></i>&nbsp; Backoffice</a>
             </li>
-            <li class="nav-item">
-                <a *ngIf="jsonDataService.infoCargada" class="nav-link" href="#" [routerLink]="['informes','BE']" routerLinkActive="active">Backend</a>
+            <li class="nav-item ">
+                <a *ngIf="jsonDataService.infoCargada" class="nav-link" href="#" [routerLink]="['informes','BE']" routerLinkActive="active"><i class="fas fa-server"></i>&nbsp; Backend</a>
             </li>
-            <li class="nav-item">
-                <a *ngIf="jsonDataService.infoCargada" class="nav-link" href="#" [routerLink]="['informes','PI']" routerLinkActive="active">Plataforma Integracion</a>
+            <li class="nav-item ">
+                <a *ngIf="jsonDataService.infoCargada" class="nav-link" href="#" [routerLink]="['informes','PI']" routerLinkActive="active"><i class="fas fa-network-wired"></i>&nbsp; Plataforma Integracion</a>
             </li>
         </ul>
     </div>

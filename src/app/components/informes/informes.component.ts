@@ -3,7 +3,6 @@ import { JsonDataService } from 'src/app/services/json-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import * as moment from 'moment'; // add this 1 of 4
-import Swal from 'sweetalert2';
 import { JspdfService } from '../../services/jspdf.service';
 declare function init_customJS();
 

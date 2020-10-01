@@ -56,15 +56,15 @@ export class GenerarInformeComponent implements OnInit {
     reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
-      if (workBook.SheetNames[3] !== 'Datos Facturación'){
+      if (workBook.SheetNames[0] !== 'Datos Facturación'){
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
-        this.jsonDataEve = null;
+        this.jsonDataFac = null;
         return;
       }
       this.jsonDataFac = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
         if (name === 'Datos Facturación'){
-          this.formatHeaders(sheet, 'AB1');
+          this.formatHeaders(sheet, 'F1');
         }
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.sweetAlerService.close();
@@ -108,7 +108,7 @@ export class GenerarInformeComponent implements OnInit {
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
       if (workBook.SheetNames[0] !== 'Detalle Tareas'){
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
-        this.jsonDataEve = null;
+        this.jsonDataTar = null;
         return;
       }
       this.jsonDataTar = workBook.SheetNames.reduce((initial, name) => {
@@ -160,7 +160,7 @@ filtrarTar(jsonDataReq: any) {
       workBook = XLSX.read(data, { type: 'binary', cellDates : true });
       if (workBook.SheetNames[0] !== 'Requerimientos'){
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos');
-        this.jsonDataEve = null;
+        this.jsonDataReq = null;
         return;
       }
       this.jsonDataReq = workBook.SheetNames.reduce((initial, name) => {

@@ -7,11 +7,12 @@ import { VerCapacityComponent } from './components/ver-capacity/ver-capacity.com
 
 
 const routes: Routes = [
+  { path: '', pathMatch: 'full', component: GenerarInformeComponent},
+  { path: '', component: GenerarInformeComponent},
   { path: 'informes/:segmento', component: InformesComponent },
   { path: 'verCapacity', component: VerCapacityComponent },
   { path: 'capacity', component: GenerarCapacityComponent },
   { path: 'generar', component: GenerarInformeComponent },
-  { path: '', pathMatch: 'full', component: GenerarInformeComponent},
   { path: '**', pathMatch: 'full', component: GenerarInformeComponent }
 ];
 
