@@ -52,6 +52,7 @@ export class CapacityService {
   totalDiasMes2 = 0;
   cantDiasHabiles = 0;
   cantDiasHabiles2 = 0;
+  ultDiaHabil = 0;
 
   constructor(private feriadosService: FeriadosChileService, private sweetService: SweetAlertService) {
 
@@ -304,7 +305,7 @@ export class CapacityService {
           this.cantDiasHabiles = this.cantDiasHabiles + 1;
         }
       }
-
+   
       this.cantDiasHabiles2 = 0;
       for (const dia of this.capacidadporDia2) {
         if (dia.habil){
@@ -313,9 +314,20 @@ export class CapacityService {
       }
       // console.log( this.cantDiasHabiles);
       // console.log( this.cantDiasHabiles2);
+
+      // Busca ulitmo dia habil del mes 1
+      let i = 0;
+      for (const dia of this.capacidadporDia) {
+       if (dia.habil){
+         this.ultDiaHabil = i;
+       }
+       i++;
+      }
+      console.log( this.ultDiaHabil );
     }
 
     CSlineaBase(){
+      console.log(this.capacidadporDia);
       // Se recorre planificaciones identificando las descripciones que comienzan con CS (Capacity Service),
       // Si con comienzan con CS se saca la diferencia entre 180hrs y lo planificado, para luego descontar/sumar del ultimo dia planificado.
       for (let plan of this.jsonDataPlanService) {
@@ -328,16 +340,23 @@ export class CapacityService {
             }
 
             if (totalMes1 > 180 && totalMes1 > 0) {
-              let ultDia = plan.mes1.length;
+              let ultDia = this.ultDiaHabil;;
               let dif = totalMes1 - 180;
-              plan.mes1[ultDia - 1].total =  plan.mes1[ultDia - 1].total - dif;
+              plan.mes1[ultDia].total =  plan.mes1[ultDia].total - dif;
+
+              // let ultDia = plan.mes1.length;
+              // let dif = totalMes1 - 180;
+              // plan.mes1[ultDia - 1].total =  plan.mes1[ultDia - 1].total - dif;
 
             }
 
             if (totalMes1 < 180 && totalMes1 > 0 && totalMes1 > (this.cantDiasHabiles * 9)) {
-              let ultDia = plan.mes1.length;
+              let ultDia = this.ultDiaHabil;
               let dif = 180 - totalMes1;
-              plan.mes1[ultDia - 1].total =  plan.mes1[ultDia - 1].total + dif;
+              plan.mes1[ultDia].total =  plan.mes1[ultDia].total + dif;
+              // let ultDia = plan.mes1.length;
+              // let dif = 180 - totalMes1;
+              // plan.mes1[ultDia - 1].total =  plan.mes1[ultDia - 1].total + dif;
 
             }
 
