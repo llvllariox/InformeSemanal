@@ -48,6 +48,7 @@ export class InformesComponent {
   tablaFac = [];
   contProgress = 0;
   mostrarVal = true;
+  mostrarError = true;
 
   constructor(public jsonDataService: JsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService, public pdfService: JspdfService) {
     init_customJS();
@@ -132,5 +133,9 @@ export class InformesComponent {
   cambiaValor() {
 
     this.mostrarVal = !this.mostrarVal;
+  }
+
+  mostrarErrores(){
+    this.mostrarError = !this.mostrarError;
   }
 }

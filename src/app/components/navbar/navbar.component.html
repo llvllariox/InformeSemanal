@@ -13,7 +13,7 @@
             </li>
 
         </ul>
-        <ul class="navbar-nav mr-3">
+        <ul class="navbar-nav mr-1">
             <li class="nav-item ">
                 <a *ngIf="jsonDataService.infoCargada" class="nav-link" href="#" [routerLink]="['informes','BO']" routerLinkActive="active"><i class="fas fa-laptop"></i>&nbsp; Backoffice</a>
             </li>
@@ -22,6 +22,9 @@
             </li>
             <li class="nav-item ">
                 <a *ngIf="jsonDataService.infoCargada" class="nav-link" href="#" [routerLink]="['informes','PI']" routerLinkActive="active"><i class="fas fa-network-wired"></i>&nbsp; Plataforma Integracion</a>
+            </li>
+            <li class="nav-item ml-5">
+                <a class="nav-link"><small class="text-muted"> v1.6.0</small></a>
             </li>
         </ul>
     </div>
