@@ -133,7 +133,7 @@ export class CapacityService {
     this.totCapacidadDisponible();
     this.filtrarSoloMes2();
     this.filtrarSoloMes1();
-    this.diasNoHabilArray()
+    this.diasNoHabilArray();
 
     console.log('ulitmo', this.jsonDataPlanService);
     console.log('ulitmoCS', this.jsonDataPlanServiceCS);
@@ -325,11 +325,11 @@ export class CapacityService {
        }
        i++;
       }
-      console.log( this.ultDiaHabil );
+      // console.log( this.ultDiaHabil );
     }
 
     CSlineaBase(){
-      console.log(this.capacidadporDia);
+      // console.log(this.capacidadporDia);
       // Se recorre planificaciones identificando las descripciones que comienzan con CS (Capacity Service),
       // Si con comienzan con CS se saca la diferencia entre 180hrs y lo planificado, para luego descontar/sumar del ultimo dia planificado.
       for (let plan of this.jsonDataPlanService) {
@@ -655,8 +655,8 @@ export class CapacityService {
        for (const dia of this.diasNoHabil) {
         this.diasNH.push(dia.fecha2);
        }
-       console.log(this.diasNoHabil);
-       console.log(this.diasNH);
-       console.log('jsonDataPlan', this.jsonDataPlanService);
+      //  console.log(this.diasNoHabil);
+      //  console.log(this.diasNH);
+      //  console.log('jsonDataPlan', this.jsonDataPlanService);
     }
 }
