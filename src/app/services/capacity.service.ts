@@ -53,7 +53,8 @@ export class CapacityService {
   cantDiasHabiles = 0;
   cantDiasHabiles2 = 0;
   ultDiaHabil = 0;
-
+  diasNoHabil = [];
+  diasNH = [];
   constructor(private feriadosService: FeriadosChileService, private sweetService: SweetAlertService) {
 
     // Se obtienen todos los dias del mes en curso en arreglo this.dias
@@ -132,6 +133,7 @@ export class CapacityService {
     this.totCapacidadDisponible();
     this.filtrarSoloMes2();
     this.filtrarSoloMes1();
+    this.diasNoHabilArray()
 
     console.log('ulitmo', this.jsonDataPlanService);
     console.log('ulitmoCS', this.jsonDataPlanServiceCS);
@@ -635,5 +637,26 @@ export class CapacityService {
       this.jsonDataPlanService2 = jsonData2.filter(a => {
         return a.mes2.totalMes2 > 0;
       });
+    }
+
+    diasNoHabilArray(){
+      // se copia calendario del mes con dias habiles y se dejan solo los no habiles
+       this.diasNH = [];
+       let diasNoHabil = [...this.capacidadporDia];
+       this.diasNoHabil = diasNoHabil.filter(a => {
+        return !a.habil;
+       });
+      // se crea nueva variable en formato DD-MM-YYY
+       for (const dia of this.diasNoHabil) {
+          let diaF = moment(dia.fecha).format('DD-MM-YYYY');
+          dia.fecha2 = diaF;
+       }
+
+       for (const dia of this.diasNoHabil) {
+        this.diasNH.push(dia.fecha2);
+       }
+       console.log(this.diasNoHabil);
+       console.log(this.diasNH);
+       console.log('jsonDataPlan', this.jsonDataPlanService);
     }
 }
