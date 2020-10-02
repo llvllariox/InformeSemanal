@@ -30,4 +30,6 @@ tr:hover {
 
 input[type="text"][disabled] {
     color: black;
+    background: white;
+    border: none;
 }
