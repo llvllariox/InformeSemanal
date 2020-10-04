@@ -19,6 +19,7 @@ export class GenerarCapacityComponent implements OnInit {
   name = 'This is XLSX TO JSON CONVERTER';
   jsonDataPlan = null;
   jsonDataPlanCS = null;
+  estadoPlan = 1;
 
   // tslint:disable-next-line: max-line-length
   constructor(private formBuilder: FormBuilder, private capacityService: CapacityService, private sweetAlerService: SweetAlertService, private router: Router) {
@@ -43,10 +44,12 @@ export class GenerarCapacityComponent implements OnInit {
 
   uploadPlan(event) {
     if (!this.validarTipo(event)){
+      this.estadoPlan = 4;
       return;
     }
     this.jsonDataPlan = null;
-    this.sweetAlerService.mensajeEsperar();
+    this.estadoPlan = 2;
+    // this.sweetAlerService.mensajeEsperar();
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -54,6 +57,7 @@ export class GenerarCapacityComponent implements OnInit {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
       if (workBook.SheetNames[0] !== 'Detalle Horas Planificadas'){
+        this.estadoPlan = 4;
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Plan');
         this.jsonDataPlan = null;
         return;
@@ -62,12 +66,14 @@ export class GenerarCapacityComponent implements OnInit {
         const sheet = workBook.Sheets[name];
         this.formatHeaders(sheet, 'BA1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
-        this.sweetAlerService.close();
+        this.estadoPlan = 3;
+        // this.sweetAlerService.close();
 
         return initial;
       }, {});
 
       if (this.jsonDataPlan['Detalle Horas Planificadas'] === undefined) {
+        this.estadoPlan = 4;
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Plan');
         this.jsonDataPlan = null;
       } else {

@@ -9,7 +9,7 @@
             <form autocomplete="off" [formGroup]="forma" (ngSubmit)="guardar()">
                 <div class="row my-3">
                     <div class="col">
-                        Planificación:
+                        <i *ngIf="estadoPlan==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoPlan==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoPlan==3" class="fas fa-check text-success"></i><i *ngIf="estadoPlan==4" class="fas fa-times text-danger"></i>&nbsp;Planificación:
                     </div>
                     <div class="col">
                         <input [class.is-invalid]="planificacionNoValido" formControlName="planificacion" type="file" (change)="uploadPlan($event)">
