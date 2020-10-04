@@ -23,6 +23,10 @@ export class GenerarInformeComponent implements OnInit {
   jsonDataFac = null;
   nuevosHeaders = [];
   fechaHoy = '';
+  estadoReq = 1;
+  estadoTar = 1;
+  estadoEve = 1;
+  estadoFac = 1;
 
   // tslint:disable-next-line: max-line-length
   constructor(private formBuilder: FormBuilder, private jsonDataService: JsonDataService, private sweetAlerService: SweetAlertService, private router: Router
@@ -46,10 +50,12 @@ export class GenerarInformeComponent implements OnInit {
 
   uploadFac(event) {
     if (!this.validarTipo(event)){
+      this.estadoFac = 4;
       return;
     }
     this.jsonDataFac = null;
-    this.sweetAlerService.mensajeEsperar();
+    this.estadoFac = 2;
+    // this.sweetAlerService.mensajeEsperar();
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -57,6 +63,7 @@ export class GenerarInformeComponent implements OnInit {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
       if (workBook.SheetNames[0] !== 'Datos Facturación'){
+        this.estadoFac = 4;
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
         this.jsonDataFac = null;
         return;
@@ -67,10 +74,12 @@ export class GenerarInformeComponent implements OnInit {
           this.formatHeaders(sheet, 'F1');
         }
         initial[name] = XLSX.utils.sheet_to_json(sheet);
-        this.sweetAlerService.close();
+        this.estadoFac = 3;
+        // this.sweetAlerService.close();
         return initial;
       }, {});
       if (this.jsonDataFac['Datos Facturación'] === undefined) {
+        this.estadoFac = 4;
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
         this.jsonDataFac = null;
       } else {
@@ -96,10 +105,13 @@ export class GenerarInformeComponent implements OnInit {
 
   uploadTar(event) {
     if (!this.validarTipo(event)){
+      this.estadoTar = 4;
       return;
     }
     this.jsonDataTar = null;
-    this.sweetAlerService.mensajeEsperar();
+    this.estadoTar = 2;
+
+    // this.sweetAlerService.mensajeEsperar();
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -107,6 +119,7 @@ export class GenerarInformeComponent implements OnInit {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
       if (workBook.SheetNames[0] !== 'Detalle Tareas'){
+        this.estadoTar = 4;
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
         this.jsonDataTar = null;
         return;
@@ -115,12 +128,13 @@ export class GenerarInformeComponent implements OnInit {
         const sheet = workBook.Sheets[name];
         this.formatHeaders(sheet, 'BH1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
-        this.sweetAlerService.close();
-
+        // this.sweetAlerService.close();
+        this.estadoTar = 3;
         return initial;
       }, {});
 
       if (this.jsonDataTar['Detalle Tareas'] === undefined) {
+        this.estadoTar = 4;
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
         this.jsonDataTar = null;
       } else {
@@ -148,10 +162,12 @@ filtrarTar(jsonDataReq: any) {
 }
   uploadReq(event) {
     if (!this.validarTipo(event)){
+      this.estadoReq = 4;
       return;
     }
     this.jsonDataReq = null;
-    this.sweetAlerService.mensajeEsperar();
+    this.estadoReq = 2;
+    // this.sweetAlerService.mensajeEsperar();
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -160,6 +176,7 @@ filtrarTar(jsonDataReq: any) {
       workBook = XLSX.read(data, { type: 'binary', cellDates : true });
       if (workBook.SheetNames[0] !== 'Requerimientos'){
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos');
+        this.estadoReq = 4;
         this.jsonDataReq = null;
         return;
       }
@@ -167,11 +184,13 @@ filtrarTar(jsonDataReq: any) {
         const sheet = workBook.Sheets[name];
         this.formatHeaders(sheet, 'AO1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
-        this.sweetAlerService.close();
+        // this.sweetAlerService.close();
+        this.estadoReq = 3;
         return initial;
       }, {});
       if (this.jsonDataReq.Requerimientos === undefined) {
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
+        this.estadoReq = 4;
         this.jsonDataReq = null;
       } else {
         this.filtrarReq(this.jsonDataReq);
@@ -229,10 +248,12 @@ filtrarReq(jsonDataReq: any) {
 
 uploadEve(event) {
   if (!this.validarTipo(event)){
+    this.estadoEve = 4;
     return;
   }
   this.jsonDataEve = null;
-  this.sweetAlerService.mensajeEsperar();
+  // this.sweetAlerService.mensajeEsperar();
+  this.estadoEve = 2;
   let workBook = null;
   const reader = new FileReader();
   const file = event.target.files[0];
@@ -240,6 +261,7 @@ uploadEve(event) {
     const data = reader.result;
     workBook = XLSX.read(data, { type: 'binary' , cellDates: true });
     if (workBook.SheetNames[0] !== 'Eventos'){
+      this.estadoEve = 4;
       this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos');
       this.jsonDataEve = null;
       return;
@@ -248,10 +270,12 @@ uploadEve(event) {
       const sheet = workBook.Sheets[name];
       this.formatHeaders(sheet, 'T1');
       initial[name] = XLSX.utils.sheet_to_json(sheet);
-      this.sweetAlerService.close();
+      // this.sweetAlerService.close();
+      this.estadoEve = 3;
       return initial;
     }, {});
     if (this.jsonDataEve.Eventos === undefined) {
+      this.estadoEve = 4;
       this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos');
       this.jsonDataEve = null;
     } else {

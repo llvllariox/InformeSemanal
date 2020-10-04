@@ -1,7 +1,6 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12 col-sm-6 ">
-
             <div class="row">
                 <div class="col ">
                     <h4>Subir Archivos</h4>
@@ -10,6 +9,7 @@
             <form autocomplete="off" [formGroup]="forma" (ngSubmit)="guardar()">
                 <div class="row my-3">
                     <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoReq==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoReq==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoReq==3" class="fas fa-check text-success"></i><i *ngIf="estadoReq==4" class="fas fa-times text-danger"></i>&nbsp;
                         Requerimientos:
                     </div>
                     <div class="col-12 col-sm-8">
@@ -19,6 +19,7 @@
                 </div>
                 <div class="row my-3">
                     <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoTar==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoTar==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoTar==3" class="fas fa-check text-success"></i><i *ngIf="estadoTar==4" class="fas fa-times text-danger"></i>&nbsp;
                         Tareas:
                     </div>
                     <div class="col-12 col-sm-8">
@@ -28,6 +29,7 @@
                 </div>
                 <div class="row my-3">
                     <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoEve==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoEve==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoEve==3" class="fas fa-check text-success"></i><i *ngIf="estadoEve==4" class="fas fa-times text-danger"></i>&nbsp;
                         Eventos:
                     </div>
                     <div class="col-12 col-sm-8">
@@ -37,6 +39,7 @@
                 </div>
                 <div class="row my-3">
                     <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoFac==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoFac==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoFac==3" class="fas fa-check text-success"></i><i *ngIf="estadoFac==4" class="fas fa-times text-danger"></i>&nbsp;
                         Facturación:
                     </div>
                     <div class="col-12 col-sm-8">
