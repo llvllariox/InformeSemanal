@@ -13,7 +13,7 @@
                         Requerimientos:
                     </div>
                     <div class="col-12 col-sm-8">
-                        <input [class.is-invalid]="requerimientosNoValido" formControlName="requerimientos" type="file" class="form-control-file" (change)="uploadReq($event)">
+                        <input [class.is-invalid]="requerimientosNoValido" formControlName="requerimientos" type="file" class="form-control-file" (change)="uploadReq($event)" (click)="click(1)">
                         <small *ngIf="requerimientosNoValido" class="text-danger">Seleccione Archivo</small>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                         Tareas:
                     </div>
                     <div class="col-12 col-sm-8">
-                        <input [class.is-invalid]="tareasNoValido " formControlName="tareas" type="file" class="form-control-file" (change)="uploadTar($event)">
+                        <input id="inputTarea" [class.is-invalid]="tareasNoValido " formControlName="tareas" type="file" class="form-control-file" (change)="uploadTar($event)" (click)="click(2)">
                         <small *ngIf="tareasNoValido " class="text-danger">Seleccione Archivo</small>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                         Eventos:
                     </div>
                     <div class="col-12 col-sm-8">
-                        <input [class.is-invalid]="eventosNoValido " formControlName="eventos" type="file" class="form-control-file" (change)="uploadEve($event)">
+                        <input [class.is-invalid]="eventosNoValido " formControlName="eventos" type="file" class="form-control-file" (change)="uploadEve($event)" (click)="click(3)">
                         <small *ngIf="eventosNoValido " class="text-danger">Seleccione Archivo</small>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                         Facturación:
                     </div>
                     <div class="col-12 col-sm-8">
-                        <input [class.is-invalid]="facturacionNoValido " formControlName="facturacion" type="file" class="form-control-file" (change)="uploadFac($event)">
+                        <input [class.is-invalid]="facturacionNoValido " formControlName="facturacion" type="file" class="form-control-file" (change)="uploadFac($event)" (click)="click(4)">
                         <small *ngIf="facturacionNoValido " class="text-danger">Seleccione Archivo</small>
                     </div>
                 </div>
@@ -67,3 +67,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    alert('hola');
+    // $("#inputTarea").change(function() {
+    //     alert('alerta');
+    // });
+    input.onclick = function() {
+        this.value = null;
+    };
+    input.onchange = function() {
+        alert(this.value);
+    };
+</script>

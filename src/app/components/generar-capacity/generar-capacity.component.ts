@@ -38,6 +38,14 @@ export class GenerarCapacityComponent implements OnInit {
 
 
   }
+  
+  click(archivo){
+    switch (archivo) {
+      case 1:
+        this.estadoPlan = 2;
+        break;
+    }
+  }
 
   ngOnInit(): void {
   }

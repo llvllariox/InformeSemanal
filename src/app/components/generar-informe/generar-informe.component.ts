@@ -48,7 +48,7 @@ export class GenerarInformeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  uploadFac(event) {
+  async uploadFac(event) {
     if (!this.validarTipo(event)){
       this.estadoFac = 4;
       return;
@@ -102,8 +102,26 @@ export class GenerarInformeComponent implements OnInit {
     this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
 
   }
+  
+  click(archivo){
+    switch (archivo) {
+      case 1:
+        this.estadoReq = 2;
+        break;
+      case 2:
+        this.estadoTar = 2;
+        break;
+      case 3:
+        this.estadoEve = 2;
+        break;
+      case 4:
+        this.estadoFac = 2;
+        break;
+    }
+  }
 
   uploadTar(event) {
+    console.log(event);
     if (!this.validarTipo(event)){
       this.estadoTar = 4;
       return;
@@ -161,6 +179,7 @@ filtrarTar(jsonDataReq: any) {
 
 }
   uploadReq(event) {
+    // console.log(event);
     if (!this.validarTipo(event)){
       this.estadoReq = 4;
       return;
