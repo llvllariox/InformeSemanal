@@ -104,20 +104,24 @@ export class GenerarInformeComponent implements OnInit {
   }
   
   click(archivo){
-    switch (archivo) {
-      case 1:
-        this.estadoReq = 2;
-        break;
-      case 2:
-        this.estadoTar = 2;
-        break;
-      case 3:
-        this.estadoEve = 2;
-        break;
-      case 4:
-        this.estadoFac = 2;
-        break;
-    }
+
+    setTimeout(() => {
+      switch (archivo) {
+        case 1:
+          this.estadoReq = 2;
+          break;
+        case 2:
+          this.estadoTar = 2;
+          break;
+        case 3:
+          this.estadoEve = 2;
+          break;
+        case 4:
+          this.estadoFac = 2;
+          break;
+      }
+    }, 1000);
+    
   }
 
   uploadTar(event) {
