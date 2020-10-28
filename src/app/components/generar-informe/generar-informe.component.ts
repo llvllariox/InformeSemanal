@@ -94,7 +94,6 @@ export class GenerarInformeComponent implements OnInit {
         console.log(this.jsonDataFac);
       }
     };
-   
     reader.readAsBinaryString(file);
   }
 
@@ -103,54 +102,23 @@ export class GenerarInformeComponent implements OnInit {
     this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
 
   }
+  
   click(archivo){
-    // console.log(this.forma.get('planificacion').value);
-    console.log('click');
     switch (archivo) {
       case 1:
-        if (this.forma.get('requerimientos').value == ""){
-          this.estadoReq = 1;
-          console.log('1');
-        }else{
-          console.log('2');
-          this.estadoReq = 2;
-        }
+        this.estadoReq = 2;
         break;
       case 2:
-        if (this.forma.get('tareas').value == ""){
-          this.estadoTar = 1;
-        }
+        this.estadoTar = 2;
         break;
       case 3:
-        if (this.forma.get('eventos').value == ""){
-          this.estadoEve = 1;
-        }
+        this.estadoEve = 2;
         break;
       case 4:
-        if (this.forma.get('facturacion').value == ""){
-          this.estadoFac = 1;
-        }
+        this.estadoFac = 2;
         break;
     }
   }
-
-  // click(archivo){
-  //   console.log('click');
-  //   switch (archivo) {
-  //     case 1 && this.estadoReq != 2:
-  //       this.estadoReq = 2;
-  //       break;
-  //     case 2 && this.estadoTar != 2:
-  //       this.estadoTar = 2;
-  //       break;
-  //     case 3 && this.estadoEve != 2:
-  //       this.estadoEve = 2;
-  //       break;
-  //     case 4 && this.estadoFac != 2:
-  //       this.estadoFac = 2;
-  //       break;
-  //   }
-  // }
 
   uploadTar(event) {
     console.log(event);
@@ -192,7 +160,6 @@ export class GenerarInformeComponent implements OnInit {
         console.log(this.jsonDataTar);
       }
     };
-     
     reader.readAsBinaryString(file);
 
  }
