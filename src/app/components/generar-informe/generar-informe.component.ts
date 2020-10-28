@@ -48,7 +48,7 @@ export class GenerarInformeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async uploadFac(event) {
+  uploadFac(event) {
     if (!this.validarTipo(event)){
       this.estadoFac = 4;
       return;

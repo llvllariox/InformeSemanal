@@ -40,18 +40,13 @@ export class GenerarCapacityComponent implements OnInit {
   }
   
   click(archivo){
-    switch (archivo) {
-      case 1:
-        this.estadoPlan = 2;
-        break;
-    }
-  }
-
-  revisar(){
-    console.log(this.forma.get('planificacion').value);
-    if (this.forma.get('planificacion').value == ""){
-      this.estadoPlan = 1;
-    }
+    setTimeout(() => {
+      switch (archivo) {
+        case 1:
+          this.estadoPlan = 2;
+          break;
+      }
+    }, 1000);
   }
 
   ngOnInit(): void {
