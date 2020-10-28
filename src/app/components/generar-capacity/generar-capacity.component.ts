@@ -47,6 +47,13 @@ export class GenerarCapacityComponent implements OnInit {
     }
   }
 
+  revisar(){
+    console.log(this.forma.get('planificacion').value);
+    if (this.forma.get('planificacion').value == ""){
+      this.estadoPlan = 1;
+    }
+  }
+
   ngOnInit(): void {
   }
 
@@ -124,13 +131,16 @@ filtrarTar(jsonDataReq: any) {
 }
   validarTipo(event){
 
-    let tipo = event.target.files[0].type;
-    if (!tipo.includes('sheet')) {
-      this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Plan');
-      return false;
-    }else{
-      return true;
+    if(event.target.files[0]){
+      let tipo = event.target.files[0].type;
+      if (!tipo.includes('sheet')) {
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Plan');
+        return false;
+      }else{
+        return true;
+      }
     }
+    
   }
 
 guardar() {

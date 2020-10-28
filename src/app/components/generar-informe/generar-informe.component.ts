@@ -94,6 +94,7 @@ export class GenerarInformeComponent implements OnInit {
         console.log(this.jsonDataFac);
       }
     };
+   
     reader.readAsBinaryString(file);
   }
 
@@ -102,23 +103,54 @@ export class GenerarInformeComponent implements OnInit {
     this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
 
   }
-  
   click(archivo){
+    // console.log(this.forma.get('planificacion').value);
+    console.log('click');
     switch (archivo) {
       case 1:
-        this.estadoReq = 2;
+        if (this.forma.get('requerimientos').value == ""){
+          this.estadoReq = 1;
+          console.log('1');
+        }else{
+          console.log('2');
+          this.estadoReq = 2;
+        }
         break;
       case 2:
-        this.estadoTar = 2;
+        if (this.forma.get('tareas').value == ""){
+          this.estadoTar = 1;
+        }
         break;
       case 3:
-        this.estadoEve = 2;
+        if (this.forma.get('eventos').value == ""){
+          this.estadoEve = 1;
+        }
         break;
       case 4:
-        this.estadoFac = 2;
+        if (this.forma.get('facturacion').value == ""){
+          this.estadoFac = 1;
+        }
         break;
     }
   }
+
+  // click(archivo){
+  //   console.log('click');
+  //   switch (archivo) {
+  //     case 1 && this.estadoReq != 2:
+  //       this.estadoReq = 2;
+  //       break;
+  //     case 2 && this.estadoTar != 2:
+  //       this.estadoTar = 2;
+  //       break;
+  //     case 3 && this.estadoEve != 2:
+  //       this.estadoEve = 2;
+  //       break;
+  //     case 4 && this.estadoFac != 2:
+  //       this.estadoFac = 2;
+  //       break;
+  //   }
+  // }
 
   uploadTar(event) {
     console.log(event);
@@ -160,6 +192,7 @@ export class GenerarInformeComponent implements OnInit {
         console.log(this.jsonDataTar);
       }
     };
+     
     reader.readAsBinaryString(file);
 
  }
@@ -324,13 +357,14 @@ filtrarEve(jsonDataEve: any) {
 }
 
 validarTipo(event){
-
-  let tipo = event.target.files[0].type;
-  if (!tipo.includes('sheet')) {
-    this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo es invalido');
-    return false;
-  }else{
-    return true;
+  if(event.target.files[0]){
+    let tipo = event.target.files[0].type;
+    if (!tipo.includes('sheet')) {
+      this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo es invalido');
+      return false;
+    }else{
+      return true;
+    }
   }
 }
   guardar() {
