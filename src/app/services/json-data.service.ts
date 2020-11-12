@@ -66,9 +66,14 @@ export class JsonDataService {
       this.facSumarMA();
       this.facAgregarReq();
     }
-
+   
+   
     this.groupReqOrigen();
+    // console.log('ACA!!!',this.jsonDataReqService.Requerimientos);
+    // return;
     this.eliminarReqOrigen();
+   
+   
     this.unirReqconAgrupados();
     this.obtenerFechasQAPROD();
     this.validaciones();
@@ -348,6 +353,12 @@ export class JsonDataService {
       return keyA - keyB;
     });
 
+     // correccion incidente --- no se grababa el ulitmo
+     // INICIO
+    let maximo = this.jsonDataReqService.Requerimientos.length;
+    let i = 0;
+    // FIN
+
     // se recorren los requermientos y agrupando en uno solo (el primero)
     // las informacion del resto de los ars que estan vinculados por nro.req.origen.
     // tslint:disable-next-line: prefer-const
@@ -370,6 +381,10 @@ export class JsonDataService {
               Reqpadre.tareas = ultTareas;
             }
 
+            // if(Reqpadre.nroReq===2978){
+              console.log(Reqpadre);
+            // }
+
             this.ReqAgrupado.push(Reqpadre);
             ultEtapa = '';
             ultLD = '';
@@ -378,6 +393,17 @@ export class JsonDataService {
             ultTareas = [];
           }
           Reqpadre = req;
+         
+
+          // correccion incidente --- no se grababa el ulitmo 
+          // INICIO
+          Reqpadre.reqOrigen = ' ';
+          if (i === maximo - 1 ){
+            this.ReqAgrupado.push(Reqpadre);
+            console.log(Reqpadre);
+          }
+          // FIN
+
         } else {
           Reqpadre.descripcion = `${Reqpadre.descripcion} - MA0${req.nroReq}`;
           Reqpadre.horasEstimadas = Number(Reqpadre.horasEstimadas) + Number(req.horasEstimadas);
@@ -423,6 +449,9 @@ export class JsonDataService {
           ultTareas = req.tareas || [];
         }
       }
+
+      i++;
+      
     }
   }
 
