@@ -397,8 +397,9 @@ export class JsonDataService {
 
           // correccion incidente --- no se grababa el ulitmo 
           // INICIO
-          Reqpadre.reqOrigen = ' ';
+         
           if (i === maximo - 1 ){
+            Reqpadre.reqOrigen = ' ';
             this.ReqAgrupado.push(Reqpadre);
             console.log(Reqpadre);
           }
