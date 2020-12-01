@@ -398,19 +398,33 @@ export class CapacityService {
       this.totalHorasMtto2 = 0;
 
       let jsonDataMttoBO = [...this.jsonDataPlanService];
+
+      // this.jsonDataPlanMttoBO[0].mes1.totalMes1 = 0;
+      // this.jsonDataPlanMttoBO[0].mes2.totalMes2 = 0;
+
       this.jsonDataPlanMttoBO = jsonDataMttoBO.filter(a => {
         return a.numeroArs === 2747;
       });
 
       let jsonDataMttoBE = [...this.jsonDataPlanService];
+
+      // this.jsonDataPlanMttoBE[0].mes1.totalMes1 = 0;
+      // this.jsonDataPlanMttoBE[0].mes2.totalMes2 = 0;
+
       this.jsonDataPlanMttoBE = jsonDataMttoBE.filter(a => {
         return a.numeroArs === 2749;
       });
 
-      this.horasMttoBO1 = this.jsonDataPlanMttoBO[0].mes1.totalMes1;
-      this.horasMttoBO2 = this.jsonDataPlanMttoBO[0].mes2.totalMes2;
-      this.horasMttoBE1 = this.jsonDataPlanMttoBE[0].mes1.totalMes1;
-      this.horasMttoBE2 = this.jsonDataPlanMttoBE[0].mes2.totalMes2;
+      if (this.jsonDataPlanMttoBO.length > 0){
+        this.horasMttoBO1 = this.jsonDataPlanMttoBO[0].mes1.totalMes1;
+        this.horasMttoBO2 = this.jsonDataPlanMttoBO[0].mes2.totalMes2;
+      }
+
+      if (this.jsonDataPlanMttoBE.length > 0){
+        this.horasMttoBE1 = this.jsonDataPlanMttoBE[0].mes1.totalMes1;
+        this.horasMttoBE2 = this.jsonDataPlanMttoBE[0].mes2.totalMes2;
+      }
+
       // this.horasMttoBO1 = this.jsonDataPlanMttoBO[0].mes1.totalMes1 * 9;
       // this.horasMttoBO2 = this.jsonDataPlanMttoBO[0].mes2.totalMes2 * 9;
       // this.horasMttoBE1 = this.jsonDataPlanMttoBE[0].mes1.totalMes1 * 9;
