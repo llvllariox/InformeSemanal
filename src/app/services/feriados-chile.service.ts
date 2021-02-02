@@ -15,6 +15,12 @@ export class FeriadosChileService {
     console.log(url);
     return this.http.jsonp(url, 'callback').pipe(
       map((resp: any) => {
+        console.log(resp);
+        if(resp.error){
+          resp = [];
+          // console.log('errror');
+        }
+        // console.log('reps',resp);
         return resp;
       }));
   }

@@ -122,6 +122,8 @@ export class JspdfService {
       doc.line(15, 30, 282, 30);
       let tareasArray = [];
       let tareasBody  = [];
+      console.log(json[i]);
+      // json[i]
       if (json[i].tareas.length > 10){
         tareasArray = json[i].tareas.slice(json[i].tareas.length - 10);
       }else{

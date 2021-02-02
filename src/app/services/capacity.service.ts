@@ -285,6 +285,7 @@ export class CapacityService {
         }
       }
       // se recorre arreglo de capadidad para ir detectando si es feriado y marcar dia como no habil.
+      console.log('arreglo', this.feriados);
       for (let dia of this.capacidadporDia) {
         for (const feriado of this.feriados) {
             if (dia.fecha === feriado.fecha){
