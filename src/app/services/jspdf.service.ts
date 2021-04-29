@@ -192,7 +192,7 @@ export class JspdfService {
           ['Etapa', json[i].etapa],
           ['LD', json[i].solicitante],
           ['PM', json[i].origen],
-          ['CECO', json[i].codigoExterno],
+          ['Solicitud Jira', json[i].codigoExterno],
         ],
       });
 
