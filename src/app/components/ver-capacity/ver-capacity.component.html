@@ -22,12 +22,12 @@
                 <tbody>
                     <tr class="" style="background-color: rgb(242, 242, 242)">
                         <td class="small text-dark text-center" scope="col" style="width: 300px;text-overflow: ellipsis;">FTE Comprometido</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">49.50</td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">40.00</td>
                         <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">40.00</td>
                     </tr>
                     <tr class="" style="background-color: rgb(217, 225, 242)">
                         <td class="small font-weight-bold text-dark" scope="col" style="width: 200px;text-overflow: ellipsis;">Total Capacity Mes Comprometido</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">8,910.00</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">7,200.00</td>
                         <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">7,200.00</td>
                     </tr>
                     <tr class="" style="background-color: rgb(180, 198, 231)">
@@ -63,12 +63,12 @@
                     </tr>
                     <tr class="" style="background-color: rgb(180, 198, 231)">
                         <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Capacity disponible SWF</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{8910 - capacityService.totalMes1 - (capacityService.totalHorasMtto1)|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{7200 - capacityService.totalMes1 - (capacityService.totalHorasMtto1)|number:'1.2'}}</td>
                         <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{7200 - capacityService.totalMes2 - (capacityService.totalHorasMtto2)|number:'1.2'}}</td>
                     </tr>
                     <tr class="" style="background-color: rgb(180, 198, 231)">
                         <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Capacity sin asignar SWF</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{8910 - (capacityService.totalMes1 + Reservavalor1) - (capacityService.totalHorasMtto1)|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{7200 - (capacityService.totalMes1 + Reservavalor1) - (capacityService.totalHorasMtto1)|number:'1.2'}}</td>
                         <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{7200 - (capacityService.totalMes2 + Reservavalor2) - (capacityService.totalHorasMtto2)|number:'1.2'}}</td>
                     </tr>
                 </tbody>

@@ -102,8 +102,8 @@ export class VerCapacityComponent implements OnInit {
     const title = 'Capacity';
     const header = ['Distribución Capacity en HH	', this.fecha1, this.fecha2];
     const data = [
-      ['FTE Comprometido', 49.50, 40.00],
-      ['Total Capacity Mes Comprometido', 8910.00,  7200.00],
+      ['FTE Comprometido', 40.00, 40.00],
+      ['Total Capacity Mes Comprometido', 7200.00,  7200.00],
       ['Evolutivos', this.capacityService.totalMes1 + this.Reservavalor1,  this.capacityService.totalMes2 + this.Reservavalor2],
       ['   En ejecución	', this.capacityService.totalMes1, this.capacityService.totalMes2],
       ['   Reservado	', this.Reservavalor1, this.Reservavalor2],
@@ -112,9 +112,9 @@ export class VerCapacityComponent implements OnInit {
       ['   Mantención Backoffice', this.capacityService.horasMttoBO1 , this.capacityService.horasMttoBO2],
       ['   Mantención Backend		', this.capacityService.horasMttoBE1 , this.capacityService.horasMttoBE2],
       // tslint:disable-next-line: max-line-length
-      ['Capacity disponible SWF	', 8910 - this.capacityService.totalMes1 - this.capacityService.totalHorasMtto1, 7200 - this.capacityService.totalMes2 - this.capacityService.totalHorasMtto2],
+      ['Capacity disponible SWF	', 7200 - this.capacityService.totalMes1 - this.capacityService.totalHorasMtto1, 7200 - this.capacityService.totalMes2 - this.capacityService.totalHorasMtto2],
       // tslint:disable-next-line: max-line-length
-      ['Capacity sin asignar SWF', 8910 - (this.capacityService.totalMes1 + this.Reservavalor1) - (this.capacityService.totalHorasMtto1), 7200 - (this.capacityService.totalMes2 + this.Reservavalor2) - (this.capacityService.totalHorasMtto2)],
+      ['Capacity sin asignar SWF', 7200 - (this.capacityService.totalMes1 + this.Reservavalor1) - (this.capacityService.totalHorasMtto1), 7200 - (this.capacityService.totalMes2 + this.Reservavalor2) - (this.capacityService.totalHorasMtto2)],
     ];
     // Create workbook and worksheet
     let workbook = new Workbook();
