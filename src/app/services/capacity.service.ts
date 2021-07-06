@@ -386,7 +386,7 @@ export class CapacityService {
     }
 
     filtrarMantenimientoBolsas(){
-
+      console.log('filtrarMantenimientoBolsas');
       this.horasMttoBO1 = 0;
       this.horasMttoBO2 = 0;
       this.horasMttoBE1 = 0;
@@ -400,31 +400,83 @@ export class CapacityService {
 
       let jsonDataMttoBO = [...this.jsonDataPlanService];
 
-      // this.jsonDataPlanMttoBO[0].mes1.totalMes1 = 0;
-      // this.jsonDataPlanMttoBO[0].mes2.totalMes2 = 0;
-
       this.jsonDataPlanMttoBO = jsonDataMttoBO.filter(a => {
-        return a.numeroArs === 2747;
+        return a.tipoContrato === 'Mantenimiento' &&  a.lineaDeServicio === 'Capacity' && a.area === 'Backoffice';
       });
 
       let jsonDataMttoBE = [...this.jsonDataPlanService];
 
-      // this.jsonDataPlanMttoBE[0].mes1.totalMes1 = 0;
-      // this.jsonDataPlanMttoBE[0].mes2.totalMes2 = 0;
-
       this.jsonDataPlanMttoBE = jsonDataMttoBE.filter(a => {
-        return a.numeroArs === 2749;
+        return a.tipoContrato === 'Mantenimiento' && a.lineaDeServicio === 'Capacity' && a.area === 'Backend';
       });
 
+      console.log(this.jsonDataPlanMttoBO);
+      console.log(this.jsonDataPlanMttoBE);
+
+
       if (this.jsonDataPlanMttoBO.length > 0){
-        this.horasMttoBO1 = this.jsonDataPlanMttoBO[0].mes1.totalMes1;
-        this.horasMttoBO2 = this.jsonDataPlanMttoBO[0].mes2.totalMes2;
-      }
+        for (const plan of this.jsonDataPlanMttoBO) {
+          // let fechaAsignacion = moment(plan.fechaAsignacion);
+          let fecha = moment(plan.fechaAsignacion).format('DD-MM-YYYY');
+          let fechaMes1 = moment(this.inicioMes).format('DD-MM-YYYY');
+          let fechaMes2 = moment(this.inicioMes2).format('DD-MM-YYYY');
+          // console.log(fecha);
+          // console.log(fechaMes1);
+     
+         if(fecha == fechaMes1){
+          //  console.log('entro1');
+          this.horasMttoBO1 = this.horasMttoBO1 + plan.mes1.totalMes1;
+         }
+
+         if(fecha == fechaMes2){
+          //  console.log('entro2');
+          this.horasMttoBO2 = this.horasMttoBO2 + plan.mes2.totalMes2;
+         }
+        
+
+        }
+    }
 
       if (this.jsonDataPlanMttoBE.length > 0){
-        this.horasMttoBE1 = this.jsonDataPlanMttoBE[0].mes1.totalMes1;
-        this.horasMttoBE2 = this.jsonDataPlanMttoBE[0].mes2.totalMes2;
-      }
+        for (const plan of this.jsonDataPlanMttoBE) {
+          // let fechaAsignacion = moment(plan.fechaAsignacion);
+          let fecha = moment(plan.fechaAsignacion).format('DD-MM-YYYY');
+          let fechaMes1 = moment(this.inicioMes).format('DD-MM-YYYY');
+          let fechaMes2 = moment(this.inicioMes2).format('DD-MM-YYYY');
+          // console.log(fecha);
+          // console.log(fechaMes1);
+     
+         if(fecha == fechaMes1){
+          //  console.log('entro1');
+          this.horasMttoBE1 = this.horasMttoBE1 + plan.mes1.totalMes1;
+         }
+
+         if(fecha == fechaMes2){
+          //  console.log('entro2');
+          this.horasMttoBE2 = this.horasMttoBE2 + plan.mes2.totalMes2;
+         }
+        
+
+        }
+    }
+    console.log(this.horasMttoBO1);
+    console.log(this.horasMttoBO2);
+    console.log(this.horasMttoBE2);
+    console.log(this.horasMttoBE2);
+
+    this.totalHorasMtto1 = this.horasMttoBO1 + this.horasMttoBE1;
+    this.totalHorasMtto2 =  this.horasMttoBO2 + this.horasMttoBE2;
+      // if (this.jsonDataPlanMttoBO.length > 0){
+      //   if(this.jsonDataPlanMttoBO.fechaAsignacion == this.inicioMes)
+      //   this.horasMttoBO1 = this.jsonDataPlanMttoBO[0].mes1.totalMes1;
+      //   console.log('entro');
+      //   // this.horasMttoBO2 = this.jsonDataPlanMttoBO[0].mes2.totalMes2;
+      // }
+
+      // if (this.jsonDataPlanMttoBE.length > 0){
+      //   this.horasMttoBE1 = this.jsonDataPlanMttoBE[0].mes1.totalMes1;
+      //   this.horasMttoBE2 = this.jsonDataPlanMttoBE[0].mes2.totalMes2;
+      // }
 
       // this.horasMttoBO1 = this.jsonDataPlanMttoBO[0].mes1.totalMes1 * 9;
       // this.horasMttoBO2 = this.jsonDataPlanMttoBO[0].mes2.totalMes2 * 9;
@@ -438,44 +490,44 @@ export class CapacityService {
 
     filtrarMantenimientoReal(){
 
-      let jsonDataMttoBOReal = [...this.jsonDataPlanService];
-      this.jsonDataPlanMttoBOReal = jsonDataMttoBOReal.filter(a => {
-        return a.tipoContrato === 'Mantenimiento' && a.lineaDeServicio !== 'General' && a.grupoDeTrabajoAsignado === 'Mantenimiento - Keyciren Trigo';
-      });
+      // let jsonDataMttoBOReal = [...this.jsonDataPlanService];
+      // this.jsonDataPlanMttoBOReal = jsonDataMttoBOReal.filter(a => {
+      //   return a.tipoContrato === 'Mantenimiento' && a.lineaDeServicio !== 'General' && a.grupoDeTrabajoAsignado === 'Mantenimiento - Keyciren Trigo';
+      // });
 
-      console.log('jsonDataPlanMttoBOReal',this.jsonDataPlanMttoBOReal);
+      // console.log('jsonDataPlanMttoBOReal',this.jsonDataPlanMttoBOReal);
 
-      let jsonDataMttoBEReal = [...this.jsonDataPlanService];
-      this.jsonDataPlanMttoBEReal = jsonDataMttoBEReal.filter(a => {
-        return a.tipoContrato === 'Mantenimiento' && a.lineaDeServicio !== 'General' && a.grupoDeTrabajoAsignado === 'Mantenimiento - Iñigo Navarro';
-      });
-      console.log('jsonDataPlanMttoBEReal', this.jsonDataPlanMttoBEReal);
+      // let jsonDataMttoBEReal = [...this.jsonDataPlanService];
+      // this.jsonDataPlanMttoBEReal = jsonDataMttoBEReal.filter(a => {
+      //   return a.tipoContrato === 'Mantenimiento' && a.lineaDeServicio !== 'General' && a.grupoDeTrabajoAsignado === 'Mantenimiento - Iñigo Navarro';
+      // });
+      // console.log('jsonDataPlanMttoBEReal', this.jsonDataPlanMttoBEReal);
 
     }
 
     sumarMantenimientoReal(){
 
-      for (const plan of this.jsonDataPlanMttoBOReal) {
+      // for (const plan of this.jsonDataPlanMttoBOReal) {
 
-      this.horasMttoBO1Real = this.horasMttoBO1Real + plan.mes1.totalMes1;
-      this.horasMttoBO2Real =  this.horasMttoBO2Real + plan.mes2.totalMes2;
-      }
+      // this.horasMttoBO1Real = this.horasMttoBO1Real + plan.mes1.totalMes1;
+      // this.horasMttoBO2Real =  this.horasMttoBO2Real + plan.mes2.totalMes2;
+      // }
 
-      for (const plan of this.jsonDataPlanMttoBEReal) {
+      // for (const plan of this.jsonDataPlanMttoBEReal) {
 
-      this.horasMttoBE1Real = this.horasMttoBE1Real + plan.mes1.totalMes1;
-      this.horasMttoBE2Real =  this.horasMttoBE2Real + plan.mes2.totalMes2;
-      }
+      // this.horasMttoBE1Real = this.horasMttoBE1Real + plan.mes1.totalMes1;
+      // this.horasMttoBE2Real =  this.horasMttoBE2Real + plan.mes2.totalMes2;
+      // }
 
-      // Variables definitivas para mostrar en capacity
+      // // Variables definitivas para mostrar en capacity
 
-      this.horasMttoBO1 = this.horasMttoBO1 + this.horasMttoBO1Real;
-      this.horasMttoBO2 = this.horasMttoBO2 + this.horasMttoBO2Real;
-      this.horasMttoBE1 = this.horasMttoBE1 + this.horasMttoBE1Real;
-      this.horasMttoBE2 = this.horasMttoBE2 + this.horasMttoBE2Real;
+      // this.horasMttoBO1 = this.horasMttoBO1 + this.horasMttoBO1Real;
+      // this.horasMttoBO2 = this.horasMttoBO2 + this.horasMttoBO2Real;
+      // this.horasMttoBE1 = this.horasMttoBE1 + this.horasMttoBE1Real;
+      // this.horasMttoBE2 = this.horasMttoBE2 + this.horasMttoBE2Real;
 
-      this.totalHorasMtto1 = this.horasMttoBO1 + this.horasMttoBE1;
-      this.totalHorasMtto2 =  this.horasMttoBO2 + this.horasMttoBE2;
+      // this.totalHorasMtto1 = this.horasMttoBO1 + this.horasMttoBE1;
+      // this.totalHorasMtto2 =  this.horasMttoBO2 + this.horasMttoBE2;
 
     }
 
