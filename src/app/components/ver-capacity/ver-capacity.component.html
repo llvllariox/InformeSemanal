@@ -22,13 +22,13 @@
                 <tbody>
                     <tr class="" style="background-color: rgb(242, 242, 242)">
                         <td class="small text-dark text-center" scope="col" style="width: 300px;text-overflow: ellipsis;">FTE Comprometido</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">40.00</td>
-                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">40.00</td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">18.00</td>
+                        <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">18.00</td>
                     </tr>
                     <tr class="" style="background-color: rgb(217, 225, 242)">
                         <td class="small font-weight-bold text-dark" scope="col" style="width: 200px;text-overflow: ellipsis;">Total Capacity Mes Comprometido</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">7,200.00</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">7,200.00</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">3,240.00</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">3,240.00</td>
                     </tr>
                     <tr class="" style="background-color: rgb(180, 198, 231)">
                         <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Evolutivos</td>
@@ -41,11 +41,11 @@
                         <!-- <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{capacityService.totalMes|number:'1.2'}}</td> -->
                         <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="capacityService.totalMes2" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                     </tr>
-                    <tr class="" style="background-color: rgb(255, 255, 255)">
+                    <!-- <tr class="" style="background-color: rgb(255, 255, 255)">
                         <td class="small text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">&nbsp; &nbsp;Reservado</td>
                         <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Reservavalor1" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                         <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="Reservavalor2" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
-                    </tr>
+                    </tr> -->
                     <tr class="" style="background-color: rgb(180, 198, 231)">
                         <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Mantención</td>
                         <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{(capacityService.totalHorasMtto1)|number:'1.2'}}</td>
@@ -62,14 +62,29 @@
                         <td class="small text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;"><input (keyup)="cambiarTotal2()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="capacityService.horasMttoBE2" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                     </tr>
                     <tr class="" style="background-color: rgb(180, 198, 231)">
-                        <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Capacity disponible SWF</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{7200 - capacityService.totalMes1 - (capacityService.totalHorasMtto1)|number:'1.2'}}</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{7200 - capacityService.totalMes2 - (capacityService.totalHorasMtto2)|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Uso Baseline SWF</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{3240 - capacityService.totalMes1 - (capacityService.totalHorasMtto1)|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{3240 - capacityService.totalMes2 - (capacityService.totalHorasMtto2)|number:'1.2'}}</td>
                     </tr>
+                    <br>
+                    <tr class="" style="background-color: rgb(217, 217, 217)">
+                        <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">HH disponibles SWF (fuera de Baseline)</td>
+                        <td *ngIf="3240 - capacityService.totalMes1 - capacityService.totalHorasMtto1 <=0" class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">0.00</td>
+                        <td *ngIf="3240 - capacityService.totalMes1 - capacityService.totalHorasMtto1 > 0" class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{3240 - (capacityService.totalMes1 + Reservavalor1) - (capacityService.totalHorasMtto1)|number:'1.2'}}</td>
+                        <td *ngIf="3240 - capacityService.totalMes2 - capacityService.totalHorasMtto2 <=0" class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">0.00</td>
+                        <td *ngIf="3240 - capacityService.totalMes2 - capacityService.totalHorasMtto2 > 0" class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{3240 - (capacityService.totalMes2 + Reservavalor2) - (capacityService.totalHorasMtto2)|number:'1.2'}}</td>
+                    </tr>
+                    <br>
                     <tr class="" style="background-color: rgb(180, 198, 231)">
-                        <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Capacity sin asignar SWF</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{7200 - (capacityService.totalMes1 + Reservavalor1) - (capacityService.totalHorasMtto1)|number:'1.2'}}</td>
-                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{7200 - (capacityService.totalMes2 + Reservavalor2) - (capacityService.totalHorasMtto2)|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-dark" scope="col" style="width: 300px;text-overflow: ellipsis;">Capacity Services</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{capacityService.totalMes1CS|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;">{{capacityService.totalMes2CS|number:'1.2'}}</td>
+                    </tr>
+                    <br>
+                    <tr class="">
+                        <th class="small font-weight-bold text-light" scope="col" style="width: 300px;text-overflow: ellipsis;background-color: rgb(32, 55, 100);">Total uso Fábrica</th>
+                        <th class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;background-color: rgb(180, 198, 231);">{{capacityService.totalMes1CS + capacityService.totalMes1 + capacityService.totalHorasMtto1 |number:'1.2'}}</th>
+                        <th class="small font-weight-bold text-dark text-right" scope="col" style="width: 200px;text-overflow: ellipsis;background-color: rgb(180, 198, 231);">{{capacityService.totalMes2CS + capacityService.totalMes2 + capacityService.totalHorasMtto2 |number:'1.2'}}</th>
                     </tr>
                 </tbody>
             </table>
@@ -87,6 +102,7 @@
                         <th class="small font-weight-bold text-light" scope="col" style="width: 300px;text-overflow: ellipsis;">Capacidad Adicional</th>
                         <th class="small font-weight-bold text-light text-center" scope="col" style="width: 180px;text-overflow: ellipsis;">{{fecha1}}</th>
                         <th class="small font-weight-bold text-light text-center" scope="col" style="width: 180px;text-overflow: ellipsis;">{{fecha2}}</th>
+                        <th class="small font-weight-bold text-light text-center" scope="col" style="width: 180px;text-overflow: ellipsis;">Responsable</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,6 +111,7 @@
                         <td class="small text-dark text-left" scope="col" style="width: 350px;text-overflow: ellipsis;">{{CS.descripcion}}</td>
                         <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;"><input (keyup)="cambiarTotalCS()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="CS.mes1.totalMes1" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
                         <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;"><input (keyup)="cambiarTotalCS()" currencyMask [options]="{ prefix: '', thousands: ',', decimal: '.' }" [(ngModel)]="CS.mes2.totalMes2" class="text-right" pattern="" type="text" style="border: 0px;" [disabled]="!mostrarVal"></td>
+                        <td class="small text-dark text-left" scope="col" style="width: 350px;text-overflow: ellipsis;">{{CS.solicitante}}</td>
                         <!-- <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;">{{CS.mes1.totalMes1}}</td> -->
                         <!-- <td class="small text-dark text-right" scope="col" style="width: 180px;text-overflow: ellipsis;">{{CS.mes2.totalMes2}}</td> -->
                     </tr>
@@ -103,6 +120,7 @@
                         <td *ngIf="!mostrarVal" class="small font-weight-bold text-light text-center" scope="col" colspan="1" style="width: 300px;text-overflow: ellipsis;">Total &nbsp;&nbsp; <small>(x{{capacityService.jsonDataPlanServiceCS.length}})</small></td>
                         <td class="small font-weight-bold text-light text-right" scope="col" style="width: 180px;text-overflow: ellipsis;">{{capacityService.totalMes1CS|number:'1.2'}}</td>
                         <td class="small font-weight-bold text-light text-right" scope="col" style="width: 180px;text-overflow: ellipsis;">{{capacityService.totalMes2CS|number:'1.2'}}</td>
+                        <td class="small font-weight-bold text-light text-right" scope="col" style="width: 180px;text-overflow: ellipsis;"></td>
                     </tr>
 
                 </tbody>
