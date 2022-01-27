@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 //import * as jsPDF from 'jspdf';
-import { jsPDF } from 'jspdf';
+const { jsPDF } = require("jspdf");
 import 'jspdf-autotable';
 import * as moment from 'moment'; 
 // interface jsPDFWithPlugin extends jsPDF {
@@ -56,10 +56,24 @@ export class JspdfService {
   }
 
   generaPDF(json, jsonFact){
-    var jsPDF: any; // Important
+    console.log("pase!!")
+    //var jsPDF: any; // Important
+    console.log("pase2!!")
     return new Promise((resolve, reject) => {
-    let doc = new jsPDF('landscape', 'mm', [540, 846]);
-    
+      console.log("pase3!!")
+  // let doc = new jsPDF('landscape', 'mm', [540, 846]);
+    // let doc = new jsPDF({
+    //   orientation: "landscape",
+    //   unit: "mm",
+    //   format: [540, 846],
+    //   compressPdf:false
+    //  });
+    const doc = new jsPDF({
+      orientation: "l",
+      unit: "mm",
+      format: [190, 300]
+    });
+    console.log("pase4!!")
     moment.lang('es');
     this.fecha1 = moment().format('MM/YY');
     this.fecha2 = moment().subtract(1, 'months').format('MM/YY');
@@ -86,24 +100,33 @@ export class JspdfService {
     this.fecha23 = moment().subtract(22, 'months').format('MM/YY');
     this.fecha24 = moment().subtract(23, 'months').format('MM/YY');
     this.fecha25 = moment().subtract(24, 'months').format('MM/YY');
-
+    console.log("pase3!!")
     // Portada
     let portada = new Image();
     portada.src = this.pathPrimeraPagina;
     doc.addImage(portada, 'JPEG', 0, 0,300,191);
+    console.log("pase4!!")
     const offcetHeigth = 55;
+    console.log("pase5!!")
     const offcetWidth = 10;
+    console.log("pase6!!")
     const tituloInforme = `${this.tituloPresentacion}  ${this.segmento}`;
+    console.log("pase7!!")
     doc.setFontSize(32);
-    doc.setFontType('bold');
+    console.log("pase8!!")
+    //doc.setFontType('bold');
+    doc.setFont(undefined, 'bold')
+    console.log("pase9!!")
     doc.setTextColor(255, 255, 255);
+    console.log("pase10!!")
     doc.text(0.69 + offcetWidth, 1.46 + offcetHeigth, tituloInforme);
-
+    console.log("pas11!!")
     const offcetHeigthFecha = 90;
     const offcetWidthFecha = 10;
     const fechaFormat = moment(this.fechaInformes).format('DD-MM-YYYY');
     doc.setFontSize(20);
-    doc.setFontType('normal');
+    //doc.setFontType('normal');
+    doc.setFont(undefined, 'normal')
     doc.setTextColor(255, 255, 255);
     doc.text(0.69 + offcetWidthFecha, 3.39 + offcetHeigthFecha, fechaFormat);
 
@@ -142,6 +165,7 @@ export class JspdfService {
       }
 
       // Tabla Gantt
+
       doc.autoTable({
         headStyles: {fillColor: [177, 181, 178], textColor: [0, 0, 0]},
         startY: 33,
