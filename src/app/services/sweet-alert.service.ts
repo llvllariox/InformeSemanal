@@ -52,10 +52,8 @@ export class SweetAlertService {
       icon: 'info',
       timer: 500,
       showCancelButton: false,
-      showConfirmButton: false,
-      onBeforeOpen: () => {
-        Swal.showLoading();
-      }
+      showConfirmButton: false
+
     });
 
   }

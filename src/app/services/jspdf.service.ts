@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import * as jsPDF from 'jspdf';
+//import * as jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import * as moment from 'moment'; 
 // interface jsPDFWithPlugin extends jsPDF {
@@ -55,8 +56,10 @@ export class JspdfService {
   }
 
   generaPDF(json, jsonFact){
+    var jsPDF: any; // Important
     return new Promise((resolve, reject) => {
     let doc = new jsPDF('landscape', 'mm', [540, 846]);
+    
     moment.lang('es');
     this.fecha1 = moment().format('MM/YY');
     this.fecha2 = moment().subtract(1, 'months').format('MM/YY');
