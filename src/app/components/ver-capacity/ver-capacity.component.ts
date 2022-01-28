@@ -102,20 +102,44 @@ export class VerCapacityComponent implements OnInit {
     const title = 'Capacity';
     const header = ['Distribución Capacity en HH	', this.fecha1, this.fecha2];
     const data = [
-      ['FTE Comprometido', 40.00, 40.00],
-      ['Total Capacity Mes Comprometido', 7200.00,  7200.00],
+      ['FTE Comprometido', 18.00, 18.00],
+      ['Total Capacity Mes Comprometido', 3240.00,  3240.00],
       ['Evolutivos', this.capacityService.totalMes1 + this.Reservavalor1,  this.capacityService.totalMes2 + this.Reservavalor2],
       ['   En ejecución	', this.capacityService.totalMes1, this.capacityService.totalMes2],
-      ['   Reservado	', this.Reservavalor1, this.Reservavalor2],
-      // ['Mantención', this.Mttovalor1 + this.Mttovalor2, this.Mttovalor3 + this.Mttovalor4],
       ['Mantención', this.capacityService.totalHorasMtto1, this.capacityService.totalHorasMtto2],
       ['   Mantención Backoffice', this.capacityService.horasMttoBO1 , this.capacityService.horasMttoBO2],
       ['   Mantención Backend		', this.capacityService.horasMttoBE1 , this.capacityService.horasMttoBE2],
       // tslint:disable-next-line: max-line-length
-      ['Capacity disponible SWF	', 7200 - this.capacityService.totalMes1 - this.capacityService.totalHorasMtto1, 7200 - this.capacityService.totalMes2 - this.capacityService.totalHorasMtto2],
-      // tslint:disable-next-line: max-line-length
-      ['Capacity sin asignar SWF', 7200 - (this.capacityService.totalMes1 + this.Reservavalor1) - (this.capacityService.totalHorasMtto1), 7200 - (this.capacityService.totalMes2 + this.Reservavalor2) - (this.capacityService.totalHorasMtto2)],
+      ['Uso Baseline SWF	', this.capacityService.totalMes1 + this.capacityService.totalHorasMtto1, this.capacityService.totalMes2 + this.capacityService.totalHorasMtto2],
+      // tslint:disable-next-line: max-line-length,
+      ['','' ,''],
     ];
+
+    let HorasDisp1 = 0;
+    let HorasDisp2 = 0;
+
+    if(3240 - this.capacityService.totalMes1 + this.capacityService.totalHorasMtto1 <= 0){
+      HorasDisp1 = 0;
+    }
+    else
+    {
+      HorasDisp1 = 3240 - this.capacityService.totalMes1 + this.capacityService.totalHorasMtto1;
+    }
+
+    if(3240 - this.capacityService.totalMes2 + this.capacityService.totalHorasMtto2 <= 0){
+      HorasDisp2 = 0;
+    }
+    else
+    {
+      HorasDisp2 = 3240 - this.capacityService.totalMes2 + this.capacityService.totalHorasMtto2;
+    }
+
+    data.push(['HH disponibles SWF (Fuera de Baseline)', HorasDisp1, HorasDisp2],);
+    data.push(['','' ,'']);
+    data.push(['Capacity Services', this.capacityService.totalMes1CS, this.capacityService.totalMes2CS],);
+    data.push(['','' ,'']);
+    data.push(['Total Uso Fábrica', this.capacityService.totalMes1 + this.capacityService.totalHorasMtto1 + this.capacityService.totalMes1CS,  this.capacityService.totalMes2 + this.capacityService.totalHorasMtto2 + this.capacityService.totalMes2CS],);
+
     // Create workbook and worksheet
     let workbook = new Workbook();
     let worksheet = workbook.addWorksheet('Capacity');
@@ -158,6 +182,7 @@ export class VerCapacityComponent implements OnInit {
     worksheet.getColumn(1).width = 55;
     worksheet.getColumn(2).width = 20;
     worksheet.getColumn(3).width = 20;
+    worksheet.getColumn(4).width = 30;
 
     // se formateando alguna celdas segun tabla de capacity(Backgournd color, bold, italic entre otras)
     worksheet.getRow(5).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'F2F2F2' }, bgColor: { argb: 'F2F2F2' }};
@@ -173,25 +198,46 @@ export class VerCapacityComponent implements OnInit {
     worksheet.getRow(10).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
     worksheet.getRow(10).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
     worksheet.getRow(10).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
-    worksheet.getRow(13).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
-    worksheet.getRow(13).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
-    worksheet.getRow(13).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
-    worksheet.getRow(14).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
-    worksheet.getRow(14).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
-    worksheet.getRow(14).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(12).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(12).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(12).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(14).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9D9D9' }, bgColor: { argb: 'D9D9D9' }};
+    worksheet.getRow(14).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9D9D9' }, bgColor: { argb: 'D9D9D9' }};
+    worksheet.getRow(14).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9D9D9' }, bgColor: { argb: 'D9D9D9' }};
+    worksheet.getRow(16).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(16).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(16).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(18).getCell(1).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' }};
+    worksheet.getRow(18).getCell(2).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
+    worksheet.getRow(18).getCell(3).fill = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'B4C6E7' }, bgColor: { argb: 'B4C6E7' }};
 
     worksheet.getRow(6).getCell(1).font = {bold: true};
     worksheet.getRow(6).getCell(2).font = {bold: true};
     worksheet.getRow(6).getCell(3).font = {bold: true};
     worksheet.getRow(7).getCell(1).font = {bold: true, italic: true};
+    worksheet.getRow(7).getCell(2).font = {bold: true, italic: true};
+    worksheet.getRow(7).getCell(3).font = {bold: true, italic: true};
     worksheet.getRow(10).getCell(1).font = {bold: true, italic: true};
-    worksheet.getRow(13).getCell(1).font = {bold: true, italic: true};
+    worksheet.getRow(10).getCell(2).font = {bold: true, italic: true};
+    worksheet.getRow(10).getCell(3).font = {bold: true, italic: true};
+    worksheet.getRow(12).getCell(1).font = {bold: true, italic: true};
+    worksheet.getRow(12).getCell(2).font = {bold: true, italic: true}
+    worksheet.getRow(12).getCell(3).font = {bold: true, italic: true}
     worksheet.getRow(14).getCell(1).font = {bold: true, italic: true};
+    worksheet.getRow(14).getCell(2).font = {bold: true, italic: true};
+    worksheet.getRow(14).getCell(3).font = {bold: true, italic: true};
+    worksheet.getRow(16).getCell(1).font = {bold: true, italic: true};
+    worksheet.getRow(16).getCell(2).font = {bold: true, italic: true};
+    worksheet.getRow(16).getCell(3).font = {bold: true, italic: true};
+    worksheet.getRow(18).getCell(1).font = {bold: true, italic: true, color: {argb: 'FFFFFF'}};
+    worksheet.getRow(18).getCell(2).font = {bold: true};
+    worksheet.getRow(18).getCell(3).font = {bold: true};
+
     worksheet.addRow([]);
 
     // se crear arreglo para tabla de capacidad adicional
     const headerCS = [
-      'Capacidad Adicional', this.fecha1, this.fecha2
+      'Capacidad Adicional', this.fecha1, this.fecha2,'Responsable'
     ];
     let headerRowCS = worksheet.addRow(headerCS);
 
@@ -214,12 +260,14 @@ export class VerCapacityComponent implements OnInit {
 
     // se recorre arreglo de planCS dandole formate a las celdas
     this.capacityService.jsonDataPlanServiceCS.forEach(d => {
-      let row = worksheet.addRow([d.descripcion , d.mes1.totalMes1, d.mes2.totalMes2]);
+      let row = worksheet.addRow([d.descripcion , d.mes1.totalMes1, d.mes2.totalMes2,d.solicitante]);
       row.getCell(2).style = {numFmt: '#,##0.00'};
       row.getCell(3).style = {numFmt: '#,##0.00'};
       row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
       row.getCell(2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
       row.getCell(3).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      row.getCell(4).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+
     });
 
     // se crear arreglo con el total de la tabla de capacidad adicional
@@ -240,6 +288,10 @@ export class VerCapacityComponent implements OnInit {
     totalRowCS.getCell(3).fill  = {type: 'pattern', pattern: 'solid', fgColor: { argb: 'C5D9F1' }, bgColor: { argb: 'C5D9F1' }};
     totalRowCS.getCell(3).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
     totalRowCS.getCell(3).font = {bold: true};
+    // totalRowCS.getCell(4).fill  = {type: 'pattern', pattern: 'solid', fgColor: { argb: '203764' }, bgColor: { argb: '203764' }};
+    // totalRowCS.getCell(4).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    // totalRowCS.getCell(4).font = {color: {argb: 'FFFFFF'}, bold: true, italic: true};
+
 
     // Se crear segunda hoja para el detalle de horas
     let worksheet2 = workbook.addWorksheet(`Detalle ${this.fecha1}`);
