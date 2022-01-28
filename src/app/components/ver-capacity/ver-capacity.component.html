@@ -261,7 +261,7 @@
 
     </div>
 </div>
-<div class="m-0 mt-4" style="font-size: 12px;">
+<!-- <div class="m-0 mt-4" style="font-size: 12px;">
     <div class="row justify-content-center mb-2">
         <h6>Resumen {{fecha2}}</h6>
     </div>
@@ -272,7 +272,7 @@
                 <table class="table table-striped table-bordered table-sm" id="excel-table3">
                     <thead class="bg-dark">
                         <tr class="">
-                            <!-- <th *ngIf="mostrarVal" class="small font-weight-bold text-light text-right ml-0" scope="col" style="width: 36px" id="Col1">&nbsp;</th> -->
+
                             <th class="small font-weight-bold text-light" scope="col" style="width: 300px;text-overflow: ellipsis;">Requerimiento</th>
                             <th class="small font-weight-bold text-light text-right ml-0" scope="col" style="width: 50px">Total</th>
 
@@ -280,16 +280,15 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let plan of capacityService.jsonDataMayores2; let i=index" [ngClass]="{'colorcs': plan.descripcion.substr(0,2)==='CS'}">
-                            <!-- <td *ngIf="mostrarVal" class="small text-center puntero text-danger" scope="col" style="width: 36px" (click)="eliminar(i)" id="Col2">X</td> -->
+
                             <td class="small text-dark text-left text-truncate" scope="col" style="width: 300px;text-overflow: ellipsis;">{{plan.descripcion}}</td>
                             <td class="small font-weight-bold text-dark text-right" scope="col" style="width: 50px">{{plan.mes2.totalMes2|number:'1.2'}}
                             </td>
 
                         </tr>
-                        <tr>
+                        <tr>ng
                             <td class="small text-light text-left font-weight-bold" scope="col" colspan="1" style="width: 300px;background-color: rgb(79, 129, 189);">Capacidad Utilizada</td>
-                            <!-- <td *ngIf="!mostrarVal" class="small text-light text-left font-weight-bold" scope="col" colspan="1" style="width: 300px;background-color: rgb(79, 129, 189);">Capacidad Utilizada</td> -->
-                            <!-- <td *ngFor="let dia of capacityService.totalDia" class="small text-dark text-right " scope="col" style="width: 36px">{{dia.total|number:'1.2'}}</td> -->
+
                             <td class="small text-light text-right font-weight-bold" scope="col" style="width: 36px; background-color: rgb(79, 129, 189);text-overflow: ellipsis;">{{ capacityService.totalMes2Mayores|number:'1.2'}}
 
                             </td>
@@ -302,4 +301,4 @@
 
 
     </div>
-</div>
+</div> -->
