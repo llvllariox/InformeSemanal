@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
+import { CLIENT_RENEG_LIMIT } from 'tls';
 import { FeriadosChileService } from './feriados-chile.service';
 import { SweetAlertService } from './sweet-alert.service';
 
@@ -15,6 +16,8 @@ export class CapacityService {
   jsonDataPlanMttoBE;
   jsonDataPlanMttoBOReal;
   jsonDataPlanMttoBEReal;
+  jsonDataMayores1;
+  jsonDataMayores2;
   inicioMes;
   finMes;
   ultDia;
@@ -30,6 +33,8 @@ export class CapacityService {
   totalMes2 = 0;
   totalMes1CS = 0;
   totalMes2CS = 0;
+  totalMes1Mayores = 0;
+  totalMes2Mayores= 0;
   totalDia = [];
   feriados = [];
   capacidadporDia = [];
@@ -117,6 +122,7 @@ export class CapacityService {
     this.agregaFechas();
     this.sumaHH();
     this.ordenarPorARS();
+
     this.agruparARS();
     this.obtieneDiasHabiles();
     this.CSlineaBase();
@@ -134,6 +140,8 @@ export class CapacityService {
     this.filtrarSoloMes2();
     this.filtrarSoloMes1();
     this.diasNoHabilArray();
+    this.ordenarTotalHoras();
+    this.totalMayores();
 
     console.log('ulitmo', this.jsonDataPlanService);
     console.log('ulitmoCS', this.jsonDataPlanServiceCS);
@@ -308,7 +316,7 @@ export class CapacityService {
           this.cantDiasHabiles = this.cantDiasHabiles + 1;
         }
       }
-   
+
       this.cantDiasHabiles2 = 0;
       for (const dia of this.capacidadporDia2) {
         if (dia.habil){
@@ -422,7 +430,7 @@ export class CapacityService {
           let fechaMes2 = moment(this.inicioMes2).format('DD-MM-YYYY');
           // console.log(fecha);
           // console.log(fechaMes1);
-     
+
          if(fecha == fechaMes1){
           //  console.log('entro1');
           this.horasMttoBO1 = this.horasMttoBO1 + plan.mes1.totalMes1;
@@ -432,7 +440,7 @@ export class CapacityService {
           //  console.log('entro2');
           this.horasMttoBO2 = this.horasMttoBO2 + plan.mes2.totalMes2;
          }
-        
+
 
         }
     }
@@ -445,7 +453,7 @@ export class CapacityService {
           let fechaMes2 = moment(this.inicioMes2).format('DD-MM-YYYY');
           // console.log(fecha);
           // console.log(fechaMes1);
-     
+
          if(fecha == fechaMes1){
           //  console.log('entro1');
           this.horasMttoBE1 = this.horasMttoBE1 + plan.mes1.totalMes1;
@@ -455,7 +463,7 @@ export class CapacityService {
           //  console.log('entro2');
           this.horasMttoBE2 = this.horasMttoBE2 + plan.mes2.totalMes2;
          }
-        
+
 
         }
     }
@@ -539,7 +547,7 @@ export class CapacityService {
       });
 
     }
-  
+
     ordenarPorARSCS(){
       // se crear nuevo arreglo desde el plan, se filtra solo lo Capacity Service y se ordena por ARS.
       let jsonDataCS = [...this.jsonDataPlanService];
@@ -726,4 +734,50 @@ export class CapacityService {
       //  console.log(this.diasNH);
       //  console.log('jsonDataPlan', this.jsonDataPlanService);
     }
+
+    ordenarTotalHoras(){
+      // se crear nuevo arreglo desde el plan, se eliminan los meses que tengan cero horas y se ordena por cantidad de horas de mayor a menor.
+      let jsonData1 = [...this.jsonDataPlanService];
+
+      this.jsonDataMayores1 = jsonData1.filter(a => {
+        return a.mes1.totalMes1 > 0;
+      });
+
+      this.jsonDataMayores1.sort((a, b) => {
+        return b.mes1.totalMes1 - a.mes1.totalMes1;
+      });
+      console.log("Mayores");
+      console.log(this.jsonDataMayores1);
+
+
+
+      let jsonData2 = [...this.jsonDataPlanService2];
+      this.jsonDataMayores2 = jsonData2.filter(a => {
+        return a.mes2.totalMes2 > 0;
+      });
+
+      this.jsonDataMayores2.sort((a, b) => {
+        return b.mes2.totalMes2 - a.mes2.totalMes2;
+      });
+      console.log("Mayores2");
+      console.log(this.jsonDataMayores2);
+
+
+    }
+
+    totalMayores(){
+      // se recorren los arreglos para ir sumando todas las horas y asi obtener el total de todo el mes1 y mes 2;
+      this.totalMes1Mayores = 0;
+      this.totalMes2Mayores = 0;
+
+      for (let planMayor of this.jsonDataMayores1) {
+        this.totalMes1Mayores = this.totalMes1Mayores + planMayor.mes1.totalMes1;      }
+
+      for (let planMayor of this.jsonDataMayores2) {
+          this.totalMes2Mayores = this.totalMes2Mayores + planMayor.mes2.totalMes2;    }
+
+          console.log(this.totalMes1Mayores);
+          console.log(this.totalMes2Mayores);
+    }
+
 }
