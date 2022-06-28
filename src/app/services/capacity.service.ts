@@ -730,7 +730,7 @@ export class CapacityService {
        for (const dia of this.diasNoHabil) {
         this.diasNH.push(dia.fecha2);
        }
-      //  console.log(this.diasNoHabil);
+      
       //  console.log(this.diasNH);
       //  console.log('jsonDataPlan', this.jsonDataPlanService);
     }
