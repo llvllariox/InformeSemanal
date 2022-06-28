@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'verCapacity', component: VerCapacityComponent },
   { path: 'capacity', component: GenerarCapacityComponent },
   { path: 'generar', component: GenerarInformeComponent },
+  { path: 'ARS-GFAC', component: GenerarInformeComponent },
   { path: '', pathMatch: 'full', redirectTo: '' },
   { path: '**', pathMatch: 'full', component: GenerarInformeComponent },
 ];
