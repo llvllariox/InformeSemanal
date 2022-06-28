@@ -731,7 +731,6 @@ export class CapacityService {
         this.diasNH.push(dia.fecha2);
        }
       
-      //  console.log(this.diasNH);
       //  console.log('jsonDataPlan', this.jsonDataPlanService);
     }
 
