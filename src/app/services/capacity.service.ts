@@ -720,6 +720,7 @@ export class CapacityService {
        let diasNoHabil = [...this.capacidadporDia];
        this.diasNoHabil = diasNoHabil.filter(a => {
         return !a.habil;
+        
        });
       // se crea nueva variable en formato DD-MM-YYY
        for (const dia of this.diasNoHabil) {
