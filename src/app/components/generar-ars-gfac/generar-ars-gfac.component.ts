@@ -343,7 +343,7 @@ validarTipo(event){
         this.sweetAlerService.mensajeOK('Informe Semanal Generado Exitosamente').then(
           resp => {
             if (resp.value) {
-              this.router.navigateByUrl('/informes/BO');
+              this.router.navigateByUrl('/ver-ars-jira');
             }
           }
         );

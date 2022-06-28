@@ -14,6 +14,7 @@ import { CurrencyMaskModule } from "ng2-currency-mask";
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule , HttpClientJsonpModule} from '@angular/common/http';
 import { GenerarArsGfacComponent } from './components/generar-ars-gfac/generar-ars-gfac.component';
+import { VerArsJiraComponent } from './components/ver-ars-jira/ver-ars-jira.component';
 
 // import { DatePipe } from '@angular/common';
 
@@ -28,6 +29,7 @@ import { GenerarArsGfacComponent } from './components/generar-ars-gfac/generar-a
     GenerarCapacityComponent,
     VerCapacityComponent,
     GenerarArsGfacComponent,
+    VerArsJiraComponent,
   ],
   imports: [
     BrowserModule,
