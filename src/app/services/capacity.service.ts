@@ -746,10 +746,12 @@ export class CapacityService {
       this.jsonDataMayores1.sort((a, b) => {
         return b.mes1.totalMes1 - a.mes1.totalMes1;
       });
+
+      this.jsonDataMayores1 = this.jsonDataMayores1.slice(0,10);
       console.log("Mayores");
       console.log(this.jsonDataMayores1);
 
-
+      
 
       let jsonData2 = [...this.jsonDataPlanService2];
       this.jsonDataMayores2 = jsonData2.filter(a => {
@@ -759,6 +761,7 @@ export class CapacityService {
       this.jsonDataMayores2.sort((a, b) => {
         return b.mes2.totalMes2 - a.mes2.totalMes2;
       });
+      this.jsonDataMayores2 = this.jsonDataMayores2.slice(0,10);
       console.log("Mayores2");
       console.log(this.jsonDataMayores2);
 
