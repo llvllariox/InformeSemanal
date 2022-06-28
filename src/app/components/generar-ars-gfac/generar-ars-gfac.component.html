@@ -8,14 +8,35 @@
             </div>
             <form autocomplete="off" [formGroup]="forma" (ngSubmit)="guardar()">
                 <div class="row my-3">
-                    <div class="col">
-                        <i *ngIf="estadoPlan==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoPlan==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoPlan==3" class="fas fa-check text-success"></i><i *ngIf="estadoPlan==4" class="fas fa-times text-danger"></i>&nbsp;Planificación:
+                    <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoReq==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoReq==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoReq==3" class="fas fa-check text-success"></i><i *ngIf="estadoReq==4" class="fas fa-times text-danger"></i>&nbsp;
+                        Requerimientos:
                     </div>
-                    <div class="col">
-                        <input [class.is-invalid]="planificacionNoValido" formControlName="planificacion" type="file" (change)="uploadPlan($event)" (click)="click(1)">
-                        <small *ngIf="planificacionNoValido" class="text-danger">Seleccione Archivo</small>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="requerimientosNoValido" formControlName="requerimientos" type="file" class="form-control-file" (change)="uploadReq($event)" (click)="click(1)">
+                        <small *ngIf="requerimientosNoValido" class="text-danger">Seleccione Archivo</small>
                     </div>
                 </div>
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoTar==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoTar==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoTar==3" class="fas fa-check text-success"></i><i *ngIf="estadoTar==4" class="fas fa-times text-danger"></i>&nbsp;
+                        Descarga JIRA:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input id="inputTarea" [class.is-invalid]="tareasNoValido " formControlName="tareas" type="file" class="form-control-file" (change)="uploadTar($event)" (click)="click(2)">
+                        <small *ngIf="tareasNoValido " class="text-danger">Seleccione Archivo</small>
+                    </div>
+                </div>
+                <!-- <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoFac==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoFac==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoFac==3" class="fas fa-check text-success"></i><i *ngIf="estadoFac==4" class="fas fa-times text-danger"></i>&nbsp;
+                        Hitos Facturación:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="facturacionNoValido " formControlName="facturacion" type="file" class="form-control-file" (change)="uploadFac($event)" (click)="click(4)">
+                        <small *ngIf="facturacionNoValido " class="text-danger">Seleccione Archivo</small>
+                    </div>
+                </div> -->
 
                 <div class="row my-3 mt-5">
                     <div class="col">
