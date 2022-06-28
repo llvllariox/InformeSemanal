@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import * as XLSX from 'xlsx';
-import { JsonDataService } from 'src/app/services/json-data.service';
+// import { JsonDataService } from 'src/app/services/json-data.service';
+import { ArsJiraService } from 'src/app/services/ars-jira.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
 import { JspdfService } from '../../services/jspdf.service';
@@ -28,16 +29,14 @@ export class GenerarArsGfacComponent implements OnInit {
   estadoFac = 1;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private formBuilder: FormBuilder, private jsonDataService: JsonDataService, private sweetAlerService: SweetAlertService, private router: Router
+  constructor(private formBuilder: FormBuilder, private jsonDataService: ArsJiraService, private sweetAlerService: SweetAlertService, private router: Router
             , private jspdfService: JspdfService) {
 
     this.jsonDataService.jsonDataReqService = null;
-    this.jsonDataService.jsonDataTarService = null;
-    this.jsonDataService.jsonDataFacService = null;
-    this.jsonDataService.jsonMasEve = null;
+    this.jsonDataService.jsonDataJiraService = null;
+    this.jsonDataService.jsonDataHitosService = null;
     this.jsonDataService.infoCargada = false;
-    this.jsonDataService.ReqAgrupado = [];
-    this.jsonDataService.facAgrupado = [];
+
     this.crearFormulario();
     const currentDate = new Date().toISOString().substring(0, 10);
   }
@@ -96,7 +95,7 @@ export class GenerarArsGfacComponent implements OnInit {
 
   filtrarFac(jsonDataReq: any) {
 
-    this.jsonDataService.setjsonDataFacService(this.jsonDataFac);
+    this.jsonDataService.setjsonDataHitosService(this.jsonDataFac);
 
   }
   
@@ -179,7 +178,7 @@ filtrarTar(jsonDataReq: any) {
   //   return a.tipoContrato === 'Evolutivo';
   // });
 
-  this.jsonDataService.setjsonDataTarService(jsonDataReq);
+  this.jsonDataService.setjsonDataJiraService(jsonDataReq);
 
 }
   uploadReq(event) {
