@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ArsJiraService } from 'src/app/services/ars-jira.service';
+import * as moment from 'moment'; //
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
+declare function init_customJS();
 
 @Component({
   selector: 'app-ver-ars-jira',
@@ -7,14 +11,121 @@ import { ArsJiraService } from 'src/app/services/ars-jira.service';
   styleUrls: ['./ver-ars-jira.component.css']
 })
 export class VerArsJiraComponent implements OnInit {
+  
+  hoy;
 
-  constructor(public arsJiraService: ArsJiraService) { }
+  constructor(public arsJiraService: ArsJiraService) { 
+    init_customJS();
+    this.hoy = moment().lang('es').format('DD-MM-YYYY');
+  }
 
   ngOnInit(): void {
   }
 
   generateExcel(){
 
+    // Create workbook and worksheet
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('ARS-JIRA');
+
+    // Se establecen anchos de las columnas
+      worksheet.getColumn(1).width = 19;
+      worksheet.getColumn(2).width = 85;
+      worksheet.getColumn(3).width = 15;
+      worksheet.getColumn(4).width = 14;
+      worksheet.getColumn(5).width = 16;
+      worksheet.getColumn(6).width = 26;
+      worksheet.getColumn(7).width = 19;
+      worksheet.getColumn(8).width = 20;
+      worksheet.getColumn(9).width = 12;
+      worksheet.getColumn(10).width = 27;
+      worksheet.getColumn(11).width = 16;
+      worksheet.getColumn(12).width = 16;
+      worksheet.getColumn(13).width = 18;
+      worksheet.getColumn(14).width = 16;
+      worksheet.getColumn(15).width = 17;
+      worksheet.getColumn(16).width = 10;
+      worksheet.getColumn(17).width = 50;
+      worksheet.getColumn(18).width = 24;
+
+    const headerCS = [
+      'Nro. Requerimiento','Descripción','Etapa','Estado','Línea de Servicio','Origen',
+      'Solicitante','Código Externo','Req. Origen','Responsable ARS','Fecha Recepción',
+      'Horas Estimadas','Horas Planificadas','Horas Incurridas','Tipo de Incidencia','Clave',
+      'Responsable JIRA','Estado'
+    ];
+    let headerRowCS = worksheet.addRow(headerCS);
+
+    // Cell Style : Fill and Border
+    headerRowCS.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '203764' },
+        bgColor: { argb: '203764' },
+
+      };
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      cell.font = {
+        color: {argb: 'FFFFFF'},
+        bold: true,
+        italic: true
+      };
+    });
+
+    // se recorre arreglo de planCS dandole formate a las celdas
+    this.arsJiraService.jsonDataReqService.Requerimientos.forEach(d => {
+      let row = worksheet.addRow([
+            d.nroReq , 
+            d.descripcion, 
+            d.etapa,
+            d.estado, 
+            d.lineaDeServicio,
+            d.origen,
+            d.solicitante,
+            d.codigoExterno,
+            d.reqOrigen,
+            d.responsable,
+            d.fechaRecepcion,
+            d.horasEstimadas,
+            d.horasPlanificadas,
+            d.horasIncurridas,
+            d.jira.tipoDeIncidencia,
+            d.jira.clave,
+            d.jira.responsable,
+            d.jira.estado
+
+            ]);
+
+      // row.getCell(2).style = {numFmt: '#,##0.00'};
+      // row.getCell(3).style = {numFmt: '#,##0.00'};
+      row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(3).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(4).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(5).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(6).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(7).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(8).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(9).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(10).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(11).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(12).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(13).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(14).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(15).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(16).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(17).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(18).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+
+
+    });
+  
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, `ARS-JIRA_${this.hoy}.xlsx`);
+    });
   }
+  
 
 }

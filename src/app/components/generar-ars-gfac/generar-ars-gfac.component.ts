@@ -342,7 +342,7 @@ validarTipo(event){
                 return;
         }
         this.jsonDataService.consolidarArchivos();
-        this.sweetAlerService.mensajeOK('Informe Semanal Generado Exitosamente').then(
+        this.sweetAlerService.mensajeOK('Generado Exitosamente').then(
           resp => {
             if (resp.value) {
               this.router.navigateByUrl('/ver-ars-jira');
