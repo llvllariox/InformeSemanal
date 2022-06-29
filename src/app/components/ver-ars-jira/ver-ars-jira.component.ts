@@ -4,8 +4,7 @@ import { ArsJiraService } from 'src/app/services/ars-jira.service';
 @Component({
   selector: 'app-ver-ars-jira',
   templateUrl: './ver-ars-jira.component.html',
-  styles: [
-  ]
+  styleUrls: ['./ver-ars-jira.component.css']
 })
 export class VerArsJiraComponent implements OnInit {
 

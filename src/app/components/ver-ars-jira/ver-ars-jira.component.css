@@ -1,0 +1,35 @@
+table {
+    table-layout: fixed;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* tbody {
+    position: absolute;
+    height: 100%;
+    overflow-y: scroll;
+} */
+
+.colorcs {
+    background: #FCFFA8 !important;
+}
+
+tr:hover {
+    background: #BCE2F7 !important;
+    /* border: 40px !important;
+    border-color: red !important;
+    border-radius: 5px !important; */
+    /* text-decoration-color: crimson; */
+}
+
+.danger {
+    color: red !important;
+}
+
+input[type="text"][disabled] {
+    color: black;
+    background: white;
+    border: none;
+}

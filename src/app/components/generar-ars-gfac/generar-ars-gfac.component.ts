@@ -87,7 +87,7 @@ export class GenerarArsGfacComponent implements OnInit {
         delete this.jsonDataFac['Resumen'];
         delete this.jsonDataFac['Temporal'];
         this.filtrarFac(this.jsonDataFac);
-        console.log(this.jsonDataFac);
+        // console.log(this.jsonDataFac);
       }
     };
     reader.readAsBinaryString(file);
@@ -118,7 +118,7 @@ export class GenerarArsGfacComponent implements OnInit {
   }
 
   uploadTar(event) {
-    console.log(event);
+    // console.log(event);
     if (!this.validarTipo(event)){
       this.estadoTar = 4;
       return;
@@ -148,12 +148,14 @@ export class GenerarArsGfacComponent implements OnInit {
         initial[name] = XLSX.utils.sheet_to_json(sheet,{range:2});
     
         // this.sweetAlerService.close();
+        // console.log('pase' + this.estadoTar);
         this.estadoTar = 3;
+        // console.log('pase' + this.estadoTar);
         return initial;
     
       }, {});
   
-      console.log(this.jsonDataTar);
+      // console.log(this.jsonDataTar);
       if (this.jsonDataTar['Sheet0'] === undefined) {
         this.estadoTar = 4;
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');

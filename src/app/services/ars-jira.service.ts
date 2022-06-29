@@ -68,7 +68,7 @@ export class ArsJiraService {
 
       // console.log(jirapaso.estado)
       this.jsonDataReqService.Requerimientos[i] = {...this.jsonDataReqService.Requerimientos[i], jira };
-      console.log(this.jsonDataReqService.Requerimientos[i])
+      // console.log(this.jsonDataReqService.Requerimientos[i])
       i++;
     }
 

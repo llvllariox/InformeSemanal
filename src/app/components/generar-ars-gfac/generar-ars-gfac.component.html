@@ -9,7 +9,7 @@
             <form autocomplete="off" [formGroup]="forma" (ngSubmit)="guardar()">
                 <div class="row my-3">
                     <div class="col-12 col-sm-4">
-                        <i *ngIf="estadoReq==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoReq==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoReq==3" class="fas fa-check text-success"></i><i *ngIf="estadoReq==4" class="fas fa-times text-danger"></i>&nbsp;
+                        <i *ngIf="this.estadoReq==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="this.estadoReq==2" class="fas fa-spinner fa-spin"></i><i *ngIf="this.estadoReq==3" class="fas fa-check text-success"></i><i *ngIf="this.estadoReq==4" class="fas fa-times text-danger"></i>&nbsp;
                         Requerimientos:
                     </div>
                     <div class="col-12 col-sm-8">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="row my-3">
                     <div class="col-12 col-sm-4">
-                        <i *ngIf="estadoTar==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoTar==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoTar==3" class="fas fa-check text-success"></i><i *ngIf="estadoTar==4" class="fas fa-times text-danger"></i>&nbsp;
+                        <i *ngIf="this.estadoTar==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="this.estadoTar==2" class="fas fa-spinner fa-spin"></i><i *ngIf="this.estadoTar==3" class="fas fa-check text-success"></i><i *ngIf="this.estadoTar==4" class="fas fa-times text-danger"></i>&nbsp;
                         Descarga JIRA:
                     </div>
                     <div class="col-12 col-sm-8">
