@@ -60,6 +60,30 @@
                         <!-- <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira.fechaDeInicio|fechas}}</td> -->
                         <!-- <td class="small text-dark text-left" scope="col" style="width: 350px;text-overflow: ellipsis;">{{req.descripcion}}</td> -->
                     </tr>
+                    <tr *ngFor="let jira of arsJiraService.jsonDataJiraSinArsService; let i = index" class="" style="background-color: rgb(255, 255, 255)">
+
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <!-- <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td> -->
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">-</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{jira.tipoDeIncidencia}}</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{jira.clave}}</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{jira.responsable}}</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{jira.estado}}</td>
+                        <!-- <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira.fechaDeInicio|fechas}}</td> -->
+                        <!-- <td class="small text-dark text-left" scope="col" style="width: 350px;text-overflow: ellipsis;">{{req.descripcion}}</td> -->
+                    </tr>
 
                 </tbody>
             </table>

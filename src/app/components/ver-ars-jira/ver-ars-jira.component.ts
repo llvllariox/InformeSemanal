@@ -30,7 +30,7 @@ export class VerArsJiraComponent implements OnInit {
 
     // Se establecen anchos de las columnas
       worksheet.getColumn(1).width = 19;
-      worksheet.getColumn(2).width = 85;
+      worksheet.getColumn(2).width = 60;
       worksheet.getColumn(3).width = 15;
       worksheet.getColumn(4).width = 14;
       worksheet.getColumn(5).width = 16;
@@ -47,6 +47,15 @@ export class VerArsJiraComponent implements OnInit {
       worksheet.getColumn(16).width = 10;
       worksheet.getColumn(17).width = 50;
       worksheet.getColumn(18).width = 24;
+
+      worksheet.autoFilter = {
+        from: 'A1',
+        to: 'R1',
+      }
+
+      worksheet.views = [
+        {state: 'frozen', xSplit: 2, ySplit: 1}
+      ];
 
     const headerCS = [
       'Nro. Requerimiento','Descripción','Etapa','Estado','Línea de Servicio','Origen',
@@ -97,6 +106,7 @@ export class VerArsJiraComponent implements OnInit {
 
             ]);
 
+
       // row.getCell(2).style = {numFmt: '#,##0.00'};
       // row.getCell(3).style = {numFmt: '#,##0.00'};
       row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
@@ -120,7 +130,53 @@ export class VerArsJiraComponent implements OnInit {
 
 
     });
-  
+
+
+    //se muestran JIRA sin ARS
+    this.arsJiraService.jsonDataJiraSinArsService.forEach(d => {
+      let row = worksheet.addRow([
+            '-' , 
+            '-', 
+            '-',
+            '-', 
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            d.tipoDeIncidencia,
+            d.clave,
+            d.responsable,
+            d.estado
+
+            ]);
+            row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(2).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(3).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(4).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(5).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(6).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(7).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(8).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(9).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(10).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(11).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(12).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(13).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(14).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(15).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(16).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(17).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(18).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      
+      
+          });
+    
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       fs.saveAs(blob, `ARS-JIRA_${this.hoy}.xlsx`);

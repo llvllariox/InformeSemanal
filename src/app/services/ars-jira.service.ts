@@ -9,6 +9,7 @@ export class ArsJiraService {
   jsonDataReqService;
   jsonDataJiraService;
   jsonDataHitosService;
+  jsonDataJiraSinArsService;
   infoCargada = false;
   conFact = true;
   fechaInformes: string;
@@ -43,6 +44,7 @@ export class ArsJiraService {
 
     console.log('ARS-JIRA SERVICE');
     this.AddJiraToReq();
+    this.buscarJiraSinARS();
     console.log(this.jsonDataReqService);
     console.log(this.jsonDataJiraService);
 
@@ -86,6 +88,46 @@ export class ArsJiraService {
       }
       x++;
     }
+
+  }
+
+  buscarJiraSinARS() {
+
+    let JiraSinARS = [];
+    for (let jira of this.jsonDataJiraService.Sheet0) {
+      let req = [];
+      req =  this.jsonDataReqService.Requerimientos.find((e) => e.codigoExterno === jira.clave);
+  
+      if(req){
+        // console.log('existe ', req);
+      }else{
+        // console.log('no existe ', jira.clave);
+        JiraSinARS.push(jira);
+      }
+      
+     
+    }
+    console.log(JiraSinARS);
+    // JiraSinARS.filter(x => x !== '') 
+    this.jsonDataJiraSinArsService = JiraSinARS.slice(1);
+    console.log(this.jsonDataJiraSinArsService);
+ 
+//  // se agregan JIRA a los requerimientos como un arreglo
+//  let x = 0;
+//  // tslint:disable-next-line: prefer-const
+
+//  for (let  jira of this.jsonDataJiraService.Sheet0) {
+
+   
+//    for (let req of this.jsonDataReqService.Requerimientos) {
+
+//      if (req.codigoExterno === jira.clave) {
+//        console.log('existe' + req.codigoExterno );
+//      }
+//    }
+//    if ()
+//    x++;
+//  }
 
   }
 }

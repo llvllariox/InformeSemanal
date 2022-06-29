@@ -134,12 +134,12 @@ export class GenerarArsGfacComponent implements OnInit {
       const data = reader.result;
       
       workBook = XLSX.read(data, { type: 'binary', cellDates: true });
-      // if (workBook.SheetNames[0] !== 'Detalle Tareas'){
-      //   this.estadoTar = 4;
-      //   this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
-      //   this.jsonDataTar = null;
-      //   return;
-      // }
+      if (workBook.SheetNames[0] !== 'Sheet0'){
+        this.estadoTar = 4;
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
+        this.jsonDataTar = null;
+        return;
+      }
       this.jsonDataTar = workBook.SheetNames.reduce((initial, name) => {
       
         const sheet = workBook.Sheets[name];
