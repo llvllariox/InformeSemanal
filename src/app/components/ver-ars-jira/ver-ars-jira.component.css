@@ -1,16 +1,4 @@
-table {
-    table-layout: fixed;
-    word-wrap: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
-
-/* tbody {
-    position: absolute;
-    height: 100%;
-    overflow-y: scroll;
-} */
 
 .colorcs {
     background: #FCFFA8 !important;
@@ -18,10 +6,6 @@ table {
 
 tr:hover {
     background: #BCE2F7 !important;
-    /* border: 40px !important;
-    border-color: red !important;
-    border-radius: 5px !important; */
-    /* text-decoration-color: crimson; */
 }
 
 .danger {
@@ -33,3 +17,31 @@ input[type="text"][disabled] {
     background: white;
     border: none;
 }
+
+  
+  table {
+    text-align: left;
+    position: relative;
+    border-collapse: collapse; 
+  }
+  th, td {
+    padding: 0.25rem;
+  }
+  tr.red th {
+    background: red;
+    color: white;
+  }
+  tr.green th {
+    background: green;
+    color: white;
+  }
+  tr.purple th {
+    background: purple;
+    color: white;
+  }
+  th {
+    background: white;
+    position: sticky;
+    top: 0; /* Don't forget this, required for the stickiness */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+  }
