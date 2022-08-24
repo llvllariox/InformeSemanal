@@ -1,1 +1,54 @@
-<p>sla-generar works!</p>
+<div class="container">
+    <p>Resumen SLA mes: {{monthNames[today.getMonth()]}} de {{today.getFullYear()}}</p>
+
+    <div class="div mb-7">
+        <table class="table table-striped table-bordered">
+            <thead class="bg-dark">
+                <tr>
+                    <th class="small font-weight-bold text-light" scope="col">Métrica</th>
+                    <th class="small font-weight-bold text-light" scope="col">Target</th>
+                    <th class="small font-weight-bold text-light" scope="col">Cantidad Mínima de Casos</th>
+                    <th class="small font-weight-bold text-light" scope="col">Cantidad de Casos</th>
+                    <th class="small font-weight-bold text-light" scope="col">Total OK</th>
+                    <th class="small font-weight-bold text-light" scope="col">Total NOOK</th>
+                    <th class="small font-weight-bold text-light" scope="col">SLA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="small">PE1: Cumplimiento de Plazo de Respuesta Estimación</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small">10</td>
+                    <td class="small">{{cantidadPE1}}</td>
+                    <td class="small">{{cantidadOKPE1}}</td>
+                    <td class="small">{{cantidadNOOKPE1}}</td>
+                    <td class="small">a</td>
+                </tr> 
+            </tbody>
+        </table>
+    </div>
+
+    <!-- TABLA -->
+    <div class="div mb-5">
+        <table class="table table-striped table-bordered">
+            <thead class="bg-dark">
+                <tr>
+                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+                    <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                    <th class="small font-weight-bold text-light" scope="col">Fecha Real Estimación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ars of JsonArrayPE1; let i=index">
+                    <td class="small">{{ars.nroReq}}</td>
+                    <td class="small">{{ars.contrato}}</td>
+                    <td class="small">{{ars.lineaDeServicio}}</td>
+                    <td class="small">{{ars.fechaRecepcion}}</td>
+                    <td class="small">{{ars.fecRealEstimacion}}</td>
+                </tr> 
+            </tbody>
+        </table>
+    </div>
+</div>

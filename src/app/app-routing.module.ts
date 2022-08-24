@@ -6,6 +6,8 @@ import { GenerarCapacityComponent } from './components/generar-capacity/generar-
 import { VerCapacityComponent } from './components/ver-capacity/ver-capacity.component';
 import { GenerarArsGfacComponent } from './components/generar-ars-gfac/generar-ars-gfac.component';
 import { VerArsJiraComponent } from './components/ver-ars-jira/ver-ars-jira.component';
+import { SlaComponent } from './components/sla/sla.component';
+import { SlaGenerarComponent } from './components/sla-generar/sla-generar.component';
 
 const routes: Routes = [
   { path: '', component: GenerarInformeComponent},
@@ -15,6 +17,10 @@ const routes: Routes = [
   { path: 'generar', component: GenerarInformeComponent },
   { path: 'ars-gfac', component: GenerarArsGfacComponent },
   { path: 'ver-ars-jira', component: VerArsJiraComponent },
+
+  { path: 'sla', component: SlaComponent },
+  { path: 'sla-generar', component: SlaGenerarComponent },
+
   { path: '', pathMatch: 'full', redirectTo: '' },
   { path: '**', pathMatch: 'full', component: GenerarInformeComponent },
 ];

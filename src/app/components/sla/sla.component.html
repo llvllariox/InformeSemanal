@@ -1,1 +1,31 @@
-<p>sla works!</p>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-6 ">
+            <div class="row">
+                <div class="col ">
+                    <h4>Subir Archivos</h4>
+                </div>
+            </div>
+            <form autocomplete="off" [formGroup]="formulario" (ngSubmit)="guardar()">
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoReq==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoReq==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoReq==3" class="fas fa-check text-success"></i><i *ngIf="estadoReq==4" class="fas fa-times text-danger"></i>&nbsp;
+                        Requerimientos PROYECTO:
+                        <small>Descargar Abiertas desde hace 1 año atrás y Cerradas mes a obtener informe</small>
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="requerimientosNoValido" formControlName="requerimientos" type="file" class="form-control-file" (change)="uploadReq($event)" (click)="click(1)">
+                        <small *ngIf="requerimientosNoValido" class="text-danger">Seleccione Archivo</small>
+                    </div>
+                </div>
+                
+                <div class="row my-3 mt-5">
+                    <div class="col">
+                        <button class="btn btn-primary btn-block" type="submit">Generar</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
