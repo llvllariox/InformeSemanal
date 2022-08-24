@@ -15,6 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule , HttpClientJsonpModule} from '@angular/common/http';
 import { GenerarArsGfacComponent } from './components/generar-ars-gfac/generar-ars-gfac.component';
 import { VerArsJiraComponent } from './components/ver-ars-jira/ver-ars-jira.component';
+import { SlaComponent } from './components/sla/sla.component';
+import { SlaGenerarComponent } from './components/sla-generar/sla-generar.component';
 
 // import { DatePipe } from '@angular/common';
 
@@ -30,6 +32,8 @@ import { VerArsJiraComponent } from './components/ver-ars-jira/ver-ars-jira.comp
     VerCapacityComponent,
     GenerarArsGfacComponent,
     VerArsJiraComponent,
+    SlaComponent,
+    SlaGenerarComponent,
   ],
   imports: [
     BrowserModule,
