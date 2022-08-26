@@ -5,6 +5,7 @@ import { SlaJsonDataService } from 'src/app/services/sla-json-data.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
 import { JspdfService } from '../../services/jspdf.service';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-sla',
@@ -69,9 +70,13 @@ export class SlaComponent implements OnInit {
         this.estadoReq = 4;
         this.jsonDataReq = null;
       } else {
-        //PE1
-        this.filtrarReqPE1(this.jsonDataReq);
-        this.filtrarReq(this.jsonDataReq);
+        let tmp = this.jsonDataReq.Requerimientos;
+        
+        this.filtrarReqPE1(tmp);
+        this.filtrarReqPE2(tmp);
+        this.filtrarReqPE3(tmp);
+        this.filtrarReqPE6(tmp);
+      
       }
     };
     reader.readAsBinaryString(file);
@@ -105,30 +110,98 @@ export class SlaComponent implements OnInit {
   this.jsonDataService.setjsonDataReqService(jsonDataReq);
  }
 
- filtrarReqPE1(jsonDataReq: any) {
-  /*
+ /*
   Filtrar Contrato = Evolutivo
   Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
   Revisar Fecha Recepción = MES del informe
   Validar Fecha Recepción VS Fec. Real Estimación <= 5 días hábiles, Se informa el total
   Liberar filtros
   */
+ filtrarReqPE1(jsonDataReqArray: any) {
+ // console.log(temporal);
 
-  jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
+ jsonDataReqArray = jsonDataReqArray.filter(a => {
     return a.contrato === 'Evolutivo';
   });
 
-  jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
+  jsonDataReqArray = jsonDataReqArray.filter(a => {
     return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
   });
 
-  //falta obtener mes del informe
+  //FALTA - Revisar Fecha Recepción = MES del informe
   let mes_actual = 8;
-  jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
+  jsonDataReqArray = jsonDataReqArray.filter(a => {
     return a.fechaRecepcion.getMonth() === mes_actual;
   });
 
-  this.jsonDataService.setjsonDataReqPE1Service(jsonDataReq);
+  this.jsonDataService.setjsonDataReqPE1Service(jsonDataReqArray);
+ }
+
+
+ /*
+    Filtrar Contrato = Evolutivo
+    Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
+    Validar Fec. Real Pase Aprobación = Mes en curso VS Fec. Plan. Pase Aprobación, deben ser iguales, Se informa el total
+    Liberar filtros
+  */
+ filtrarReqPE2(jsonDataReqArray: any) {
+  jsonDataReqArray = jsonDataReqArray.filter(a => {
+    return a.contrato === 'Evolutivo';
+  });
+
+  jsonDataReqArray = jsonDataReqArray.filter(a => {
+    return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
+  });
+
+  //FALTA FECHA  FILTRO MALO
+  jsonDataReqArray = jsonDataReqArray.filter(a => {
+    return a.fecPlanPaseAprobacion.getMonth() === 9;
+  });
+
+  this.jsonDataService.setjsonDataReqPE2Service(jsonDataReqArray);
+ }
+
+  /*
+    Filtrar Contrato = Evolutivo
+    Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
+    Filtrar Estado = Finalizado 
+    Validar Fec Real Fin = mes en curso
+    Validar Horas Estimadas => Horas Incurridas, Se informa el total
+    Liberar filtros
+  */
+ filtrarReqPE3(jsonDataReqArray: any) {
+
+
+  jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return a.contrato === 'Evolutivo';
+    });
+  
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
+    });
+
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return a.estado === '02 Finalizado';
+    });
+
+   this.jsonDataService.setjsonDataReqPE3Service(jsonDataReqArray);
+ }
+
+   /*
+    Filtrar Contrato = Evolutivo
+    Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
+    Validar Fec. Real Pase Producción = Mes en curso VS  Fec. Plan. Pase Producción, deben ser iguales, Se informa el total
+  */
+ filtrarReqPE6(jsonDataReqArray: any) {
+  jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return a.contrato === 'Evolutivo';
+    });
+  
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
+    });
+
+  this.jsonDataService.setjsonDataReqPE6Service(jsonDataReqArray);
  }
 
  guardar() {

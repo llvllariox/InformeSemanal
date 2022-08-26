@@ -24,11 +24,41 @@
                     <td class="small">{{cantidadNOOKPE1}}</td>
                     <td class="small">a</td>
                 </tr> 
+                <tr>
+                    <td class="small">PE2: Cumplimiento de Plazo de Entrega de Desarrollo</td>
+                    <td class="small">&gt;85%</td>
+                    <td class="small">10</td>
+                    <td class="small">{{cantidadPE2}}</td>
+                    <td class="small">{{cantidadOKPE2}}</td>
+                    <td class="small">{{cantidadNOOKPE2}}</td>
+                    <td class="small">a</td>
+                </tr>
+                <tr>
+                    <td class="small">PE3: Cumplimiento de Horas Estimadas</td>
+                    <td class="small">&gt;85%</td>
+                    <td class="small">10</td>
+                    <td class="small">{{cantidadPE3}}</td>
+                    <td class="small">{{cantidadOKPE3}}</td>
+                    <td class="small">{{cantidadNOOKPE3}}</td>
+                    <td class="small">a</td>
+                </tr>
+
+
+                <tr>
+                    <td class="small">PE6: Despliegue en Producción sin Vuelta Atrás</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small">10</td>
+                    <td class="small">{{cantidadPE6}}</td>
+                    <td class="small">{{cantidadOKPE6}}</td>
+                    <td class="small">{{cantidadNOOKPE6}}</td>
+                    <td class="small">a</td>
+                </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- TABLA -->
+    <!-- TABLA PE1 -->
+    <p>TABLA PE1</p>
     <div class="div mb-5">
         <table class="table table-striped table-bordered">
             <thead class="bg-dark">
@@ -51,4 +81,91 @@
             </tbody>
         </table>
     </div>
+
+
+        <!-- TABLA PE2 -->
+        <p>TABLA PE2</p>
+        <div class="div mb-5">
+            <table class="table table-striped table-bordered">
+                <thead class="bg-dark">
+                    <tr>
+                        <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                        <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                        <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+
+                        <th class="small font-weight-bold text-light" scope="col">Fec. Real Pase Aprobación</th>
+                        <th class="small font-weight-bold text-light" scope="col">Mes en curso</th>
+                        <th class="small font-weight-bold text-light" scope="col">Fec. Plan Pase Aprobación
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ars of JsonArrayPE2; let i=index">
+                        <td class="small">{{ars.nroReq}}</td>
+                        <td class="small">{{ars.contrato}}</td>
+                        <td class="small">{{ars.lineaDeServicio}}</td>
+
+                        <td class="small">{{ars.fecRealPaseAprobacion}}</td>
+                        <td class="small">{{monthNames[today.getMonth()]}}</td>
+                        <td class="small">{{ars.fecPlanPaseAprobacion}}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+
+        <p>TABLA PE3</p>
+        <div class="div mb-5">
+            <table class="table table-striped table-bordered">
+                <thead class="bg-dark">
+                    <tr>
+                        <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                        <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                        <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+
+                        <th class="small font-weight-bold text-light" scope="col">Estado</th>
+                        <th class="small font-weight-bold text-light" scope="col">Fec Real Fin</th>
+                        <th class="small font-weight-bold text-light" scope="col">Mes en curso</th>
+                        <th class="small font-weight-bold text-light" scope="col">Horas Estimadas</th>
+                        <th class="small font-weight-bold text-light" scope="col">Horas Incurridas</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ars of JsonArrayPE3; let i=index">
+                        <td class="small">{{ars.nroReq}}</td>
+                        <td class="small">{{ars.contrato}}</td>
+                        <td class="small">{{ars.lineaDeServicio}}</td>
+
+                        <td class="small">{{ars.estado}}</td>
+                        <td class="small">{{ars.fecRealFin}}</td>
+                        <td class="small">{{monthNames[today.getMonth()]}}</td>
+                        <td class="small">{{ars.horasEstimadas}}</td>
+                        <td class="small">{{ars.horasIncurridas}}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+
+        <p>TABLA PE6</p>
+        <div class="div mb-5">
+            <table class="table table-striped table-bordered">
+                <thead class="bg-dark">
+                    <tr>
+                        <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                        <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                        <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+
+                        <th class="small font-weight-bold text-light" scope="col">Fec. Real Pase Producción</th>
+                        <th class="small font-weight-bold text-light" scope="col">Mes en curso</th>
+                        <th class="small font-weight-bold text-light" scope="col">Fec. Plan. Pase Producción</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ars of JsonArrayPE3; let i=index">
+                        <td class="small">{{ars.nroReq}}</td>
+                        <td class="small">{{ars.contrato}}</td>
+                        <td class="small">{{ars.lineaDeServicio}}</td>
+
+                        <td class="small">{{ars.fecRealPaseProduccion}}</td>
+                        <td class="small">{{monthNames[today.getMonth()]}}</td>
+                        <td class="small">{{ars.fecPlanPaseProduccion}}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
 </div>
