@@ -22,23 +22,43 @@ export class SlaGenerarComponent implements OnInit {
   cantidadPE1;
   cantidadOKPE1;
   cantidadNOOKPE1;
+  SLAPE1;
 
   cantidadPE2;
   cantidadOKPE2;
   cantidadNOOKPE2;
+  SLAPE2;
 
   cantidadPE3;
   cantidadOKPE3;
   cantidadNOOKPE3;
+  SLAPE3;
 
   cantidadPE6;
   cantidadOKPE6;
   cantidadNOOKPE6;
+  SLAPE6;
 
   constructor(public jsonDataService: SlaJsonDataService, private route: ActivatedRoute, private sweetAlerService: SweetAlertService, public pdfService: JspdfService) {
     this.cantidadPE1 = 0;
     this.cantidadOKPE1 = 0;
     this.cantidadNOOKPE1 = 0;
+    this.SLAPE1 = 0;
+
+    this.cantidadPE2 = 0;
+    this.cantidadOKPE2 = 0;
+    this.cantidadNOOKPE2 = 0;
+    this.SLAPE2 = 0;
+
+    this.cantidadPE3 = 0;
+    this.cantidadOKPE3 = 0;
+    this.cantidadNOOKPE3 = 0;
+    this.SLAPE3 = 0;
+
+    this.cantidadPE6 = 0;
+    this.cantidadOKPE6 = 0;
+    this.cantidadNOOKPE6 = 0;
+    this.SLAPE1 = 0;
     
     if(this.jsonDataService.jsonDataReqPE1Service !== undefined) {
       this.JsonArrayPE1 = this.jsonDataService.getJsonDataReqPE1Service();
@@ -60,6 +80,8 @@ export class SlaGenerarComponent implements OnInit {
       this.getPE6();
     }
 
+    this.today = new Date();
+
   }
 
   ngOnInit(): void {
@@ -68,7 +90,7 @@ export class SlaGenerarComponent implements OnInit {
   getPE1(){
     this.cantidadPE1 = this.JsonArrayPE1.length;
 
-    //Validar Fecha Recepción VS Fec. Real Estimación <= 5 días hábiles
+    //Cumplen los que  Fecha Recepción VS Fec. Real Estimación <= 5 días hábiles
     let cantOk = 0;
     this.JsonArrayPE1.forEach(function(valor){
       let fechaRecepcion = new Date(valor['fechaRecepcion']);
@@ -79,27 +101,79 @@ export class SlaGenerarComponent implements OnInit {
     this.cantidadOKPE1 = cantOk;
 
     this.cantidadNOOKPE1 = this.cantidadPE1 - this.cantidadOKPE1;
+
+    if(this.cantidadPE1 != 0) {
+      this.SLAPE1 = this.cantidadOKPE1 * 100 / this.cantidadPE1;  
+    }
+    else {
+      this.SLAPE1 = 100;  
+    }
   }
 
   getPE2(){
-    //Validar Fec. Real Pase Aprobación = Mes en curso VS Fec. Plan. Pase Aprobación, deben ser iguales, Se informa el total
     this.cantidadPE2 = this.JsonArrayPE2.length;
-    this.cantidadOKPE2 = 1;
+
+    //Cumplen los que Fec. Real Pase Aprobación <= Fec. Plan. Pase Aprobación.
+    let cantOk = 0;
+    this.JsonArrayPE2.forEach(function(valor){
+      let fecRealPaseAprobacion = new Date(valor['fecRealPaseAprobacion']);
+      let fecPlanPaseAprobacion = new Date(valor['fecPlanPaseAprobacion']);
+
+      cantOk += (fecRealPaseAprobacion <= fecPlanPaseAprobacion) ? 1 : 0;
+    });
+    this.cantidadOKPE2 = cantOk;
+    
     this.cantidadNOOKPE2 = this.cantidadPE2 - this.cantidadOKPE2;
+
+    if(this.cantidadPE2 != 0) {
+      this.SLAPE2 = this.cantidadOKPE2 * 100 / this.cantidadPE2;  
+    }
+    else {
+      this.SLAPE2 = 100;  
+    }
   }
 
   getPE3(){
     this.cantidadPE3 = this.JsonArrayPE3.length;
-    this.cantidadOKPE3 = 1;
+
+    //cumplen las que Horas Incurridas <= Horas Estimadas
+    let cantOk = 0;
+    this.JsonArrayPE3.forEach(function(valor){
+        cantOk += (valor['horasIncurridas'] <= valor['horasEstimadas']) ? 1 : 0;
+    });
+    this.cantidadOKPE3 = cantOk;
+
     this.cantidadNOOKPE3 = this.cantidadPE3 - this.cantidadOKPE3;
-    // Validar Fec Real Fin = mes en curso
-    // Validar Horas Estimadas => Horas Incurridas, Se informa el total
+
+    //SLA
+      if(this.cantidadPE3 != 0) {
+      this.SLAPE3 = this.cantidadOKPE3 * 100 / this.cantidadPE3;  
+    }
+    else {
+      this.SLAPE3 = 100;  
+    }
   }
 
   getPE6(){
     this.cantidadPE6 = this.JsonArrayPE6.length;
-    this.cantidadOKPE6 = 1;
+
+    //Cumplen los que  Fec. Real Pase Producción <=  Fec. Plan. Pase Producción.
+    let cantOk = 0;
+    this.JsonArrayPE6.forEach(function(valor){
+      let fecRealPaseProduccion = new Date(valor['fecRealPaseProduccion']);
+      let fecPlanPaseProduccion = new Date(valor['fecPlanPaseProduccion']);
+      
+      cantOk += (fecRealPaseProduccion <= fecPlanPaseProduccion) ? 1 : 0;
+    });
+    this.cantidadOKPE6 = cantOk;
+
     this.cantidadNOOKPE6 = this.cantidadPE6 - this.cantidadOKPE6;
-    //Validar Fec. Real Pase Producción = Mes en curso VS  Fec. Plan. Pase Producción, deben ser iguales, Se informa el total
+
+    if(this.cantidadPE6 != 0) {
+      this.SLAPE6 = this.cantidadOKPE6 * 100 / this.cantidadPE6;  
+    }
+    else {
+      this.SLAPE6 = 100;  
+    }
   }
 }

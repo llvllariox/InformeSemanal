@@ -5,7 +5,6 @@ import { SlaJsonDataService } from 'src/app/services/sla-json-data.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
 import { JspdfService } from '../../services/jspdf.service';
-import { Console } from 'console';
 
 @Component({
   selector: 'app-sla',
@@ -17,6 +16,8 @@ export class SlaComponent implements OnInit {
   jsonDataReq = null;
   nuevosHeaders = [];
   estadoReq = 1;
+  fechaInforme  = new Date('Sat Aug 01 2020 00:00:45 GMT-0400 (Chile Standard Time)');
+  //fechaInforme  = new Date();
 
   constructor(private formBuilder: FormBuilder, private jsonDataService: SlaJsonDataService, private sweetAlerService: SweetAlertService, private router: Router
     , private jspdfService: JspdfService) {  
@@ -24,6 +25,9 @@ export class SlaComponent implements OnInit {
       this.jsonDataService.infoCargada = false;
       this.jsonDataService.ReqAgrupado = [];
       this.crearFormulario();
+
+      const currentDate = new Date().toISOString().substring(0, 10);
+      this.formulario.controls['fecha'].setValue(currentDate);
   }
 
   ngOnInit(): void {
@@ -63,8 +67,6 @@ export class SlaComponent implements OnInit {
         return initial;
       }, {});
     
-    
-
       if (this.jsonDataReq.Requerimientos === undefined) {
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
         this.estadoReq = 4;
@@ -111,38 +113,33 @@ export class SlaComponent implements OnInit {
  }
 
  /*
-  Filtrar Contrato = Evolutivo
-  Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
-  Revisar Fecha Recepción = MES del informe
-  Validar Fecha Recepción VS Fec. Real Estimación <= 5 días hábiles, Se informa el total
-  Liberar filtros
-  */
+	Filtrar Contrato = Evolutivo
+	Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
+	Filtra Fecha Recepción = MES del informe (por pantalla) 
+ */
  filtrarReqPE1(jsonDataReqArray: any) {
- // console.log(temporal);
-
- jsonDataReqArray = jsonDataReqArray.filter(a => {
-    return a.contrato === 'Evolutivo';
-  });
 
   jsonDataReqArray = jsonDataReqArray.filter(a => {
-    return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
-  });
+      return a.contrato === 'Evolutivo';
+    });
 
-  //FALTA - Revisar Fecha Recepción = MES del informe
-  let mes_actual = 8;
-  jsonDataReqArray = jsonDataReqArray.filter(a => {
-    return a.fechaRecepcion.getMonth() === mes_actual;
-  });
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
+    });
 
-  this.jsonDataService.setjsonDataReqPE1Service(jsonDataReqArray);
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+        return (a.fechaRecepcion.getMonth() === this.fechaInforme.getMonth()
+              && a.fechaRecepcion.getFullYear() === this.fechaInforme.getFullYear());
+    });
+
+    this.jsonDataService.setjsonDataReqPE1Service(jsonDataReqArray);
  }
 
 
  /*
-    Filtrar Contrato = Evolutivo
-    Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
-    Validar Fec. Real Pase Aprobación = Mes en curso VS Fec. Plan. Pase Aprobación, deben ser iguales, Se informa el total
-    Liberar filtros
+  Filtrar Contrato = Evolutivo
+	Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
+	Filtrar Fec. Real Pase Aprobación = Mes en curso(por pantalla)
   */
  filtrarReqPE2(jsonDataReqArray: any) {
   jsonDataReqArray = jsonDataReqArray.filter(a => {
@@ -153,10 +150,11 @@ export class SlaComponent implements OnInit {
     return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
   });
 
-  //FALTA FECHA  FILTRO MALO
   jsonDataReqArray = jsonDataReqArray.filter(a => {
-    return a.fecPlanPaseAprobacion.getMonth() === 9;
+    return (a.fecRealPaseAprobacion.getMonth() === this.fechaInforme.getMonth()
+          && a.fecRealPaseAprobacion.getFullYear() === this.fechaInforme.getFullYear());
   });
+ 
 
   this.jsonDataService.setjsonDataReqPE2Service(jsonDataReqArray);
  }
@@ -165,9 +163,7 @@ export class SlaComponent implements OnInit {
     Filtrar Contrato = Evolutivo
     Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
     Filtrar Estado = Finalizado 
-    Validar Fec Real Fin = mes en curso
-    Validar Horas Estimadas => Horas Incurridas, Se informa el total
-    Liberar filtros
+    Filtrar Fec Real Fin = mes en curso (por pantalla)
   */
  filtrarReqPE3(jsonDataReqArray: any) {
 
@@ -184,13 +180,18 @@ export class SlaComponent implements OnInit {
       return a.estado === '02 Finalizado';
     });
 
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return (a.fecRealFin.getMonth() === this.fechaInforme.getMonth()
+            && a.fecRealFin.getFullYear() === this.fechaInforme.getFullYear());
+    });
+
    this.jsonDataService.setjsonDataReqPE3Service(jsonDataReqArray);
  }
 
    /*
     Filtrar Contrato = Evolutivo
     Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
-    Validar Fec. Real Pase Producción = Mes en curso VS  Fec. Plan. Pase Producción, deben ser iguales, Se informa el total
+    Filtrar Fec. Real Pase Producción = Mes en curso
   */
  filtrarReqPE6(jsonDataReqArray: any) {
   jsonDataReqArray = jsonDataReqArray.filter(a => {
@@ -201,10 +202,16 @@ export class SlaComponent implements OnInit {
       return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
     });
 
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return (a.fecRealPaseProduccion.getMonth() === this.fechaInforme.getMonth()
+            && a.fecRealPaseProduccion.getFullYear() === this.fechaInforme.getFullYear());
+    });
+
   this.jsonDataService.setjsonDataReqPE6Service(jsonDataReqArray);
  }
 
  guardar() {
+  console.log(this.formulario.invalid);
     if (this.formulario.invalid) {
       Object.values(this.formulario.controls).forEach(control => {
         if (control instanceof FormGroup) {
@@ -216,6 +223,8 @@ export class SlaComponent implements OnInit {
         }
       });
     } else {
+//agregar fecha a servicio
+
         if (this.jsonDataReq == null) {
                 this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
                 return;
@@ -235,11 +244,16 @@ export class SlaComponent implements OnInit {
  crearFormulario() {
   this.formulario = this.formBuilder.group({
     requerimientos : ['', [Validators.required]],
+   // fecha : ['', [Validators.required]],
   });
 }
 
 get requerimientosNoValido() {
   return this.formulario.get('requerimientos').invalid && this.formulario.get('requerimientos').touched;
+}
+
+get fechaNoValido() {
+  return this.formulario.get('fecha').invalid && this.formulario.get('fecha').touched;
 }
 
 }

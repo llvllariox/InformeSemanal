@@ -22,7 +22,7 @@
                     <td class="small">{{cantidadPE1}}</td>
                     <td class="small">{{cantidadOKPE1}}</td>
                     <td class="small">{{cantidadNOOKPE1}}</td>
-                    <td class="small">a</td>
+                    <td class="small">{{SLAPE1}}</td>
                 </tr> 
                 <tr>
                     <td class="small">PE2: Cumplimiento de Plazo de Entrega de Desarrollo</td>
@@ -31,7 +31,7 @@
                     <td class="small">{{cantidadPE2}}</td>
                     <td class="small">{{cantidadOKPE2}}</td>
                     <td class="small">{{cantidadNOOKPE2}}</td>
-                    <td class="small">a</td>
+                    <td class="small">{{SLAPE2}}</td>
                 </tr>
                 <tr>
                     <td class="small">PE3: Cumplimiento de Horas Estimadas</td>
@@ -40,7 +40,7 @@
                     <td class="small">{{cantidadPE3}}</td>
                     <td class="small">{{cantidadOKPE3}}</td>
                     <td class="small">{{cantidadNOOKPE3}}</td>
-                    <td class="small">a</td>
+                    <td class="small">{{SLAPE3}}</td>
                 </tr>
 
 
@@ -51,7 +51,7 @@
                     <td class="small">{{cantidadPE6}}</td>
                     <td class="small">{{cantidadOKPE6}}</td>
                     <td class="small">{{cantidadNOOKPE6}}</td>
-                    <td class="small">a</td>
+                    <td class="small">{{SLAPE6}}</td>
                 </tr>
             </tbody>
         </table>
@@ -67,7 +67,8 @@
                     <th class="small font-weight-bold text-light" scope="col">Contrato</th>
                     <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
                     <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
-                    <th class="small font-weight-bold text-light" scope="col">Fecha Real Estimación</th>
+                    <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                    <th class="small font-weight-bold text-light" scope="col">Fecha Informe</th>
                 </tr>
             </thead>
             <tbody>
@@ -156,7 +157,7 @@
                         <th class="small font-weight-bold text-light" scope="col">Fec. Plan. Pase Producción</th>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let ars of JsonArrayPE3; let i=index">
+                    <tr *ngFor="let ars of JsonArrayPE6; let i=index">
                         <td class="small">{{ars.nroReq}}</td>
                         <td class="small">{{ars.contrato}}</td>
                         <td class="small">{{ars.lineaDeServicio}}</td>
