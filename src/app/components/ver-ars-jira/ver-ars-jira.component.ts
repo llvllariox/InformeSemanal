@@ -47,10 +47,14 @@ export class VerArsJiraComponent implements OnInit {
       worksheet.getColumn(16).width = 10;
       worksheet.getColumn(17).width = 50;
       worksheet.getColumn(18).width = 24;
+      worksheet.getColumn(19).width = 15;
+      worksheet.getColumn(20).width = 15;
+      worksheet.getColumn(21).width = 15;
+      worksheet.getColumn(22).width = 15;
 
       worksheet.autoFilter = {
         from: 'A1',
-        to: 'R1',
+        to: 'V1',
       }
 
       worksheet.views = [
@@ -61,7 +65,7 @@ export class VerArsJiraComponent implements OnInit {
       'Nro. Requerimiento','Descripción','Etapa','Estado','Línea de Servicio','Origen',
       'Solicitante','Código Externo','Req. Origen','Responsable ARS','Fecha Recepción',
       'Horas Estimadas','Horas Planificadas','Horas Incurridas','Tipo de Incidencia','Clave',
-      'Responsable JIRA','Estado'
+      'Responsable JIRA','Estado','Duración','Tarifa HH/UF','HH Consumidas','HH Restantes'
     ];
     let headerRowCS = worksheet.addRow(headerCS);
 
@@ -102,7 +106,11 @@ export class VerArsJiraComponent implements OnInit {
             d.jira.tipoDeIncidencia,
             d.jira.clave,
             d.jira.responsable,
-            d.jira.estado
+            d.jira.estado,
+            parseFloat(d.jira["Duración en HH"]),
+            parseFloat(d.jira["Tarifa HH/UF"]),
+            parseFloat(d.jira["HH Consumidas"]),
+            parseFloat(d.jira["HH Restantes"])
 
             ]);
 
@@ -128,6 +136,17 @@ export class VerArsJiraComponent implements OnInit {
       row.getCell(17).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
       row.getCell(18).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
 
+      row.getCell(19).style = {numFmt: '#,##0.00'};
+      row.getCell(20).style = {numFmt: '#,##0.00'};
+      row.getCell(21).style = {numFmt: '#,##0.00'};
+      row.getCell(22).style = {numFmt: '#,##0.00'};
+      
+      row.getCell(19).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(20).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(21).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      row.getCell(22).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+
+
 
     });
 
@@ -152,7 +171,11 @@ export class VerArsJiraComponent implements OnInit {
             d.tipoDeIncidencia,
             d.clave,
             d.responsable,
-            d.estado
+            d.estado,
+            parseFloat(d["Duración en HH"]),
+            parseFloat(d["Tarifa HH/UF"]),
+            parseFloat(d["HH Consumidas"]),
+            parseFloat(d["HH Restantes"])
 
             ]);
             row.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
@@ -173,6 +196,14 @@ export class VerArsJiraComponent implements OnInit {
             row.getCell(16).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
             row.getCell(17).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
             row.getCell(18).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(19).style = {numFmt: '#,##0.00'};
+            row.getCell(20).style = {numFmt: '#,##0.00'};
+            row.getCell(21).style = {numFmt: '#,##0.00'};
+            row.getCell(22).style = {numFmt: '#,##0.00'};
+            row.getCell(19).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(20).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(21).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            row.getCell(22).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
       
       
           });

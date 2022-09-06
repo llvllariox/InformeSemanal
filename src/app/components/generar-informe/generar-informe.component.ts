@@ -374,7 +374,8 @@ validarTipo(event){
               this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Eventos');
               return;
         }
-        this.jsonDataService.consolidarArchivos();
+       
+        
         this.sweetAlerService.mensajeOK('Informe Semanal Generado Exitosamente').then(
           resp => {
             if (resp.value) {
