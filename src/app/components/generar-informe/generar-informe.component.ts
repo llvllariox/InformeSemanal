@@ -375,7 +375,7 @@ validarTipo(event){
               return;
         }
        
-        
+        this.jsonDataService.consolidarArchivos();
         this.sweetAlerService.mensajeOK('Informe Semanal Generado Exitosamente').then(
           resp => {
             if (resp.value) {
