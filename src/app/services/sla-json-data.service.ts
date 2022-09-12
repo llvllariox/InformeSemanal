@@ -9,10 +9,26 @@ export class SlaJsonDataService {
   jsonDataReqPE2Service;
   jsonDataReqPE3Service;
   jsonDataReqPE6Service;
+
+  jsonDataReqPM1Service;
+  jsonDataReqPM2Service;
+
+  jsonDataReqPI1Service;
+  jsonDataReqPI2Service;
+
   infoCargada = false;
   ReqAgrupado = [];
+  fechaInforme: string;
   
   constructor() { }
+
+  getFechaInforme() {
+    return this.fechaInforme;
+  }
+
+  setFechaInforme(fecha: string){
+      this.fechaInforme = fecha;
+  }
 
   getJsonDataReqService() {
     return this.jsonDataReqService;
@@ -27,8 +43,6 @@ export class SlaJsonDataService {
   }
 
   setjsonDataReqPE1Service(jsonDataReqService: any) {
-    //console.log('PE1');
-    //console.log(jsonDataReqService);
     this.jsonDataReqPE1Service = jsonDataReqService;
   }
 
@@ -37,8 +51,6 @@ export class SlaJsonDataService {
   }
 
   setjsonDataReqPE2Service(jsonDataReqService: any) {
-    //console.log('PE2');
-    //console.log(jsonDataReqService);
     this.jsonDataReqPE2Service = jsonDataReqService;
   }
 
@@ -46,7 +58,7 @@ export class SlaJsonDataService {
     return this.jsonDataReqPE3Service;
   }
 
-  setjsonDataReqPE3Service(jsonDataReqService: any) {
+  setJsonDataReqPE3Service(jsonDataReqService: any) {
     this.jsonDataReqPE3Service = jsonDataReqService;
   }
 
@@ -54,12 +66,43 @@ export class SlaJsonDataService {
     return this.jsonDataReqPE6Service;
   }
 
-  setjsonDataReqPE6Service(jsonDataReqService: any) {
+  setJsonDataReqPE6Service(jsonDataReqService: any) {
     this.jsonDataReqPE6Service = jsonDataReqService;
   }
 
+  getJsonDataReqPM1Service() {
+    return this.jsonDataReqPM1Service;
+  }
+
+  setJsonDataReqPM1Service(jsonDataReqService: any) {
+    this.jsonDataReqPM1Service = jsonDataReqService;
+  }
+  
+  getJsonDataReqPM2Service() {
+    return this.jsonDataReqPM2Service;
+  }
+
+  setJsonDataReqPM2Service(jsonDataReqService: any) {
+    this.jsonDataReqPM2Service = jsonDataReqService;
+  }
+
+  getJsonDataReqPI1Service() {
+    return this.jsonDataReqPI1Service;
+  }
+
+  setJsonDataReqPI1Service(jsonDataReqService: any) {
+    this.jsonDataReqPI1Service = jsonDataReqService;
+  }
+
+  getJsonDataReqPI2Service() {
+    return this.jsonDataReqPI2Service;
+  }
+
+  setJsonDataReqPI2Service(jsonDataReqService: any) {
+    this.jsonDataReqPI2Service = jsonDataReqService;
+  }
+
   consolidarArchivos() {
-//    this.validaciones();
     this.infoCargada = true;
   }
 }

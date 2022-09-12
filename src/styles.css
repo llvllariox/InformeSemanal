@@ -20,3 +20,12 @@ html {
 .puntero {
     cursor: pointer;
 }
+
+.centrado {
+    text-align: center;
+}
+
+.cumple {
+    border-style: solid;
+    border-color: green;
+}

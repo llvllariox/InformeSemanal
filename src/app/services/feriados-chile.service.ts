@@ -6,7 +6,7 @@ import { HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class FeriadosChileService {
-
+  feriados = null;
   constructor(public http: HttpClient) { }
 
   // Se llama al servicio de feriados mediante JsonP
@@ -23,6 +23,32 @@ export class FeriadosChileService {
         // console.log('reps',resp);
         return resp;
       }));
+  }
+
+  //obtiene un arreglo de feriados
+  obtenerFeriados() {
+    const url = `https://apis.digital.gob.cl/fl/feriados/`;
+    return this.http.jsonp(url, 'callback').pipe(
+      map((resp: any) => {
+        if(resp.error){
+          resp = [];
+        }
+
+        let feriadosTemp = [];
+        resp.forEach(element => {
+          feriadosTemp.push(element['fecha']);
+        });
+
+        return feriadosTemp;
+      }));
+  }
+
+  setFeriados(feri: any){
+    this.feriados = feri;
+  }
+
+  getFeriados(){
+    return this.feriados;
   }
 }
 

@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx';
 import { SlaJsonDataService } from 'src/app/services/sla-json-data.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
-import { JspdfService } from '../../services/jspdf.service';
+import { FeriadosChileService } from '../../services/feriados-chile.service';
 
 @Component({
   selector: 'app-sla',
@@ -16,11 +16,11 @@ export class SlaComponent implements OnInit {
   jsonDataReq = null;
   nuevosHeaders = [];
   estadoReq = 1;
-  fechaInforme  = new Date('Sat Aug 01 2020 00:00:45 GMT-0400 (Chile Standard Time)');
-  //fechaInforme  = new Date();
+  fechaInforme;
+  feriados = null;
 
-  constructor(private formBuilder: FormBuilder, private jsonDataService: SlaJsonDataService, private sweetAlerService: SweetAlertService, private router: Router
-    , private jspdfService: JspdfService) {  
+
+  constructor(private formBuilder: FormBuilder, private jsonDataService: SlaJsonDataService, private sweetAlerService: SweetAlertService, private router: Router, private feriadosService: FeriadosChileService) {  
       this.jsonDataService.jsonDataReqService = null;
       this.jsonDataService.infoCargada = false;
       this.jsonDataService.ReqAgrupado = [];
@@ -28,19 +28,33 @@ export class SlaComponent implements OnInit {
 
       const currentDate = new Date().toISOString().substring(0, 10);
       this.formulario.controls['fecha'].setValue(currentDate);
+      this.jsonDataService.setFechaInforme(this.formulario.value.fecha);
+      this.fechaInforme = new Date(jsonDataService.getFechaInforme());
+
+      // Se obtienen los feriados
+      this.feriadosService.obtenerFeriados().subscribe(resp => {
+              this.feriados = resp;
+        }, err => {
+            this.feriados = null;
+            this.sweetAlerService.mensajeError('Error al obtener Feriados', err.og.message);
+        });
   }
 
   ngOnInit(): void {
   }
 
   click(archivo){
-    setTimeout(() => {
-      switch (archivo) {
-        case 1:
-          this.estadoReq = 2;
-          break;
-        }
-    }, 1000);    
+    this.formulario.controls.requerimientos.reset();
+    this.estadoReq = 4;
+  }
+
+  cambiarFecha(event) {
+    //si no ha subido archivo
+    this.fechaInforme = new Date(this.formulario.value.fecha);
+    if(this.formulario.value.requerimientos){
+      this.formulario.controls.requerimientos.reset();
+      this.estadoReq = 4;
+    }
   }
 
   uploadReq(event) {
@@ -74,17 +88,24 @@ export class SlaComponent implements OnInit {
       } else {
         let tmp = this.jsonDataReq.Requerimientos;
         
+        //PROYECTO
         this.filtrarReqPE1(tmp);
         this.filtrarReqPE2(tmp);
         this.filtrarReqPE3(tmp);
         this.filtrarReqPE6(tmp);
-      
+
+        //MANTENIMIENTO
+        this.filtrarReqPM1(tmp);
+        this.filtrarReqPM2(tmp);    
+        
+        this.filtrarReqPI1(tmp);
+        //this.filtrarReqPI2(tmp);    
       }
     };
     reader.readAsBinaryString(file);
  }
 
- formularioHeaders(sheet, limit){
+   formularioHeaders(sheet, limit){
     function camalize(str) {
         str = str.replace(/\./g, '');
         str = str.normalize('NFD').replace(/[\u0300-\u036f]/g,"");
@@ -97,7 +118,7 @@ export class SlaComponent implements OnInit {
               'AI1',	'AJ1',	'AK1',	'AL1',	'AM1',	'AN1',	'AO1', 'AP1',	'AQ1', 'AR1',
               'AS1',	'AT1',	'AU1',	'AV1',	'AW1',	'AX1',	'AY1',	'AZ1',	'BA1',	'BB1',
               'BC1',	'BD1',	'BE1',	'BF1',	'BG1',	'BH1',
-              ];
+             ];
 
     for (const letra of abc) {
       sheet[letra].w = camalize(sheet[letra].w);
@@ -185,7 +206,7 @@ export class SlaComponent implements OnInit {
             && a.fecRealFin.getFullYear() === this.fechaInforme.getFullYear());
     });
 
-   this.jsonDataService.setjsonDataReqPE3Service(jsonDataReqArray);
+   this.jsonDataService.setJsonDataReqPE3Service(jsonDataReqArray);
  }
 
    /*
@@ -207,11 +228,85 @@ export class SlaComponent implements OnInit {
             && a.fecRealPaseProduccion.getFullYear() === this.fechaInforme.getFullYear());
     });
 
-  this.jsonDataService.setjsonDataReqPE6Service(jsonDataReqArray);
+  this.jsonDataService.setJsonDataReqPE6Service(jsonDataReqArray);
  }
 
+ /*
+  Fitrar Contrato = Mantenimiento
+	Fitrar Línea de Servicio = Problemas
+	Filtrar Fecha Recepción MES = MES del informe
+ */
+ filtrarReqPM1(jsonDataReqArray: any) {
+  jsonDataReqArray = jsonDataReqArray.filter(a => {
+    return a.contrato === 'Mantenimiento';
+  });
+
+  jsonDataReqArray = jsonDataReqArray.filter(a => {
+    return a.lineaDeServicio === 'Problemas';
+  });
+
+
+
+  jsonDataReqArray = jsonDataReqArray.filter(a => {
+    return (a.fechaRecepcion.getMonth() === this.fechaInforme.getMonth()
+          && a.fechaRecepcion.getFullYear() === this.fechaInforme.getFullYear());
+  });
+ 
+  this.jsonDataService.setJsonDataReqPM1Service(jsonDataReqArray);
+ }
+
+  /*
+  Fitrar Contrato = Mantenimiento
+	Fitrar Línea de Servicio = Problemas
+	Filtrar Fecha Recepción MES = MES del informe
+ */
+  filtrarReqPM2(jsonDataReqArray: any) {
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return a.contrato === 'Mantenimiento';
+    });
+  
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return a.lineaDeServicio === 'Problemas';
+    });
+  
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return (a.fechaRecepcion.getMonth() === this.fechaInforme.getMonth()
+            && a.fechaRecepcion.getFullYear() === this.fechaInforme.getFullYear());
+    });
+   
+    this.jsonDataService.setJsonDataReqPM2Service(jsonDataReqArray);
+   }
+
+   /*
+   	Fitrar Contrato = Mantenimiento
+    Filtrar Bloque = Cancelaciones
+    Filtrar Fecha Recepción MES = MES del informe
+   */
+    filtrarReqPI1(jsonDataReqArray: any) {
+      jsonDataReqArray = jsonDataReqArray.filter(a => {
+        return a.contrato === 'Mantenimiento';
+      });
+    
+      jsonDataReqArray = jsonDataReqArray.filter(a => {
+        return a.bloque === 'Mantención';
+        //return a.bloque === 'Cancelaciones';
+      });
+
+      jsonDataReqArray = jsonDataReqArray.filter(a => {
+        return (a.fechaRecepcion.getMonth() === this.fechaInforme.getMonth()
+        && a.fechaRecepcion.getFullYear() === this.fechaInforme.getFullYear());
+      });
+
+      this.jsonDataService.setJsonDataReqPI1Service(jsonDataReqArray);
+      this.jsonDataService.setJsonDataReqPI2Service(jsonDataReqArray);
+    }
+
  guardar() {
-  console.log(this.formulario.invalid);
+    if(this.estadoReq==4){
+      this.formulario.value.requerimientos = null;
+      return 1;
+    }
+
     if (this.formulario.invalid) {
       Object.values(this.formulario.controls).forEach(control => {
         if (control instanceof FormGroup) {
@@ -223,18 +318,24 @@ export class SlaComponent implements OnInit {
         }
       });
     } else {
-//agregar fecha a servicio
+        this.jsonDataService.setFechaInforme(this.formulario.value.fecha);
 
         if (this.jsonDataReq == null) {
-                this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
-                return;
+          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
+          return;
+        }
+
+        if(this.feriados == null){
+          this.sweetAlerService.mensajeError('Feriados', 'No se ha podido obtener los feriados');
+          return;
         }
 
         this.jsonDataService.consolidarArchivos();
-        this.sweetAlerService.mensajeOK('Resumen SLA generado exitosamente').then(
+        this.sweetAlerService.mensajeOK('Resumen SLA generado exitosamente').then(          
           resp => {
             if (resp.value) {
-              this.router.navigateByUrl('/sla-generar');
+              this.feriadosService.setFeriados(this.feriados);
+              this.router.navigateByUrl('/sla-generar');        
             }
           }
         );
@@ -243,17 +344,17 @@ export class SlaComponent implements OnInit {
 
  crearFormulario() {
   this.formulario = this.formBuilder.group({
-    requerimientos : ['', [Validators.required]],
-   // fecha : ['', [Validators.required]],
-  });
-}
+      requerimientos : ['', [Validators.required]],
+      fecha : ['', [Validators.required]],
+    });
+  }
 
-get requerimientosNoValido() {
-  return this.formulario.get('requerimientos').invalid && this.formulario.get('requerimientos').touched;
-}
+  get requerimientosNoValido() {
+    return this.formulario.get('requerimientos').invalid && this.formulario.get('requerimientos').touched;
+  }
 
-get fechaNoValido() {
-  return this.formulario.get('fecha').invalid && this.formulario.get('fecha').touched;
-}
+  get fechaNoValido() {
+    return this.formulario.get('fecha').invalid && this.formulario.get('fecha').touched;
+  }
 
 }

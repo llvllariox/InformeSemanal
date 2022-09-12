@@ -1,5 +1,5 @@
 <div class="container">
-    <p>Resumen SLA mes: {{monthNames[today.getMonth()]}} de {{today.getFullYear()}}</p>
+    <p>Resumen SLA mes: {{monthNames[fechaInformeDate.getMonth()]}} de {{fechaInformeDate.getFullYear()}}</p>
 
     <div class="div mb-7">
         <table class="table table-striped table-bordered">
@@ -43,6 +43,19 @@
                     <td class="small">{{SLAPE3}}</td>
                 </tr>
 
+                <tr>
+                    <td class="small">PE4: Cumplimiento de Plazo en Resolución de Incidencia en QA Críticas</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small">10</td>
+                    <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
+                </tr>
+
+                <tr>
+                    <td class="small">PE5: Cumplimiento de Plazo en Resolución de Incidencia en QA No</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small">10</td>
+                    <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
+                </tr>
 
                 <tr>
                     <td class="small">PE6: Despliegue en Producción sin Vuelta Atrás</td>
@@ -53,120 +66,285 @@
                     <td class="small">{{cantidadNOOKPE6}}</td>
                     <td class="small">{{SLAPE6}}</td>
                 </tr>
-            </tbody>
-        </table>
-    </div>
 
-    <!-- TABLA PE1 -->
-    <p>TABLA PE1</p>
-    <div class="div mb-5">
-        <table class="table table-striped table-bordered">
-            <thead class="bg-dark">
                 <tr>
-                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
-                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
-                    <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
-                    <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
-                    <th class="small font-weight-bold text-light" scope="col">Fecha Informe</th>
+                    <td class="small">CA1: Cumplimiento de Adherencia al Proceso en QA</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small">10</td>
+                    <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
                 </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let ars of JsonArrayPE1; let i=index">
-                    <td class="small">{{ars.nroReq}}</td>
-                    <td class="small">{{ars.contrato}}</td>
-                    <td class="small">{{ars.lineaDeServicio}}</td>
-                    <td class="small">{{ars.fechaRecepcion}}</td>
-                    <td class="small">{{ars.fecRealEstimacion}}</td>
-                </tr> 
+
+                <tr>
+                    <td class="small">CA2: Cumplimiento en Calidad del SW en QA</td>
+                    <td class="small">&lt;20%</td>
+                    <td class="small">10</td>
+                    <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
+                </tr>
+
+                <tr>
+                    <td class="small">PM1: Cumplimiento de Plazo de Respuesta Estimación</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small">10</td>
+                    <td class="small">{{cantidadPM1}}</td>
+                    <td class="small">{{cantidadOKPM1}}</td>
+                    <td class="small">{{cantidadNOOKPM1}}</td>
+                    <td class="small">{{SLAPM1}}</td>
+                </tr>
+                <tr>
+                    <td class="small">PM2: Cumplimiento de Plazo de Entrega de Planificación</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small">10</td>
+                    <td class="small">{{cantidadPM2}}</td>
+                    <td class="small">{{cantidadOKPM2}}</td>
+                    <td class="small">{{cantidadNOOKPM2}}</td>
+                    <td class="small">{{SLAPM2}}</td>
+                </tr>
+
+                <tr>
+                    <td class="small">PI1: Cumplimiento de Plazo en Resolución de Incidencia</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small">10</td>
+                    <td class="small">{{cantidadPI1}}</td>
+                    <td class="small">{{cantidadOKPI1}}</td>
+                    <td class="small">{{cantidadNOOKPI1}}</td>
+                    <td class="small">{{SLAPI1}}</td>
+                </tr>
+
+                <tr>
+                    <td class="small">PI2: Cumplimiento en Tiempo de Respuesta Telefónica</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small">10</td>
+                    <td class="small">{{cantidadPI2}}</td>
+                    <td class="small">{{cantidadOKPI2}}</td>
+                    <td class="small">{{cantidadNOOKPI2}}</td>
+                    <td class="small">{{SLAPI1}}</td>
+                </tr>
             </tbody>
         </table>
     </div>
 
+    <hr />
 
-        <!-- TABLA PE2 -->
-        <p>TABLA PE2</p>
-        <div class="div mb-5">
+    <div class="accordion" id="accordionTablaPE1">
+        <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPE1" aria-controls="collapseTablaPE1">TABLA PE1</p>
+        <div class="div mb-5" id="collapseTablaPE1" class="collapse" data-parent="#accordionTablaPE1">
             <table class="table table-striped table-bordered">
                 <thead class="bg-dark">
                     <tr>
                         <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
                         <th class="small font-weight-bold text-light" scope="col">Contrato</th>
                         <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
-
-                        <th class="small font-weight-bold text-light" scope="col">Fec. Real Pase Aprobación</th>
-                        <th class="small font-weight-bold text-light" scope="col">Mes en curso</th>
-                        <th class="small font-weight-bold text-light" scope="col">Fec. Plan Pase Aprobación
+                        <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                        <th class="small font-weight-bold text-light" scope="col">Fec. Real Estimación</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let ars of JsonArrayPE2; let i=index">
+                    <tr *ngFor="let ars of JsonArrayPE1; let i=index" [ngClass]="{'cumple' : ars.cumple==1}">
                         <td class="small">{{ars.nroReq}}</td>
                         <td class="small">{{ars.contrato}}</td>
                         <td class="small">{{ars.lineaDeServicio}}</td>
-
-                        <td class="small">{{ars.fecRealPaseAprobacion}}</td>
-                        <td class="small">{{monthNames[today.getMonth()]}}</td>
-                        <td class="small">{{ars.fecPlanPaseAprobacion}}</td>
+                        <td class="small">{{ars.fechaRecepcion | date:'dd/MM/YYYY'}}</td>
+                        <td class="small">{{ars.fecRealEstimacion | date:'dd/MM/YYYY'}}</td>
                     </tr> 
                 </tbody>
             </table>
         </div>
+    </div>
 
-        <p>TABLA PE3</p>
-        <div class="div mb-5">
-            <table class="table table-striped table-bordered">
-                <thead class="bg-dark">
-                    <tr>
-                        <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                        <th class="small font-weight-bold text-light" scope="col">Contrato</th>
-                        <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
 
-                        <th class="small font-weight-bold text-light" scope="col">Estado</th>
-                        <th class="small font-weight-bold text-light" scope="col">Fec Real Fin</th>
-                        <th class="small font-weight-bold text-light" scope="col">Mes en curso</th>
-                        <th class="small font-weight-bold text-light" scope="col">Horas Estimadas</th>
-                        <th class="small font-weight-bold text-light" scope="col">Horas Incurridas</th>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let ars of JsonArrayPE3; let i=index">
-                        <td class="small">{{ars.nroReq}}</td>
-                        <td class="small">{{ars.contrato}}</td>
-                        <td class="small">{{ars.lineaDeServicio}}</td>
+    <div class="accordion" id="accordionTablaPE2">
+            <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPE2" aria-controls="collapseTablaPE2">TABLA PE2</p>
+            <div class="div mb-5" id="collapseTablaPE2" class="collapse" data-parent="#accordionTablaPE2">
+                <table class="table table-striped table-bordered">
+                    <thead class="bg-dark">
+                        <tr>
+                            <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                            <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                            <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
 
-                        <td class="small">{{ars.estado}}</td>
-                        <td class="small">{{ars.fecRealFin}}</td>
-                        <td class="small">{{monthNames[today.getMonth()]}}</td>
-                        <td class="small">{{ars.horasEstimadas}}</td>
-                        <td class="small">{{ars.horasIncurridas}}</td>
-                    </tr> 
-                </tbody>
-            </table>
+                            <th class="small font-weight-bold text-light" scope="col">Fec. Real Pase Aprobación</th>
+                            <th class="small font-weight-bold text-light" scope="col">Fec. Plan Pase Aprobación
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ars of JsonArrayPE2; let i=index">
+                            <td class="small">{{ars.nroReq}}</td>
+                            <td class="small">{{ars.contrato}}</td>
+                            <td class="small">{{ars.lineaDeServicio}}</td>
+
+                            <td class="small">{{ars.fecRealPaseAprobacion | date:'dd/MM/YYYY'}}</td>
+                            <td class="small">{{ars.fecPlanPaseAprobacion | date:'dd/MM/YYYY'}}</td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <p>TABLA PE6</p>
-        <div class="div mb-5">
-            <table class="table table-striped table-bordered">
-                <thead class="bg-dark">
-                    <tr>
-                        <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                        <th class="small font-weight-bold text-light" scope="col">Contrato</th>
-                        <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+        <div class="accordion" id="accordionTablaPE3">
+            <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPE3" aria-controls="collapseTablaPE3">TABLA PE3</p>
+            <div class="div mb-5" id="collapseTablaPE3" class="collapse" data-parent="#accordionTablaPE3">
+                <table class="table table-striped table-bordered">
+                    <thead class="bg-dark">
+                        <tr>
+                            <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                            <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                            <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
 
-                        <th class="small font-weight-bold text-light" scope="col">Fec. Real Pase Producción</th>
-                        <th class="small font-weight-bold text-light" scope="col">Mes en curso</th>
-                        <th class="small font-weight-bold text-light" scope="col">Fec. Plan. Pase Producción</th>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let ars of JsonArrayPE6; let i=index">
-                        <td class="small">{{ars.nroReq}}</td>
-                        <td class="small">{{ars.contrato}}</td>
-                        <td class="small">{{ars.lineaDeServicio}}</td>
+                            <th class="small font-weight-bold text-light" scope="col">Estado</th>
+                            <th class="small font-weight-bold text-light" scope="col">Fec Real Fin</th>
+                            <th class="small font-weight-bold text-light" scope="col">Horas Estimadas</th>
+                            <th class="small font-weight-bold text-light" scope="col">Horas Incurridas</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ars of JsonArrayPE3; let i=index">
+                            <td class="small">{{ars.nroReq}}</td>
+                            <td class="small">{{ars.contrato}}</td>
+                            <td class="small">{{ars.lineaDeServicio}}</td>
 
-                        <td class="small">{{ars.fecRealPaseProduccion}}</td>
-                        <td class="small">{{monthNames[today.getMonth()]}}</td>
-                        <td class="small">{{ars.fecPlanPaseProduccion}}</td>
-                    </tr> 
-                </tbody>
-            </table>
+                            <td class="small">{{ars.estado}}</td>
+                            <td class="small">{{ars.fecRealFin | date:'dd/MM/YYYY'}}</td>
+                            <td class="small">{{ars.horasEstimadas}}</td>
+                            <td class="small">{{ars.horasIncurridas}}</td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="accordion" id="accordionTablaPE6">
+            <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPE6" aria-controls="collapseTablaPE6">TABLA PE6</p>
+            <div class="div mb-5" id="collapseTablaPE6" class="collapse"  data-parent="#accordionTablaPE6">
+                <table class="table table-striped table-bordered">
+                    <thead class="bg-dark">
+                        <tr>
+                            <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                            <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                            <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+
+                            <th class="small font-weight-bold text-light" scope="col">Fec. Real Pase Producción</th>
+                            <th class="small font-weight-bold text-light" scope="col">Fec. Plan. Pase Producción</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ars of JsonArrayPE6; let i=index">
+                            <td class="small">{{ars.nroReq}}</td>
+                            <td class="small">{{ars.contrato}}</td>
+                            <td class="small">{{ars.lineaDeServicio}}</td>
+
+                            <td class="small">{{ars.fecRealPaseProduccion | date:'dd/MM/YYYY'}}</td>
+                            <td class="small">{{ars.fecPlanPaseProduccion | date:'dd/MM/YYYY'}}</td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="accordion" id="accordionTablaPM1">
+            <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPM1" aria-controls="collapseTablaPM1">TABLA PM1</p>
+            <div class="div mb-5" id="collapseTablaPM1" class="collapse"  data-parent="#accordionTablaPM1">
+                <table class="table table-striped table-bordered">
+                    <thead class="bg-dark">
+                        <tr>
+                            <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                            <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                            <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+
+                            <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                            <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ars of JsonArrayPM1; let i=index">
+                            <td class="small">{{ars.nroReq}}</td>
+                            <td class="small">{{ars.contrato}}</td>
+                            <td class="small">{{ars.lineaDeServicio}}</td>
+
+                            <td class="small">{{ars.fechaRecepcion | date:'dd/MM/YYYY'}}</td>
+                            <td class="small">{{ars.fecRealEstimacion | date:'dd/MM/YYYY'}}</td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="accordion" id="accordionTablaPM2">
+            <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPM2" aria-controls="collapseTablaPM2">TABLA PM2</p>
+            <div class="div mb-5" id="collapseTablaPM2" class="collapse"  data-parent="#accordionTablaPM2">
+                <table class="table table-striped table-bordered">
+                    <thead class="bg-dark">
+                        <tr>
+                            <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                            <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                            <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+
+                            <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                            <th class="small font-weight-bold text-light" scope="col">Fec. Real Inicio </th>                        
+                            <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ars of JsonArrayPM2; let i=index">
+                            <td class="small">{{ars.nroReq}}</td>
+                            <td class="small">{{ars.contrato}}</td>
+                            <td class="small">{{ars.lineaDeServicio}}</td>
+
+                            <td class="small">{{ars.fechaRecepcion | date:'dd/MM/YYYY'}}</td>
+                            <td class="small">{{ars.fecRealInicio | date:'dd/MM/YYYY'}}</td>
+                            <td class="small">{{ars.fecRealEstimacion | date:'dd/MM/YYYY'}}</td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="accordion" id="accordionTablaPI1">
+            <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPI1" aria-controls="collapseTablaPI1">TABLA PI1</p>
+            <div class="div mb-5" id="collapseTablaPI1" class="collapse"  data-parent="#accordionTablaPI1">
+                <table class="table table-striped table-bordered">
+                    <thead class="bg-dark">
+                        <tr>
+                            <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                            <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                            <th class="small font-weight-bold text-light" scope="col">Bloque</th>
+
+                            <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ars of JsonArrayPI1; let i=index">
+                            <td class="small">{{ars.nroReq}}</td>
+                            <td class="small">{{ars.contrato}}</td>
+                            <td class="small">{{ars.bloque}}</td>
+
+                            <td class="small">{{ars.fechaRecepcion | date:'dd/MM/YYYY'}}</td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="accordion" id="accordionTablaPI2">
+            <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPI2" aria-controls="collapseTablaPI2">TABLA PI2</p>
+            <div class="div mb-5" id="collapseTablaPI2" class="collapse"  data-parent="#accordionTablaPI2">
+                <table class="table table-striped table-bordered">
+                    <thead class="bg-dark">
+                        <tr>
+                            <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                            <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                            <th class="small font-weight-bold text-light" scope="col">Bloque</th>
+
+                            <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ars of JsonArrayPI2; let i=index">
+                            <td class="small">{{ars.nroReq}}</td>
+                            <td class="small">{{ars.contrato}}</td>
+                            <td class="small">{{ars.bloque}}</td>
+
+                            <td class="small">{{ars.fechaRecepcion | date:'dd/MM/YYYY'}}</td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
         </div>
 </div>
