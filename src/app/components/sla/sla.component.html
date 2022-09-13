@@ -21,12 +21,12 @@
                 <div class="row my-3">
                     <div class="col-12 col-sm-4">
                         <i *ngIf="estadoReq==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoReq==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoReq==3" class="fas fa-check text-success"></i><i *ngIf="estadoReq==4" class="fas fa-times text-danger"></i>&nbsp;
-                        Requerimientos PROYECTO:
-                        <small>Descargar Abiertas desde hace 1 año atrás y Cerradas mes a obtener informe</small>
+                        Requerimientos:
                     </div>
                     <div class="col-12 col-sm-8">
                         <input [class.is-invalid]="requerimientosNoValido" formControlName="requerimientos" type="file" class="form-control-file" (change)="uploadReq($event)" (click)="click(1)">
-                        <small *ngIf="requerimientosNoValido" class="text-danger">Seleccione Archivo</small>
+                        <small *ngIf="requerimientosNoValido" class="text-danger">Seleccione Archivo<br/></small>
+                        <small>Descargar abiertas desde hace 1 año atrás y cerradas mes a obtener informe</small>
                     </div>
                 </div>
            

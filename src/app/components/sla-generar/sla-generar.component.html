@@ -15,34 +15,88 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- TR PE1 -->
                 <tr>
                     <td class="small">PE1: Cumplimiento de Plazo de Respuesta Estimación</td>
                     <td class="small">&gt;90%</td>
                     <td class="small">10</td>
-                    <td class="small">{{cantidadPE1}}</td>
-                    <td class="small">{{cantidadOKPE1}}</td>
-                    <td class="small">{{cantidadNOOKPE1}}</td>
-                    <td class="small">{{SLAPE1}}</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE1_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE1', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE1_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE1', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE1_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE1', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE1_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE1', 'SLA')" disabled>
+                        </div>
+                    </td>
                 </tr> 
+
+                <!-- TR PE2 -->
                 <tr>
                     <td class="small">PE2: Cumplimiento de Plazo de Entrega de Desarrollo</td>
                     <td class="small">&gt;85%</td>
                     <td class="small">10</td>
-                    <td class="small">{{cantidadPE2}}</td>
-                    <td class="small">{{cantidadOKPE2}}</td>
-                    <td class="small">{{cantidadNOOKPE2}}</td>
-                    <td class="small">{{SLAPE2}}</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE2_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE2', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE2_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE2', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE2_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE2', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE2_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE2', 'SLA')" disabled>
+                        </div>
+                    </td>
                 </tr>
+
+                <!-- TR PE3 -->
                 <tr>
                     <td class="small">PE3: Cumplimiento de Horas Estimadas</td>
                     <td class="small">&gt;85%</td>
                     <td class="small">10</td>
-                    <td class="small">{{cantidadPE3}}</td>
-                    <td class="small">{{cantidadOKPE3}}</td>
-                    <td class="small">{{cantidadNOOKPE3}}</td>
-                    <td class="small">{{SLAPE3}}</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE3_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE3', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE3_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE3', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE3_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE3', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE3_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE3', 'SLA')" disabled>
+                        </div>
+                    </td>
                 </tr>
 
+                <!-- TR PE4 -->
                 <tr>
                     <td class="small">PE4: Cumplimiento de Plazo en Resolución de Incidencia en QA Críticas</td>
                     <td class="small">&gt;90%</td>
@@ -50,6 +104,7 @@
                     <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
                 </tr>
 
+                <!-- TR PE5 -->
                 <tr>
                     <td class="small">PE5: Cumplimiento de Plazo en Resolución de Incidencia en QA No</td>
                     <td class="small">&gt;90%</td>
@@ -57,16 +112,34 @@
                     <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
                 </tr>
 
+                <!-- TR PE6 -->
                 <tr>
                     <td class="small">PE6: Despliegue en Producción sin Vuelta Atrás</td>
                     <td class="small">&gt;90%</td>
                     <td class="small">10</td>
-                    <td class="small">{{cantidadPE6}}</td>
-                    <td class="small">{{cantidadOKPE6}}</td>
-                    <td class="small">{{cantidadNOOKPE6}}</td>
-                    <td class="small">{{SLAPE6}}</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE6_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE6', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE6_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE6', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE6_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE6', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE6_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE6', 'SLA')" disabled>
+                        </div>
+                    </td>
                 </tr>
 
+                <!-- TR CA1 -->
                 <tr>
                     <td class="small">CA1: Cumplimiento de Adherencia al Proceso en QA</td>
                     <td class="small">&gt;90%</td>
@@ -74,6 +147,7 @@
                     <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
                 </tr>
 
+                <!-- TR CA2 -->
                 <tr>
                     <td class="small">CA2: Cumplimiento en Calidad del SW en QA</td>
                     <td class="small">&lt;20%</td>
@@ -81,50 +155,130 @@
                     <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
                 </tr>
 
+                <!-- TR PM1 -->
                 <tr>
                     <td class="small">PM1: Cumplimiento de Plazo de Respuesta Estimación</td>
                     <td class="small">&gt;90%</td>
                     <td class="small">10</td>
-                    <td class="small">{{cantidadPM1}}</td>
-                    <td class="small">{{cantidadOKPM1}}</td>
-                    <td class="small">{{cantidadNOOKPM1}}</td>
-                    <td class="small">{{SLAPM1}}</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM1_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM1', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM1_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM1', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM1_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM1', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM1_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM1', 'SLA')" disabled>
+                        </div>
+                    </td>
                 </tr>
+
+                <!-- TR PM2 -->
                 <tr>
                     <td class="small">PM2: Cumplimiento de Plazo de Entrega de Planificación</td>
                     <td class="small">&gt;90%</td>
                     <td class="small">10</td>
-                    <td class="small">{{cantidadPM2}}</td>
-                    <td class="small">{{cantidadOKPM2}}</td>
-                    <td class="small">{{cantidadNOOKPM2}}</td>
-                    <td class="small">{{SLAPM2}}</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM2_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM2', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM2_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM2', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM2_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM2', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM2_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM2', 'SLA')" disabled>
+                        </div>
+                    </td>
                 </tr>
 
+                <!-- TR PI1 -->
                 <tr>
                     <td class="small">PI1: Cumplimiento de Plazo en Resolución de Incidencia</td>
                     <td class="small">&gt;90%</td>
                     <td class="small">10</td>
-                    <td class="small">{{cantidadPI1}}</td>
-                    <td class="small">{{cantidadOKPI1}}</td>
-                    <td class="small">{{cantidadNOOKPI1}}</td>
-                    <td class="small">{{SLAPI1}}</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI1_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI1', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI1_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI1', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI1_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI1', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI1_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI1', 'SLA')" disabled>
+                        </div>
+                    </td>
                 </tr>
 
+                <!-- TR PI2 -->
                 <tr>
                     <td class="small">PI2: Cumplimiento en Tiempo de Respuesta Telefónica</td>
                     <td class="small">&gt;90%</td>
                     <td class="small">10</td>
-                    <td class="small">{{cantidadPI2}}</td>
-                    <td class="small">{{cantidadOKPI2}}</td>
-                    <td class="small">{{cantidadNOOKPI2}}</td>
-                    <td class="small">{{SLAPI1}}</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI2_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI2', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI2_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI2', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI2_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI2', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI2_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI2', 'SLA')" disabled>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
+    <div class="col-sm-12 derecha">
+        <button class="btn waves-effect waves-light btn-rounded btn-danger" (click)="generaNuevoPDF()">
+           Exportar Informe PDF
+           <img
+           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABK0lEQVRIx+2UvUpDMRiGn6hQ/NucRHQT2sFJcOgViKB34Sh4Ed6Ag6u4CIKzToIiblZwc9GlXRxE/KGCYB8HoxyqR05az+a7hITkffIm+QL/SpG6pLbsXU11MesZugBNYKrPfTZDCNN5AP/iJEIIX74DCes2gTngOgWWAtgHqkCjLMAYcAJMlAWohhBugVpZgMHYXqYAir6iDjAL1CPgDBjNNe3hFR0CFWCbjzpZAe6BJ+CxcJyc6uyo8+qW+qIeqONqJbaTak29+1yQ9RwqwN0BLoAZYDcmWAfOgePY7wBvqQme1TV1WN1Q2z+ka6tX6kN2sMglvwLLwAJwChx1z/1N2UvOO6IGcBNj76WYf4PlJOjEXdeBkWTTTILSv+vuOlgFWv2YR49/Fdc7ntsGSiB6CfMAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjAtMDctMDdUMTc6MTM6MjIrMDA6MDCkJIB1AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIwLTA3LTA3VDE3OjEzOjIyKzAwOjAw1Xk4yQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
+           alt="">
+       </button>&nbsp;
+   </div>
+
+
     <hr />
 
+    <!-- TABLA PE1 -->
     <div class="accordion" id="accordionTablaPE1">
         <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPE1" aria-controls="collapseTablaPE1">TABLA PE1</p>
         <div class="div mb-5" id="collapseTablaPE1" class="collapse" data-parent="#accordionTablaPE1">
@@ -151,7 +305,7 @@
         </div>
     </div>
 
-
+    <!-- TABLA PE2 -->
     <div class="accordion" id="accordionTablaPE2">
             <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPE2" aria-controls="collapseTablaPE2">TABLA PE2</p>
             <div class="div mb-5" id="collapseTablaPE2" class="collapse" data-parent="#accordionTablaPE2">
@@ -166,7 +320,7 @@
                             <th class="small font-weight-bold text-light" scope="col">Fec. Plan Pase Aprobación
                     </thead>
                     <tbody>
-                        <tr *ngFor="let ars of JsonArrayPE2; let i=index">
+                        <tr *ngFor="let ars of JsonArrayPE2; let i=index" [ngClass]="{'cumple' : ars.cumple==1}">
                             <td class="small">{{ars.nroReq}}</td>
                             <td class="small">{{ars.contrato}}</td>
                             <td class="small">{{ars.lineaDeServicio}}</td>
@@ -179,6 +333,7 @@
             </div>
         </div>
 
+        <!-- TABLA PE3 -->
         <div class="accordion" id="accordionTablaPE3">
             <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPE3" aria-controls="collapseTablaPE3">TABLA PE3</p>
             <div class="div mb-5" id="collapseTablaPE3" class="collapse" data-parent="#accordionTablaPE3">
@@ -195,7 +350,7 @@
                             <th class="small font-weight-bold text-light" scope="col">Horas Incurridas</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let ars of JsonArrayPE3; let i=index">
+                        <tr *ngFor="let ars of JsonArrayPE3; let i=index" [ngClass]="{'cumple' : ars.cumple==1}">
                             <td class="small">{{ars.nroReq}}</td>
                             <td class="small">{{ars.contrato}}</td>
                             <td class="small">{{ars.lineaDeServicio}}</td>
@@ -210,6 +365,7 @@
             </div>
         </div>
 
+        <!-- TABLA PE6 -->
         <div class="accordion" id="accordionTablaPE6">
             <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPE6" aria-controls="collapseTablaPE6">TABLA PE6</p>
             <div class="div mb-5" id="collapseTablaPE6" class="collapse"  data-parent="#accordionTablaPE6">
@@ -224,7 +380,7 @@
                             <th class="small font-weight-bold text-light" scope="col">Fec. Plan. Pase Producción</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let ars of JsonArrayPE6; let i=index">
+                        <tr *ngFor="let ars of JsonArrayPE6; let i=index" [ngClass]="{'cumple' : ars.cumple==1}">
                             <td class="small">{{ars.nroReq}}</td>
                             <td class="small">{{ars.contrato}}</td>
                             <td class="small">{{ars.lineaDeServicio}}</td>
@@ -237,6 +393,7 @@
             </div>
         </div>
 
+        <!-- TABLA PM1 -->
         <div class="accordion" id="accordionTablaPM1">
             <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPM1" aria-controls="collapseTablaPM1">TABLA PM1</p>
             <div class="div mb-5" id="collapseTablaPM1" class="collapse"  data-parent="#accordionTablaPM1">
@@ -251,7 +408,7 @@
                             <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let ars of JsonArrayPM1; let i=index">
+                        <tr *ngFor="let ars of JsonArrayPM1; let i=index" [ngClass]="{'cumple' : ars.cumple==1}">
                             <td class="small">{{ars.nroReq}}</td>
                             <td class="small">{{ars.contrato}}</td>
                             <td class="small">{{ars.lineaDeServicio}}</td>
@@ -264,6 +421,7 @@
             </div>
         </div>
 
+        <!-- TABLA PM2 -->
         <div class="accordion" id="accordionTablaPM2">
             <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPM2" aria-controls="collapseTablaPM2">TABLA PM2</p>
             <div class="div mb-5" id="collapseTablaPM2" class="collapse"  data-parent="#accordionTablaPM2">
@@ -279,7 +437,7 @@
                             <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let ars of JsonArrayPM2; let i=index">
+                        <tr *ngFor="let ars of JsonArrayPM2; let i=index" [ngClass]="{'cumple' : ars.cumple==1}">
                             <td class="small">{{ars.nroReq}}</td>
                             <td class="small">{{ars.contrato}}</td>
                             <td class="small">{{ars.lineaDeServicio}}</td>
@@ -293,10 +451,7 @@
             </div>
         </div>
 
-
-
-
-
+        <!-- TABLA PI1 -->
         <div class="accordion" id="accordionTablaPI1">
             <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPI1" aria-controls="collapseTablaPI1">TABLA PI1</p>
             <div class="div mb-5" id="collapseTablaPI1" class="collapse"  data-parent="#accordionTablaPI1">
@@ -322,7 +477,7 @@
             </div>
         </div>
 
-
+        <!-- TABLA PI2 -->
         <div class="accordion" id="accordionTablaPI2">
             <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPI2" aria-controls="collapseTablaPI2">TABLA PI2</p>
             <div class="div mb-5" id="collapseTablaPI2" class="collapse"  data-parent="#accordionTablaPI2">

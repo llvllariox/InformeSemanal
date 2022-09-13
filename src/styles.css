@@ -25,7 +25,28 @@ html {
     text-align: center;
 }
 
+.derecha {
+    text-align: right;
+}
+
 .cumple {
     border-style: solid;
     border-color: green;
+}
+
+.campoNoValido {
+    border-style: solid;
+    border-color: red;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.frmsla input::-webkit-outer-spin-button,
+.frmsla input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.frmsla input[type=number] {
+  -moz-appearance: textfield;
 }

@@ -1,15 +1,17 @@
-import { Component, OnInit, ɵɵtrustConstantResourceUrl } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SlaJsonDataService } from 'src/app/services/sla-json-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from '../../services/sweet-alert.service';
-import { JspdfService } from '../../services/jspdf.service';
+import { SlaJspdfService } from '../../services/sla-jspdf.service';
 import { FeriadosChileService } from '../../services/feriados-chile.service';
+import { SlaFormularioService } from '../../services/sla-formulario.service';
 
 @Component({
   selector: 'app-sla-generar',
   templateUrl: './sla-generar.component.html'
 })
 export class SlaGenerarComponent implements OnInit {
+  //formulario: FormGroup;
   jsonDataReqInf: any;
   JsonArray: [] = [];
   JsonArrayPE1: [] = [];
@@ -71,10 +73,11 @@ export class SlaGenerarComponent implements OnInit {
 
   flag = 0;
 
-  constructor(public jsonDataService: SlaJsonDataService, private route: ActivatedRoute, public pdfService: JspdfService, private sweetAlerService: SweetAlertService, private feriadosService: FeriadosChileService) {
+  constructor(public slaFormularioService: SlaFormularioService, public jsonDataService: SlaJsonDataService, private route: ActivatedRoute, public pdfService: SlaJspdfService, private sweetAlerService: SweetAlertService, private feriadosService: FeriadosChileService) {
     this.feriados = feriadosService.getFeriados(); 
 
     this.fechaInformeDate = new Date(jsonDataService.getFechaInforme());
+
     this.cantidadPE1 = 0;
     this.cantidadOKPE1 = 0;
     this.cantidadNOOKPE1 = 0;
@@ -154,6 +157,55 @@ export class SlaGenerarComponent implements OnInit {
       this.JsonArrayPI2 = this.jsonDataService.getJsonDataReqPI2Service();
       this.getPI2();
     }
+
+    this.slaFormularioService['campo_PE1_cantidad'] = this.cantidadPE1;
+    this.slaFormularioService['campo_PE1_cantidadOk'] = this.cantidadOKPE1;
+    this.slaFormularioService['campo_PE1_cantidadNoOk'] = this.cantidadNOOKPE1;
+    this.slaFormularioService['campo_PE1_SLA'] = this.SLAPE1;
+
+    this.slaFormularioService['campo_PE2_cantidad'] = this.cantidadPE2;
+    this.slaFormularioService['campo_PE2_cantidadOk'] = this.cantidadOKPE2;
+    this.slaFormularioService['campo_PE2_cantidadNoOk'] = this.cantidadNOOKPE2;
+    this.slaFormularioService['campo_PE2_SLA'] = this.SLAPE2;
+
+    this.slaFormularioService['campo_PE3_cantidad'] = this.cantidadPE3;
+    this.slaFormularioService['campo_PE3_cantidadOk'] = this.cantidadOKPE3;
+    this.slaFormularioService['campo_PE3_cantidadNoOk'] = this.cantidadNOOKPE3;
+    this.slaFormularioService['campo_PE3_SLA'] = this.SLAPE3;
+
+    this.slaFormularioService['campo_PE6_cantidad'] = this.cantidadPE6;
+    this.slaFormularioService['campo_PE6_cantidadOk'] = this.cantidadOKPE6;
+    this.slaFormularioService['campo_PE6_cantidadNoOk'] = this.cantidadNOOKPE6;
+    this.slaFormularioService['campo_PE6_SLA'] = this.SLAPE6;
+
+    this.slaFormularioService['campo_PM1_cantidad'] = this.cantidadPM1;
+    this.slaFormularioService['campo_PM1_cantidadOk'] = this.cantidadOKPM1;
+    this.slaFormularioService['campo_PM1_cantidadNoOk'] = this.cantidadNOOKPM1;
+    this.slaFormularioService['campo_PM1_SLA'] = this.SLAPM1;
+
+    this.slaFormularioService['campo_PM2_cantidad'] = this.cantidadPM2;
+    this.slaFormularioService['campo_PM2_cantidadOk'] = this.cantidadOKPM2;
+    this.slaFormularioService['campo_PM2_cantidadNoOk'] = this.cantidadNOOKPM2;
+    this.slaFormularioService['campo_PM2_SLA'] = this.SLAPM2;
+
+    this.slaFormularioService['campo_PI1_cantidad'] = this.cantidadPI1;
+    this.slaFormularioService['campo_PI1_cantidadOk'] = this.cantidadOKPI1;
+    this.slaFormularioService['campo_PI1_cantidadNoOk'] = this.cantidadNOOKPI1;
+    this.slaFormularioService['campo_PI1_SLA'] = this.SLAPI1;
+
+    this.slaFormularioService['campo_PI2_cantidad'] = this.cantidadPI2;
+    this.slaFormularioService['campo_PI2_cantidadOk'] = this.cantidadOKPI2;
+    this.slaFormularioService['campo_PI2_cantidadNoOk'] = this.cantidadNOOKPI2;
+    this.slaFormularioService['campo_PI2_SLA'] = this.SLAPI2;
+  
+    /*
+    this.formulario = this.formBuilder.group({
+      campo_PE1_cantidad : [this.cantidadPE1, []],
+      campo_PE1_cantidadOk : [this.cantidadOKPE1, []],
+      campo_PE1_cantidadNoOk : [this.cantidadNOOKPE1, []],
+      campo_PE1_SLA : [this.SLAPE1, []],
+    });
+    */
   }
 
   ngOnInit(): void {
@@ -182,31 +234,27 @@ export class SlaGenerarComponent implements OnInit {
 
       let contador = 0;
       for(let i=fechaIni; i<fechaFin; i.setDate(i.getDate()+1)){
-        let fechaString = i.getDate()+ "/" + (i.getMonth()+Number(1)) + "/" + i.getFullYear();
+        //let fechaString = i.getDate()+ "/" + (i.getMonth()+Number(1)) + "/" + i.getFullYear();
         //console.log(fechaString + ' - ' + this.esHabil(i));
         if(this.esHabil(i)){
           contador++;
         }
       }
 
-      let cantDiasHabiles = 2;
-      //console.log(valor['nroReq']+ ' - ' + contador);
-      if(contador>=cantDiasHabiles){
-        //cumple
-        //console.log(valor['nroReq']+ ' - ' + contador);
+      //cumple
+      if(contador >= 2){
         this.JsonArrayPE1[index]['cumple']=1;
+        cantOk++;
       } else {
         this.JsonArrayPE1[index]['cumple']=0;
       }
-
-      cantOk += (contador>=cantDiasHabiles) ? 1 : 0; 
     }, this);
     this.cantidadOKPE1 = cantOk;
 
     this.cantidadNOOKPE1 = this.cantidadPE1 - this.cantidadOKPE1;
 
     if(this.cantidadPE1 != 0) {
-      this.SLAPE1 = this.cantidadOKPE1 * 100 / this.cantidadPE1;  
+      this.SLAPE1 = (this.cantidadOKPE1 * 100 / this.cantidadPE1).toFixed(2);  
     }
     else {
       this.SLAPE1 = 100;  
@@ -218,18 +266,25 @@ export class SlaGenerarComponent implements OnInit {
 
     //Cumplen los que Fec. Real Pase Aprobación <= Fec. Plan. Pase Aprobación.
     let cantOk = 0;
-    this.JsonArrayPE2.forEach(function(valor){
+    this.JsonArrayPE2.forEach(function(valor, index){
       let fecRealPaseAprobacion = new Date(valor['fecRealPaseAprobacion']);
       let fecPlanPaseAprobacion = new Date(valor['fecPlanPaseAprobacion']);
 
-      cantOk += (fecRealPaseAprobacion <= fecPlanPaseAprobacion) ? 1 : 0;
-    });
+      //cumple
+      if(fecRealPaseAprobacion <= fecPlanPaseAprobacion){
+        this.JsonArrayPE2[index]['cumple']=1;
+        cantOk++;
+      }
+      else {
+        this.JsonArrayPE2[index]['cumple']=0;
+      }
+    }, this);
     this.cantidadOKPE2 = cantOk;
     
     this.cantidadNOOKPE2 = this.cantidadPE2 - this.cantidadOKPE2;
 
     if(this.cantidadPE2 != 0) {
-      this.SLAPE2 = this.cantidadOKPE2 * 100 / this.cantidadPE2;  
+      this.SLAPE2 = (this.cantidadOKPE2 * 100 / this.cantidadPE2).toFixed(2);  
     }
     else {
       this.SLAPE2 = 100;  
@@ -241,9 +296,15 @@ export class SlaGenerarComponent implements OnInit {
 
     //cumplen las que Horas Incurridas <= Horas Estimadas
     let cantOk = 0;
-    this.JsonArrayPE3.forEach(function(valor){
-        cantOk += (valor['horasIncurridas'] <= valor['horasEstimadas']) ? 1 : 0;
-    });
+    this.JsonArrayPE3.forEach(function(valor, index){
+      //cumple
+      if(valor['horasIncurridas'] <= valor['horasEstimadas']){
+        this.JsonArrayPE3[index]['cumple']=1;
+        cantOk++;
+      } else {
+        this.JsonArrayPE3[index]['cumple']=0;
+      }
+    }, this);
     this.cantidadOKPE3 = cantOk;
 
     this.cantidadNOOKPE3 = this.cantidadPE3 - this.cantidadOKPE3;
@@ -262,12 +323,18 @@ export class SlaGenerarComponent implements OnInit {
 
     //Cumplen los que  Fec. Real Pase Producción <=  Fec. Plan. Pase Producción.
     let cantOk = 0;
-    this.JsonArrayPE6.forEach(function(valor){
+    this.JsonArrayPE6.forEach(function(valor, index){
       let fecRealPaseProduccion = new Date(valor['fecRealPaseProduccion']);
       let fecPlanPaseProduccion = new Date(valor['fecPlanPaseProduccion']);
       
-      cantOk += (fecRealPaseProduccion <= fecPlanPaseProduccion) ? 1 : 0;
-    });
+      //cumple
+      if(fecRealPaseProduccion <= fecPlanPaseProduccion){
+        this.JsonArrayPE6[index]['cumple']=1;
+        cantOk++;
+      } else {
+        this.JsonArrayPE6[index]['cumple']=0;
+      }
+    }, this);
     this.cantidadOKPE6 = cantOk;
 
     this.cantidadNOOKPE6 = this.cantidadPE6 - this.cantidadOKPE6;
@@ -287,17 +354,24 @@ export class SlaGenerarComponent implements OnInit {
     //hasta Fec.Real Estimación <= 11 días.
     let cantOk = 0;
 
-    this.JsonArrayPM1.forEach(function(valor){
+    this.JsonArrayPM1.forEach(function(valor, index){
       let fechaRecepcion = new Date(valor['fechaRecepcion']);
       let fecRealEstimacion = new Date(valor['fecRealEstimacion']);
-        cantOk += ((((fecRealEstimacion.getTime() - fechaRecepcion.getTime())) *(1000*60*60*24)) <= 11 ) ? 1 : 0;
-    });
+
+      //cumple
+      if((((fecRealEstimacion.getTime() - fechaRecepcion.getTime())) *(1000*60*60*24)) <= 11){
+        this.JsonArrayPM1[index]['cumple']=1;
+        cantOk++;
+      } else {
+        this.JsonArrayPM1[index]['cumple']=0;
+      }
+    }, this);
     this.cantidadOKPM1 = cantOk;
 
     this.cantidadNOOKPM1 = this.cantidadPM1 - this.cantidadOKPM1;
 
     //SLA
-      if(this.cantidadPM1 != 0) {
+    if(this.cantidadPM1 != 0) {
       this.SLAPM1 = this.cantidadOKPM1 * 100 / this.cantidadPM1;  
     }
     else {
@@ -311,11 +385,18 @@ export class SlaGenerarComponent implements OnInit {
     //Fec. Real Inicio vs Fec.Real Estimación <= 2 días.
     let cantOk = 0;
 
-    this.JsonArrayPM2.forEach(function(valor){
+    this.JsonArrayPM2.forEach(function(valor, index){
       let fecRealInicio = new Date(valor['fecRealInicio']);
       let fecRealEstimacion = new Date(valor['fecRealEstimacion']);
-        cantOk += ((((fecRealInicio.getTime() - fecRealEstimacion.getTime())) *(1000*60*60*24)) <= 11 ) ? 1 : 0;
-    });
+       
+      //cumple
+      if((((fecRealEstimacion.getTime() - fecRealInicio.getTime())) *(1000*60*60*24)) <= 2){
+        this.JsonArrayPM2[index]['cumple']=1;
+        cantOk++;
+      } else {
+        this.JsonArrayPM2[index]['cumple']=0;
+      }
+    }, this);
     this.cantidadOKPM2 = cantOk;
 
     this.cantidadNOOKPM2 = this.cantidadPM2 - this.cantidadOKPM2;
@@ -362,22 +443,36 @@ export class SlaGenerarComponent implements OnInit {
     */
   
    for(const feriado of this.feriados){
-    let f = new Date(feriado + 'T00:00:00');
-    if(f.getTime()==fecha.getTime()){
-      return false;
-    }
-   }
-
-/*
-    this.feriados.forEach(element => {
-      let f = new Date(element + 'T00:00:00');
-
+      let f = new Date(feriado + 'T00:00:00');
       if(f.getTime()==fecha.getTime()){
-        console.log(f);
         return false;
       }
-    }, this);
-*/
+   }
     return true;
+  }
+
+  cambiarCampo(event, tabla, campo) {
+    //console.log(this.slaFormularioService['campo_' + tabla + '_' + campo]);
+    if(campo=='cantidadOk' || campo=='cantidadNoOk'){
+      let cantidadOk = Number(this.slaFormularioService['campo_' + tabla + '_cantidadOk']);
+      let cantidadNoOk = Number(this.slaFormularioService['campo_' + tabla + '_cantidadNoOk']);
+
+      this.slaFormularioService['campo_' + tabla + '_cantidad'] = String(cantidadOk + cantidadNoOk);
+      this.slaFormularioService['campo_' + tabla + '_SLA'] = String(((cantidadOk*100)/(cantidadOk + cantidadNoOk)).toFixed(2));
+   } 
+  }
+
+  generaNuevoPDF(){
+    let variables = [];
+    variables['cantidadPE1'] = this.slaFormularioService['campo_PE1_cantidad'];
+    variables['cantidadOkPE1'] = this.slaFormularioService['campo_PE1_cantidadOk'];
+    variables['cantidadNoOkPE1'] = this.slaFormularioService['campo_PE1_cantidadNoOk'];
+    variables['cantidadSLAPE1'] = this.slaFormularioService['campo_PE1_SLA'];
+
+    this.sweetAlerService.mensajeEsperar2().then(resp=>{
+      this.pdfService.generaPDF(variables, this.fechaInformeDate).then(resp => {
+        this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
+      });
+    });
   }
 }
