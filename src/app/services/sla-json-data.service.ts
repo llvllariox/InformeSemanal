@@ -16,6 +16,9 @@ export class SlaJsonDataService {
   jsonDataReqPI1Service;
   jsonDataReqPI2Service;
 
+  jsonDataReqVaciosProyectoService;
+  jsonDataReqVaciosMantenimientoService;
+
   infoCargada = false;
   ReqAgrupado = [];
   fechaInforme: string;
@@ -100,6 +103,24 @@ export class SlaJsonDataService {
 
   setJsonDataReqPI2Service(jsonDataReqService: any) {
     this.jsonDataReqPI2Service = jsonDataReqService;
+  }
+
+  ;
+
+  getJsonDataReqVaciosProyectoService() {
+    return this.jsonDataReqVaciosProyectoService;
+  }
+
+  setJsonDataReqVaciosProyectoService(jsonDataReqService: any) {
+    this.jsonDataReqVaciosProyectoService = jsonDataReqService;
+  }
+
+  getJsonDataReqVaciosMantenimientoService() {
+    return this.jsonDataReqVaciosMantenimientoService;
+  }
+
+  setJsonDataReqVaciosMantenimientoService(jsonDataReqService: any) {
+    this.jsonDataReqVaciosMantenimientoService = jsonDataReqService;
   }
 
   consolidarArchivos() {

@@ -17,6 +17,7 @@ import { GenerarArsGfacComponent } from './components/generar-ars-gfac/generar-a
 import { VerArsJiraComponent } from './components/ver-ars-jira/ver-ars-jira.component';
 import { SlaComponent } from './components/sla/sla.component';
 import { SlaGenerarComponent } from './components/sla-generar/sla-generar.component';
+import { FechaVaciaPipe } from './fecha-vacia.pipe';
 
 // import { DatePipe } from '@angular/common';
 
@@ -34,6 +35,7 @@ import { SlaGenerarComponent } from './components/sla-generar/sla-generar.compon
     VerArsJiraComponent,
     SlaComponent,
     SlaGenerarComponent,
+    FechaVaciaPipe,
   ],
   imports: [
     BrowserModule,

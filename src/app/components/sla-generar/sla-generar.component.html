@@ -278,6 +278,56 @@
 
     <hr />
 
+    <!-- VALORES VACIOS MANTENIMIENTO -->
+    <div class="accordion" id="accordionTablaCorregirArsM">
+        <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaCorregirArsM" aria-controls="collapseTablaCorregirArsM">CORREGIR ARS MANTENIMIENTO</p>
+        <div class="div mb-5" id="collapseTablaCorregirArsM" class="collapse" data-parent="#accordionTablaCorregirArsM">
+            <table class="table table-striped table-bordered">
+                <thead class="bg-dark">
+                    <tr>
+                        <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                        <th class="small font-weight-bold text-light" scope="col">Indicador</th>
+                        <th class="small font-weight-bold text-light" scope="col">Campos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ars of JsonArrayVaciosMantenimiento; let i=index">
+                        <td class="small">{{ars.nroReq}}</td>
+        
+                        <td class="small">{{ars.indicador.nombre}}</td>
+                        <td class="small">{{ars.indicador.campos}}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- VALORES VACIOS PROYECTO -->
+    <div class="accordion" id="accordionTablaCorregirArsP">
+        <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaCorregirArsP" aria-controls="collapseTablaCorregirArsP">CORREGIR ARS PROYECTO</p>
+        <div class="div mb-5" id="collapseTablaCorregirArsP" class="collapse" data-parent="#accordionTablaCorregirArsP">
+            <table class="table table-striped table-bordered">
+                <thead class="bg-dark">
+                    <tr>
+                        <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                        <th class="small font-weight-bold text-light" scope="col">Indicador</th>
+                        <th class="small font-weight-bold text-light" scope="col">Campos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ars of JsonArrayVaciosProyecto; let i=index">
+                        <td class="small">{{ars.nroReq}}</td>
+        
+                        <td class="small">{{ars.indicador.nombre}}</td>
+                        <td class="small">{{ars.indicador.campos}}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <hr />
+
     <!-- TABLA PE1 -->
     <div class="accordion" id="accordionTablaPE1">
         <p class="btn" type="button" data-toggle="collapse" data-target="#collapseTablaPE1" aria-controls="collapseTablaPE1">TABLA PE1</p>

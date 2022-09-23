@@ -99,7 +99,12 @@ export class SlaComponent implements OnInit {
         this.filtrarReqPM2(tmp);    
         
         this.filtrarReqPI1(tmp);
-        //this.filtrarReqPI2(tmp);    
+        //this.filtrarReqPI2(tmp);
+
+        //VACIOS PROYECTO
+//        this.filtrarReqVaciosProyecto(tmp);
+
+        //VACIOS MANTENIMIENTO
       }
     };
     reader.readAsBinaryString(file);

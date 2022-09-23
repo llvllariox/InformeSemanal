@@ -25,6 +25,9 @@ export class SlaGenerarComponent implements OnInit {
   JsonArrayPI1: [] = [];
   JsonArrayPI2: [] = [];
 
+  JsonArrayVaciosMantenimiento: [] = [];
+  JsonArrayVaciosProyecto: [] = [];
+
   monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   fechaInformeDate;
@@ -32,42 +35,42 @@ export class SlaGenerarComponent implements OnInit {
   cantidadPE1;
   cantidadOKPE1;
   cantidadNOOKPE1;
-  SLAPE1;
+  SLAPE1: Number;
 
   cantidadPE2;
   cantidadOKPE2;
   cantidadNOOKPE2;
-  SLAPE2;
+  SLAPE2: Number;
 
   cantidadPE3;
   cantidadOKPE3;
   cantidadNOOKPE3;
-  SLAPE3;
+  SLAPE3: Number;
 
   cantidadPE6;
   cantidadOKPE6;
   cantidadNOOKPE6;
-  SLAPE6;
+  SLAPE6: Number;
 
   cantidadPM1;
   cantidadOKPM1;
   cantidadNOOKPM1;
-  SLAPM1;
+  SLAPM1: Number;
 
   cantidadPM2;
   cantidadOKPM2;
   cantidadNOOKPM2;
-  SLAPM2;
+  SLAPM2: Number;
 
   cantidadPI1;
   cantidadOKPI1;
   cantidadNOOKPI1;
-  SLAPI1;
+  SLAPI1: Number;
 
   cantidadPI2;
   cantidadOKPI2;
   cantidadNOOKPI2;
-  SLAPI2;
+  SLAPI2: Number;
 
   private feriados = [];
 
@@ -121,31 +124,37 @@ export class SlaGenerarComponent implements OnInit {
     if(this.jsonDataService.jsonDataReqPE1Service !== undefined) {
       this.JsonArrayPE1 = this.jsonDataService.getJsonDataReqPE1Service();
       this.getPE1();
+      this.getVacios('PE1');
     }
 
     if(this.jsonDataService.jsonDataReqPE2Service !== undefined) {
       this.JsonArrayPE2 = this.jsonDataService.getJsonDataReqPE2Service();
       this.getPE2();
+      this.getVacios('PE2');
     }
 
     if(this.jsonDataService.jsonDataReqPE3Service !== undefined) {
       this.JsonArrayPE3 = this.jsonDataService.getJsonDataReqPE3Service();
       this.getPE3();
+      this.getVacios('PE3');
     }
 
     if(this.jsonDataService.jsonDataReqPE6Service !== undefined) {
       this.JsonArrayPE6 = this.jsonDataService.getJsonDataReqPE6Service();
       this.getPE6();
+      this.getVacios('PE6');
     }
 
     if(this.jsonDataService.jsonDataReqPM1Service !== undefined) {
       this.JsonArrayPM1 = this.jsonDataService.getJsonDataReqPM1Service();
       this.getPM1();
+      this.getVacios('PM1');
     }
 
     if(this.jsonDataService.jsonDataReqPM2Service !== undefined) {
       this.JsonArrayPM2 = this.jsonDataService.getJsonDataReqPM2Service();
       this.getPM2();
+      this.getVacios('PM2');
     }
 
     if(this.jsonDataService.jsonDataReqPI1Service !== undefined) {
@@ -161,51 +170,42 @@ export class SlaGenerarComponent implements OnInit {
     this.slaFormularioService['campo_PE1_cantidad'] = this.cantidadPE1;
     this.slaFormularioService['campo_PE1_cantidadOk'] = this.cantidadOKPE1;
     this.slaFormularioService['campo_PE1_cantidadNoOk'] = this.cantidadNOOKPE1;
-    this.slaFormularioService['campo_PE1_SLA'] = this.SLAPE1;
+    this.slaFormularioService['campo_PE1_SLA'] = this.SLAPE1.toFixed(1);
 
     this.slaFormularioService['campo_PE2_cantidad'] = this.cantidadPE2;
     this.slaFormularioService['campo_PE2_cantidadOk'] = this.cantidadOKPE2;
     this.slaFormularioService['campo_PE2_cantidadNoOk'] = this.cantidadNOOKPE2;
-    this.slaFormularioService['campo_PE2_SLA'] = this.SLAPE2;
+    this.slaFormularioService['campo_PE2_SLA'] = this.SLAPE2.toFixed(1);
 
     this.slaFormularioService['campo_PE3_cantidad'] = this.cantidadPE3;
     this.slaFormularioService['campo_PE3_cantidadOk'] = this.cantidadOKPE3;
     this.slaFormularioService['campo_PE3_cantidadNoOk'] = this.cantidadNOOKPE3;
-    this.slaFormularioService['campo_PE3_SLA'] = this.SLAPE3;
+    this.slaFormularioService['campo_PE3_SLA'] = this.SLAPE3.toFixed(1);
 
     this.slaFormularioService['campo_PE6_cantidad'] = this.cantidadPE6;
     this.slaFormularioService['campo_PE6_cantidadOk'] = this.cantidadOKPE6;
     this.slaFormularioService['campo_PE6_cantidadNoOk'] = this.cantidadNOOKPE6;
-    this.slaFormularioService['campo_PE6_SLA'] = this.SLAPE6;
+    this.slaFormularioService['campo_PE6_SLA'] = this.SLAPE6.toFixed(1);
 
     this.slaFormularioService['campo_PM1_cantidad'] = this.cantidadPM1;
     this.slaFormularioService['campo_PM1_cantidadOk'] = this.cantidadOKPM1;
     this.slaFormularioService['campo_PM1_cantidadNoOk'] = this.cantidadNOOKPM1;
-    this.slaFormularioService['campo_PM1_SLA'] = this.SLAPM1;
+    this.slaFormularioService['campo_PM1_SLA'] = this.SLAPM1.toFixed(1);
 
     this.slaFormularioService['campo_PM2_cantidad'] = this.cantidadPM2;
     this.slaFormularioService['campo_PM2_cantidadOk'] = this.cantidadOKPM2;
     this.slaFormularioService['campo_PM2_cantidadNoOk'] = this.cantidadNOOKPM2;
-    this.slaFormularioService['campo_PM2_SLA'] = this.SLAPM2;
+    this.slaFormularioService['campo_PM2_SLA'] = this.SLAPM2.toFixed(1);
 
     this.slaFormularioService['campo_PI1_cantidad'] = this.cantidadPI1;
     this.slaFormularioService['campo_PI1_cantidadOk'] = this.cantidadOKPI1;
     this.slaFormularioService['campo_PI1_cantidadNoOk'] = this.cantidadNOOKPI1;
-    this.slaFormularioService['campo_PI1_SLA'] = this.SLAPI1;
+    this.slaFormularioService['campo_PI1_SLA'] = this.SLAPI1.toFixed(1);
 
     this.slaFormularioService['campo_PI2_cantidad'] = this.cantidadPI2;
     this.slaFormularioService['campo_PI2_cantidadOk'] = this.cantidadOKPI2;
     this.slaFormularioService['campo_PI2_cantidadNoOk'] = this.cantidadNOOKPI2;
-    this.slaFormularioService['campo_PI2_SLA'] = this.SLAPI2;
-  
-    /*
-    this.formulario = this.formBuilder.group({
-      campo_PE1_cantidad : [this.cantidadPE1, []],
-      campo_PE1_cantidadOk : [this.cantidadOKPE1, []],
-      campo_PE1_cantidadNoOk : [this.cantidadNOOKPE1, []],
-      campo_PE1_SLA : [this.SLAPE1, []],
-    });
-    */
+    this.slaFormularioService['campo_PI2_SLA'] = this.SLAPI2.toFixed(1);
   }
 
   ngOnInit(): void {
@@ -234,8 +234,6 @@ export class SlaGenerarComponent implements OnInit {
 
       let contador = 0;
       for(let i=fechaIni; i<fechaFin; i.setDate(i.getDate()+1)){
-        //let fechaString = i.getDate()+ "/" + (i.getMonth()+Number(1)) + "/" + i.getFullYear();
-        //console.log(fechaString + ' - ' + this.esHabil(i));
         if(this.esHabil(i)){
           contador++;
         }
@@ -254,7 +252,7 @@ export class SlaGenerarComponent implements OnInit {
     this.cantidadNOOKPE1 = this.cantidadPE1 - this.cantidadOKPE1;
 
     if(this.cantidadPE1 != 0) {
-      this.SLAPE1 = (this.cantidadOKPE1 * 100 / this.cantidadPE1).toFixed(2);  
+      this.SLAPE1 = (this.cantidadOKPE1 * 100 / this.cantidadPE1);  
     }
     else {
       this.SLAPE1 = 100;  
@@ -280,11 +278,15 @@ export class SlaGenerarComponent implements OnInit {
       }
     }, this);
     this.cantidadOKPE2 = cantOk;
-    
+
     this.cantidadNOOKPE2 = this.cantidadPE2 - this.cantidadOKPE2;
 
     if(this.cantidadPE2 != 0) {
-      this.SLAPE2 = (this.cantidadOKPE2 * 100 / this.cantidadPE2).toFixed(2);  
+
+  
+
+      this.SLAPE2 = (this.cantidadOKPE2 * 100 / this.cantidadPE2);  
+//      console.log((this.cantidadOKPE2 * 100 / this.cantidadPE2));
     }
     else {
       this.SLAPE2 = 100;  
@@ -311,7 +313,7 @@ export class SlaGenerarComponent implements OnInit {
 
     //SLA
       if(this.cantidadPE3 != 0) {
-      this.SLAPE3 = this.cantidadOKPE3 * 100 / this.cantidadPE3;  
+      this.SLAPE3 = (this.cantidadOKPE3 * 100 / this.cantidadPE3);  
     }
     else {
       this.SLAPE3 = 100;  
@@ -340,7 +342,7 @@ export class SlaGenerarComponent implements OnInit {
     this.cantidadNOOKPE6 = this.cantidadPE6 - this.cantidadOKPE6;
 
     if(this.cantidadPE6 != 0) {
-      this.SLAPE6 = this.cantidadOKPE6 * 100 / this.cantidadPE6;  
+      this.SLAPE6 = (this.cantidadOKPE6 * 100 / this.cantidadPE6);  
     }
     else {
       this.SLAPE6 = 100;  
@@ -372,7 +374,7 @@ export class SlaGenerarComponent implements OnInit {
 
     //SLA
     if(this.cantidadPM1 != 0) {
-      this.SLAPM1 = this.cantidadOKPM1 * 100 / this.cantidadPM1;  
+      this.SLAPM1 = (this.cantidadOKPM1 * 100 / this.cantidadPM1);
     }
     else {
       this.SLAPM1 = 100;  
@@ -403,7 +405,7 @@ export class SlaGenerarComponent implements OnInit {
 
     //SLA
       if(this.cantidadPM2 != 0) {
-      this.SLAPM2 = this.cantidadOKPM2 * 100 / this.cantidadPM2;  
+      this.SLAPM2 = (this.cantidadOKPM2 * 100 / this.cantidadPM2);  
     }
     else {
       this.SLAPM2 = 100;  
@@ -427,6 +429,66 @@ export class SlaGenerarComponent implements OnInit {
     this.SLAPI2 = 100;
   }
 
+  getVacios(indicador){
+    let contrato = '';
+    let arreglo;
+    switch (indicador) {
+      case 'PE1':
+        arreglo = this.JsonArrayPE1;
+        contrato = 'proyecto';
+        break;
+      case 'PE2':
+        arreglo = this.JsonArrayPE2;
+        contrato = 'proyecto';
+        break;
+      case 'PE3':
+          arreglo = this.JsonArrayPE3;
+          contrato = 'proyecto';
+          break;
+      case 'PE6':
+            arreglo = this.JsonArrayPE6;
+            contrato = 'proyecto';
+            break;
+      case 'PM1':
+            arreglo = this.JsonArrayPM1;
+            contrato = 'mantenimiento';
+            break;
+      case 'PM2':
+            arreglo = this.JsonArrayPM2;
+            contrato = 'mantenimiento';
+            break;
+      default:
+        arreglo = [];
+        break;
+    }
+
+
+    console.log(indicador);
+    console.log(arreglo);
+
+
+    if(arreglo) {
+      arreglo.forEach(function(valor: Array<String>, index){
+        if (this.validarFechaVacia(valor)){
+          arreglo[index]['indicador'] = [];
+          arreglo[index]['indicador']['nombre'] = indicador;
+          arreglo[index]['indicador']['campos'] = this.getCamposFechaVacia(valor);
+
+          switch (contrato) {
+            case 'mantenimiento':
+              this.JsonArrayVaciosMantenimiento.push(arreglo[index]);
+              break;
+            case 'proyecto':
+               this.JsonArrayVaciosProyecto.push(arreglo[index]);
+               break;
+            default:
+              break;
+          }
+        }
+      }, this);
+    }
+  }
+
   //true si la fecha es habil
   esHabil(fecha: Date){
    
@@ -434,13 +496,6 @@ export class SlaGenerarComponent implements OnInit {
     if(fecha.getDay()===0 || fecha.getDay()===6){
       return false;
     }
-
-    /*
-    if(this.flag == 0){
-    this.feriados.push('2021-08-27');
-    this.flag = 1;
-    }
-    */
   
    for(const feriado of this.feriados){
       let f = new Date(feriado + 'T00:00:00');
@@ -452,13 +507,12 @@ export class SlaGenerarComponent implements OnInit {
   }
 
   cambiarCampo(event, tabla, campo) {
-    //console.log(this.slaFormularioService['campo_' + tabla + '_' + campo]);
     if(campo=='cantidadOk' || campo=='cantidadNoOk'){
       let cantidadOk = Number(this.slaFormularioService['campo_' + tabla + '_cantidadOk']);
       let cantidadNoOk = Number(this.slaFormularioService['campo_' + tabla + '_cantidadNoOk']);
 
       this.slaFormularioService['campo_' + tabla + '_cantidad'] = String(cantidadOk + cantidadNoOk);
-      this.slaFormularioService['campo_' + tabla + '_SLA'] = String(((cantidadOk*100)/(cantidadOk + cantidadNoOk)).toFixed(2));
+      this.slaFormularioService['campo_' + tabla + '_SLA'] = String(((cantidadOk*100)/(cantidadOk + cantidadNoOk)).toFixed(1));
    } 
   }
 
@@ -467,7 +521,42 @@ export class SlaGenerarComponent implements OnInit {
     variables['cantidadPE1'] = this.slaFormularioService['campo_PE1_cantidad'];
     variables['cantidadOkPE1'] = this.slaFormularioService['campo_PE1_cantidadOk'];
     variables['cantidadNoOkPE1'] = this.slaFormularioService['campo_PE1_cantidadNoOk'];
-    variables['cantidadSLAPE1'] = this.slaFormularioService['campo_PE1_SLA'];
+    variables['SLAPE1'] = this.slaFormularioService['campo_PE1_SLA'];
+
+    variables['cantidadPE2'] = this.slaFormularioService['campo_PE2_cantidad'];
+    variables['cantidadOkPE2'] = this.slaFormularioService['campo_PE2_cantidadOk'];
+    variables['cantidadNoOkPE2'] = this.slaFormularioService['campo_PE2_cantidadNoOk'];
+    variables['SLAPE2'] = this.slaFormularioService['campo_PE2_SLA'];
+
+    variables['cantidadPE3'] = this.slaFormularioService['campo_PE3_cantidad'];
+    variables['cantidadOkPE3'] = this.slaFormularioService['campo_PE3_cantidadOk'];
+    variables['cantidadNoOkPE3'] = this.slaFormularioService['campo_PE3_cantidadNoOk'];
+    variables['SLAPE3'] = this.slaFormularioService['campo_PE3_SLA'];
+
+    variables['cantidadPE6'] = this.slaFormularioService['campo_PE6_cantidad'];
+    variables['cantidadOkPE6'] = this.slaFormularioService['campo_PE6_cantidadOk'];
+    variables['cantidadNoOkPE6'] = this.slaFormularioService['campo_PE6_cantidadNoOk'];
+    variables['SLAPE6'] = this.slaFormularioService['campo_PE6_SLA'];
+
+    variables['cantidadPM1'] = this.slaFormularioService['campo_PM1_cantidad'];
+    variables['cantidadOkPM1'] = this.slaFormularioService['campo_PM1_cantidadOk'];
+    variables['cantidadNoOkPM1'] = this.slaFormularioService['campo_PM1_cantidadNoOk'];
+    variables['SLAPM1'] = this.slaFormularioService['campo_PM1_SLA'];
+
+    variables['cantidadPM2'] = this.slaFormularioService['campo_PM2_cantidad'];
+    variables['cantidadOkPM2'] = this.slaFormularioService['campo_PM2_cantidadOk'];
+    variables['cantidadNoOkPM2'] = this.slaFormularioService['campo_PM2_cantidadNoOk'];
+    variables['SLAPM2'] = this.slaFormularioService['campo_PM2_SLA'];
+
+    variables['cantidadPI1'] = this.slaFormularioService['campo_PI1_cantidad'];
+    variables['cantidadOkPI1'] = this.slaFormularioService['campo_PI1_cantidadOk'];
+    variables['cantidadNoOkPI1'] = this.slaFormularioService['campo_PI1_cantidadNoOk'];
+    variables['SLAPI1'] = this.slaFormularioService['campo_PI1_SLA'];
+
+    variables['cantidadPI2'] = this.slaFormularioService['campo_PI2_cantidad'];
+    variables['cantidadOkPI2'] = this.slaFormularioService['campo_PI2_cantidadOk'];
+    variables['cantidadNoOkPI2'] = this.slaFormularioService['campo_PI2_cantidadNoOk'];
+    variables['SLAPI2'] = this.slaFormularioService['campo_PI2_SLA'];
 
     this.sweetAlerService.mensajeEsperar2().then(resp=>{
       this.pdfService.generaPDF(variables, this.fechaInformeDate).then(resp => {
@@ -475,4 +564,70 @@ export class SlaGenerarComponent implements OnInit {
       });
     });
   }
+
+ //true si la fecha es 1/1/1900 (vacia)
+ validarFechaVacia(ars){
+  if(
+      this.validarFechaVaciaRegla(ars['fecRealEstimacion'].toString())
+      || this.validarFechaVaciaRegla(ars['fecRealInicio'].toString())
+      || this.validarFechaVaciaRegla(ars['fecPlanPaseAprobacion'].toString())
+      || this.validarFechaVaciaRegla(ars['fecRealPaseAprobacion'].toString())
+      || this.validarFechaVaciaRegla(ars['fecRealFin'].toString())
+      || this.validarFechaVaciaRegla(ars['fecPlanPaseProduccion'].toString())
+      || this.validarFechaVaciaRegla(ars['fecRealPaseProduccion'].toString())
+  ){
+    return true;
+  } else {
+    return false;
+  }
+ }
+
+//revisa la regla de fecha por defecto
+ validarFechaVaciaRegla(fecha: String){
+  if(fecha == 'Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)'
+    ||
+    fecha.includes('Sun Dec 31 1899')
+  ){
+    return true;
+  } else return false;
+ }
+
+ //obtiene un string con los campos que tienen la regla vacia
+ getCamposFechaVacia(ars){
+  let campos: String = '';
+ 
+  if(this.validarFechaVaciaRegla(ars['fecRealEstimacion'].toString())){
+    campos += ', fecRealEstimacion';
+  }
+
+  if(this.validarFechaVaciaRegla(ars['fecRealInicio'].toString())){
+    campos += ', fecRealInicio';
+  }
+
+  if(this.validarFechaVaciaRegla(ars['fecPlanPaseAprobacion'].toString())){
+    campos += ', fecPlanPaseAprobacion';
+  }
+
+  if(this.validarFechaVaciaRegla(ars['fecRealPaseAprobacion'].toString())){
+    campos += ', fecRealPaseAprobacion';
+  }
+
+  if(this.validarFechaVaciaRegla(ars['fecRealFin'].toString())){
+    campos += ', fecRealFin';
+  }
+
+  if(this.validarFechaVaciaRegla(ars['fecPlanPaseProduccion'].toString())){
+    campos += ', fecPlanPaseProduccion';
+  }
+
+  if(this.validarFechaVaciaRegla(ars['fecRealPaseProduccion'].toString())){
+    campos += ', fecRealPaseProduccion';
+  }
+
+  if(campos) campos = campos.substring(2);
+
+  return campos;
+ }
+ 
+
 }
