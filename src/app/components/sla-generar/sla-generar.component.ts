@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 import { SlaJsonDataService } from 'src/app/services/sla-json-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from '../../services/sweet-alert.service';
@@ -221,31 +221,41 @@ export class SlaGenerarComponent implements OnInit {
       let fechaRecepcion = new Date(valor['fechaRecepcion']);
       let fecRealEstimacion = new Date(valor['fecRealEstimacion']);
 
-      let fechaIni;
-      let fechaFin;
-
-      if(fechaRecepcion < fecRealEstimacion){ 
-        fechaIni = fechaRecepcion;
-        fechaFin = fecRealEstimacion;
+      //vemos si alguna de las fechas es vacia
+      if(
+          this.validarFechaVaciaRegla(fechaRecepcion.toString()) 
+          || this.validarFechaVaciaRegla(fecRealEstimacion.toString())
+        ){
+            this.JsonArrayPE1[index]['noCumple']=0;
+            cantOk++;
       } else {
-        fechaIni = fecRealEstimacion;
-        fechaFin = fechaRecepcion;
-      }
+        let contador = 0;
+        let fechaIni;
+        let fechaFin;
+  
+        if(fechaRecepcion < fecRealEstimacion){ 
+          fechaIni = fechaRecepcion;
+          fechaFin = fecRealEstimacion;
+        } else {
+          fechaIni = fecRealEstimacion;
+          fechaFin = fechaRecepcion;
+        }
+    
+        for(let i=fechaIni; i<fechaFin; i.setDate(i.getDate()+1)){
+          if(this.esHabil(i)){
+            contador++;
+          }
+        }
 
-      let contador = 0;
-      for(let i=fechaIni; i<fechaFin; i.setDate(i.getDate()+1)){
-        if(this.esHabil(i)){
-          contador++;
+        //cumple
+        if(contador <= 5){
+          this.JsonArrayPE1[index]['noCumple']=0;
+          cantOk++;
+        } else {
+          this.JsonArrayPE1[index]['noCumple']=1;
         }
       }
 
-      //cumple
-      if(contador >= 2){
-        this.JsonArrayPE1[index]['cumple']=1;
-        cantOk++;
-      } else {
-        this.JsonArrayPE1[index]['cumple']=0;
-      }
     }, this);
     this.cantidadOKPE1 = cantOk;
 
@@ -270,11 +280,11 @@ export class SlaGenerarComponent implements OnInit {
 
       //cumple
       if(fecRealPaseAprobacion <= fecPlanPaseAprobacion){
-        this.JsonArrayPE2[index]['cumple']=1;
+        this.JsonArrayPE2[index]['noCumple']=0;
         cantOk++;
       }
       else {
-        this.JsonArrayPE2[index]['cumple']=0;
+        this.JsonArrayPE2[index]['noCumple']=1;
       }
     }, this);
     this.cantidadOKPE2 = cantOk;
@@ -282,11 +292,7 @@ export class SlaGenerarComponent implements OnInit {
     this.cantidadNOOKPE2 = this.cantidadPE2 - this.cantidadOKPE2;
 
     if(this.cantidadPE2 != 0) {
-
-  
-
       this.SLAPE2 = (this.cantidadOKPE2 * 100 / this.cantidadPE2);  
-//      console.log((this.cantidadOKPE2 * 100 / this.cantidadPE2));
     }
     else {
       this.SLAPE2 = 100;  
@@ -301,10 +307,10 @@ export class SlaGenerarComponent implements OnInit {
     this.JsonArrayPE3.forEach(function(valor, index){
       //cumple
       if(valor['horasIncurridas'] <= valor['horasEstimadas']){
-        this.JsonArrayPE3[index]['cumple']=1;
+        this.JsonArrayPE3[index]['noCumple']=0;
         cantOk++;
       } else {
-        this.JsonArrayPE3[index]['cumple']=0;
+        this.JsonArrayPE3[index]['noCumple']=1;
       }
     }, this);
     this.cantidadOKPE3 = cantOk;
@@ -331,10 +337,10 @@ export class SlaGenerarComponent implements OnInit {
       
       //cumple
       if(fecRealPaseProduccion <= fecPlanPaseProduccion){
-        this.JsonArrayPE6[index]['cumple']=1;
+        this.JsonArrayPE6[index]['noCumple']=0;
         cantOk++;
       } else {
-        this.JsonArrayPE6[index]['cumple']=0;
+        this.JsonArrayPE6[index]['noCumple']=1;
       }
     }, this);
     this.cantidadOKPE6 = cantOk;
@@ -362,10 +368,10 @@ export class SlaGenerarComponent implements OnInit {
 
       //cumple
       if((((fecRealEstimacion.getTime() - fechaRecepcion.getTime())) *(1000*60*60*24)) <= 11){
-        this.JsonArrayPM1[index]['cumple']=1;
+        this.JsonArrayPM1[index]['noCumple']=0;
         cantOk++;
       } else {
-        this.JsonArrayPM1[index]['cumple']=0;
+        this.JsonArrayPM1[index]['noCumple']=1;
       }
     }, this);
     this.cantidadOKPM1 = cantOk;
@@ -393,10 +399,10 @@ export class SlaGenerarComponent implements OnInit {
        
       //cumple
       if((((fecRealEstimacion.getTime() - fecRealInicio.getTime())) *(1000*60*60*24)) <= 2){
-        this.JsonArrayPM2[index]['cumple']=1;
+        this.JsonArrayPM2[index]['noCumple']=0;
         cantOk++;
       } else {
-        this.JsonArrayPM2[index]['cumple']=0;
+        this.JsonArrayPM2[index]['noCumple']=1;
       }
     }, this);
     this.cantidadOKPM2 = cantOk;
@@ -431,59 +437,32 @@ export class SlaGenerarComponent implements OnInit {
 
   getVacios(indicador){
     let contrato = '';
-    let arreglo;
-    switch (indicador) {
-      case 'PE1':
-        arreglo = this.JsonArrayPE1;
-        contrato = 'proyecto';
-        break;
-      case 'PE2':
-        arreglo = this.JsonArrayPE2;
-        contrato = 'proyecto';
-        break;
-      case 'PE3':
-          arreglo = this.JsonArrayPE3;
-          contrato = 'proyecto';
-          break;
-      case 'PE6':
-            arreglo = this.JsonArrayPE6;
-            contrato = 'proyecto';
-            break;
-      case 'PM1':
-            arreglo = this.JsonArrayPM1;
-            contrato = 'mantenimiento';
-            break;
-      case 'PM2':
-            arreglo = this.JsonArrayPM2;
-            contrato = 'mantenimiento';
-            break;
-      default:
-        arreglo = [];
-        break;
+    let arreglo = [];
+
+    if(indicador=='PE1'){
+      arreglo = this.JsonArrayPE1;
+      contrato = 'proyecto';
+    } else if(indicador=='PE2') {
+      arreglo = this.JsonArrayPE2;
+      contrato = 'proyecto';
+    } else if(indicador=='PE3') {
+      arreglo = this.JsonArrayPE3;
+      contrato = 'proyecto';
+    } else if(indicador=='PE6') {
+      arreglo = this.JsonArrayPE6;
+      contrato = 'proyecto';
+    } else if(indicador=='PM1') {
+      arreglo = this.JsonArrayPM1;
+      contrato = 'mantenimiento';
+    } else if(indicador=='PM2') {
+      arreglo = this.JsonArrayPM2;
+      contrato = 'mantenimiento';
     }
 
-
-    console.log(indicador);
-    console.log(arreglo);
-
-
     if(arreglo) {
-      arreglo.forEach(function(valor: Array<String>, index){
+      arreglo.forEach(function(valor: Array<String>, index){  
         if (this.validarFechaVacia(valor)){
-          arreglo[index]['indicador'] = [];
-          arreglo[index]['indicador']['nombre'] = indicador;
-          arreglo[index]['indicador']['campos'] = this.getCamposFechaVacia(valor);
-
-          switch (contrato) {
-            case 'mantenimiento':
-              this.JsonArrayVaciosMantenimiento.push(arreglo[index]);
-              break;
-            case 'proyecto':
-               this.JsonArrayVaciosProyecto.push(arreglo[index]);
-               break;
-            default:
-              break;
-          }
+          this.agregarArregloCorregir(contrato, valor['nroReq'], indicador, this.getCamposFechaVacia(valor));
         }
       }, this);
     }
@@ -491,7 +470,6 @@ export class SlaGenerarComponent implements OnInit {
 
   //true si la fecha es habil
   esHabil(fecha: Date){
-   
     //sábado o domingo
     if(fecha.getDay()===0 || fecha.getDay()===6){
       return false;
@@ -628,6 +606,23 @@ export class SlaGenerarComponent implements OnInit {
 
   return campos;
  }
- 
 
+ //si es nuevo agrega un elemento al arreglo de vacios 
+ //en caso contrario lo agrega a la columna indicador
+ agregarArregloCorregir(contrato, nroReq, indicadores, campos){
+  let ars = [];
+  ars['nroReq'] = nroReq.toString();
+  ars['indicador'] = indicadores;
+  ars['campos'] = campos;
+
+  console.log(ars);
+ 
+  /*
+  if(contrato=='mantenimiento'){
+    this.JsonArrayVaciosMantenimiento.push<[]>(ars);
+  } else if(contrato=='proyecto'){
+    this.JsonArrayVaciosProyecto.push(ars);
+  }
+  */
+ }
 }

@@ -100,11 +100,6 @@ export class SlaComponent implements OnInit {
         
         this.filtrarReqPI1(tmp);
         //this.filtrarReqPI2(tmp);
-
-        //VACIOS PROYECTO
-//        this.filtrarReqVaciosProyecto(tmp);
-
-        //VACIOS MANTENIMIENTO
       }
     };
     reader.readAsBinaryString(file);
@@ -134,18 +129,13 @@ export class SlaComponent implements OnInit {
     }
  }
 
- filtrarReq(jsonDataReq: any) {
-  this.jsonDataService.setjsonDataReqService(jsonDataReq);
- }
-
  /*
 	Filtrar Contrato = Evolutivo
 	Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
 	Filtra Fecha Recepción = MES del informe (por pantalla) 
  */
- filtrarReqPE1(jsonDataReqArray: any) {
-
-  jsonDataReqArray = jsonDataReqArray.filter(a => {
+  filtrarReqPE1(jsonDataReqArray: any) {
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
       return a.contrato === 'Evolutivo';
     });
 
@@ -159,7 +149,7 @@ export class SlaComponent implements OnInit {
     });
 
     this.jsonDataService.setjsonDataReqPE1Service(jsonDataReqArray);
- }
+  }
 
 
  /*
@@ -167,22 +157,21 @@ export class SlaComponent implements OnInit {
 	Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
 	Filtrar Fec. Real Pase Aprobación = Mes en curso(por pantalla)
   */
- filtrarReqPE2(jsonDataReqArray: any) {
-  jsonDataReqArray = jsonDataReqArray.filter(a => {
-    return a.contrato === 'Evolutivo';
-  });
+  filtrarReqPE2(jsonDataReqArray: any) {
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return a.contrato === 'Evolutivo';
+    });
 
-  jsonDataReqArray = jsonDataReqArray.filter(a => {
-    return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
-  });
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
+    });
 
-  jsonDataReqArray = jsonDataReqArray.filter(a => {
-    return (a.fecRealPaseAprobacion.getMonth() === this.fechaInforme.getMonth()
-          && a.fecRealPaseAprobacion.getFullYear() === this.fechaInforme.getFullYear());
-  });
- 
-
-  this.jsonDataService.setjsonDataReqPE2Service(jsonDataReqArray);
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return (a.fecRealPaseAprobacion.getMonth() === this.fechaInforme.getMonth()
+            && a.fecRealPaseAprobacion.getFullYear() === this.fechaInforme.getFullYear());
+    });
+  
+   this.jsonDataService.setjsonDataReqPE2Service(jsonDataReqArray);
  }
 
   /*
@@ -293,8 +282,8 @@ export class SlaComponent implements OnInit {
       });
     
       jsonDataReqArray = jsonDataReqArray.filter(a => {
-        return a.bloque === 'Mantención';
-        //return a.bloque === 'Cancelaciones';
+        //return a.bloque === 'Mantención';
+        return a.bloque === 'Cancelaciones';
       });
 
       jsonDataReqArray = jsonDataReqArray.filter(a => {
@@ -340,6 +329,10 @@ export class SlaComponent implements OnInit {
           resp => {
             if (resp.value) {
               this.feriadosService.setFeriados(this.feriados);
+          
+              //borramos campos que no se necesitan
+              this.formulario.value.requerimientos = null;
+
               this.router.navigateByUrl('/sla-generar');        
             }
           }
@@ -361,5 +354,4 @@ export class SlaComponent implements OnInit {
   get fechaNoValido() {
     return this.formulario.get('fecha').invalid && this.formulario.get('fecha').touched;
   }
-
 }

@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import autoTable from 'jspdf-autotable';
+
 const { jsPDF } = require("jspdf");
 
 @Injectable({
@@ -11,6 +13,7 @@ export class SlaJspdfService {
   fecha: Date;
 
   antena = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAIAAADAARDdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAI0SURBVEhL7ZS/a/JAGMf7rzgIddLJraWLU6Wg0qHCC8o72MnQoatCpS+8xSFDhoCQIZAhEHiRwIt0kUJpHSoOSkBEKG1BiFBIpgxCes/dtV5MPIXSwgvvlxvyvR+fPPc8d7fjf6X+09fpO+kzU8jlszmlT/02cru/0JJ87dqlHYwC9Imaj8UTuxc9j3ZsJcesolWxqunQjqVY+rxdScTiqcsHMM6tWMzlBXOOh3z7XhFKJaHVsxfYjzU0WpQHEIdzLSB6vNENBcXSB80kmlTRZ2D6v9F3omxguiVnYD20gvYMPVMti+yBPAITWMgqQL+E9WSS160Di+zDNioEDa1+AyHOjDLYK1yhZ/0H+j5RH8GwYumWdIAmlfQXMH0xhVhZdQpmrHzEXtRx7Ja8j2xOm4BhwwqIpbudM1gv/MXVt3uqqLTHEOiTdkLQ0Ej1Xi29pehDPJPsI3nVJyVhxNLXVH9B9pSqGcYp/GA1AxMV/h150gJ037Paoths3djUg7zbxi6CogIuvLsLSNe+ZNExkDf6IzZFsYNTuKIgPUJuuwoJoUdliNOdbNyF44zSJvqjVoBsVNSp67yiNpAO4WenZsTNDGsDfSRloBLhdqw90Sk8celerwbXJJU+gpfko6WhMyMN6SyOeHR6hEJhkg1t8xxx6HP9JyQhIsW0GOed8LsV1Ho6QUQfD3qQNtZ2Ld0byIX0ytFeCi5Bcq+sTvnJ4VYV3ezQ5V6KM/QuLv3T+nfpvv8G/fJATNIxuksAAAAASUVORK5CYII=';
+  flecha = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAYCAIAAACeHvEiAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAJySURBVDhPY/z//z8DbtAzce79l5++fv06o7eGgwUqiAUATcEDbD3i2ZQ8GIQs3n35DRXCBpighuEA7OxsXJzsDBzsTIyMUCFsgIApRILhb4pHaNaR87egHBxAzzH2848/UA4YoJjiEpi+98xdW7ekYxfvQIUwgIKx/+3Hb4S1fJ68fA8VQjPlwdPX7GysYtJi1i4Jh8/ehIqCASsbM5CUNfB7//0/LzfH709fnr/BYcqdU+tUJPm+fP8FNMjOM+X+i/f8PJxAcSZmZk5mBmXToE+/GNhZmV+/enfr/HpTbSWILiDAkgNMXGKuP3rPw8X++esPOQnB959//Gf4z8HK/Pn7L1Zmptev3987s1ZRShiqGgyw5yNz9/jL99/wcXMAJZmYQKn2779/QJVv3nx4dH69rJgARBkcYI/pkzsXGqqIffzyHWIEEPz/9+/N20/PLm3ENAIIQG75++fX3z9Aq/6xc3JBhcHA3jfl5PVngnxcf/78efP+y8vLG8UEuKFyDAx/fv34958BaAkrOwcoTwdH5zEIWjKw6Z+++gDIRQZOAWlMci6Mci5vPn2DCsEAs7Axg7gdA5shkA3ykaAAH6+4MJO4MDCaIfbAwd71M33t9V9c2CDMC4osZCAuKiwiLswgBgpm7OGCDDYs6hETRHgEKyBsCjEAxRQ2DB/hAcjFFqIsBQbKiTOXPr2V+P0bJadhBUKCfP+YWOAGgWI6Nad25d4L3JzsHz99+fXnL1SGEBAS4AMmppdvPv1/vBvkox8/fn7++v3zl29MTEwcbKxEom/fvgN1MQARxC0bN+++ev85GwuemgIn+PT1e1NpMgCQHUOc1tw+hAAAAABJRU5ErkJggg==';
 
   constructor() { }
 
@@ -54,7 +57,6 @@ export class SlaJspdfService {
     let cantidadNoOkPI2 = variables['cantidadNoOkPI2'];
 
     let noSePuedeMedir = {"content":"No se puede medir","colSpan":4};
-
     this.fecha = fecha;
     
     return new Promise((resolve, reject) => {
@@ -65,7 +67,7 @@ export class SlaJspdfService {
       });
 
       //titulo
-      doc.setFontSize(22);
+      doc.setFontSize(20);
       doc.setFont(undefined, 'bold');
       doc.setTextColor(0, 0, 0);
       const tituloInforme = "Resumen SLA mes: " + this.monthNames[this.fecha.getMonth()] + " de " + this.fecha.getFullYear();
@@ -76,7 +78,7 @@ export class SlaJspdfService {
         theme: 'grid',
         headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
         bodyStyles: {halign: 'center'},
-        startY: 24,
+        startY: 20,
         margin: {top: 0, left: 10},
         styles: { fontSize: 8},
         columnStyles: {
@@ -101,16 +103,39 @@ export class SlaJspdfService {
           ['PE6: Despliegue en Producción sin Vuelta Atrás', '>90%', '10', cantidadPE6, cantidadOkPE6, cantidadNoOkPE6, SLAPE6],
 
           ['CA1: Cumplimiento de Adherencia al Proceso en QA', '>90%', '10', noSePuedeMedir],
-          ['CA2: Cumplimiento en Calidad del SW en QA', '<20%', '10', noSePuedeMedir],
+          ['CA2: Cumplimiento en Calidad del SW en QA', '<20%', '10x', noSePuedeMedir],
 
           ['PM1: Cumplimiento de Plazo de Respuesta Estimación', '>90%', '10', cantidadPM1, cantidadOkPM1, cantidadNoOkPM1, SLAPM1],
           ['PM2: Cumplimiento de Plazo de Entrega de Planificación', '>90%', '10', cantidadPM2, cantidadOkPM2, cantidadNoOkPM2, SLAPM2],
           ['PI1: Cumplimiento de Plazo en Resolución de Incidencia', '>90%', '10', cantidadPI1, cantidadOkPI1, cantidadNoOkPI1, SLAPI1],
           ['PI2: Cumplimiento en Tiempo de Respuesta Telefónica', '>90%', '10', cantidadPI2, cantidadOkPI2, cantidadNoOkPI2, SLAPI2],
         ],
+        didDrawCell: (data) => {
+          if (
+            (data.section === 'body' && data.column.index === 3)
+             && (
+                data.row.index == 3
+                || data.row.index == 4
+                || data.row.index == 6
+                || data.row.index == 7
+            )
+          ) {
+            doc.addImage(this.antena, 'PNG', data.cell.x + 58, data.cell.y+1, 4, 5)
+          }
+        },
       });
 
-      doc.save(`generar_PDF.pdf`);
+      //doc.addImage(this.flecha, 'PNG', 210, 100, 5, 5);
+
+      doc.setFontSize(10);
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(0, 0, 0);
+      doc.text(10, 130, 'Copyright © 2022 Accenture All rights reserved.');
+
+      doc.addImage(this.antena, 'PNG', 106, 124, 7, 8)
+      doc.text(115, 130, 'En revisión con QA para poder mostrarlo');
+
+      doc.save('generar_PDF.pdf');
       return resolve('resolved');
     });
   }

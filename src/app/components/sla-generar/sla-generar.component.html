@@ -275,7 +275,6 @@
        </button>&nbsp;
    </div>
 
-
     <hr />
 
     <!-- VALORES VACIOS MANTENIMIENTO -->
@@ -294,8 +293,8 @@
                     <tr *ngFor="let ars of JsonArrayVaciosMantenimiento; let i=index">
                         <td class="small">{{ars.nroReq}}</td>
         
-                        <td class="small">{{ars.indicador.nombre}}</td>
-                        <td class="small">{{ars.indicador.campos}}</td>
+                        <td class="small">{{ars.indicador}}</td>
+                        <td class="small">{{ars.campos}}</td>
                     </tr> 
                 </tbody>
             </table>
@@ -318,8 +317,8 @@
                     <tr *ngFor="let ars of JsonArrayVaciosProyecto; let i=index">
                         <td class="small">{{ars.nroReq}}</td>
         
-                        <td class="small">{{ars.indicador.nombre}}</td>
-                        <td class="small">{{ars.indicador.campos}}</td>
+                        <td class="small">{{ars.indicador}}</td>
+                        <td class="small">{{ars.campos}}</td>
                     </tr> 
                 </tbody>
             </table>
@@ -343,12 +342,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let ars of JsonArrayPE1; let i=index" [ngClass]="{'cumple' : ars.cumple==1}">
+                    <tr *ngFor="let ars of JsonArrayPE1; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                         <td class="small">{{ars.nroReq}}</td>
                         <td class="small">{{ars.contrato}}</td>
                         <td class="small">{{ars.lineaDeServicio}}</td>
                         <td class="small">{{ars.fechaRecepcion | date:'dd/MM/YYYY'}}</td>
-                        <td class="small">{{ars.fecRealEstimacion | date:'dd/MM/YYYY'}}</td>
+                        <td class="small">{{ars.fecRealEstimacion | fechaVacia}}</td>
                     </tr> 
                 </tbody>
             </table>
@@ -370,7 +369,7 @@
                             <th class="small font-weight-bold text-light" scope="col">Fec. Plan Pase Aprobación
                     </thead>
                     <tbody>
-                        <tr *ngFor="let ars of JsonArrayPE2; let i=index" [ngClass]="{'cumple' : ars.cumple==1}">
+                        <tr *ngFor="let ars of JsonArrayPE2; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                             <td class="small">{{ars.nroReq}}</td>
                             <td class="small">{{ars.contrato}}</td>
                             <td class="small">{{ars.lineaDeServicio}}</td>
@@ -400,7 +399,7 @@
                             <th class="small font-weight-bold text-light" scope="col">Horas Incurridas</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let ars of JsonArrayPE3; let i=index" [ngClass]="{'cumple' : ars.cumple==1}">
+                        <tr *ngFor="let ars of JsonArrayPE3; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                             <td class="small">{{ars.nroReq}}</td>
                             <td class="small">{{ars.contrato}}</td>
                             <td class="small">{{ars.lineaDeServicio}}</td>
@@ -430,7 +429,7 @@
                             <th class="small font-weight-bold text-light" scope="col">Fec. Plan. Pase Producción</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let ars of JsonArrayPE6; let i=index" [ngClass]="{'cumple' : ars.cumple==1}">
+                        <tr *ngFor="let ars of JsonArrayPE6; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                             <td class="small">{{ars.nroReq}}</td>
                             <td class="small">{{ars.contrato}}</td>
                             <td class="small">{{ars.lineaDeServicio}}</td>
@@ -458,7 +457,7 @@
                             <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let ars of JsonArrayPM1; let i=index" [ngClass]="{'cumple' : ars.cumple==1}">
+                        <tr *ngFor="let ars of JsonArrayPM1; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                             <td class="small">{{ars.nroReq}}</td>
                             <td class="small">{{ars.contrato}}</td>
                             <td class="small">{{ars.lineaDeServicio}}</td>
@@ -487,7 +486,7 @@
                             <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let ars of JsonArrayPM2; let i=index" [ngClass]="{'cumple' : ars.cumple==1}">
+                        <tr *ngFor="let ars of JsonArrayPM2; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                             <td class="small">{{ars.nroReq}}</td>
                             <td class="small">{{ars.contrato}}</td>
                             <td class="small">{{ars.lineaDeServicio}}</td>

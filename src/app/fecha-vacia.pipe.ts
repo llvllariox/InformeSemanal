@@ -11,7 +11,7 @@ export class FechaVaciaPipe implements PipeTransform {
       // tslint:disable-next-line: max-line-length
       if (value.toString() == 'Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)' || value.toString().includes('Sun Dec 31 1899')) {
       // if (value.toString() == 'Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)') {
-          return 'TBD';
+        return '01/01/1900';
       } else {
 
         const fecha = new Date(value);
@@ -28,7 +28,7 @@ export class FechaVaciaPipe implements PipeTransform {
         return newFecha;
       }
     }
-    return '1/1/1900';
+    return '01/01/1900';
   }
 
 }

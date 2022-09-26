@@ -29,9 +29,9 @@ html {
     text-align: right;
 }
 
-.cumple {
+.noCumple {
     border-style: solid;
-    border-color: green;
+    border-color: red;
 }
 
 .campoNoValido {
