@@ -19,25 +19,23 @@ export class SlaComponent implements OnInit {
   fechaInforme;
   feriados = null;
 
-
   constructor(private formBuilder: FormBuilder, private jsonDataService: SlaJsonDataService, private sweetAlerService: SweetAlertService, private router: Router, private feriadosService: FeriadosChileService) {  
-      this.jsonDataService.jsonDataReqService = null;
-      this.jsonDataService.infoCargada = false;
-      this.jsonDataService.ReqAgrupado = [];
       this.crearFormulario();
+  
+      let hoy = new Date();
+      const currentDate = hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0');  
+      this.formulario.controls['fecha'].setValue(currentDate);  
 
-      const currentDate = new Date().toISOString().substring(0, 10);
-      this.formulario.controls['fecha'].setValue(currentDate);
       this.jsonDataService.setFechaInforme(this.formulario.value.fecha);
-      this.fechaInforme = new Date(jsonDataService.getFechaInforme());
-
+      this.fechaInforme = new Date(jsonDataService.getFechaInforme() + '-05');
+      
       // Se obtienen los feriados
       this.feriadosService.obtenerFeriados().subscribe(resp => {
-              this.feriados = resp;
-        }, err => {
-            this.feriados = null;
-            this.sweetAlerService.mensajeError('Error al obtener Feriados', err.og.message);
-        });
+           this.feriados = resp;
+      }, err => {
+          this.feriados = null;
+          this.sweetAlerService.mensajeError('Error al obtener Feriados', err.og.message);
+      });
   }
 
   ngOnInit(): void {
@@ -48,15 +46,18 @@ export class SlaComponent implements OnInit {
     this.estadoReq = 4;
   }
 
+  //si hay archivo se borra y se pide cargar de nuevo
   cambiarFecha(event) {
     //si no ha subido archivo
-    this.fechaInforme = new Date(this.formulario.value.fecha);
+    this.fechaInforme = new Date(this.formulario.value.fecha + "-05");
+  
     if(this.formulario.value.requerimientos){
       this.formulario.controls.requerimientos.reset();
       this.estadoReq = 4;
     }
   }
 
+  //transforma la data a JSON
   uploadReq(event) {
     this.jsonDataReq = null;
     this.estadoReq = 2;
@@ -102,7 +103,7 @@ export class SlaComponent implements OnInit {
         //this.filtrarReqPI2(tmp);
       }
     };
-    reader.readAsBinaryString(file);
+    reader.readAsBinaryString(file);    
  }
 
    formularioHeaders(sheet, limit){
@@ -148,7 +149,14 @@ export class SlaComponent implements OnInit {
               && a.fechaRecepcion.getFullYear() === this.fechaInforme.getFullYear());
     });
 
-    this.jsonDataService.setjsonDataReqPE1Service(jsonDataReqArray);
+        //definimos un arreglo temporal para hacer unicos los objetos
+        let Jsontemporal = [];
+        jsonDataReqArray.forEach(element => {
+          let tmp = this.agregarJson(element);
+          Jsontemporal.push(tmp);
+        });
+    
+        this.jsonDataService.setjsonDataReqPE1Service(Jsontemporal);
   }
 
 
@@ -171,7 +179,14 @@ export class SlaComponent implements OnInit {
             && a.fecRealPaseAprobacion.getFullYear() === this.fechaInforme.getFullYear());
     });
   
-   this.jsonDataService.setjsonDataReqPE2Service(jsonDataReqArray);
+    //definimos un arreglo temporal para hacer unicos los objetos
+    let Jsontemporal = [];
+    jsonDataReqArray.forEach(element => {
+      let tmp = this.agregarJson(element);
+      Jsontemporal.push(tmp);
+    });
+
+    this.jsonDataService.setjsonDataReqPE2Service(Jsontemporal);
  }
 
   /*
@@ -200,7 +215,14 @@ export class SlaComponent implements OnInit {
             && a.fecRealFin.getFullYear() === this.fechaInforme.getFullYear());
     });
 
-   this.jsonDataService.setJsonDataReqPE3Service(jsonDataReqArray);
+    //definimos un arreglo temporal para hacer unicos los objetos
+    let Jsontemporal = [];
+    jsonDataReqArray.forEach(element => {
+      let tmp = this.agregarJson(element);
+      Jsontemporal.push(tmp);
+    });
+
+    this.jsonDataService.setJsonDataReqPE3Service(Jsontemporal);
  }
 
    /*
@@ -222,7 +244,14 @@ export class SlaComponent implements OnInit {
             && a.fecRealPaseProduccion.getFullYear() === this.fechaInforme.getFullYear());
     });
 
-  this.jsonDataService.setJsonDataReqPE6Service(jsonDataReqArray);
+    //definimos un arreglo temporal para hacer unicos los objetos
+    let Jsontemporal = [];
+    jsonDataReqArray.forEach(element => {
+      let tmp = this.agregarJson(element);
+      Jsontemporal.push(tmp);
+    });
+  
+    this.jsonDataService.setJsonDataReqPE6Service(Jsontemporal);
  }
 
  /*
@@ -239,14 +268,19 @@ export class SlaComponent implements OnInit {
     return a.lineaDeServicio === 'Problemas';
   });
 
-
-
   jsonDataReqArray = jsonDataReqArray.filter(a => {
     return (a.fechaRecepcion.getMonth() === this.fechaInforme.getMonth()
           && a.fechaRecepcion.getFullYear() === this.fechaInforme.getFullYear());
   });
  
-  this.jsonDataService.setJsonDataReqPM1Service(jsonDataReqArray);
+  //definimos un arreglo temporal para hacer unicos los objetos
+  let Jsontemporal = [];
+  jsonDataReqArray.forEach(element => {
+    let tmp = this.agregarJson(element);
+    Jsontemporal.push(tmp);
+  });
+
+  this.jsonDataService.setJsonDataReqPM1Service(Jsontemporal);
  }
 
   /*
@@ -255,10 +289,11 @@ export class SlaComponent implements OnInit {
 	Filtrar Fecha Recepción MES = MES del informe
  */
   filtrarReqPM2(jsonDataReqArray: any) {
+
     jsonDataReqArray = jsonDataReqArray.filter(a => {
       return a.contrato === 'Mantenimiento';
     });
-  
+
     jsonDataReqArray = jsonDataReqArray.filter(a => {
       return a.lineaDeServicio === 'Problemas';
     });
@@ -267,8 +302,15 @@ export class SlaComponent implements OnInit {
       return (a.fechaRecepcion.getMonth() === this.fechaInforme.getMonth()
             && a.fechaRecepcion.getFullYear() === this.fechaInforme.getFullYear());
     });
-   
-    this.jsonDataService.setJsonDataReqPM2Service(jsonDataReqArray);
+
+    //definimos un arreglo temporal para hacer unicos los objetos
+    let Jsontemporal = [];
+    jsonDataReqArray.forEach(element => {
+      let tmp = this.agregarJson(element);
+      Jsontemporal.push(tmp);
+    });
+
+    this.jsonDataService.setJsonDataReqPM2Service(Jsontemporal);
    }
 
    /*
@@ -324,7 +366,6 @@ export class SlaComponent implements OnInit {
           return;
         }
 
-        this.jsonDataService.consolidarArchivos();
         this.sweetAlerService.mensajeOK('Resumen SLA generado exitosamente').then(          
           resp => {
             if (resp.value) {
@@ -353,5 +394,28 @@ export class SlaComponent implements OnInit {
 
   get fechaNoValido() {
     return this.formulario.get('fecha').invalid && this.formulario.get('fecha').touched;
+  }
+
+  //devuelve un arreglo con los valores a enviar
+  agregarJson(ars){
+    let tmp = [];
+    tmp['nroReq'] = ars['nroReq'];
+    tmp['fecRealEstimacion'] = ars['fecRealEstimacion'];
+    tmp['fecRealInicio'] = ars['fecRealInicio'];
+    tmp['fecPlanPaseAprobacion'] = ars['fecPlanPaseAprobacion'];
+    tmp['fecRealPaseAprobacion'] = ars['fecRealPaseAprobacion'];
+    tmp['fecRealFin'] = ars['fecRealFin'];
+    tmp['fecPlanPaseProduccion'] = ars['fecPlanPaseProduccion'];
+    tmp['fecRealPaseProduccion'] = ars['fecRealPaseProduccion'];
+    tmp['contrato'] = ars['contrato'];
+    tmp['lineaDeServicio'] = ars['lineaDeServicio'];
+
+    tmp['fechaRecepcion'] = ars['fechaRecepcion'];
+
+    tmp['horasEstimadas'] = ars['horasEstimadas'];
+    tmp['horasIncurridas'] = ars['horasIncurridas'];
+    tmp['bloque'] = ars['bloque'];
+    
+    return tmp;
   }
 }

@@ -13,7 +13,7 @@ import { SlaFormularioService } from '../../services/sla-formulario.service';
 export class SlaGenerarComponent implements OnInit {
   //formulario: FormGroup;
   jsonDataReqInf: any;
-  JsonArray: [] = [];
+
   JsonArrayPE1: [] = [];
   JsonArrayPE2: [] = [];
   JsonArrayPE3: [] = [];
@@ -25,8 +25,8 @@ export class SlaGenerarComponent implements OnInit {
   JsonArrayPI1: [] = [];
   JsonArrayPI2: [] = [];
 
-  JsonArrayVaciosMantenimiento: [] = [];
-  JsonArrayVaciosProyecto: [] = [];
+  JsonArrayVaciosMantenimiento = [];
+  JsonArrayVaciosProyecto = [];
 
   monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -73,8 +73,6 @@ export class SlaGenerarComponent implements OnInit {
   SLAPI2: Number;
 
   private feriados = [];
-
-  flag = 0;
 
   constructor(public slaFormularioService: SlaFormularioService, public jsonDataService: SlaJsonDataService, private route: ActivatedRoute, public pdfService: SlaJspdfService, private sweetAlerService: SweetAlertService, private feriadosService: FeriadosChileService) {
     this.feriados = feriadosService.getFeriados(); 
@@ -209,8 +207,10 @@ export class SlaGenerarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.mostrarFlechas();
   }
 
+  // calcula cantidad, ok y nook del indicador
   getPE1(){
     this.cantidadPE1 = this.JsonArrayPE1.length;
     
@@ -247,6 +247,8 @@ export class SlaGenerarComponent implements OnInit {
           }
         }
 
+        //console.log(valor['nroReq'] + ' - ' + contador);
+
         //cumple
         if(contador <= 5){
           this.JsonArrayPE1[index]['noCumple']=0;
@@ -269,6 +271,7 @@ export class SlaGenerarComponent implements OnInit {
     }
   }
 
+  // calcula cantidad, ok y nook del indicador
   getPE2(){
     this.cantidadPE2 = this.JsonArrayPE2.length;
 
@@ -299,6 +302,7 @@ export class SlaGenerarComponent implements OnInit {
     }
   }
 
+  // calcula cantidad, ok y nook del indicador
   getPE3(){
     this.cantidadPE3 = this.JsonArrayPE3.length;
 
@@ -326,6 +330,7 @@ export class SlaGenerarComponent implements OnInit {
     }
   }
 
+  // calcula cantidad, ok y nook del indicador
   getPE6(){
     this.cantidadPE6 = this.JsonArrayPE6.length;
 
@@ -355,23 +360,55 @@ export class SlaGenerarComponent implements OnInit {
     }
   }
 
+  // calcula cantidad, ok y nook del indicador
   getPM1(){
     this.cantidadPM1 = this.JsonArrayPM1.length;
 
     //se cuentan la cantidad de días desde Fecha Recepción 
-    //hasta Fec.Real Estimación <= 11 días.
+    //hasta Fec.Real Estimación <= 11 días hábiles.
     let cantOk = 0;
 
     this.JsonArrayPM1.forEach(function(valor, index){
+
+      //this.JsonArrayPM1[index]['marca']=1;
+
       let fechaRecepcion = new Date(valor['fechaRecepcion']);
       let fecRealEstimacion = new Date(valor['fecRealEstimacion']);
 
-      //cumple
-      if((((fecRealEstimacion.getTime() - fechaRecepcion.getTime())) *(1000*60*60*24)) <= 11){
+      //vemos si alguna de las fechas es vacia
+      if(
+        this.validarFechaVaciaRegla(fechaRecepcion.toString()) 
+        || this.validarFechaVaciaRegla(fecRealEstimacion.toString())
+      ){
         this.JsonArrayPM1[index]['noCumple']=0;
         cantOk++;
       } else {
-        this.JsonArrayPM1[index]['noCumple']=1;
+        let contador = 0;
+        let fechaIni;
+        let fechaFin;
+
+        if(fechaRecepcion < fecRealEstimacion){ 
+          fechaIni = fechaRecepcion;
+          fechaFin = fecRealEstimacion;
+        } else {
+          fechaIni = fecRealEstimacion;
+          fechaFin = fechaRecepcion;
+        }
+
+        for(let i=fechaIni; i<fechaFin; i.setDate(i.getDate()+1)){
+          if(this.esHabil(i)){
+            contador++;
+          }
+        }
+        //console.log(valor['nroReq'] + ' - ' + contador);
+
+        //cumple
+        if(contador <= 11){
+          this.JsonArrayPM1[index]['noCumple']=0;
+          cantOk++;
+        } else {
+          this.JsonArrayPM1[index]['noCumple']=1;
+        }
       }
     }, this);
     this.cantidadOKPM1 = cantOk;
@@ -381,12 +418,12 @@ export class SlaGenerarComponent implements OnInit {
     //SLA
     if(this.cantidadPM1 != 0) {
       this.SLAPM1 = (this.cantidadOKPM1 * 100 / this.cantidadPM1);
-    }
-    else {
+    } else {
       this.SLAPM1 = 100;  
     }
   }
 
+  // calcula cantidad, ok y nook del indicador
   getPM2(){
     this.cantidadPM2 = this.JsonArrayPM2.length;
 
@@ -394,15 +431,47 @@ export class SlaGenerarComponent implements OnInit {
     let cantOk = 0;
 
     this.JsonArrayPM2.forEach(function(valor, index){
+      
+      //this.JsonArrayPM2[index]['marca']=2;
+
       let fecRealInicio = new Date(valor['fecRealInicio']);
       let fecRealEstimacion = new Date(valor['fecRealEstimacion']);
        
-      //cumple
-      if((((fecRealEstimacion.getTime() - fecRealInicio.getTime())) *(1000*60*60*24)) <= 2){
+      //vemos si alguna de las fechas es vacia
+      if(
+        this.validarFechaVaciaRegla(fecRealInicio.toString()) 
+        || this.validarFechaVaciaRegla(fecRealEstimacion.toString())
+      ){
         this.JsonArrayPM2[index]['noCumple']=0;
         cantOk++;
       } else {
-        this.JsonArrayPM2[index]['noCumple']=1;
+        let contador = 0;
+        let fechaIni;
+        let fechaFin;
+
+        if(fecRealInicio < fecRealEstimacion){ 
+          fechaIni = fecRealInicio;
+          fechaFin = fecRealEstimacion;
+        } else {
+          fechaIni = fecRealEstimacion;
+          fechaFin = fecRealInicio;
+        }
+
+        for(let i=fechaIni; i<fechaFin; i.setDate(i.getDate()+1)){
+          if(this.esHabil(i)){
+            contador++;
+          }
+        }
+
+        //console.log(valor['roReq'] + ' - ' + contador);
+
+        //cumple
+        if(contador <= 2){
+          this.JsonArrayPM1[index]['noCumple']=0;
+          cantOk++;
+        } else {
+          this.JsonArrayPM1[index]['noCumple']=1;
+        }
       }
     }, this);
     this.cantidadOKPM2 = cantOk;
@@ -410,15 +479,14 @@ export class SlaGenerarComponent implements OnInit {
     this.cantidadNOOKPM2 = this.cantidadPM2 - this.cantidadOKPM2;
 
     //SLA
-      if(this.cantidadPM2 != 0) {
+    if(this.cantidadPM2 != 0) {
       this.SLAPM2 = (this.cantidadOKPM2 * 100 / this.cantidadPM2);  
-    }
-    else {
+    } else {
       this.SLAPM2 = 100;  
     }
   }
 
-  
+  // calcula cantidad, ok y nook del indicador
   getPI1(){
     //PI1: Cumplimiento de Plazo en Resolución de Incidencia, se cuentan y se informa
     this.cantidadPI1 = this.JsonArrayPI1.length;
@@ -427,6 +495,7 @@ export class SlaGenerarComponent implements OnInit {
     this.SLAPI1 = 100;
   }
 
+  // calcula cantidad, ok y nook del indicador
   getPI2(){
     //se repite PI1
     this.cantidadPI2 = this.cantidadPI1;
@@ -435,6 +504,7 @@ export class SlaGenerarComponent implements OnInit {
     this.SLAPI2 = 100;
   }
 
+  //por cada ARS mira si hay campos vacíos
   getVacios(indicador){
     let contrato = '';
     let arreglo = [];
@@ -462,7 +532,11 @@ export class SlaGenerarComponent implements OnInit {
     if(arreglo) {
       arreglo.forEach(function(valor: Array<String>, index){  
         if (this.validarFechaVacia(valor)){
-          this.agregarArregloCorregir(contrato, valor['nroReq'], indicador, this.getCamposFechaVacia(valor));
+          this.agregarArregloCorregir(
+                                        contrato, 
+                                        valor['nroReq'], indicador, 
+                                        this.getCamposFechaVacia(valor)
+                                      );
         }
       }, this);
     }
@@ -484,6 +558,7 @@ export class SlaGenerarComponent implements OnInit {
     return true;
   }
 
+  //actualiza los valores de los campos
   cambiarCampo(event, tabla, campo) {
     if(campo=='cantidadOk' || campo=='cantidadNoOk'){
       let cantidadOk = Number(this.slaFormularioService['campo_' + tabla + '_cantidadOk']);
@@ -491,9 +566,12 @@ export class SlaGenerarComponent implements OnInit {
 
       this.slaFormularioService['campo_' + tabla + '_cantidad'] = String(cantidadOk + cantidadNoOk);
       this.slaFormularioService['campo_' + tabla + '_SLA'] = String(((cantidadOk*100)/(cantidadOk + cantidadNoOk)).toFixed(1));
+
+      this.mostrarFlechas();
    } 
   }
 
+  //genera un archivo PDF
   generaNuevoPDF(){
     let variables = [];
     variables['cantidadPE1'] = this.slaFormularioService['campo_PE1_cantidad'];
@@ -615,14 +693,51 @@ export class SlaGenerarComponent implements OnInit {
   ars['indicador'] = indicadores;
   ars['campos'] = campos;
 
-  console.log(ars);
- 
-  /*
+  //this.JsonArrayVaciosMantenimiento.push(ars);
+  let flagRepetidoM = 0;
+  let flagRepetidoP = 0;
   if(contrato=='mantenimiento'){
-    this.JsonArrayVaciosMantenimiento.push<[]>(ars);
+    this.JsonArrayVaciosMantenimiento.forEach(function(valor, index){
+      if(valor['nroReq'] ==  ars['nroReq']){
+        flagRepetidoM = 1;
+        this.JsonArrayVaciosMantenimiento[index]['indicador'] = 
+        this.JsonArrayVaciosMantenimiento[index]['indicador'] + ', ' + indicadores;
+      }
+    }, this);
+
+    if(!flagRepetidoM) this.JsonArrayVaciosMantenimiento.push(ars);
   } else if(contrato=='proyecto'){
-    this.JsonArrayVaciosProyecto.push(ars);
+    this.JsonArrayVaciosProyecto.forEach(function(valor, index){
+      if(valor['nroReq'] ==  ars['nroReq']){
+        flagRepetidoP = 1;
+        this.JsonArrayVaciosProyecto[index]['indicador'] = 
+        this.JsonArrayVaciosProyecto[index]['indicador'] + ', ' + indicadores;
+      }
+    }, this);
+
+    if(!flagRepetidoP) this.JsonArrayVaciosProyecto.push(ars);
   }
-  */
+ }
+
+ //revisa las cantidades y le agrega una flecha si están bajo el mínimo
+ mostrarFlechas(){
+  let min = 10;
+  let flagMin = false;
+  
+  let indicadores = ['PE1', 'PE2', 'PE3', 'PE6', 'PM1', 'PM2', 'PI1', 'PI2'];
+  indicadores.forEach(function(element){
+    if(Number(this.slaFormularioService['campo_' + element + '_cantidad']) < min){
+      document.getElementById('flecha_' + element).style.display = "block";
+      flagMin = true;
+    } else {
+      document.getElementById('flecha_' + element).style.display = "none";
+    }
+  }, this);
+
+  if(flagMin){
+    document.getElementById('p_minimo').style.display = "block";
+  } else {
+    document.getElementById('p_minimo').style.display = "none";
+  }
  }
 }

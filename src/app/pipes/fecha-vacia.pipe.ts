@@ -30,5 +30,4 @@ export class FechaVaciaPipe implements PipeTransform {
     }
     return '01/01/1900';
   }
-
 }

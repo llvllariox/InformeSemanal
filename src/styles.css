@@ -50,3 +50,7 @@ html {
 .frmsla input[type=number] {
   -moz-appearance: textfield;
 }
+
+.indice {
+    width: 30px;
+}

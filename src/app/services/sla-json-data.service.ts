@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SlaJsonDataService {
-  jsonDataReqService;
   jsonDataReqPE1Service;
   jsonDataReqPE2Service;
   jsonDataReqPE3Service;
@@ -16,11 +15,10 @@ export class SlaJsonDataService {
   jsonDataReqPI1Service;
   jsonDataReqPI2Service;
 
-  infoCargada = false;
-  ReqAgrupado = [];
   fechaInforme: string;
   
-  constructor() { }
+  constructor() {
+   }
 
   getFechaInforme() {
     return this.fechaInforme;
@@ -29,15 +27,7 @@ export class SlaJsonDataService {
   setFechaInforme(fecha: string){
       this.fechaInforme = fecha;
   }
-
-  getJsonDataReqService() {
-    return this.jsonDataReqService;
-  }
-
-  setjsonDataReqService(jsonDataReqService: any) {
-    this.jsonDataReqService = jsonDataReqService;
-  }
-
+  
   getJsonDataReqPE1Service() {
     return this.jsonDataReqPE1Service;
   }
@@ -100,9 +90,5 @@ export class SlaJsonDataService {
 
   setJsonDataReqPI2Service(jsonDataReqService: any) {
     this.jsonDataReqPI2Service = jsonDataReqService;
-  }
-
-  consolidarArchivos() {
-    this.infoCargada = true;
   }
 }
