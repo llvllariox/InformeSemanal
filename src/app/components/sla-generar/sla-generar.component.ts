@@ -215,7 +215,6 @@ export class SlaGenerarComponent implements OnInit {
     this.cantidadPE1 = this.JsonArrayPE1.length;
     
     //Cumplen los que  Fecha Recepción VS Fec. Real Estimación <= 5 días hábiles
-    
     let cantOk = 0;
     this.JsonArrayPE1.forEach(function(valor, index){
       let fechaRecepcion = new Date(valor['fechaRecepcion']);
@@ -225,14 +224,17 @@ export class SlaGenerarComponent implements OnInit {
       if(
           this.validarFechaVaciaRegla(fechaRecepcion.toString()) 
           || this.validarFechaVaciaRegla(fecRealEstimacion.toString())
-        ){
-            this.JsonArrayPE1[index]['noCumple']=0;
-            cantOk++;
+      ){
+        this.JsonArrayPE1[index]['noCumple'] = 1;
+        //cantOk++;
       } else {
         let contador = 0;
         let fechaIni;
         let fechaFin;
-  
+
+        fechaRecepcion.setHours(0,0,0,0);
+        fecRealEstimacion.setHours(0,0,0,0);
+    
         if(fechaRecepcion < fecRealEstimacion){ 
           fechaIni = fechaRecepcion;
           fechaFin = fecRealEstimacion;
@@ -240,33 +242,38 @@ export class SlaGenerarComponent implements OnInit {
           fechaIni = fecRealEstimacion;
           fechaFin = fechaRecepcion;
         }
-    
+        
+        /*
+        if(valor['nroReq']=='4392'){
+          console.log('hjk');
+        } 
+        */
+
         for(let i=fechaIni; i<fechaFin; i.setDate(i.getDate()+1)){
           if(this.esHabil(i)){
             contador++;
           }
         }
-
+      
         //console.log(valor['nroReq'] + ' - ' + contador);
 
         //cumple
         if(contador <= 5){
-          this.JsonArrayPE1[index]['noCumple']=0;
+          this.JsonArrayPE1[index]['noCumple'] = 0;
           cantOk++;
         } else {
-          this.JsonArrayPE1[index]['noCumple']=1;
+          this.JsonArrayPE1[index]['noCumple'] = 1;
         }
       }
-
     }, this);
+    
     this.cantidadOKPE1 = cantOk;
 
     this.cantidadNOOKPE1 = this.cantidadPE1 - this.cantidadOKPE1;
 
     if(this.cantidadPE1 != 0) {
       this.SLAPE1 = (this.cantidadOKPE1 * 100 / this.cantidadPE1);  
-    }
-    else {
+    } else {
       this.SLAPE1 = 100;  
     }
   }
@@ -281,23 +288,26 @@ export class SlaGenerarComponent implements OnInit {
       let fecRealPaseAprobacion = new Date(valor['fecRealPaseAprobacion']);
       let fecPlanPaseAprobacion = new Date(valor['fecPlanPaseAprobacion']);
 
+      fecRealPaseAprobacion.setHours(0,0,0,0);
+      fecPlanPaseAprobacion.setHours(0,0,0,0);
+
       //cumple
       if(fecRealPaseAprobacion <= fecPlanPaseAprobacion){
-        this.JsonArrayPE2[index]['noCumple']=0;
+        this.JsonArrayPE2[index]['noCumple'] = 0;
         cantOk++;
       }
       else {
-        this.JsonArrayPE2[index]['noCumple']=1;
+        this.JsonArrayPE2[index]['noCumple'] = 1;
       }
     }, this);
+    
     this.cantidadOKPE2 = cantOk;
 
     this.cantidadNOOKPE2 = this.cantidadPE2 - this.cantidadOKPE2;
 
     if(this.cantidadPE2 != 0) {
       this.SLAPE2 = (this.cantidadOKPE2 * 100 / this.cantidadPE2);  
-    }
-    else {
+    } else {
       this.SLAPE2 = 100;  
     }
   }
@@ -311,10 +321,10 @@ export class SlaGenerarComponent implements OnInit {
     this.JsonArrayPE3.forEach(function(valor, index){
       //cumple
       if(valor['horasIncurridas'] <= valor['horasEstimadas']){
-        this.JsonArrayPE3[index]['noCumple']=0;
+        this.JsonArrayPE3[index]['noCumple'] = 0;
         cantOk++;
       } else {
-        this.JsonArrayPE3[index]['noCumple']=1;
+        this.JsonArrayPE3[index]['noCumple'] = 1;
       }
     }, this);
     this.cantidadOKPE3 = cantOk;
@@ -336,16 +346,29 @@ export class SlaGenerarComponent implements OnInit {
 
     //Cumplen los que  Fec. Real Pase Producción <=  Fec. Plan. Pase Producción.
     let cantOk = 0;
+
     this.JsonArrayPE6.forEach(function(valor, index){
       let fecRealPaseProduccion = new Date(valor['fecRealPaseProduccion']);
       let fecPlanPaseProduccion = new Date(valor['fecPlanPaseProduccion']);
       
-      //cumple
-      if(fecRealPaseProduccion <= fecPlanPaseProduccion){
-        this.JsonArrayPE6[index]['noCumple']=0;
-        cantOk++;
+      fecRealPaseProduccion.setHours(0,0,0,0);
+      fecPlanPaseProduccion.setHours(0,0,0,0);
+
+      //vemos si alguna de las fechas es vacia
+      if(
+        this.validarFechaVaciaRegla(fecRealPaseProduccion.toString()) 
+        || this.validarFechaVaciaRegla(fecPlanPaseProduccion.toString())
+      ){
+        this.JsonArrayPE6[index]['noCumple'] = 1;
+        //cantOk++;
       } else {
-        this.JsonArrayPE6[index]['noCumple']=1;
+        //cumple
+        if(fecRealPaseProduccion <= fecPlanPaseProduccion){
+          this.JsonArrayPE6[index]['noCumple'] = 0;
+          cantOk++;
+        } else {
+          this.JsonArrayPE6[index]['noCumple'] = 1;
+        }
       }
     }, this);
     this.cantidadOKPE6 = cantOk;
@@ -375,13 +398,16 @@ export class SlaGenerarComponent implements OnInit {
       let fechaRecepcion = new Date(valor['fechaRecepcion']);
       let fecRealEstimacion = new Date(valor['fecRealEstimacion']);
 
+      fechaRecepcion.setHours(0,0,0,0);
+      fecRealEstimacion.setHours(0,0,0,0);
+
       //vemos si alguna de las fechas es vacia
       if(
         this.validarFechaVaciaRegla(fechaRecepcion.toString()) 
         || this.validarFechaVaciaRegla(fecRealEstimacion.toString())
       ){
-        this.JsonArrayPM1[index]['noCumple']=0;
-        cantOk++;
+        this.JsonArrayPM1[index]['noCumple'] = 1;
+        //cantOk++;
       } else {
         let contador = 0;
         let fechaIni;
@@ -436,14 +462,17 @@ export class SlaGenerarComponent implements OnInit {
 
       let fecRealInicio = new Date(valor['fecRealInicio']);
       let fecRealEstimacion = new Date(valor['fecRealEstimacion']);
-       
+      
+      fecRealInicio.setHours(0,0,0,0);
+      fecRealEstimacion.setHours(0,0,0,0);
+
       //vemos si alguna de las fechas es vacia
       if(
         this.validarFechaVaciaRegla(fecRealInicio.toString()) 
         || this.validarFechaVaciaRegla(fecRealEstimacion.toString())
       ){
-        this.JsonArrayPM2[index]['noCumple']=0;
-        cantOk++;
+        this.JsonArrayPM2[index]['noCumple'] = 1;
+        //cantOk++;
       } else {
         let contador = 0;
         let fechaIni;
@@ -544,6 +573,9 @@ export class SlaGenerarComponent implements OnInit {
 
   //true si la fecha es habil
   esHabil(fecha: Date){
+    //ponemos la hora en 0 para poder comparar
+    fecha.setHours(0,0,0,0);
+
     //sábado o domingo
     if(fecha.getDay()===0 || fecha.getDay()===6){
       return false;

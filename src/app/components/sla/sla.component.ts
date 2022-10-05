@@ -12,18 +12,22 @@ import { FeriadosChileService } from '../../services/feriados-chile.service';
 })
 export class SlaComponent implements OnInit {
   formulario: FormGroup;
-  name = 'This is XLSX TO JSON CONVERTER';
   jsonDataReq = null;
   nuevosHeaders = [];
   estadoReq = 1;
   fechaInforme;
+  fechaMin;
+  fechaMax;
   feriados = null;
 
   constructor(private formBuilder: FormBuilder, private jsonDataService: SlaJsonDataService, private sweetAlerService: SweetAlertService, private router: Router, private feriadosService: FeriadosChileService) {  
+    
       this.crearFormulario();
   
       let hoy = new Date();
       const currentDate = hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0');  
+      this.fechaMin = '2015-01';
+      this.fechaMax = currentDate;
       this.formulario.controls['fecha'].setValue(currentDate);  
 
       this.jsonDataService.setFechaInforme(this.formulario.value.fecha);

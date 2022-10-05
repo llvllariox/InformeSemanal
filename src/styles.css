@@ -54,3 +54,12 @@ html {
 .indice {
     width: 30px;
 }
+
+.collapsed:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    /* content: "\2796"; /* Unicode character for "minus" sign (-) */
+    font-size: 9px;
+    color: white;
+    float: right;
+    margin-left: 5px;
+}

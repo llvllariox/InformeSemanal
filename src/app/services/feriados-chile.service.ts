@@ -39,7 +39,7 @@ export class FeriadosChileService {
           feriadosTemp.push(element['fecha']);
         });
 
-        return feriadosTemp;
+        return feriadosTemp.reverse();
       }));
   }
 
