@@ -63,6 +63,11 @@ export class SlaComponent implements OnInit {
 
   //transforma la data a JSON
   uploadReq(event) {
+    if(!this.validarTipo(event)){
+      this.estadoReq = 4;
+      return;
+    }
+
     this.jsonDataReq = null;
     this.estadoReq = 2;
     let workBook = null;
@@ -421,5 +426,18 @@ export class SlaComponent implements OnInit {
     tmp['bloque'] = ars['bloque'];
     
     return tmp;
+  }
+
+  //valida que el tipo del archivo contanga la palabra sheet
+  validarTipo(event){
+    if(event.target.files[0]){
+      let tipo = event.target.files[0].type;
+      if (!tipo.includes('sheet')) {
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo es invalido');
+        return false;
+      }else{
+        return true;
+      }
+    }
   }
 }

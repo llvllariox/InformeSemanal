@@ -39,6 +39,7 @@ html {
     border-color: red;
 }
 
+/* controles de los input type number */
 /* Chrome, Safari, Edge, Opera */
 .frmsla input::-webkit-outer-spin-button,
 .frmsla input::-webkit-inner-spin-button {
@@ -62,4 +63,8 @@ html {
     color: white;
     float: right;
     margin-left: 5px;
+}
+
+img{
+    border:0px;
 }

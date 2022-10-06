@@ -19,7 +19,7 @@
                 <tr>
                     <td class="small">PE1: Cumplimiento de Plazo de Respuesta Estimación</td>
                     <td class="small">&gt;90%</td>
-                    <td class="small">10</td>
+                    <td class="small centrado">10</td>
                     <td class="small">
                         <div class="form-check frmsla">
                             <input [(ngModel)]="slaFormularioService.campo_PE1_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE1', 'cantidad')" disabled>
@@ -40,8 +40,8 @@
                             <input [(ngModel)]="slaFormularioService.campo_PE1_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE1', 'SLA')" disabled>
                         </div>
                     </td>
-                    <td>
-                        <img id="flecha_PE1" src="../../../assets//images/sla/flecha.png">
+                    <td id="flecha_PE1">
+                        <img src="../../../assets//images/sla/flecha.png">
                     </td>
                 </tr> 
 
@@ -49,7 +49,7 @@
                 <tr>
                     <td class="small">PE2: Cumplimiento de Plazo de Entrega de Desarrollo</td>
                     <td class="small">&gt;85%</td>
-                    <td class="small">10</td>
+                    <td class="small centrado">10</td>
                     <td class="small">
                         <div class="form-check frmsla">
                             <input [(ngModel)]="slaFormularioService.campo_PE2_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE2', 'cantidad')" disabled>
@@ -70,8 +70,8 @@
                             <input [(ngModel)]="slaFormularioService.campo_PE2_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE2', 'SLA')" disabled>
                         </div>
                     </td>
-                    <td>
-                        <img id="flecha_PE2" src="../../../assets//images/sla/flecha.png">
+                    <td id="flecha_PE2">
+                        <img src="../../../assets//images/sla/flecha.png">
                     </td>
                 </tr>
 
@@ -79,7 +79,7 @@
                 <tr>
                     <td class="small">PE3: Cumplimiento de Horas Estimadas</td>
                     <td class="small">&gt;85%</td>
-                    <td class="small">10</td>
+                    <td class="small centrado">10</td>
                     <td class="small">
                         <div class="form-check frmsla">
                             <input [(ngModel)]="slaFormularioService.campo_PE3_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE3', 'cantidad')" disabled>
@@ -100,8 +100,8 @@
                             <input [(ngModel)]="slaFormularioService.campo_PE3_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE3', 'SLA')" disabled>
                         </div>
                     </td>
-                    <td>
-                        <img id="flecha_PE3" src="../../../assets//images/sla/flecha.png">
+                    <td id="flecha_PE3">
+                        <img src="../../../assets//images/sla/flecha.png">
                     </td>
                 </tr>
 
@@ -109,25 +109,23 @@
                 <tr>
                     <td class="small">PE4: Cumplimiento de Plazo en Resolución de Incidencia en QA Críticas</td>
                     <td class="small">&gt;90%</td>
-                    <td class="small">10</td>
+                    <td class="small centrado">10</td>
                     <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
-                    <td></td>
                 </tr>
 
                 <!-- TR PE5 -->
                 <tr>
                     <td class="small">PE5: Cumplimiento de Plazo en Resolución de Incidencia en QA No</td>
                     <td class="small">&gt;90%</td>
-                    <td class="small">10</td>
+                    <td class="small centrado">10</td>
                     <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
-                    <td></td>
                 </tr>
 
                 <!-- TR PE6 -->
                 <tr>
                     <td class="small">PE6: Despliegue en Producción sin Vuelta Atrás</td>
                     <td class="small">&gt;90%</td>
-                    <td class="small">10</td>
+                    <td class="small centrado">10</td>
                     <td class="small">
                         <div class="form-check frmsla">
                             <input [(ngModel)]="slaFormularioService.campo_PE6_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE6', 'cantidad')" disabled>
@@ -148,8 +146,8 @@
                             <input [(ngModel)]="slaFormularioService.campo_PE6_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE6', 'SLA')" disabled>
                         </div>
                     </td>
-                    <td>
-                        <img id="flecha_PE6" src="../../../assets//images/sla/flecha.png">
+                    <td id="flecha_PE6">
+                        <img src="../../../assets//images/sla/flecha.png">
                     </td>
                 </tr>
 
@@ -157,25 +155,23 @@
                 <tr>
                     <td class="small">CA1: Cumplimiento de Adherencia al Proceso en QA</td>
                     <td class="small">&gt;90%</td>
-                    <td class="small">10</td>
+                    <td class="small centrado">10</td>
                     <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
-                    <td></td>
                 </tr>
 
                 <!-- TR CA2 -->
                 <tr>
                     <td class="small">CA2: Cumplimiento en Calidad del SW en QA</td>
                     <td class="small">&lt;20%</td>
-                    <td class="small">10</td>
+                    <td class="small centrado">10</td>
                     <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
-                    <td></td>
                 </tr>
 
                 <!-- TR PM1 -->
                 <tr>
                     <td class="small">PM1: Cumplimiento de Plazo de Respuesta Estimación</td>
                     <td class="small">&gt;90%</td>
-                    <td class="small">10</td>
+                    <td class="small centrado">10</td>
                     <td class="small">
                         <div class="form-check frmsla">
                             <input [(ngModel)]="slaFormularioService.campo_PM1_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM1', 'cantidad')" disabled>
@@ -196,8 +192,8 @@
                             <input [(ngModel)]="slaFormularioService.campo_PM1_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM1', 'SLA')" disabled>
                         </div>
                     </td>
-                    <td>
-                        <img id="flecha_PM1" src="../../../assets//images/sla/flecha.png">
+                    <td id="flecha_PM1">
+                        <img src="../../../assets//images/sla/flecha.png">
                     </td>
                 </tr>
 
@@ -205,7 +201,7 @@
                 <tr>
                     <td class="small">PM2: Cumplimiento de Plazo de Entrega de Planificación</td>
                     <td class="small">&gt;90%</td>
-                    <td class="small">10</td>
+                    <td class="small centrado">10</td>
                     <td class="small">
                         <div class="form-check frmsla">
                             <input [(ngModel)]="slaFormularioService.campo_PM2_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM2', 'cantidad')" disabled>
@@ -226,8 +222,8 @@
                             <input [(ngModel)]="slaFormularioService.campo_PM2_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM2', 'SLA')" disabled>
                         </div>
                     </td>
-                    <td>
-                        <img id="flecha_PM2" src="../../../assets//images/sla/flecha.png">
+                    <td id="flecha_PM2">
+                        <img src="../../../assets//images/sla/flecha.png">
                     </td>
                 </tr>
 
@@ -235,7 +231,7 @@
                 <tr>
                     <td class="small">PI1: Cumplimiento de Plazo en Resolución de Incidencia</td>
                     <td class="small">&gt;90%</td>
-                    <td class="small">10</td>
+                    <td class="small centrado">10</td>
                     <td class="small">
                         <div class="form-check frmsla">
                             <input [(ngModel)]="slaFormularioService.campo_PI1_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI1', 'cantidad')" disabled>
@@ -256,8 +252,8 @@
                             <input [(ngModel)]="slaFormularioService.campo_PI1_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI1', 'SLA')" disabled>
                         </div>
                     </td>
-                    <td>
-                        <img id="flecha_PI1" src="../../../assets//images/sla/flecha.png">
+                    <td id="flecha_PI1">
+                        <img src="../../../assets//images/sla/flecha.png">
                     </td>
                 </tr>
 
@@ -265,7 +261,7 @@
                 <tr>
                     <td class="small">PI2: Cumplimiento en Tiempo de Respuesta Telefónica</td>
                     <td class="small">&gt;90%</td>
-                    <td class="small">10</td>
+                    <td class="small centrado">10</td>
                     <td class="small">
                         <div class="form-check frmsla">
                             <input [(ngModel)]="slaFormularioService.campo_PI2_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI2', 'cantidad')" disabled>
@@ -286,8 +282,8 @@
                             <input [(ngModel)]="slaFormularioService.campo_PI2_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI2', 'SLA')" disabled>
                         </div>
                     </td>
-                    <td>
-                        <img id="flecha_PI2" src="../../../assets//images/sla/flecha.png">
+                    <td id="flecha_PI2">
+                        <img src="../../../assets//images/sla/flecha.png">
                     </td>
                 </tr>
             </tbody>
