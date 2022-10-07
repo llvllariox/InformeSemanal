@@ -319,28 +319,33 @@
                     </button>
                 </h2>
             </div>
-          
+
             <div id="collapseTablaValoresVaciosM" class="collapse" aria-labelledby="headingTablaValoresVaciosM" data-parent="#accordionTablaValoresVacios">
-                <div class="card-body">   
-                    <table class="table table-striped table-bordered">
-                        <thead class="bg-dark">
-                            <tr>
-                                <th class="small font-weight-bold text-light indice" scope="col"></th>
-                                <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                                <th class="small font-weight-bold text-light" scope="col">Indicador</th>
-                                <th class="small font-weight-bold text-light" scope="col">Campos</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let ars of JsonArrayVaciosMantenimiento; let i=index">
-                                <td class="small">{{i+1}}</td>
-                                <td class="small">{{ars.nroReq}}</td>
-                
-                                <td class="small">{{ars.indicador}}</td>
-                                <td class="small">{{ars.campos}}</td>
-                            </tr> 
-                        </tbody>
-                    </table>
+                <div class="card-body">
+                    <div *ngIf="JsonArrayVaciosMantenimiento.length==0; else noVVM">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noVVM>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Indicador</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Campos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayVaciosMantenimiento; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                    
+                                    <td class="small">{{ars.indicador}}</td>
+                                    <td class="small">{{ars.campos}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
                 </div>
             </div>
         </div>
@@ -356,25 +361,30 @@
             </div>
             <div id="collapseTablaValoresVaciosP" class="collapse" aria-labelledby="headingTablaValoresVaciosP" data-parent="#accordionTablaValoresVacios">
                 <div class="card-body">
-                    <table class="table table-striped table-bordered">
-                        <thead class="bg-dark">
-                            <tr>
-                                <th class="small font-weight-bold text-light indice" scope="col"></th>
-                                <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                                <th class="small font-weight-bold text-light" scope="col">Indicador</th>
-                                <th class="small font-weight-bold text-light" scope="col">Campos</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let ars of JsonArrayVaciosProyecto; let i=index">
-                                <td class="small">{{i+1}}</td>
-                                <td class="small">{{ars.nroReq}}</td>
-                
-                                <td class="small">{{ars.indicador}}</td>
-                                <td class="small">{{ars.campos}}</td>
-                            </tr> 
-                        </tbody>
-                    </table>
+                    <div *ngIf="JsonArrayVaciosProyecto.length==0; else noVVP">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noVVP>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Indicador</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Campos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayVaciosProyecto; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                    
+                                    <td class="small">{{ars.indicador}}</td>
+                                    <td class="small">{{ars.campos}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
                 </div>
             </div>
         </div>
@@ -395,29 +405,34 @@
             </div>
           
             <div id="collapseTablaPE1" class="collapse" aria-labelledby="headingTablaPE1" data-parent="#accordionTablaIndicadores">
-                <div class="card-body">   
-                    <table class="table table-striped table-bordered">
-                        <thead class="bg-dark">
-                            <tr>
-                                <th class="small font-weight-bold text-light indice" scope="col"></th>
-                                <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                                <th class="small font-weight-bold text-light" scope="col">Contrato</th>
-                                <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
-                                <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
-                                <th class="small font-weight-bold text-light" scope="col">Fec. Real Estimación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let ars of JsonArrayPE1; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
-                                <td class="small">{{i+1}}</td>
-                                <td class="small">{{ars.nroReq}}</td>
-                                <td class="small">{{ars.contrato}}</td>
-                                <td class="small">{{ars.lineaDeServicio}}</td>
-                                <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
-                                <td class="small">{{ars.fecRealEstimacion | fechaVacia}}</td>
-                            </tr> 
-                        </tbody>
-                    </table>
+                <div class="card-body">
+                    <div *ngIf="JsonArrayPE1.length==0; else noPE1">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPE1>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Fec. Real Estimación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPE1; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                    <td class="small">{{ars.fecRealEstimacion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
                 </div>
             </div>
         </div>
@@ -434,29 +449,34 @@
           
             <div id="collapseTablaPE2" class="collapse" aria-labelledby="headingTablaPE2" data-parent="#accordionTablaIndicadores">
                 <div class="card-body">   
-                    <table class="table table-striped table-bordered">
-                        <thead class="bg-dark">
-                            <tr>
-                                <th class="small font-weight-bold text-light indice" scope="col"></th>
-                                <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                                <th class="small font-weight-bold text-light" scope="col">Contrato</th>
-                                <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
-        
-                                <th class="small font-weight-bold text-light" scope="col">Fec. Real Pase Aprobación</th>
-                                <th class="small font-weight-bold text-light" scope="col">Fec. Plan Pase Aprobación
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let ars of JsonArrayPE2; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
-                                <td class="small">{{i+1}}</td>
-                                <td class="small">{{ars.nroReq}}</td>
-                                <td class="small">{{ars.contrato}}</td>
-                                <td class="small">{{ars.lineaDeServicio}}</td>
-        
-                                <td class="small">{{ars.fecRealPaseAprobacion | fechaVacia}}</td>
-                                <td class="small">{{ars.fecPlanPaseAprobacion | fechaVacia}}</td>
-                            </tr> 
-                        </tbody>
-                    </table>
+                    <div *ngIf="JsonArrayPE2.length==0; else noPE2">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPE2>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Fec. Real Pase Aprobación</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Fec. Plan Pase Aprobación
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPE2; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+            
+                                    <td class="small">{{ars.fecRealPaseAprobacion | fechaVacia}}</td>
+                                    <td class="small">{{ars.fecPlanPaseAprobacion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
                 </div>
             </div>
         </div>
@@ -472,34 +492,39 @@
             </div>
         
             <div id="collapseTablaPE3" class="collapse" aria-labelledby="headingTablaPE3" data-parent="#accordionTablaIndicadores">
-                <div class="card-body">   
-                    <table class="table table-striped table-bordered">
-                        <thead class="bg-dark">
-                            <tr>
-                                <th class="small font-weight-bold text-light indice" scope="col"></th>
-                                <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                                <th class="small font-weight-bold text-light" scope="col">Contrato</th>
-                                <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
-        
-                                <th class="small font-weight-bold text-light" scope="col">Estado</th>
-                                <th class="small font-weight-bold text-light" scope="col">Fec Real Fin</th>
-                                <th class="small font-weight-bold text-light" scope="col">Horas Estimadas</th>
-                                <th class="small font-weight-bold text-light" scope="col">Horas Incurridas</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let ars of JsonArrayPE3; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
-                                <td class="small">{{i+1}}</td>
-                                <td class="small">{{ars.nroReq}}</td>
-                                <td class="small">{{ars.contrato}}</td>
-                                <td class="small">{{ars.lineaDeServicio}}</td>
-        
-                                <td class="small">{{ars.estado}}</td>
-                                <td class="small">{{ars.fecRealFin | fechaVacia}}</td>
-                                <td class="small">{{ars.horasEstimadas}}</td>
-                                <td class="small">{{ars.horasIncurridas}}</td>
-                            </tr> 
-                        </tbody>
-                    </table>
+                <div class="card-body">
+                    <div *ngIf="JsonArrayPE3.length==0; else noPE3">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPE3>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Estado</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Fec Real Fin</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Horas Estimadas</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Horas Incurridas</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPE3; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+            
+                                    <td class="small">{{ars.estado}}</td>
+                                    <td class="small">{{ars.fecRealFin | fechaVacia}}</td>
+                                    <td class="small">{{ars.horasEstimadas}}</td>
+                                    <td class="small">{{ars.horasIncurridas}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
                 </div>
             </div>
         </div>
@@ -515,30 +540,35 @@
             </div>
         
             <div id="collapseTablaPE6" class="collapse" aria-labelledby="headingTablaPE6" data-parent="#accordionTablaIndicadores">
-                <div class="card-body">   
-                    <table class="table table-striped table-bordered">
-                        <thead class="bg-dark">
-                            <tr>
-                                <th class="small font-weight-bold text-light indice" scope="col"></th>
-                                <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                                <th class="small font-weight-bold text-light" scope="col">Contrato</th>
-                                <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
-        
-                                <th class="small font-weight-bold text-light" scope="col">Fec. Real Pase Producción</th>
-                                <th class="small font-weight-bold text-light" scope="col">Fec. Plan. Pase Producción</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let ars of JsonArrayPE6; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
-                                <td class="small">{{i+1}}</td>
-                                <td class="small">{{ars.nroReq}}</td>
-                                <td class="small">{{ars.contrato}}</td>
-                                <td class="small">{{ars.lineaDeServicio}}</td>
-        
-                                <td class="small">{{ars.fecRealPaseProduccion | fechaVacia}}</td>
-                                <td class="small">{{ars.fecPlanPaseProduccion | fechaVacia}}</td>
-                            </tr> 
-                        </tbody>
-                    </table>
+                <div class="card-body">
+                    <div *ngIf="JsonArrayPE6.length==0; else noPE6">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPE6>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Fec. Real Pase Producción</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Fec. Plan. Pase Producción</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPE6; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+            
+                                    <td class="small">{{ars.fecRealPaseProduccion | fechaVacia}}</td>
+                                    <td class="small">{{ars.fecPlanPaseProduccion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
                 </div>
             </div>
         </div>
@@ -554,30 +584,35 @@
             </div>
         
             <div id="collapseTablaPM1" class="collapse" aria-labelledby="headingTablaPM1" data-parent="#accordionTablaIndicadores">
-                <div class="card-body">   
-                    <table class="table table-striped table-bordered">
-                        <thead class="bg-dark">
-                            <tr>
-                                <th class="small font-weight-bold text-light indice" scope="col"></th>
-                                <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                                <th class="small font-weight-bold text-light" scope="col">Contrato</th>
-                                <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
-        
-                                <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
-                                <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let ars of JsonArrayPM1; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
-                                <td class="small">{{i+1}}</td>
-                                <td class="small">{{ars.nroReq}}</td>
-                                <td class="small">{{ars.contrato}}</td>
-                                <td class="small">{{ars.lineaDeServicio}}</td>
-        
-                                <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
-                                <td class="small">{{ars.fecRealEstimacion | fechaVacia}}</td>
-                            </tr> 
-                        </tbody>
-                    </table>
+                <div class="card-body">
+                    <div *ngIf="JsonArrayPM1.length==0; else noPM1">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPM1>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPM1; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+            
+                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                    <td class="small">{{ars.fecRealEstimacion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
                 </div>
             </div>
         </div>
@@ -594,29 +629,34 @@
         
             <div id="collapseTablaPM2" class="collapse" aria-labelledby="headingTablaPM2" data-parent="#accordionTablaIndicadores">
                 <div class="card-body">   
-                    <table class="table table-striped table-bordered">
-                        <thead class="bg-dark">
-                            <tr>
-                                <th class="small font-weight-bold text-light indice" scope="col"></th>
-                                <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                                <th class="small font-weight-bold text-light" scope="col">Contrato</th>
-                                <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
-        
-                                <th class="small font-weight-bold text-light" scope="col">Fec. Real Inicio </th>                        
-                                <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let ars of JsonArrayPM2; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
-                                <td class="small">{{i+1}}</td>
-                                <td class="small">{{ars.nroReq}}</td>
-                                <td class="small">{{ars.contrato}}</td>
-                                <td class="small">{{ars.lineaDeServicio}}</td>
-        
-                                <td class="small">{{ars.fecRealInicio | fechaVacia}}</td>
-                                <td class="small">{{ars.fecRealEstimacion | fechaVacia}}</td>
-                            </tr> 
-                        </tbody>
-                    </table>
+                    <div *ngIf="JsonArrayPM2.length==0; else noPM2">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPM2>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Fec. Real Inicio </th>                        
+                                    <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPM2; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+            
+                                    <td class="small">{{ars.fecRealInicio | fechaVacia}}</td>
+                                    <td class="small">{{ars.fecRealEstimacion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
                 </div>
             </div>
         </div>
@@ -632,28 +672,33 @@
             </div>
         
             <div id="collapseTablaPI1" class="collapse" aria-labelledby="headingTablaPI1" data-parent="#accordionTablaIndicadores">
-                <div class="card-body">   
-                    <table class="table table-striped table-bordered">
-                        <thead class="bg-dark">
-                            <tr>
-                                <th class="small font-weight-bold text-light indice" scope="col"></th>
-                                <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                                <th class="small font-weight-bold text-light" scope="col">Contrato</th>
-                                <th class="small font-weight-bold text-light" scope="col">Bloque</th>
-        
-                                <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let ars of JsonArrayPI1; let i=index">
-                                <td class="small">{{i+1}}</td>
-                                <td class="small">{{ars.nroReq}}</td>
-                                <td class="small">{{ars.contrato}}</td>
-                                <td class="small">{{ars.bloque}}</td>
-        
-                                <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
-                            </tr> 
-                        </tbody>
-                    </table>
+                <div class="card-body">
+                    <div *ngIf="JsonArrayPI1.length==0; else noPI1">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPI1>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Bloque</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPI1; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.bloque}}</td>
+            
+                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
                 </div>
             </div>
         </div>
@@ -669,28 +714,33 @@
             </div>
         
             <div id="collapseTablaPI2" class="collapse" aria-labelledby="headingTablaPI2" data-parent="#accordionTablaIndicadores">
-                <div class="card-body">   
-                    <table class="table table-striped table-bordered">
-                        <thead class="bg-dark">
-                            <tr>
-                                <th class="small font-weight-bold text-light indice" scope="col"></th>
-                                <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
-                                <th class="small font-weight-bold text-light" scope="col">Contrato</th>
-                                <th class="small font-weight-bold text-light" scope="col">Bloque</th>
-        
-                                <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let ars of JsonArrayPI2; let i=index">
-                                <td class="small">{{i+1}}</td>
-                                <td class="small">{{ars.nroReq}}</td>
-                                <td class="small">{{ars.contrato}}</td>
-                                <td class="small">{{ars.bloque}}</td>
-        
-                                <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
-                            </tr> 
-                        </tbody>
-                    </table>
+                <div class="card-body">
+                    <div *ngIf="JsonArrayPI2.length==0; else noPI2">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPI2>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Bloque</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPI2; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.bloque}}</td>
+            
+                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
                 </div>
             </div>
         </div>

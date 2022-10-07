@@ -759,7 +759,7 @@ export class SlaGenerarComponent implements OnInit {
   let indicadores = ['PE1', 'PE2', 'PE3', 'PE6', 'PM1', 'PM2', 'PI1', 'PI2'];
   indicadores.forEach(function(element){
     if(Number(this.slaFormularioService['campo_' + element + '_cantidad']) < min){
-      document.getElementById('flecha_' + element).style.display = "block";
+      document.getElementById('flecha_' + element).style.display = "table-cell";
       flagMin = true;
     } else {
       document.getElementById('flecha_' + element).style.display = "none";
