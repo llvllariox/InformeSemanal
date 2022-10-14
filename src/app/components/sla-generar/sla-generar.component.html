@@ -331,6 +331,7 @@
                                 <tr>
                                     <th class="small font-weight-bold text-light indice" scope="col"></th>
                                     <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Responsable</th>
                                     <th class="small font-weight-bold text-light" scope="col">Indicador</th>
                                     <th class="small font-weight-bold text-light" scope="col">Campos</th>
                                 </tr>
@@ -339,6 +340,7 @@
                                 <tr *ngFor="let ars of JsonArrayVaciosMantenimiento; let i=index">
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.responsable}}</td>
                     
                                     <td class="small">{{ars.indicador}}</td>
                                     <td class="small">{{ars.campos}}</td>
@@ -370,6 +372,7 @@
                                 <tr>
                                     <th class="small font-weight-bold text-light indice" scope="col"></th>
                                     <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Responsable</th>
                                     <th class="small font-weight-bold text-light" scope="col">Indicador</th>
                                     <th class="small font-weight-bold text-light" scope="col">Campos</th>
                                 </tr>
@@ -378,6 +381,7 @@
                                 <tr *ngFor="let ars of JsonArrayVaciosProyecto; let i=index">
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.responsable}}</td>
                     
                                     <td class="small">{{ars.indicador}}</td>
                                     <td class="small">{{ars.campos}}</td>

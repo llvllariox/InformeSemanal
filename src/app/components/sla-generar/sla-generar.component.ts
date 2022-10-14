@@ -564,7 +564,8 @@ export class SlaGenerarComponent implements OnInit {
           this.agregarArregloCorregir(
                                         contrato, 
                                         valor['nroReq'], indicador, 
-                                        this.getCamposFechaVacia(valor)
+                                        this.getCamposFechaVacia(valor),
+                                        valor['responsable']
                                       );
         }
       }, this);
@@ -719,11 +720,12 @@ export class SlaGenerarComponent implements OnInit {
 
  //si es nuevo agrega un elemento al arreglo de vacios 
  //en caso contrario lo agrega a la columna indicador
- agregarArregloCorregir(contrato, nroReq, indicadores, campos){
+ agregarArregloCorregir(contrato, nroReq, indicadores, campos, responsable){
   let ars = [];
   ars['nroReq'] = nroReq.toString();
   ars['indicador'] = indicadores;
   ars['campos'] = campos;
+  ars['responsable'] = responsable;
 
   //this.JsonArrayVaciosMantenimiento.push(ars);
   let flagRepetidoM = 0;

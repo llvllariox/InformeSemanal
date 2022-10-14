@@ -424,6 +424,8 @@ export class SlaComponent implements OnInit {
     tmp['horasEstimadas'] = ars['horasEstimadas'];
     tmp['horasIncurridas'] = ars['horasIncurridas'];
     tmp['bloque'] = ars['bloque'];
+
+    tmp['responsable'] = ars['responsable'];
     
     return tmp;
   }
