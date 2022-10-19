@@ -18,6 +18,8 @@ import { VerArsJiraComponent } from './components/ver-ars-jira/ver-ars-jira.comp
 import { SlaComponent } from './components/sla/sla.component';
 import { SlaGenerarComponent } from './components/sla-generar/sla-generar.component';
 import { FechaVaciaPipe } from './pipes/fecha-vacia.pipe';
+import { CuadraFacturacionComponent } from './components/cuadra-facturacion/cuadra-facturacion.component';
+import { CuadraFacturacionGenerarComponent } from './components/cuadra-facturacion-generar/cuadra-facturacion-generar.component';
 
 // import { DatePipe } from '@angular/common';
 
@@ -36,6 +38,8 @@ import { FechaVaciaPipe } from './pipes/fecha-vacia.pipe';
     SlaComponent,
     SlaGenerarComponent,
     FechaVaciaPipe,
+    CuadraFacturacionComponent,
+    CuadraFacturacionGenerarComponent,
   ],
   imports: [
     BrowserModule,

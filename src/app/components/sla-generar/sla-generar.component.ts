@@ -727,7 +727,6 @@ export class SlaGenerarComponent implements OnInit {
   ars['campos'] = campos;
   ars['responsable'] = responsable;
 
-  //this.JsonArrayVaciosMantenimiento.push(ars);
   let flagRepetidoM = 0;
   let flagRepetidoP = 0;
   if(contrato=='mantenimiento'){

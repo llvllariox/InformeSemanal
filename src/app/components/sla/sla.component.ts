@@ -13,7 +13,6 @@ import { FeriadosChileService } from '../../services/feriados-chile.service';
 export class SlaComponent implements OnInit {
   formulario: FormGroup;
   jsonDataReq = null;
-  nuevosHeaders = [];
   estadoReq = 1;
   fechaInforme;
   fechaMin;

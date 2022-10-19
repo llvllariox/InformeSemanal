@@ -1,0 +1,66 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-6 ">
+            <div class="row">
+                <div class="col ">
+                    <h4>Subir Archivos</h4>
+                </div>
+            </div>
+            <form autocomplete="off" [formGroup]="formulario" (ngSubmit)="guardar()">
+
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        Fecha:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="fechaNoValido" formControlName="fecha" type="month" class="date form-control" (change)="cambiarFecha($event)"  min="{{fechaMin}}" max="{{fechaMax}}" >
+                        <small *ngIf="fechaNoValido" class="text-danger">Seleccione Fecha</small>
+                    </div>
+                </div>
+                
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoReqI==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoReqI==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoReqI==3" class="fas fa-check text-success"></i><i *ngIf="estadoReqI==4" class="fas fa-times text-danger"></i>&nbsp;
+                        Incurridos:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="requerimientosINoValido" formControlName="requerimientosI" type="file" class="form-control-file" (change)="uploadReq($event, 'I')" (click)="click('I')">
+                        <small *ngIf="requerimientosINoValido" class="text-danger">Seleccione Archivo<br/></small>
+                        <!-- <small>Descargar abiertas desde hace 1 año atrás y cerradas mes a obtener informe</small> -->
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoReqP==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoReqP==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoReqP==3" class="fas fa-check text-success"></i><i *ngIf="estadoReqP==4" class="fas fa-times text-danger"></i>&nbsp;
+                        Planificados:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="requerimientosPNoValido" formControlName="requerimientosP" type="file" class="form-control-file" (change)="uploadReq($event, 'P')" (click)="click('P')">
+                        <small *ngIf="requerimientosPNoValido" class="text-danger">Seleccione Archivo<br/></small>
+                        <!-- <small>Descargar abiertas desde hace 1 año atrás y cerradas mes a obtener informe</small> -->
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoReqF==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoReqF==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoReqF==3" class="fas fa-check text-success"></i><i *ngIf="estadoReqF==4" class="fas fa-times text-danger"></i>&nbsp;
+                        Facturados:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="requerimientosFNoValido" formControlName="requerimientosF" type="file" class="form-control-file" (change)="uploadReqFacturado($event)" (click)="click('F')">
+                        <small *ngIf="requerimientosFNoValido" class="text-danger">Seleccione Archivo<br/></small>
+                        <!-- <small>Descargar abiertas desde hace 1 año atrás y cerradas mes a obtener informe</small> -->
+                    </div>
+                </div>
+                       
+                <div class="row my-3 mt-5">
+                    <div class="col">
+                        <button class="btn btn-primary btn-block" type="submit">Generar</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
