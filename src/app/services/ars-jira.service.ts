@@ -43,6 +43,7 @@ export class ArsJiraService {
   consolidarArchivos() {
 
     console.log('ARS-JIRA SERVICE');
+    this.blancoEnCero()
     this.AddJiraToReq();
     this.buscarJiraSinARS();
     console.log(this.jsonDataReqService);
@@ -50,6 +51,33 @@ export class ArsJiraService {
 
   }
 
+  blancoEnCero(){
+    let x = 0;
+    for (let jira of this.jsonDataJiraService.Sheet0) {
+
+      if(jira["Duración en HH"] == null||  jira["Duración en HH"] == '')
+      {
+        jira["Duración en HH"] = 0;
+      }
+
+      if(jira["Tarifa HH/UF"] == null||  jira["Tarifa HH/UF"] == '')
+      {
+        jira["Tarifa HH/UF"] = 0;
+      }
+
+      if(jira["HH Consumidas"] == null||  jira["HH Consumidas"] == '')
+      {
+        jira["HH Consumidas"] = 0;
+      }
+
+      if(jira["HH Restantes"] == null||  jira["HH Restantes"] == '')
+      {
+        jira["HH Restantes"] = 0;
+      }
+      x++;
+
+    }
+  }
   AddJiraToReq() {
 
     let jirapaso = this.jsonDataJiraService.Sheet0[0];

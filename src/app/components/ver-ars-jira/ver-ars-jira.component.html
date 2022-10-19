@@ -31,6 +31,10 @@
                         <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">Clave</th>
                         <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">Responsable JIRA</th>
                         <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">Estado</th>
+                        <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">Duracion</th>
+                        <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">Tarifa HH/UF</th>
+                        <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">HH Consumidas</th>
+                        <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">HH Restantes</th>
                         <!-- <th class="; small font-weight-bold text-light" scope="col" style="width: 50px;text-overflow: ellipsis;">Fecha de Inicio</th> -->
 
                     </tr>
@@ -57,6 +61,10 @@
                         <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira.clave}}</td>
                         <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira.responsable}}</td>
                         <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira.estado}}</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira["Duración en HH"]}}</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira["Tarifa HH/UF"]}}</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira["HH Consumidas"]}}</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira["HH Restantes"]}}</td>
                         <!-- <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira.fechaDeInicio|fechas}}</td> -->
                         <!-- <td class="small text-dark text-left" scope="col" style="width: 350px;text-overflow: ellipsis;">{{req.descripcion}}</td> -->
                     </tr>
@@ -81,6 +89,10 @@
                         <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{jira.clave}}</td>
                         <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{jira.responsable}}</td>
                         <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{jira.estado}}</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{jira["Duración en HH"]}}</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{jira["Tarifa HH/UF"]}}</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{jira["HH Consumidas"]}}</td>
+                        <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{jira["HH Restantes"]}}</td>
                         <!-- <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira.fechaDeInicio|fechas}}</td> -->
                         <!-- <td class="small text-dark text-left" scope="col" style="width: 350px;text-overflow: ellipsis;">{{req.descripcion}}</td> -->
                     </tr>

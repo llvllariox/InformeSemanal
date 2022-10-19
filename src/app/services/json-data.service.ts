@@ -382,7 +382,7 @@ export class JsonDataService {
             }
 
             // if(Reqpadre.nroReq===2978){
-              console.log(Reqpadre);
+              //console.log(Reqpadre);
             // }
 
             this.ReqAgrupado.push(Reqpadre);
@@ -401,7 +401,7 @@ export class JsonDataService {
           if (i === maximo - 1 ){
             Reqpadre.reqOrigen = ' ';
             this.ReqAgrupado.push(Reqpadre);
-            console.log(Reqpadre);
+            //console.log(Reqpadre);
           }
           // FIN
 
