@@ -1,0 +1,260 @@
+<div class="container">
+
+    <!-- SALIDA -->
+
+    
+
+
+
+
+
+
+    <hr />
+
+    <div class="accordion" id="accordionTablaUniverso">
+        <!-- UNIVERSO Incurrido -->
+        <div class="card">
+            <div class="card-header" id="headingTablaI">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaI" aria-expanded="false" aria-controls="collapseTablaI">
+                        Universo Incurrido
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseTablaI" class="collapse" aria-labelledby="headingTablaI" data-parent="#accordionTablaUniverso">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayI.length==0; else noI">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noI>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">descripcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">lineaDeServicio</th>
+                                    <th class="small font-weight-bold text-light" scope="col">horas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayI; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.descripcion}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+                                    <td class="small">{{ars.horas}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
+                </div>
+            </div>
+        </div>
+
+        <!-- UNIVERSO Planificado -->
+        <div class="card">
+            <div class="card-header" id="headingTablaP">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaP" aria-expanded="false" aria-controls="collapseTablaP">
+                        Universo Planificado
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseTablaP" class="collapse" aria-labelledby="headingTablaP" data-parent="#accordionTablaUniverso">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayP.length==0; else noP">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noP>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">descripcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">lineaDeServicio</th>
+                                    <th class="small font-weight-bold text-light" scope="col">horasPlanificadas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayP; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.descripcion}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+                                    <td class="small">{{ars.horasPlanificadas}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UNIVERSO FACTURADO -->
+    <div class="card">
+        <div class="card-header" id="headingTablaf">
+            <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaF" aria-expanded="false" aria-controls="collapseTablaF">
+                    Universo Facturado
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapseTablaF" class="collapse" aria-labelledby="headingTablaF" data-parent="#accordionTablaUniverso">
+            <div class="card-body">
+                <div *ngIf="JsonArrayF.length==0; else noF">
+                    No se encontró data. 
+                </div>
+                <ng-template #noF>
+                    <table class="table table-striped table-bordered">
+                        <thead class="bg-dark">
+                            <tr>
+                                <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                <th class="small font-weight-bold text-light" scope="col">nombreRequerimiento</th>
+                                <th class="small font-weight-bold text-light" scope="col">lineaDeServicio</th>
+                                <th class="small font-weight-bold text-light" scope="col">hhIncurridas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ars of JsonArrayF; let i=index">
+                                <td class="small">{{i+1}}</td>
+                                <td class="small">{{ars.nombreRequerimiento}}</td>
+                                <td class="small">{{ars.lineaDeServicio}}</td>
+                                <td class="small">{{ars.hhIncurridas}}</td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                </ng-template> 
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="accordion" id="accordionTablaUniversoA">
+        <!-- AGRUPADAS Incurrido -->
+        <div class="card">
+            <div class="card-header" id="headingTablaIA">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaIA" aria-expanded="false" aria-controls="collapseTablaIA">
+                        Universo Agrupadas Incurrido
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseTablaIA" class="collapse" aria-labelledby="headingTablaIA" data-parent="#accordionTablaUniversoA">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayAgrupadasI.length==0; else noIA">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noIA>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Código</th>
+                                    <th class="small font-weight-bold text-light" scope="col">descripcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">lineaDeServicio</th>
+                                    <th class="small font-weight-bold text-light" scope="col">horas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayAgrupadasI; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.codigo}}</td>
+                                    <td class="small">{{ars.descripcion}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+                                    <td class="small">{{ars.horas}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
+                </div>
+            </div>
+        </div>
+
+        <!-- UNIVERSO Planificado -->
+        <div class="card">
+            <div class="card-header" id="headingTablaPA">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaPA" aria-expanded="false" aria-controls="collapseTablaPA">
+                        Universo Agrupadas Planificado
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseTablaPA" class="collapse" aria-labelledby="headingTablaPA" data-parent="#accordionTablaUniversoA">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayAgrupadasP.length==0; else noPA">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPA>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Código</th>
+                                    <th class="small font-weight-bold text-light" scope="col">descripcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">lineaDeServicio</th>
+                                    <th class="small font-weight-bold text-light" scope="col">horasPlanificadas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayAgrupadasP; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.codigo}}</td>
+                                    <td class="small">{{ars.descripcion}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+                                    <td class="small">{{ars.horasPlanificadas}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AGRUPADAS FACTURADO -->
+    <div class="card">
+        <div class="card-header" id="headingTablaIA">
+            <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaFA" aria-expanded="false" aria-controls="collapseTablaFA">
+                    Universo Agrupadas Facturado
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapseTablaFA" class="collapse" aria-labelledby="headingTablaFA" data-parent="#accordionTablaUniversoA">
+            <div class="card-body">
+                <div *ngIf="JsonArrayAgrupadasF.length==0; else noFA">
+                    No se encontró data. 
+                </div>
+                <ng-template #noFA>
+                    <table class="table table-striped table-bordered">
+                        <thead class="bg-dark">
+                            <tr>
+                                <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                <th class="small font-weight-bold text-light" scope="col">Código</th>
+                                <th class="small font-weight-bold text-light" scope="col">nombreRequerimiento</th>
+                                <th class="small font-weight-bold text-light" scope="col">lineaDeServicio</th>
+                                <th class="small font-weight-bold text-light" scope="col">hhIncurridas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ars of JsonArrayAgrupadasF; let i=index">
+                                <td class="small">{{i+1}}</td>
+                                <td class="small">{{ars.codigo}}</td>
+                                <td class="small">{{ars.nombreRequerimiento}}</td>
+                                <td class="small">{{ars.lineaDeServicio}}</td>
+                                <td class="small">{{ars.hhIncurridas}}</td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                </ng-template> 
+            </div>
+        </div>
+    </div>
+
+</div>

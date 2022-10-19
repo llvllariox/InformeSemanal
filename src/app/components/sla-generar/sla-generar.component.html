@@ -1,0 +1,753 @@
+<div class="container">
+    <h1>SLA</h1>
+    <p>Resumen SLA mes: {{monthNames[fechaInformeDate.getMonth()+1]}} de {{fechaInformeDate.getFullYear()}}</p>
+    <div class="div mb-7">
+        <table class="table table-striped table-bordered">
+            <thead class="bg-dark">
+                <tr>
+                    <th class="small font-weight-bold text-light" scope="col">Métrica</th>
+                    <th class="small font-weight-bold text-light" scope="col">Target</th>
+                    <th class="small font-weight-bold text-light" scope="col">Cantidad Mínima de Casos</th>
+                    <th class="small font-weight-bold text-light" scope="col">Cantidad de Casos</th>
+                    <th class="small font-weight-bold text-light" scope="col">Total OK</th>
+                    <th class="small font-weight-bold text-light" scope="col">Total NOOK</th>
+                    <th class="small font-weight-bold text-light" scope="col">SLA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- TR PE1 -->
+                <tr>
+                    <td class="small">PE1: Cumplimiento de Plazo de Respuesta Estimación</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small centrado">10</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE1_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE1', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE1_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE1', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE1_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE1', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE1_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE1', 'SLA')" disabled>
+                        </div>
+                    </td>
+                    <td id="flecha_PE1">
+                        <img src="../../../assets//images/sla/flecha.png">
+                    </td>
+                </tr> 
+
+                <!-- TR PE2 -->
+                <tr>
+                    <td class="small">PE2: Cumplimiento de Plazo de Entrega de Desarrollo</td>
+                    <td class="small">&gt;85%</td>
+                    <td class="small centrado">10</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE2_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE2', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE2_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE2', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE2_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE2', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE2_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE2', 'SLA')" disabled>
+                        </div>
+                    </td>
+                    <td id="flecha_PE2">
+                        <img src="../../../assets//images/sla/flecha.png">
+                    </td>
+                </tr>
+
+                <!-- TR PE3 -->
+                <tr>
+                    <td class="small">PE3: Cumplimiento de Horas Estimadas</td>
+                    <td class="small">&gt;85%</td>
+                    <td class="small centrado">10</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE3_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE3', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE3_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE3', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE3_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE3', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE3_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE3', 'SLA')" disabled>
+                        </div>
+                    </td>
+                    <td id="flecha_PE3">
+                        <img src="../../../assets//images/sla/flecha.png">
+                    </td>
+                </tr>
+
+                <!-- TR PE4 -->
+                <tr>
+                    <td class="small">PE4: Cumplimiento de Plazo en Resolución de Incidencia en QA Críticas</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small centrado">10</td>
+                    <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
+                </tr>
+
+                <!-- TR PE5 -->
+                <tr>
+                    <td class="small">PE5: Cumplimiento de Plazo en Resolución de Incidencia en QA No</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small centrado">10</td>
+                    <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
+                </tr>
+
+                <!-- TR PE6 -->
+                <tr>
+                    <td class="small">PE6: Despliegue en Producción sin Vuelta Atrás</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small centrado">10</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE6_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE6', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE6_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE6', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE6_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE6', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PE6_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PE6', 'SLA')" disabled>
+                        </div>
+                    </td>
+                    <td id="flecha_PE6">
+                        <img src="../../../assets//images/sla/flecha.png">
+                    </td>
+                </tr>
+
+                <!-- TR CA1 -->
+                <tr>
+                    <td class="small">CA1: Cumplimiento de Adherencia al Proceso en QA</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small centrado">10</td>
+                    <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
+                </tr>
+
+                <!-- TR CA2 -->
+                <tr>
+                    <td class="small">CA2: Cumplimiento en Calidad del SW en QA</td>
+                    <td class="small">&lt;20%</td>
+                    <td class="small centrado">10</td>
+                    <td class="small centrado" colspan="4">No se puede medir &nbsp; <i class="fas fa-broadcast-tower"></i></td>
+                </tr>
+
+                <!-- TR PM1 -->
+                <tr>
+                    <td class="small">PM1: Cumplimiento de Plazo de Respuesta Estimación</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small centrado">10</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM1_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM1', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM1_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM1', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM1_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM1', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM1_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM1', 'SLA')" disabled>
+                        </div>
+                    </td>
+                    <td id="flecha_PM1">
+                        <img src="../../../assets//images/sla/flecha.png">
+                    </td>
+                </tr>
+
+                <!-- TR PM2 -->
+                <tr>
+                    <td class="small">PM2: Cumplimiento de Plazo de Entrega de Planificación</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small centrado">10</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM2_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM2', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM2_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM2', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM2_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM2', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PM2_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PM2', 'SLA')" disabled>
+                        </div>
+                    </td>
+                    <td id="flecha_PM2">
+                        <img src="../../../assets//images/sla/flecha.png">
+                    </td>
+                </tr>
+
+                <!-- TR PI1 -->
+                <tr>
+                    <td class="small">PI1: Cumplimiento de Plazo en Resolución de Incidencia</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small centrado">10</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI1_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI1', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI1_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI1', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI1_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI1', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI1_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI1', 'SLA')" disabled>
+                        </div>
+                    </td>
+                    <td id="flecha_PI1">
+                        <img src="../../../assets//images/sla/flecha.png">
+                    </td>
+                </tr>
+
+                <!-- TR PI2 -->
+                <tr>
+                    <td class="small">PI2: Cumplimiento en Tiempo de Respuesta Telefónica</td>
+                    <td class="small">&gt;90%</td>
+                    <td class="small centrado">10</td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI2_cantidad" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI2', 'cantidad')" disabled>
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI2_cantidadOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI2', 'cantidadOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI2_cantidadNoOk" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI2', 'cantidadNoOk')">
+                        </div>
+                    </td>
+                    <td class="small">
+                        <div class="form-check frmsla">
+                            <input [(ngModel)]="slaFormularioService.campo_PI2_SLA" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'PI2', 'SLA')" disabled>
+                        </div>
+                    </td>
+                    <td id="flecha_PI2">
+                        <img src="../../../assets//images/sla/flecha.png">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p id="p_minimo">
+        <i class="fa-sharp fa-solid fa-down-to-bracket"></i><img src="../../../assets//images/sla/flecha.png"> Bajo la cantidad mínima necesaria de casos para la métrica
+    </p>
+
+    <p>
+        <i class="fas fa-broadcast-tower"></i> &nbsp; En revisión con QA para poder mostrarlo
+    </p>
+
+    <div class="col-sm-12 derecha">
+        <button class="btn waves-effect waves-light btn-rounded btn-danger" (click)="generaNuevoPDF()">
+           Exportar Informe PDF
+           <img
+           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABK0lEQVRIx+2UvUpDMRiGn6hQ/NucRHQT2sFJcOgViKB34Sh4Ed6Ag6u4CIKzToIiblZwc9GlXRxE/KGCYB8HoxyqR05az+a7hITkffIm+QL/SpG6pLbsXU11MesZugBNYKrPfTZDCNN5AP/iJEIIX74DCes2gTngOgWWAtgHqkCjLMAYcAJMlAWohhBugVpZgMHYXqYAir6iDjAL1CPgDBjNNe3hFR0CFWCbjzpZAe6BJ+CxcJyc6uyo8+qW+qIeqONqJbaTak29+1yQ9RwqwN0BLoAZYDcmWAfOgePY7wBvqQme1TV1WN1Q2z+ka6tX6kN2sMglvwLLwAJwChx1z/1N2UvOO6IGcBNj76WYf4PlJOjEXdeBkWTTTILSv+vuOlgFWv2YR49/Fdc7ntsGSiB6CfMAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjAtMDctMDdUMTc6MTM6MjIrMDA6MDCkJIB1AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIwLTA3LTA3VDE3OjEzOjIyKzAwOjAw1Xk4yQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
+           alt="">
+       </button>&nbsp;
+   </div>
+
+    <hr />
+
+    <div class="accordion" id="accordionTablaValoresVacios">
+        <!-- VALORES VACIOS MANTENIMIENTO -->
+        <div class="card">
+            <div class="card-header" id="headingTablaValoresVaciosM">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaValoresVaciosM" aria-expanded="false" aria-controls="collapseTablaValoresVaciosM">
+                        Corregir ARS mantenimiento
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseTablaValoresVaciosM" class="collapse" aria-labelledby="headingTablaValoresVaciosM" data-parent="#accordionTablaValoresVacios">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayVaciosMantenimiento.length==0; else noVVM">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noVVM>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Responsable</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Indicador</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Campos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayVaciosMantenimiento; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.responsable}}</td>
+                    
+                                    <td class="small">{{ars.indicador}}</td>
+                                    <td class="small">{{ars.campos}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
+                </div>
+            </div>
+        </div>
+        
+        <!-- VALORES VACIOS PROYECTO -->
+        <div class="card">
+            <div class="card-header" id="headingTablaValoresVaciosP">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaValoresVaciosP" aria-expanded="false" aria-controls="collapseTablaValoresVaciosP">
+                        Corregir ARS proyecto
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTablaValoresVaciosP" class="collapse" aria-labelledby="headingTablaValoresVaciosP" data-parent="#accordionTablaValoresVacios">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayVaciosProyecto.length==0; else noVVP">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noVVP>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Responsable</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Indicador</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Campos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayVaciosProyecto; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.responsable}}</td>
+                    
+                                    <td class="small">{{ars.indicador}}</td>
+                                    <td class="small">{{ars.campos}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="accordion" id="accordionTablaIndicadores">
+
+        <!-- TABLA PE1 -->
+        <div class="card">
+            <div class="card-header" id="headingTablaPE1">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaPE1" aria-expanded="false" aria-controls="collapseTablaPE1">
+                        TABLA PE1
+                    </button>
+                </h2>
+            </div>
+          
+            <div id="collapseTablaPE1" class="collapse" aria-labelledby="headingTablaPE1" data-parent="#accordionTablaIndicadores">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayPE1.length==0; else noPE1">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPE1>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Fec. Real Estimación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPE1; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                    <td class="small">{{ars.fecRealEstimacion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA PE2 -->
+        <div class="card">
+            <div class="card-header" id="headingTablaPE2">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaPE2" aria-expanded="false" aria-controls="collapseTablaPE2">
+                        TABLA PE2
+                    </button>
+                </h2>
+            </div>
+          
+            <div id="collapseTablaPE2" class="collapse" aria-labelledby="headingTablaPE2" data-parent="#accordionTablaIndicadores">
+                <div class="card-body">   
+                    <div *ngIf="JsonArrayPE2.length==0; else noPE2">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPE2>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Fec. Real Pase Aprobación</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Fec. Plan Pase Aprobación
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPE2; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+            
+                                    <td class="small">{{ars.fecRealPaseAprobacion | fechaVacia}}</td>
+                                    <td class="small">{{ars.fecPlanPaseAprobacion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA PE3 -->
+        <div class="card">
+            <div class="card-header" id="headingTablaPE3">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaPE3" aria-expanded="false" aria-controls="collapseTablaPE3">
+                        TABLA PE3
+                    </button>
+                </h2>
+            </div>
+        
+            <div id="collapseTablaPE3" class="collapse" aria-labelledby="headingTablaPE3" data-parent="#accordionTablaIndicadores">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayPE3.length==0; else noPE3">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPE3>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Estado</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Fec Real Fin</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Horas Estimadas</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Horas Incurridas</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPE3; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+            
+                                    <td class="small">{{ars.estado}}</td>
+                                    <td class="small">{{ars.fecRealFin | fechaVacia}}</td>
+                                    <td class="small">{{ars.horasEstimadas}}</td>
+                                    <td class="small">{{ars.horasIncurridas}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA PE6 -->
+        <div class="card">
+            <div class="card-header" id="headingTablaPE6">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaPE6" aria-expanded="false" aria-controls="collapseTablaPE6">
+                        TABLA PE6
+                    </button>
+                </h2>
+            </div>
+        
+            <div id="collapseTablaPE6" class="collapse" aria-labelledby="headingTablaPE6" data-parent="#accordionTablaIndicadores">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayPE6.length==0; else noPE6">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPE6>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Fec. Real Pase Producción</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Fec. Plan. Pase Producción</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPE6; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+            
+                                    <td class="small">{{ars.fecRealPaseProduccion | fechaVacia}}</td>
+                                    <td class="small">{{ars.fecPlanPaseProduccion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA PM1 -->
+        <div class="card">
+            <div class="card-header" id="headingTablaPM1">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaPM1" aria-expanded="false" aria-controls="collapseTablaPM1">
+                        TABLA PM1
+                    </button>
+                </h2>
+            </div>
+        
+            <div id="collapseTablaPM1" class="collapse" aria-labelledby="headingTablaPM1" data-parent="#accordionTablaIndicadores">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayPM1.length==0; else noPM1">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPM1>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPM1; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+            
+                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                    <td class="small">{{ars.fecRealEstimacion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA PM2 -->
+        <div class="card">
+            <div class="card-header" id="headingTablaPM2">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaPM2" aria-expanded="false" aria-controls="collapseTablaPM2">
+                        TABLA PM2
+                    </button>
+                </h2>
+            </div>
+        
+            <div id="collapseTablaPM2" class="collapse" aria-labelledby="headingTablaPM2" data-parent="#accordionTablaIndicadores">
+                <div class="card-body">   
+                    <div *ngIf="JsonArrayPM2.length==0; else noPM2">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPM2>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Línea de servicio</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Fec. Real Inicio </th>                        
+                                    <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPM2; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+            
+                                    <td class="small">{{ars.fecRealInicio | fechaVacia}}</td>
+                                    <td class="small">{{ars.fecRealEstimacion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA PI1 -->
+        <div class="card">
+            <div class="card-header" id="headingTablaPI1">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaPI1" aria-expanded="false" aria-controls="collapseTablaPI1">
+                        TABLA PI1
+                    </button>
+                </h2>
+            </div>
+        
+            <div id="collapseTablaPI1" class="collapse" aria-labelledby="headingTablaPI1" data-parent="#accordionTablaIndicadores">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayPI1.length==0; else noPI1">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPI1>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Bloque</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPI1; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.bloque}}</td>
+            
+                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA PI2 -->
+        <div class="card">
+            <div class="card-header" id="headingTablaPI2">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaPI2" aria-expanded="false" aria-controls="collapseTablaPI2">
+                        TABLA PI2
+                    </button>
+                </h2>
+            </div>
+        
+            <div id="collapseTablaPI2" class="collapse" aria-labelledby="headingTablaPI2" data-parent="#accordionTablaIndicadores">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayPI2.length==0; else noPI2">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noPI2>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Contrato</th>
+                                    <th class="small font-weight-bold text-light" scope="col">Bloque</th>
+            
+                                    <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayPI2; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nroReq}}</td>
+                                    <td class="small">{{ars.contrato}}</td>
+                                    <td class="small">{{ars.bloque}}</td>
+            
+                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

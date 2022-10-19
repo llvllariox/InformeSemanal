@@ -20,3 +20,47 @@ html {
 .puntero {
     cursor: pointer;
 }
+
+.centrado {
+    text-align: center;
+}
+
+.derecha {
+    text-align: right;
+}
+
+.noCumple {
+    border-style: solid;
+    border-color: red;
+}
+
+.campoNoValido {
+    border-style: solid;
+    border-color: red;
+}
+
+/* controles de los input type number */
+/* Chrome, Safari, Edge, Opera */
+.frmsla input::-webkit-outer-spin-button,
+.frmsla input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.frmsla input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.indice {
+    width: 30px;
+}
+
+.collapsed:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    /* content: "\2796"; /* Unicode character for "minus" sign (-) */
+    font-size: 9px;
+    color: white;
+    float: right;
+    margin-left: 5px;
+}
