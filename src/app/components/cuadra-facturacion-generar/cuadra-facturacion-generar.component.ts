@@ -15,6 +15,8 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
   JsonArrayAgrupadasP: [] = [];
   JsonArrayAgrupadasF: [] = [];
 
+  salidaArreglo: [] = [];
+
   monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   fechaInformeDate;
@@ -41,7 +43,7 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
     }
 
     if(this.JsonArrayF && this.JsonArrayF && this.JsonArrayF){
-      //this.generarSalida();
+      this.generarSalida();
     }
   }
 
@@ -54,7 +56,7 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
       let flagAgregado = 0;
 
       this.JsonArrayAgrupadasI.forEach(function(valorA, indexA){
-        if(valor['descripcion'] == valorA.descripcion) {
+        if(valor['nombre'] == valorA.nombre) {
           let nuevasHoras = Number(valor['horas']) + Number(valorA['horas']);
           this.JsonArrayAgrupadasI[indexA]['horas'] = nuevasHoras;
           
@@ -65,7 +67,7 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
       if(flagAgregado == 0){
         //creamos un nuevo arreglo para pasar los datos por valor
         let nuevoArreglo = {
-            descripcion: valor['descripcion'], 
+            nombre: valor['nombre'], 
             horas: valor['horas'],
             lineaDeServicio: valor['lineaDeServicio']
         };
@@ -80,9 +82,9 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
       let flagAgregado = 0;
 
       this.JsonArrayAgrupadasP.forEach(function(valorA, indexA){
-        if(valor['descripcion'] == valorA.descripcion) {
-          let nuevasHoras = Number(valor['horasPlanificadas']) + Number(valorA['horasPlanificadas']);
-          this.JsonArrayAgrupadasP[indexA]['horasPlanificadas'] = nuevasHoras;
+        if(valor['nombre'] == valorA.nombre) {
+          let nuevasHoras = Number(valor['horas']) + Number(valorA['horas']);
+          this.JsonArrayAgrupadasP[indexA]['horas'] = nuevasHoras;
           
           flagAgregado = 1;
         }
@@ -91,8 +93,8 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
       if(flagAgregado == 0){
         //creamos un nuevo arreglo para pasar los datos por valor
         let nuevoArreglo = {
-            descripcion: valor['descripcion'], 
-            horasPlanificadas: valor['horasPlanificadas'],
+            nombre: valor['nombre'], 
+            horas: valor['horas'],
             lineaDeServicio: valor['lineaDeServicio']
         };
         this.JsonArrayAgrupadasP.push(nuevoArreglo);
@@ -106,9 +108,9 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
       let flagAgregado = 0;
 
       this.JsonArrayAgrupadasF.forEach(function(valorA, indexA){
-        if(valor['nombreRequerimiento'] == valorA.nombreRequerimiento) {
-          let nuevasHoras = Number(valor['hhIncurridas']) + Number(valorA['hhIncurridas']);
-          this.JsonArrayAgrupadasF[indexA]['hhIncurridas'] = nuevasHoras;
+        if(valor['nombre'] == valorA.nombre) {
+          let nuevasHoras = Number(valor['horas']) + Number(valorA['horas']);
+          this.JsonArrayAgrupadasF[indexA]['horas'] = nuevasHoras;
           
           flagAgregado = 1;
         }
@@ -117,8 +119,8 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
       if(flagAgregado == 0){
         //creamos un nuevo arreglo para pasar los datos por valor
         let nuevoArreglo = {
-            nombreRequerimiento: valor['nombreRequerimiento'], 
-            hhIncurridas: valor['hhIncurridas'],
+            nombre: valor['nombre'], 
+            horas: valor['horas'],
             lineaDeServicio: valor['lineaDeServicio']
         };
         this.JsonArrayAgrupadasF.push(nuevoArreglo);
@@ -140,15 +142,81 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
     
     arreglo.forEach(function(valor, index){
       let nombre = '';
-      
-      if(valor['descripcion']){
-        nombre = valor['descripcion'];
-      }else if(valor['nombreRequerimiento']){
-        nombre = valor['nombreRequerimiento'];
-      }
-
+    
+      nombre = valor['nombre'];
+    
       let codigo = nombre.slice(0, nombre.indexOf(' '));
       arreglo[index]['codigo'] = codigo;
+    }, this);
+  }
+
+  //arma el arreglo para la salida
+  generarSalida(){
+    let tipos = ['I', 'P', 'F'];
+    let arreglo = [];
+  
+    tipos.forEach(tipo => {
+      if(tipo == 'I'){
+        arreglo = this.JsonArrayAgrupadasI;
+      } else if(tipo == 'P'){
+        arreglo = this.JsonArrayAgrupadasP;
+      }if(tipo == 'F'){
+        arreglo = this.JsonArrayAgrupadasF;
+      }
+
+      //para cada req de cada tipo lo intentamos parear 
+      arreglo.forEach(function(valor, index){
+          valor['tipo'] = tipo;
+
+          let flagAgregado = false;
+
+          this.salidaArreglo.forEach(function(valorSalida, indexSalida){
+            if(valorSalida['codigo'] == valor['codigo']){
+
+              //vemos el tipo
+              if(!valorSalida[tipo]){
+                //lo debemos agregar
+                this.salidaArreglo[indexSalida][tipo] = valor['horas'];
+              } else {
+                console.log('choque');
+              }
+
+              flagAgregado = true;
+            }
+        }, this);
+
+        if(flagAgregado == false){
+          let nuevoElemento = [];
+          nuevoElemento['codigo'] = valor['codigo'];
+          nuevoElemento['nombre'] = valor['nombre'];
+          nuevoElemento[tipo] = valor['horas'];
+
+          this.salidaArreglo.push(nuevoElemento);
+        }
+      }, this);
+    });
+
+    this.marcar();
+
+    this.salidaArreglo.sort((a, b) => {
+      const nameA = a['codigo'];
+      const nameB = b['codigo'];
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
+  //todos los req que no parean se marcan con un -
+  marcar(){
+    this.salidaArreglo.forEach(function(valor, index){
+      if(!valor['I']) this.salidaArreglo[index]['I'] = '-';
+      if(!valor['P']) this.salidaArreglo[index]['P'] = '-';
+      if(!valor['F']) this.salidaArreglo[index]['F'] = '-';
     }, this);
   }
 }

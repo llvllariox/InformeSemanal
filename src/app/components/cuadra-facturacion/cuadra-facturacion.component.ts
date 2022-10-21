@@ -39,7 +39,6 @@ export class CuadraFacturacionComponent implements OnInit {
 
     this.cuadraFacturacionJsonDataService.setFechaInforme(this.formulario.value.fecha);
     this.fechaInforme = new Date(cuadraFacturacionJsonDataService.getFechaInforme() + '-05');
-  
   }
 
   ngOnInit(): void {
@@ -145,7 +144,9 @@ export class CuadraFacturacionComponent implements OnInit {
           this.jsonDataReqP = null;
         } else {
           let tmp = this.jsonDataReqP['Detalle Horas Planificadas'];
+          
           this.filtrar(tmp, 'P');
+        
         }
       };
       reader.readAsBinaryString(file);
@@ -285,6 +286,21 @@ export class CuadraFacturacionComponent implements OnInit {
       return (a.ano == agnoInforme && a.mes == mesInforme);
     });
 
+    //codigo
+    jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return (
+        (
+          a.lineaDeServicio === 'Evolutivo Mayor' 
+          && a.nombreRequerimiento.slice(0 , 2) == 'MA'
+        )
+        || 
+        (
+          a.lineaDeServicio === 'Capacity Service' 
+          && a.nombreRequerimiento.slice(0 , 2) == 'CS'
+        )
+      );
+    });
+
     //definimos un arreglo temporal para hacer unicos los objetos
     let jsontemporal = [];
     jsonDataReqArray.forEach(element => {
@@ -414,6 +430,11 @@ export class CuadraFacturacionComponent implements OnInit {
       this.formulario.controls.requerimientosP.reset();
       this.estadoReqP = 4;
     }
+
+    if(this.formulario.value.requerimientosF){
+      this.formulario.controls.requerimientosF.reset();
+      this.estadoReqF = 4;
+    }
   }
 
   crearFormulario() {
@@ -425,24 +446,22 @@ export class CuadraFacturacionComponent implements OnInit {
     });
   }
 
-   //devuelve un arreglo con los valores a enviar
+   //devuelve un arreglo con los mismos nombres y los valores a enviar
   agregarJson(ars, tipo: String){
     let tmp = [];
     //tmp['nroReq'] = ars['nroReq'];
     if(tipo=='I'){
-      tmp['descripcion'] = ars['descripcion'];
+      tmp['nombre'] = ars['descripcion'];
       tmp['horas'] = ars['horas'];
       tmp['lineaDeServicio'] = ars['lineaDeServicio'];
     } else if(tipo=='P'){
-      tmp['descripcion'] = ars['descripcion'];
-      tmp['horasPlanificadas'] = ars['horasPlanificadas'];
+      tmp['nombre'] = ars['descripcion'];
+      tmp['horas'] = ars['horasPlanificadas'];
       tmp['lineaDeServicio'] = ars['lineaDeServicio'];
     } if(tipo=='F'){
-      tmp['hhIncurridas'] = ars['hhIncurridas'];
+      tmp['nombre'] = ars['nombreRequerimiento'];
+      tmp['horas'] = ars['hhIncurridas'];
       tmp['lineaDeServicio'] = ars['lineaDeServicio'];
-      tmp['nombreRequerimiento'] = ars['nombreRequerimiento'];
-      tmp['mes'] = ars['mes'];
-      tmp['ano'] = ars['ano'];
     }
     
     return tmp;
