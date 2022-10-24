@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CuadraFacturacionJsonDataService } from 'src/app/services/cuadra-facturacion-json-data.service';
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
 
 @Component({
   selector: 'app-cuadra-facturacion-generar',
@@ -214,9 +216,92 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
   //todos los req que no parean se marcan con un -
   marcar(){
     this.salidaArreglo.forEach(function(valor, index){
-      if(!valor['I']) this.salidaArreglo[index]['I'] = '-';
-      if(!valor['P']) this.salidaArreglo[index]['P'] = '-';
-      if(!valor['F']) this.salidaArreglo[index]['F'] = '-';
+      if(!valor['I']) this.salidaArreglo[index]['I'] = 0;
+      if(!valor['P']) this.salidaArreglo[index]['P'] = 0;
+      if(!valor['F']) this.salidaArreglo[index]['F'] = 0;
+
+      //vemos si hay un cero o alguna diferencia
+      if(
+        valor['I'] == 0
+        || valor['P'] == 0
+        || valor['F'] == 0
+        || (valor['I'] != valor['P'] || valor['P'] != valor['F'])
+        ){
+          this.salidaArreglo[index]['noCumple'] = 1;
+      }
     }, this);
+  }
+
+  generateExcel(){
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Revisión Facturación');
+
+    // Se establecen anchos de las columnas
+    worksheet.getColumn(1).width = 80;
+    worksheet.getColumn(2).width = 18;
+    worksheet.getColumn(3).width = 18;
+    worksheet.getColumn(4).width = 18;
+    worksheet.getColumn(5).width = 60;
+    
+    worksheet.autoFilter = {
+      from: 'A1',
+      to: 'D1',
+    }
+
+    /*
+    worksheet.views = [
+      {state: 'frozen', xSplit: 2, ySplit: 1}
+    ];
+    */
+
+    const headerCS = [
+      'Descripción', 'Planificado (HH)', 'Incurrido (HH)', 'Facturado (HH)', 'Comentarios'
+    ];
+    let headerRowCS = worksheet.addRow(headerCS);
+
+    // Cell Style : Fill and Border
+    headerRowCS.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'ff4f81bd' },
+        bgColor: { argb: '	ff4f81bd' },
+
+      };
+      
+      cell.border = { 
+        top: { style: 'thin' }, 
+        left: { style: 'thin' }, 
+        bottom: { style: 'thin' }, 
+        right: { style: 'thin' }
+      };
+      
+      cell.font = {
+        color: {argb: 'FFFFFF'},
+        bold: true,
+        italic: true
+      };
+
+      cell.alignment = {
+        vertical: 'middle',
+        horizontal: 'center'
+      };
+    });
+
+    headerRowCS.height = 40;
+
+    this.salidaArreglo.forEach(d => {
+      let row = worksheet.addRow([d['nombre'], d['P'] , d['I'], d['F'], '']); 
+    });
+   
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      let filename = 'Revisión Facturación ';
+      filename +=  this.monthNames[this.fechaInformeDate.getMonth()+1];
+      filename += ' ' + this.fechaInformeDate.getFullYear();
+      filename += '.xlsx';
+
+      fs.saveAs(blob, filename);
+    });   
   }
 }

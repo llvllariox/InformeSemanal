@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let ars of salidaArreglo; let i=index">
+            <tr *ngFor="let ars of salidaArreglo; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                 <td class="small">{{i+1}}</td>
                 <td class="small">{{ars.nombre}}</td>
                 <td class="small">{{ars.P}}</td>
@@ -22,11 +22,12 @@
         </tbody>
     </table>
     
-
-
-
-
-
+   <div class="col-sm-12 derecha">
+        <button class="btn waves-effect waves-light btn-rounded btn-danger" (click)="generateExcel()">
+            Exportar Informe Excel 
+            <img src="../../../assets/images/file-excel-regular.png" style="width: 12px; height: 17px;" alt="">
+        </button>
+    </div>
 
     <hr />
 
