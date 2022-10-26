@@ -72,7 +72,7 @@ export class CuadraFacturacionComponent implements OnInit {
 
     if(tipo=='I'){
       sheetName = 'Exportación de Horas';
-      limit = 'N1';
+      limit = 'BD1';
     } else if(tipo=='P'){
       sheetName = 'Detalle Horas Planificadas';
       limit = 'BA1';
@@ -225,28 +225,30 @@ export class CuadraFacturacionComponent implements OnInit {
     //15 del mes actual
     let mesInforme15 = new Date(agnoInforme + '-' + String(mesInforme+1).padStart(2, '0') + '-15T00:00:00');
 
+    /*
     //sin pendiente en la descripcion
     jsonDataReqArray = jsonDataReqArray.filter(a => {
       return (!(a.descripcion.includes('pendiente') || a.descripcion.includes('Pendiente')));
     });
-
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return (
-        (
-          a.lineaDeServicio === 'Evolutivo Mayor' 
-          && a.descripcion.slice(0 , 2) == 'MA'
-          && (a.fechaDeRecepcion>=mesPasado16 && a.fechaDeRecepcion<=mesInforme15) 
-        )
-        || 
-        (
-          a.lineaDeServicio === 'Capacity Service' 
-          && a.descripcion.slice(0 , 2) == 'CS'
-          && a.fechaDeRecepcion.getMonth() == mesInforme)
-        );
-    });
+    */
 
     //INCURRIDAS
     if(tipo=='I'){
+      jsonDataReqArray = jsonDataReqArray.filter(a => {
+        return (
+          (
+            a.lineaDeServicio === 'Evolutivo Mayor' 
+            && a.descripcion.slice(0 , 2) == 'MA'
+            && (a.fechaIncurrida>=mesPasado16 && a.fechaIncurrida<=mesInforme15) 
+          )
+          || 
+          (   
+            a.lineaDeServicio === 'Capacity Service' 
+            && a.descripcion.slice(0 , 2) == 'CS'
+            && a.fechaIncurrida.getMonth() == mesInforme)
+          );
+      });
+
       //definimos un arreglo temporal para hacer unicos los objetos
       let jsontemporal = [];
       jsonDataReqArray.forEach(element => {
@@ -258,6 +260,22 @@ export class CuadraFacturacionComponent implements OnInit {
     
     //PLANIFICADAS
     } else if(tipo=='P'){
+
+      jsonDataReqArray = jsonDataReqArray.filter(a => {
+        return (
+          (
+            a.lineaDeServicio === 'Evolutivo Mayor' 
+            && a.descripcion.slice(0 , 2) == 'MA'
+            && (a.fechaPlanificada>=mesPasado16 && a.fechaPlanificada<=mesInforme15) 
+          )
+          || 
+          (
+            a.lineaDeServicio === 'Capacity Service' 
+            && a.descripcion.slice(0 , 2) == 'CS'
+            && a.fechaPlanificada.getMonth() == mesInforme)
+          );
+      });
+
       //definimos un arreglo temporal para hacer unicos los objetos
       let jsontemporal = [];
       jsonDataReqArray.forEach(element => {
@@ -278,7 +296,7 @@ export class CuadraFacturacionComponent implements OnInit {
 
     //sin pendiente en la descripcion
     jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return (!(a.nombreRequerimiento.includes('pendiente') || a.nombreRequerimiento.includes('Pendiente')));
+      return (!(a.nombreRequerimiento.includes('(pendiente') || a.nombreRequerimiento.includes('(Pendiente')));
     });
 
     //fecha
@@ -295,7 +313,7 @@ export class CuadraFacturacionComponent implements OnInit {
         )
         || 
         (
-          a.lineaDeServicio === 'Capacity Service' 
+          a.lineaDeServicio === 'Capacity Service' || a.lineaDeServicio === 'Perfil Adicional'
           && a.nombreRequerimiento.slice(0 , 2) == 'CS'
         )
       );

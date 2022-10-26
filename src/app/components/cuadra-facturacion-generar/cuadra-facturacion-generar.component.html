@@ -5,6 +5,7 @@
         <thead class="bg-dark">
             <tr>
                 <th class="small font-weight-bold text-light indice" scope="col"></th>
+                <th class="small font-weight-bold text-light estado" scope="col">Estado</th>
                 <th class="small font-weight-bold text-light" scope="col">Descripción</th>
                 <th class="small font-weight-bold text-light" scope="col">Planificado (HH)</th>
                 <th class="small font-weight-bold text-light" scope="col">Incurrido (HH)</th>
@@ -12,8 +13,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let ars of salidaArreglo; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+            <tr *ngFor="let ars of salidaArreglo; let i=index">
                 <td class="small">{{i+1}}</td>
+                <td class="small centrado">
+                    <i *ngIf="ars.noCumple!=1" class="fas fa-check text-success"></i>
+                    <i *ngIf="ars.noCumple==1" class="fas fa-times text-danger"></i>
+                </td>
                 <td class="small">{{ars.nombre}}</td>
                 <td class="small">{{ars.P}}</td>
                 <td class="small">{{ars.I}}</td>

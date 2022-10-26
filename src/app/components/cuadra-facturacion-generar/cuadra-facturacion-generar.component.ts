@@ -234,19 +234,14 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
 
   generateExcel(){
     let workbook = new Workbook();
-    let worksheet = workbook.addWorksheet('Revisión Facturación');
 
-    // Se establecen anchos de las columnas
-    worksheet.getColumn(1).width = 80;
-    worksheet.getColumn(2).width = 18;
-    worksheet.getColumn(3).width = 18;
-    worksheet.getColumn(4).width = 18;
-    worksheet.getColumn(5).width = 60;
+    this.getHojaResumen(workbook, 'P', 'Evolutivo Mayor', 'Resumen Horas Planif');
+    this.getHojaResumen(workbook, 'I', 'Evolutivo Mayor', 'Resumen Horas Incurr');
+
+    this.getHojaResumen(workbook, 'P', 'Capacity Service', 'Resumen CS Planificadas');
+    this.getHojaResumen(workbook, 'I', 'Capacity Service', 'Resumen CS Incurridas');
     
-    worksheet.autoFilter = {
-      from: 'A1',
-      to: 'D1',
-    }
+    this.getHojaDiferencias(workbook);
 
     /*
     worksheet.views = [
@@ -254,46 +249,6 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
     ];
     */
 
-    const headerCS = [
-      'Descripción', 'Planificado (HH)', 'Incurrido (HH)', 'Facturado (HH)', 'Comentarios'
-    ];
-    let headerRowCS = worksheet.addRow(headerCS);
-
-    // Cell Style : Fill and Border
-    headerRowCS.eachCell((cell, number) => {
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'ff4f81bd' },
-        bgColor: { argb: '	ff4f81bd' },
-
-      };
-      
-      cell.border = { 
-        top: { style: 'thin' }, 
-        left: { style: 'thin' }, 
-        bottom: { style: 'thin' }, 
-        right: { style: 'thin' }
-      };
-      
-      cell.font = {
-        color: {argb: 'FFFFFF'},
-        bold: true,
-        italic: true
-      };
-
-      cell.alignment = {
-        vertical: 'middle',
-        horizontal: 'center'
-      };
-    });
-
-    headerRowCS.height = 40;
-
-    this.salidaArreglo.forEach(d => {
-      let row = worksheet.addRow([d['nombre'], d['P'] , d['I'], d['F'], '']); 
-    });
-   
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       let filename = 'Revisión Facturación ';
@@ -304,4 +259,93 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
       fs.saveAs(blob, filename);
     });   
   }
+
+  
+  //genera la hoja del tipo (I o P) de la lineaDeServicio (Evolutivo Mayor o Capacity Service)
+  getHojaResumen(workbook, tipo, lineaDeServicio, hoja){
+    let worksheet = workbook.addWorksheet(hoja);
+
+    // Se establecen anchos de las columnas 
+    worksheet.getColumn(1).width = 80;
+    worksheet.getColumn(2).width = 18;
+
+    worksheet.autoFilter = {
+      from: 'A1',
+      to: 'A1',
+    }
+
+    const headerCS = [
+      'Descripción', 'Total'
+    ];
+    let headerRowCS = worksheet.addRow(headerCS);
+
+    let arreglo;
+    if(tipo == 'P') arreglo = this.JsonArrayAgrupadasP;
+    else if(tipo == 'I') arreglo = this.JsonArrayAgrupadasI;
+
+    arreglo.forEach(d => {
+      if(d['lineaDeServicio'] == lineaDeServicio) {
+        let row = worksheet.addRow([d['nombre'], d['horas']]); 
+      }
+    });
+  }
+
+  //genera la hoja Diferencias del archivo
+  getHojaDiferencias(workbook){
+    let worksheet = workbook.addWorksheet('Diferencias');
+
+    // Se establecen anchos de las columnas
+   worksheet.getColumn(1).width = 80;
+   worksheet.getColumn(2).width = 18;
+   worksheet.getColumn(3).width = 18;
+   worksheet.getColumn(4).width = 18;
+   worksheet.getColumn(5).width = 60;
+
+   worksheet.autoFilter = {
+     from: 'A1',
+     to: 'D1',
+   }
+
+   const headerCS = [
+     'Descripción', 'Planificado (HH)', 'Incurrido (HH)', 'Facturado (HH)', 'Comentarios'
+   ];
+   let headerRowCS = worksheet.addRow(headerCS);
+
+   // Cell Style : Fill and Border
+   headerRowCS.eachCell((cell, number) => {
+     cell.fill = {
+       type: 'pattern',
+       pattern: 'solid',
+       fgColor: { argb: 'ff4f81bd' },
+       bgColor: { argb: '	ff4f81bd' },
+
+     };
+     
+     cell.border = { 
+       top: { style: 'thin' }, 
+       left: { style: 'thin' }, 
+       bottom: { style: 'thin' }, 
+       right: { style: 'thin' }
+     };
+     
+     cell.font = {
+       color: {argb: 'FFFFFF'},
+       bold: true,
+       italic: true
+     };
+
+     cell.alignment = {
+       vertical: 'middle',
+       horizontal: 'center'
+     };
+   });
+
+   headerRowCS.height = 40;
+
+   this.salidaArreglo.forEach(d => {
+    if(d['noCumple'] == 1) {
+      worksheet.addRow([d['nombre'], d['P'] , d['I'], d['F'], '']); 
+    }
+   });
+ }
 }
