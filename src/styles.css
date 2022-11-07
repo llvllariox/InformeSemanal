@@ -56,6 +56,10 @@ html {
     width: 30px;
 }
 
+.estado {
+    width: 46px;
+}
+
 .collapsed:after {
     content: '\02795'; /* Unicode character for "plus" sign (+) */
     /* content: "\2796"; /* Unicode character for "minus" sign (-) */
