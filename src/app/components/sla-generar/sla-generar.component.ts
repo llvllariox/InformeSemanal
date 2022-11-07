@@ -214,7 +214,7 @@ export class SlaGenerarComponent implements OnInit {
   getPE1(){
     this.cantidadPE1 = this.JsonArrayPE1.length;
     
-    //Cumplen los que  Fecha Recepción VS Fec. Real Estimación <= 5 días hábiles
+    //Cumplen los que Fecha Recepción VS Fec. Real Estimación <= 5 días hábiles
     let cantOk = 0;
     this.JsonArrayPE1.forEach(function(valor, index){
       let fechaRecepcion = new Date(valor['fechaRecepcion']);
@@ -672,7 +672,7 @@ export class SlaGenerarComponent implements OnInit {
  }
 
 //revisa la regla de fecha por defecto
- validarFechaVaciaRegla(fecha: String){
+validarFechaVaciaRegla(fecha: String){
   if(fecha == 'Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)'
     ||
     fecha.includes('Sun Dec 31 1899')

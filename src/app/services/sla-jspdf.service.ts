@@ -63,7 +63,7 @@ export class SlaJspdfService {
       const doc = new jsPDF({
         orientation: "l",
         unit: "mm",
-        format: [170, 240]
+        format: [150, 240]
       });
 
       doc.addImage(this.logo, 'png', 192, 8, 36, 8);
