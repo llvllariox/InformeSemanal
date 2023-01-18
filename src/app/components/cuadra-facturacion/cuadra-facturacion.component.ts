@@ -34,7 +34,8 @@ export class CuadraFacturacionComponent implements OnInit {
     let hoy = new Date();
     const currentDate = hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0');  
     this.fechaMin = '2015-01';
-    this.fechaMax = currentDate;
+    //this.fechaMax = currentDate;
+    this.fechaMax = '2023-12';
     this.formulario.controls['fecha'].setValue(currentDate);  
 
     this.cuadraFacturacionJsonDataService.setFechaInforme(this.formulario.value.fecha);

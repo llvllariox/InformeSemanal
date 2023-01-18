@@ -1,0 +1,17 @@
+Incidentes
+•	MTD New Incidents P5-Number {Cantidad de nuevos incidentes recibidos en el mes} = 13
+•	MTD On Hold Incidents P5-Numbe {Cantidad de incidentes detenidos en el mes independiente el mes de ingreso} = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS = 2
+•	MTD Resolved Incidents P5-Number {Cantidad de incidentes cerrados en el mes independiente mes de ingreso} = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO = 45
+•	MTD Total Effort Spent on Incidents P5-Hours {Total de horas invertidas en la atención de incidentes en el mes} = SE REFIERE A LA CANTIDAD DE HH INVERTIDAS EN RESOLUCIÓN DE TICKETS PRODUCTIVOS = 1113 HH (TOTAL HH INCURRIDAS EN DICIEMBRE INDEPENDIENTE MES DE INGRESO)
+•	Number of open incidents exceeding resolution SLA-Number {Cantidad de incidentes abiertos que tenemos vencidos respecto al SLA comprometido} = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE = 0
+•	Number of post delivery defects-Number* {Cantidad de defectos o errores que se han reportado de las correcciones implementadas en el mes} = SE REFIERE A REWORK DE SWF EN DESARROLLOS PUESTOS EN PRODUCCIÓN DE INCIDENTES INFORMADOS POR PRODUCCIÓN = 0
+•	MTD Total SLA-Number* {PI1: Cumplimiento de Plazo en Resolución de Incidencia, PI2: Cumplimiento en Tiempo de Respuesta Telefónica} =0
+ 
+Problemas:
+•	MTD New Problems P5-Number {Cantidad de nuevos Problemas recibidos en el mes} = 1
+•	MTD On Hold Problems P5-Numbe {Cantidad de Problemas detenidos en el mes independiente el mes de ingreso} = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS = 1
+•	MTD Resolved Problems P5-Number {Cantidad de Problemas cerrados en el mes independiente el mes de ingreso} = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO = 1
+•	MTD Total Effort Spent on Problems P5-Hours {Total de horas invertidas en la atención de Problemas en el mes} = SE REFIERE A LA CANTIDAD DE HH INVERTIDAS EN RESOLUCIÓN DE TICKETS PRODUCTIVOS = 285 HH (TOTAL HH INCURRIDAS EN DICIEMBRE INDEPENDIENTE MES DE INGRESO)
+•	Number of open Problems exceeding resolution SLA-Number {Cantidad de Problemas abiertos que tenemos vencidos respecto al SLA comprometido} = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE = 0
+•	Number of post delivery defects-Number* {Cantidad de defectos o errores que se han reportado de las correcciones implementadas en el mes} = SE REFIERE A REWORK DE SWF EN DESARROLLOS PUESTOS EN PRODUCCIÓN DE PROBLEMAS INFORMADOS POR PRODUCCIÓN = 0
+•	MTD Total SLA-Number* {PI1: Cumplimiento de Plazo en Resolución de Incidencia, PI2: Cumplimiento en Tiempo de Respuesta Telefónica}

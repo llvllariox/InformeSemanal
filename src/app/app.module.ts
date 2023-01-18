@@ -20,6 +20,8 @@ import { SlaGenerarComponent } from './components/sla-generar/sla-generar.compon
 import { FechaVaciaPipe } from './pipes/fecha-vacia.pipe';
 import { CuadraFacturacionComponent } from './components/cuadra-facturacion/cuadra-facturacion.component';
 import { CuadraFacturacionGenerarComponent } from './components/cuadra-facturacion-generar/cuadra-facturacion-generar.component';
+import { MywizardRvComponent } from './components/mywizard-rv/mywizard-rv.component';
+import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generacion/mywizard-rv-generacion.component';
 
 // import { DatePipe } from '@angular/common';
 
@@ -40,6 +42,8 @@ import { CuadraFacturacionGenerarComponent } from './components/cuadra-facturaci
     FechaVaciaPipe,
     CuadraFacturacionComponent,
     CuadraFacturacionGenerarComponent,
+    MywizardRvComponent,
+    MywizardRvGeneracionComponent,
   ],
   imports: [
     BrowserModule,
