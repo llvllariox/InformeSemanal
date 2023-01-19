@@ -10,6 +10,10 @@ import { SlaComponent } from './components/sla/sla.component';
 import { SlaGenerarComponent } from './components/sla-generar/sla-generar.component';
 import { CuadraFacturacionComponent } from './components/cuadra-facturacion/cuadra-facturacion.component';
 import { CuadraFacturacionGenerarComponent } from './components/cuadra-facturacion-generar/cuadra-facturacion-generar.component';
+import { MywizardRvComponent } from './components/mywizard-rv/mywizard-rv.component';
+import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generacion/mywizard-rv-generacion.component';
+
+
 
 const routes: Routes = [
   { path: '', component: GenerarInformeComponent},
@@ -25,6 +29,9 @@ const routes: Routes = [
 
   { path: 'cuadra-facturacion', component: CuadraFacturacionComponent },
   { path: 'cuadra-facturacion-generar', component: CuadraFacturacionGenerarComponent },
+
+  { path: 'mywizard-rv', component: MywizardRvComponent },
+  { path: 'mywizard-rv-generar', component: MywizardRvGeneracionComponent },
 
   { path: '', pathMatch: 'full', redirectTo: '' },
   { path: '**', pathMatch: 'full', component: GenerarInformeComponent },

@@ -78,7 +78,7 @@ export class SlaGenerarComponent implements OnInit {
     this.feriados = feriadosService.getFeriados(); 
 
     this.fechaInformeDate = new Date(jsonDataService.getFechaInforme());
-
+  
     this.cantidadPE1 = 0;
     this.cantidadOKPE1 = 0;
     this.cantidadNOOKPE1 = 0;

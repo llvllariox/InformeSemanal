@@ -1,0 +1,309 @@
+<div class="container">
+
+    <div class="indicadores">
+        <p>Información para MyWizard correspondiente a {{monthNames[fechaInformeDate.getMonth()]}} de {{fechaInformeDate.getFullYear()}}</p>
+
+        <h1>Incidentes / Solicitudes</h1>
+
+
+        <table class="table table-striped table-bordered">
+            <tbody class="small">
+                <tr>
+                    <td>MTD New Incidents P5-Number (Cantidad de nuevos incidentes recibidos en el mes)</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_I1" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_I1')"></td>
+                </tr>
+                <tr>
+                    <td>MTD On Hold Incidents P5-Numbe (Cantidad de incidentes detenidos en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_I2" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_I2')"></td>
+                </tr>
+                <tr>
+                    <td>MTD Resolved Incidents P5-Number (Cantidad de incidentes cerrados en el mes independiente mes de ingreso) = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_I3" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_I3')"></td>
+                </tr>
+                <tr>
+                    <td>MTD Total Effort Spent on Incidents P5-Hours (Total de horas invertidas en la atención de incidentes en el mes) = SE REFIERE A LA CANTIDAD DE HH INVERTIDAS EN RESOLUCIÓN DE TICKETS PRODUCTIVOS</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_I4" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_I4')">HH (TOTAL HH INCURRIDAS EN DICIEMBRE INDEPENDIENTE MES DE INGRESO)</td>
+                </tr>
+                <tr>
+                    <td>Number of open incidents exceeding resolution SLA-Number (Cantidad de incidentes abiertos que tenemos vencidos respecto al SLA comprometido) = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_I5" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_I5')"></td>
+                </tr>
+                <tr>
+                    <td>Number of post delivery defects-Number* (Cantidad de defectos o errores que se han reportado de las correcciones implementadas en el mes) = SE REFIERE A REWORK DE SWF EN DESARROLLOS PUESTOS EN PRODUCCIÓN DE INCIDENTES INFORMADOS POR PRODUCCIÓN</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_I6" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_I6')"></td>
+                </tr>
+                <tr>
+                    <td>MTD Total SLA-Number* (PI1: Cumplimiento de Plazo en Resolución de Incidencia, PI2: Cumplimiento en Tiempo de Respuesta Telefónica)</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_I7" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_I7')"></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <h1>Problemas / Requerimientos</h1>
+        <table class="table table-striped table-bordered">
+            <tbody class="small">
+                <tr>
+                    <td>MTD New Problems P5-Number (Cantidad de nuevos Problemas recibidos en el mes)</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_R1" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_R1')"></td>
+                </tr>
+                <tr>
+                    <td>MTD On Hold Problems P5-Numbe (Cantidad de Problemas detenidos en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_R2" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_R2')"></td>
+                </tr>
+                <tr>
+                    <td>MTD Resolved Problems P5-Number (Cantidad de Problemas cerrados en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_R3" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_R3')"></td>
+                </tr>
+                <tr>
+                    <td>MTD Total Effort Spent on Problems P5-Hours (Total de horas invertidas en la atención de Problemas en el mes) = SE REFIERE A LA CANTIDAD DE HH INVERTIDAS EN RESOLUCIÓN DE TICKETS PRODUCTIVOS</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_R4" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_R4')">HH (TOTAL HH INCURRIDAS EN DICIEMBRE INDEPENDIENTE MES DE INGRESO)</td>
+                </tr>
+                <tr>
+                    <td>Number of open Problems exceeding resolution SLA-Number (Cantidad de Problemas abiertos que tenemos vencidos respecto al SLA comprometido) = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_R5" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_R5')"></td>
+                </tr>
+                <tr>
+                    <td>Number of post delivery defects-Number* (Cantidad de defectos o errores que se han reportado de las correcciones implementadas en el mes) = SE REFIERE A REWORK DE SWF EN DESARROLLOS PUESTOS EN PRODUCCIÓN DE PROBLEMAS INFORMADOS POR PRODUCCIÓN</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_R6" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_R6')"></td>
+                </tr>
+                <tr>
+                    <td>MTD Total SLA-Number* (PI1: Cumplimiento de Plazo en Resolución de Incidencia, PI2: Cumplimiento en Tiempo de Respuesta Telefónica)</td>
+                    <td><input [(ngModel)]="mywizardRvFormularioService.campo_R7" type="number" class="text form-control" (keyup)="cambiarCampo($event, 'campo_R7')"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="col-sm-12 derecha">
+            <button class="btn waves-effect waves-light btn-rounded btn-danger" (click)="generaNuevoPDF()">
+               Exportar Informe PDF
+               <img
+               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABK0lEQVRIx+2UvUpDMRiGn6hQ/NucRHQT2sFJcOgViKB34Sh4Ed6Ag6u4CIKzToIiblZwc9GlXRxE/KGCYB8HoxyqR05az+a7hITkffIm+QL/SpG6pLbsXU11MesZugBNYKrPfTZDCNN5AP/iJEIIX74DCes2gTngOgWWAtgHqkCjLMAYcAJMlAWohhBugVpZgMHYXqYAir6iDjAL1CPgDBjNNe3hFR0CFWCbjzpZAe6BJ+CxcJyc6uyo8+qW+qIeqONqJbaTak29+1yQ9RwqwN0BLoAZYDcmWAfOgePY7wBvqQme1TV1WN1Q2z+ka6tX6kN2sMglvwLLwAJwChx1z/1N2UvOO6IGcBNj76WYf4PlJOjEXdeBkWTTTILSv+vuOlgFWv2YR49/Fdc7ntsGSiB6CfMAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjAtMDctMDdUMTc6MTM6MjIrMDA6MDCkJIB1AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIwLTA3LTA3VDE3OjEzOjIyKzAwOjAw1Xk4yQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
+               alt="">
+           </button>&nbsp;
+       </div>
+    </div>
+
+    <hr />
+
+    <div class="accordion" id="accordionTablaUniverso">
+        
+        <!-- reqAbiertos -->
+        <div class="card">
+            <div class="card-header" id="headingTablaReqAbiertos">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaReqAbiertos" aria-expanded="false" aria-controls="collapseTablaReqAbiertos">
+                        Requerimientos Abiertos
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseTablaReqAbiertos" class="collapse" aria-labelledby="headingTablaReqAbiertos" data-parent="#accordionTablaUniverso">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayReqAbiertos.length==0; else noReqAbiertos">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noReqAbiertos>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">descripcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">lineaDeServicio</th>
+                                    <th class="small font-weight-bold text-light" scope="col">fechaRecepcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">horasIncurridas</th>
+                                    <th class="small font-weight-bold text-light" scope="col">etapa</th>
+                                    <th class="small font-weight-bold text-light" scope="col">rework</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayReqAbiertos; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nombre}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                    <td class="small">{{ars.horas}}</td>
+                                    <td class="small">{{ars.etapa}}</td>
+                                    <td class="small">{{ars.rework}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
+                </div>
+            </div>
+        </div>
+
+        <!-- reqCerrados -->
+        <div class="card">
+            <div class="card-header" id="headingTablaReqCerrados">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaReqCerrados" aria-expanded="false" aria-controls="collapseTablaReqCerrados">
+                        Requerimientos Cerrados
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTablaReqCerrados" class="collapse" aria-labelledby="headingTablaReqCerrados" data-parent="#accordionTablaUniverso">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayReqCerrados.length==0; else noReqCerrados">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noReqCerrados>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">descripcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">lineaDeServicio</th>
+                                    <th class="small font-weight-bold text-light" scope="col">fechaRecepcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">horas</th>
+                                    <th class="small font-weight-bold text-light" scope="col">etapa</th>
+                                    <th class="small font-weight-bold text-light" scope="col">rework</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayReqCerrados; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nombre}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                    <td class="small">{{ars.horas}}</td>
+                                    <td class="small">{{ars.etapa}}</td>
+                                    <td class="small">{{ars.rework}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
+                </div>
+            </div>
+        </div>
+
+        <!-- solAbiertos -->
+        <div class="card">
+            <div class="card-header" id="headingTablaSolAbiertos">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaSolAbiertos" aria-expanded="false" aria-controls="collapseTablaSolAbiertos">
+                        Solicitudes Abiertos
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseTablaSolAbiertos" class="collapse" aria-labelledby="headingTablaSolAbiertos" data-parent="#accordionTablaUniverso">
+                <div class="card-body">
+                    <div *ngIf="JsonArraySolAbiertos.length==0; else noSolAbiertos">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noSolAbiertos>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">descripcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">lineaDeServicio</th>
+                                    <th class="small font-weight-bold text-light" scope="col">fechaRecepcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">horasIncurridas</th>
+                                    <th class="small font-weight-bold text-light" scope="col">etapa</th>
+                                    <th class="small font-weight-bold text-light" scope="col">rework</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArraySolAbiertos; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nombre}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                    <td class="small">{{ars.horas}}</td>
+                                    <td class="small">{{ars.etapa}}</td>
+                                    <td class="small">{{ars.rework}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template> 
+                </div>
+            </div>
+        </div>
+
+        <!-- solCerrados -->
+        <div class="card">
+            <div class="card-header" id="headingTablaSolCerrados">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaSolCerrados" aria-expanded="false" aria-controls="collapseTablaSolCerrados">
+                        Solicitudes Cerrados
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTablaSolCerrados" class="collapse" aria-labelledby="headingTablaSolCerrados" data-parent="#accordionTablaUniverso">
+                <div class="card-body">
+                    <div *ngIf="JsonArraySolCerrados.length==0; else noSolCerrados">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noSolCerrados>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">descripcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">lineaDeServicio</th>
+                                    <th class="small font-weight-bold text-light" scope="col">fechaRecepcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">horas</th>
+                                    <th class="small font-weight-bold text-light" scope="col">etapa</th>
+                                    <th class="small font-weight-bold text-light" scope="col">rework</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArraySolCerrados; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nombre}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                    <td class="small">{{ars.horas}}</td>
+                                    <td class="small">{{ars.etapa}}</td>
+                                    <td class="small">{{ars.rework}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- horas -->
+        <div class="card">
+            <div class="card-header" id="headingTablaHoras">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTablaHoras" aria-expanded="false" aria-controls="collapseTablaHoras">
+                        Horas Nuevo
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTablaHoras" class="collapse" aria-labelledby="headingTablaHoras" data-parent="#accordionTablaUniverso">
+                <div class="card-body">
+                    <div *ngIf="JsonArrayHoras.length==0; else noHoras">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #noHoras>
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="small font-weight-bold text-light indice" scope="col"></th>
+                                    <th class="small font-weight-bold text-light" scope="col">descripcion</th>
+                                    <th class="small font-weight-bold text-light" scope="col">lineaDeServicio</th>
+                                    <th class="small font-weight-bold text-light" scope="col">horas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ars of JsonArrayHoras; let i=index">
+                                    <td class="small">{{i+1}}</td>
+                                    <td class="small">{{ars.nombre}}</td>
+                                    <td class="small">{{ars.lineaDeServicio}}</td>
+                                    <td class="small">{{ars.estado}}</td>
+                                    <td class="small">{{ars.horas}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

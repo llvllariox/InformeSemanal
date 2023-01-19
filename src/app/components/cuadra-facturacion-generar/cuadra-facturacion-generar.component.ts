@@ -191,7 +191,7 @@ export class CuadraFacturacionGenerarComponent implements OnInit {
           let nuevoElemento = [];
           nuevoElemento['codigo'] = valor['codigo'];
           nuevoElemento['nombre'] = valor['nombre'];
-          nuevoElemento[tipo] = valor['horas'];
+          nuevoElemento['tipo'] = valor['horas'];
 
           this.salidaArreglo.push(nuevoElemento);
         }
