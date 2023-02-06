@@ -78,7 +78,7 @@ export class SlaJspdfService {
       doc.setFontSize(18);
       doc.setFont(undefined, 'normal');
       doc.setTextColor(0, 0, 0);
-      const tituloInforme = "Resumen SLA mes: " + this.monthNames[this.fecha.getMonth()+1] + " de " + this.fecha.getFullYear();
+      const tituloInforme = "Resumen SLA mes: " + this.monthNames[this.fecha.getMonth()] + " de " + this.fecha.getFullYear();
       doc.text(10, 20, tituloInforme);
       
       //tabla
@@ -189,7 +189,7 @@ export class SlaJspdfService {
       doc.text(100, altoMin, 'En revisión con QA para poder mostrarlo');
 
       let filename = 'SLA '
-      + this.monthNames[this.fecha.getMonth()+1] 
+      + this.monthNames[this.fecha.getMonth()] 
       + ' ' + this.fecha.getFullYear() 
 
       + ' SWF ACC.pdf';

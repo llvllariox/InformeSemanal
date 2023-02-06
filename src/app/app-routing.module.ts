@@ -13,6 +13,7 @@ import { CuadraFacturacionGenerarComponent } from './components/cuadra-facturaci
 import { MywizardRvComponent } from './components/mywizard-rv/mywizard-rv.component';
 import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generacion/mywizard-rv-generacion.component';
 
+import { FechasComponent } from './components/fechas/fechas.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,8 @@ const routes: Routes = [
 
   { path: 'mywizard-rv', component: MywizardRvComponent },
   { path: 'mywizard-rv-generar', component: MywizardRvGeneracionComponent },
+
+  { path: 'fechas', component: FechasComponent },
 
   { path: '', pathMatch: 'full', redirectTo: '' },
   { path: '**', pathMatch: 'full', component: GenerarInformeComponent },

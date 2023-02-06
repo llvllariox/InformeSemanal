@@ -22,15 +22,16 @@ export class MywizardRvJspdfService {
     let campo_I4 = variables['campo_I4'];
     let campo_I5 = variables['campo_I5'];
     let campo_I6 = variables['campo_I6'];
-    let campo_I7 = variables['campo_I7'];
-
+  
     let campo_R1 = variables['campo_R1'];
     let campo_R2 = variables['campo_R2'];
     let campo_R3 = variables['campo_R3'];
     let campo_R4 = variables['campo_R4'];
     let campo_R5 = variables['campo_R5'];
     let campo_R6 = variables['campo_R6'];
-    let campo_R7 = variables['campo_R7'];
+    
+    let campo_S1 = variables['campo_S1'];
+    let campo_S2 = variables['campo_S2'];
 
     this.fecha = fecha;
 
@@ -43,7 +44,7 @@ export class MywizardRvJspdfService {
 
       doc.addImage(this.logo, 'png', 192, 8, 36, 8);
 
-      //SLA
+      //Indicadores MyWizard
       doc.setFontSize(20);
       doc.setFont(undefined, 'bold');
       doc.setTextColor(0, 0, 0);
@@ -68,13 +69,12 @@ export class MywizardRvJspdfService {
         },
 
         body: [
-          ['MTD New Incidents P5-Number (Cantidad de nuevos incidentes recibidos en el mes)', campo_I1],
-          ['MTD On Hold Incidents P5-Numbe (Cantidad de incidentes detenidos en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS', campo_I2],          
-          ['MTD Resolved Incidents P5-Number (Cantidad de incidentes cerrados en el mes independiente mes de ingreso) = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO', campo_I3],
-          ['MTD Total Effort Spent on Incidents P5-Hours (Total de horas invertidas en la atención de incidentes en el mes) = SE REFIERE A LA CANTIDAD DE HH INVERTIDAS EN RESOLUCIÓN DE TICKETS PRODUCTIVOS', campo_I4],
-          ['Number of open incidents exceeding resolution SLA-Number (Cantidad de incidentes abiertos que tenemos vencidos respecto al SLA comprometido) = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE', campo_I5],
-          ['Number of post delivery defects-Number* (Cantidad de defectos o errores que se han reportado de las correcciones implementadas en el mes) = SE REFIERE A REWORK DE SWF EN DESARROLLOS PUESTOS EN PRODUCCIÓN DE INCIDENTES INFORMADOS POR PRODUCCIÓN', campo_I6],
-          ['MTD Total SLA-Number* (PI1: Cumplimiento de Plazo en Resolución de Incidencia, PI2: Cumplimiento en Tiempo de Respuesta Telefónica)', campo_I7],
+          ['MTD Cancelled Incidents P5-Number', campo_I1],
+          ['MTD New Incidents P5-Number (Cantidad de nuevos incidentes recibidos en el mes)', campo_I2],
+          ['MTD On Hold Incidents P5-Numbe (Cantidad de incidentes detenidos en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS', campo_I3],          
+          ['MTD Resolved Incidents P5-Number (Cantidad de incidentes cerrados en el mes independiente mes de ingreso) = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO', campo_I4],
+          ['MTD Total Effort Spent on Incidents P5-Hours (Total de horas invertidas en la atención de incidentes en el mes) = SE REFIERE A LA CANTIDAD DE HH INVERTIDAS EN RESOLUCIÓN DE TICKETS PRODUCTIVOS', campo_I5],
+          ['Number of open incidents exceeding resolution SLA-Number (Cantidad de incidentes abiertos que tenemos vencidos respecto al SLA comprometido) = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE', campo_I6],
         ],
       });
 
@@ -83,7 +83,7 @@ export class MywizardRvJspdfService {
       
       doc.addImage(this.logo, 'png', 192, 8, 36, 8);
 
-      //SLA
+      //Indicadores MyWizard
       doc.setFontSize(20);
       doc.setFont(undefined, 'bold');
       doc.setTextColor(0, 0, 0);
@@ -107,16 +107,50 @@ export class MywizardRvJspdfService {
         },
 
         body: [
-          ['MTD New Problems P5-Number (Cantidad de nuevos Problemas recibidos en el mes)', campo_R1],
-          ['MTD On Hold Problems P5-Numbe (Cantidad de Problemas detenidos en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS', campo_R2],          
-          ['MTD Resolved Problems P5-Number (Cantidad de Problemas cerrados en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO', campo_R3],
-          ['MTD Total Effort Spent on Problems P5-Hours (Total de horas invertidas en la atención de Problemas en el mes) = SE REFIERE A LA CANTIDAD DE HH INVERTIDAS EN RESOLUCIÓN DE TICKETS PRODUCTIVOS', campo_R4],
-          ['Number of open Problems exceeding resolution SLA-Number (Cantidad de Problemas abiertos que tenemos vencidos respecto al SLA comprometido) = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE', campo_R5],
-          ['Number of post delivery defects-Number* (Cantidad de defectos o errores que se han reportado de las correcciones implementadas en el mes) = SE REFIERE A REWORK DE SWF EN DESARROLLOS PUESTOS EN PRODUCCIÓN DE PROBLEMAS INFORMADOS POR PRODUCCIÓN', campo_R6],
-          ['MTD Total SLA-Number* (PI1: Cumplimiento de Plazo en Resolución de Incidencia, PI2: Cumplimiento en Tiempo de Respuesta Telefónica)', campo_R7],
+          ['MTD Cancelled Problem Requests P5-Number', campo_R1],
+          ['MTD New Problems P5-Number (Cantidad de nuevos Problemas recibidos en el mes)', campo_R2],
+          ['MTD On Hold Problems P5-Numbe (Cantidad de Problemas detenidos en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS', campo_R3],
+          ['MTD Resolved Problems P5-Number (Cantidad de Problemas cerrados en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO', campo_R4],
+          ['MTD Total Effort Spent on Problems P5-Hours (Total de horas invertidas en la atención de Problemas en el mes) = SE REFIERE A LA CANTIDAD DE HH INVERTIDAS EN RESOLUCIÓN DE TICKETS PRODUCTIVOS', campo_R5],
+          ['Number of open Problems exceeding resolution SLA-Number (Cantidad de Problemas abiertos que tenemos vencidos respecto al SLA comprometido) = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE', campo_R6],
         ],
       });
 
+
+      doc.addPage();
+      
+      doc.addImage(this.logo, 'png', 192, 8, 36, 8);
+
+      //Indicadores MyWizard
+      doc.setFontSize(20);
+      doc.setFont(undefined, 'bold');
+      doc.setTextColor(0, 0, 0);
+      doc.text(10, 12, tituloInforme);
+
+      //titulo
+      doc.setFontSize(18);
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(0, 0, 0);
+      doc.text(10, 20, 'Problemas / Requerimientos');
+
+      //tabla
+      doc.autoTable({
+        theme: 'grid',
+        startY: 26,
+        margin: {top: 0, left: 10},
+        styles: { fontSize: 8},
+        columnStyles: {
+          0: {cellWidth: 200, fontStyle: 'bold', fillColor: [217, 217, 217], halign: 'left' },
+          1: {cellWidth: 20, fontStyle: 'bold', halign: 'center' },
+        },
+
+        body: [
+          ['Number of post delivery defects-Number* (Cantidad de defectos o errores que se han reportado de las correcciones implementadas en el mes) = SE REFIERE A REWORK DE SWF EN DESARROLLOS PUESTOS EN PRODUCCIÓN DE INCIDENTES INFORMADOS POR PRODUCCIÓN', campo_S1],
+          ['MTD Total SLA-Number* (PI1: Cumplimiento de Plazo en Resolución de Incidencia, PI2: Cumplimiento en Tiempo de Respuesta Telefónica)', campo_S2],
+        ],
+      });
+
+      
       let filename = 'Indicadores MyWizard '
         + this.monthNames[this.fecha.getMonth()] 
         + ' ' + this.fecha.getFullYear() 
