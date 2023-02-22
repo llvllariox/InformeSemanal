@@ -7,7 +7,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item mr-3">
+            <li class="nav-item mr-auto">
                 <a class="nav-link" href="#" [routerLink]="['generar']" routerLinkActive="active"><i class="far fa-file-pdf"></i>&nbsp; Informe Semanal</a>
             </li>
             <li class="nav-item mr-auto">
@@ -29,12 +29,12 @@
 
             <!-- MYWIZARD ROXANA VIDAL -->
             <li class="nav-item mr-auto">
-                <a class="nav-link" href="#" [routerLink]="['mywizard-rv']" routerLinkActive="active"><i class="fas fa-dollar-sign"></i>&nbsp; MyWizard RV</a>
+                <a class="nav-link" href="#" [routerLink]="['mywizard-rv']" routerLinkActive="active"><i class="fas fa-desktop"></i>&nbsp; Métricas AM</a>
             </li>
 
             <!-- FECHAS -->
             <li class="nav-item mr-auto">
-                <a class="nav-link" href="#" [routerLink]="['fechas']" routerLinkActive="active"><i class="far fa-calendar-alt"></i>&nbsp; Fechas</a>
+                <a class="nav-link" href="#" [routerLink]="['fechas']" routerLinkActive="active"><i class="far fa-calendar-alt"></i>&nbsp; Valida DMS</a>
             </li>
         </ul>
         <ul class="navbar-nav mr-1">
@@ -48,7 +48,7 @@
                 <a *ngIf="jsonDataService.infoCargada" class="nav-link" href="#" [routerLink]="['informes','PI']" routerLinkActive="active"><i class="fas fa-network-wired"></i>&nbsp; Plataforma Integracion</a>
             </li>
             <!-- <a class="navbar-brand pt-0" href="#"> <img src="../../../assets//images/logoaccenture2.png" style="height: 12px; width: 87px;"></a> -->
-            <a class="navbar-brand ml-3"> <img src="../../../assets//images/logo2.png" style="height: 35px;margin-top: -5px;"></a>
+            <!-- <a class="navbar-brand ml-3"> <img src="../../../assets//images/logo2.png" style="height: 35px;margin-top: -5px;"></a> -->
             <li class="nav-item">
                 <a class="nav-link" style="margin-left: -10px;"><small class="text-muted" style="font-size: 8px;"> v2.7.0</small></a>
             </li>
