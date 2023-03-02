@@ -21,5 +21,8 @@ export class MywizardRvFormularioService {
   public campo_R6 = '0';
   public campo_R7 = '0';
 
+  public campo_S1 = '0';
+  public campo_S2 = '0';
+
   constructor() { }
 }

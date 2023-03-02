@@ -52,7 +52,6 @@ export class MywizardRvGeneracionComponent implements OnInit {
 
     this.getIndicadoresSolicitudes();
     this.getIndicadoresRequerimientos();
-    this.getIndicadoresHoras();
   }
 
   ngOnInit(): void {
@@ -60,18 +59,22 @@ export class MywizardRvGeneracionComponent implements OnInit {
 
   //obtiene los valores para los indicadores de las solicitudes
   getIndicadoresSolicitudes(){
-   
     this.getI1();
     this.getI2();
     this.getI3();
-    //horas this.getI4();
+    this.getI4();
     this.getI5();
     this.getI6();
-    this.getI7();
   }
-  //MTD New Incidents P5-Number (Cantidad de nuevos incidentes recibidos en el mes)
+
+  //MTD Cancelled Incidents P5-Number = 0
   getI1(){
-     let I1 = 0;
+    this.mywizardRvFormularioService.campo_I1 = '0';
+  }
+
+  //MTD New Incidents P5-Number (Cantidad de nuevos incidentes recibidos en el mes)
+  getI2(){
+     let I2 = 0;
      //suma de abiertos y cerrados con fecha incurrida igual al informe 
      this.JsonArraySolAbiertos.forEach(d => {
        let fecha = new Date(d['fechaRecepcion']);
@@ -79,7 +82,7 @@ export class MywizardRvGeneracionComponent implements OnInit {
            fecha.getMonth() == this.fechaInformeDate.getMonth() 
            && fecha.getFullYear() == this.fechaInformeDate.getFullYear()
            ){
-         I1++; 
+         I2++; 
        }
      });
  
@@ -89,14 +92,14 @@ export class MywizardRvGeneracionComponent implements OnInit {
          fecha.getMonth() == this.fechaInformeDate.getMonth()
          && fecha.getFullYear() == this.fechaInformeDate.getFullYear()
          ){
-         I1++; 
+         I2++; 
        }
      });
-     this.mywizardRvFormularioService.campo_I1 = I1.toString();
+     this.mywizardRvFormularioService.campo_I2 = I2.toString();
   }
 
   //MTD On Hold Incidents P5-Numbe {Cantidad de incidentes detenidos en el mes independiente el mes de ingreso} = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS 
-  getI2(){
+  getI3(){
     let cant = 0;
     this.JsonArraySolAbiertos.forEach(d => {
       if(String(d['etapa']).includes('detenido') || String(d['etapa']).includes('Detenido')) {
@@ -105,129 +108,16 @@ export class MywizardRvGeneracionComponent implements OnInit {
       }
     });
 
-    this.mywizardRvFormularioService.campo_I2 =  cant.toString();
+    this.mywizardRvFormularioService.campo_I3 =  cant.toString();
   }
 
   //MTD Resolved Incidents P5-Number {Cantidad de incidentes cerrados en el mes independiente mes de ingreso} = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO 
-  getI3(){
-    this.mywizardRvFormularioService.campo_I3 = this.JsonArraySolCerrados.length.toString();
+  getI4(){
+    this.mywizardRvFormularioService.campo_I4 = this.JsonArraySolCerrados.length.toString();
   }
 
-  //Number of open incidents exceeding resolution SLA-Number {Cantidad de incidentes abiertos que tenemos vencidos respecto al SLA comprometido} = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE
+  //MTD Total Effort Spent on Incidents P5-Hours
   getI5(){
-    this.mywizardRvFormularioService.campo_I5 = '0';
-  }
-
-  //Number of post delivery defects-Number* {Cantidad de defectos o errores que se han reportado de las correcciones implementadas en el mes} = SE REFIERE A REWORK DE SWF EN DESARROLLOS PUESTOS EN PRODUCCIÓN DE INCIDENTES INFORMADOS POR PRODUCCIÓN 
-  getI6(){
-    let I6 = 0;
-
-    this.JsonArraySolAbiertos.forEach(d => {
-      if(d['rework'] == 'SI'){
-        I6++; 
-      }
-    });
-
-    this.JsonArraySolCerrados.forEach(d => {
-      if(d['rework'] == 'SI'){
-        I6++; 
-      }
-    });
-
-    this.mywizardRvFormularioService.campo_I6 = I6.toString();
-  }
-
-  //MTD Total SLA-Number* {PI1: Cumplimiento de Plazo en Resolución de Incidencia, PI2: Cumplimiento en Tiempo de Respuesta Telefónica} 
-  getI7(){
-    this.mywizardRvFormularioService.campo_I7 = '0';
-  }
-
-
-  //obtiene los valores para los indicadores de los requerimientos
-  getIndicadoresRequerimientos(){
-    this.getR1();
-    this.getR2();
-    this.getR3();
-    //horas this.getR4();
-    this.getR5();
-    this.getR6();
-    this.getR7();
-  }
-
-  //MTD New Problems P5-Number (Cantidad de nuevos Problemas recibidos en el mes)
-  getR1(){
-    let R1 = 0;
-    //suma de abiertos y cerrados con fecha incurrida igual al informe 
-    this.JsonArrayReqAbiertos.forEach(d => {
-      let fecha = new Date(d['fechaRecepcion']);
-      if(
-        fecha.getMonth() == this.fechaInformeDate.getMonth()
-        && fecha.getFullYear() == this.fechaInformeDate.getFullYear()
-        ){
-        R1++; 
-      }
-    });
-
-    this.JsonArrayReqCerrados.forEach(d => {
-      let fecha = new Date(d['fechaRecepcion']);
-      if(
-        fecha.getMonth() == this.fechaInformeDate.getMonth()
-        && fecha.getFullYear() == this.fechaInformeDate.getFullYear()
-        ){
-        R1++; 
-      }
-    });
-    this.mywizardRvFormularioService.campo_R1 = R1.toString();
-  }
-
-  // MTD On Hold Problems P5-Numbe {Cantidad de Problemas detenidos en el mes independiente el mes de ingreso} = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS 
-  getR2(){
-    let cant = 0;
-    this.JsonArrayReqAbiertos.forEach(d => {
-      if((String(d['etapa']).includes('detenido') || String(d['etapa']).includes('Detenido'))) {
-        cant++;
-      }
-    });
-
-    this.mywizardRvFormularioService.campo_R2 =  cant.toString();
-  }
-
-  //MTD Resolved Problems P5-Number {Cantidad de Problemas cerrados en el mes independiente el mes de ingreso} = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO
-  getR3(){
-    this.mywizardRvFormularioService.campo_R3 = this.JsonArrayReqCerrados.length.toString();
-  }
-
-  //Number of open Problems exceeding resolution SLA-Number {Cantidad de Problemas abiertos que tenemos vencidos respecto al SLA comprometido} = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE 
-  getR5() {
-    this.mywizardRvFormularioService.campo_R5 = '0';
-  }
-
-  //Number of post delivery defects-Number* {Cantidad de defectos o errores que se han reportado de las correcciones implementadas en el mes} = SE REFIERE A REWORK DE SWF EN DESARROLLOS PUESTOS EN PRODUCCIÓN DE PROBLEMAS INFORMADOS POR PRODUCCIÓN
-  getR6(){
-    let R6 = 0;
-
-    this.JsonArrayReqAbiertos.forEach(d => {
-      if(d['rework'] == 'SI'){
-        R6++; 
-      }
-    });
-
-    this.JsonArrayReqCerrados.forEach(d => {
-      if(d['rework'] == 'SI'){
-        R6++; 
-      }
-    });
-
-    this.mywizardRvFormularioService.campo_R6 = R6.toString();
-  }
-
-  //MTD Total SLA-Number* {PI1: Cumplimiento de Plazo en Resolución de Incidencia, PI2: Cumplimiento en Tiempo de Respuesta Telefónica}
-  getR7(){
-    this.mywizardRvFormularioService.campo_R7 = '0';
-  }
-
-  //get obtiene la suma de las horas para I4 y R4
-  getIndicadoresHoras(){
     let sumaSol = 0;
     let sumaReq = 0;
   
@@ -239,11 +129,132 @@ export class MywizardRvGeneracionComponent implements OnInit {
       }
     });
 
-    this.mywizardRvFormularioService.campo_I4 = sumaSol.toString();
-    this.mywizardRvFormularioService.campo_R4 = sumaReq.toString();
+    this.mywizardRvFormularioService.campo_I5 = sumaSol.toString();
+  }
+  
+  //Number of open incidents exceeding resolution SLA-Number {Cantidad de incidentes abiertos que tenemos vencidos respecto al SLA comprometido} = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE
+  getI6(){
+    this.mywizardRvFormularioService.campo_I6 = '0';
   }
 
+  //obtiene los valores para los indicadores de los requerimientos
+  getIndicadoresRequerimientos(){
+    this.getR1();
+    this.getR2();
+    this.getR3();
+    this.getR4();
+    this.getR5();
+    this.getR6();
+  }
 
+  //MTD Cancelled Problem Requests P5-Number = 0
+  getR1() {
+    this.mywizardRvFormularioService.campo_R1 = '0';
+  }
+
+  //MTD New Problems P5-Number (Cantidad de nuevos Problemas recibidos en el mes)
+  getR2(){
+    let R2 = 0;
+    //suma de abiertos y cerrados con fecha incurrida igual al informe 
+    this.JsonArrayReqAbiertos.forEach(d => {
+      let fecha = new Date(d['fechaRecepcion']);
+      if(
+        fecha.getMonth() == this.fechaInformeDate.getMonth()
+        && fecha.getFullYear() == this.fechaInformeDate.getFullYear()
+        ){
+        R2++;
+      }
+    });
+
+    this.JsonArrayReqCerrados.forEach(d => {
+      let fecha = new Date(d['fechaRecepcion']);
+      if(
+        fecha.getMonth() == this.fechaInformeDate.getMonth()
+        && fecha.getFullYear() == this.fechaInformeDate.getFullYear()
+        ){
+        R2++; 
+      }
+    });
+
+    this.mywizardRvFormularioService.campo_R2 = R2.toString();
+  }
+
+  // MTD On Hold Problems P5-Numbe {Cantidad de Problemas detenidos en el mes independiente el mes de ingreso} = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS 
+  getR3(){
+    let cant = 0;
+    this.JsonArrayReqAbiertos.forEach(d => {
+      if((String(d['etapa']).includes('detenido') || String(d['etapa']).includes('Detenido'))) {
+        cant++;
+      }
+    });
+
+    this.mywizardRvFormularioService.campo_R3 =  cant.toString();
+  }
+
+  //MTD Resolved Problems P5-Number {Cantidad de Problemas cerrados en el mes independiente el mes de ingreso} = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO
+  getR4(){
+    this.mywizardRvFormularioService.campo_R4 = this.JsonArrayReqCerrados.length.toString();
+  }
+
+  //MTD Total Effort Spent on Problem Requests P5-Hours
+  getR5(){
+    let sumaReq = 0;
+  
+    this.JsonArrayHoras.forEach(d => {
+      if(d['lineaDeServicio'] == 'Problemas') {
+        sumaReq += Number(d['horas']);
+      }
+    });
+
+    this.mywizardRvFormularioService.campo_R5 = sumaReq.toString();
+  }
+
+  //Number of open Problems exceeding resolution SLA-Number {Cantidad de Problemas abiertos que tenemos vencidos respecto al SLA comprometido} = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE 
+  getR6() {
+    this.mywizardRvFormularioService.campo_R6 = '0';
+  }
+
+  //obtiene los valores para los indicadores de SERVICE DELIVERY
+  getIndicadoresServiceDelivery(){
+    this.getS1();
+    this.getS2();
+  }
+
+  //MTD Number of post delivery defects-Number
+  getS1(){
+    let S1 = 0;
+
+    this.JsonArraySolAbiertos.forEach(d => {
+      if(d['rework'] == 'SI'){
+        S1++; 
+      }
+    });
+
+    this.JsonArraySolCerrados.forEach(d => {
+      if(d['rework'] == 'SI'){
+        S1++; 
+      }
+    });
+
+    this.JsonArrayReqAbiertos.forEach(d => {
+      if(d['rework'] == 'SI'){
+        S1++; 
+      }
+    });
+
+    this.JsonArrayReqCerrados.forEach(d => {
+      if(d['rework'] == 'SI'){
+        S1++; 
+      }
+    });
+
+    this.mywizardRvFormularioService.campo_S1 = S1.toString();
+  }
+
+  //MTD Total SLA-Number
+  getS2(){
+    this.mywizardRvFormularioService.campo_S2 = '0';
+  }
 
   //actualiza los valores de los campos
   cambiarCampo(event, campo) {
@@ -260,7 +271,6 @@ export class MywizardRvGeneracionComponent implements OnInit {
     variables['campo_I4'] = this.mywizardRvFormularioService.campo_I4;
     variables['campo_I5'] = this.mywizardRvFormularioService.campo_I5;
     variables['campo_I6'] = this.mywizardRvFormularioService.campo_I6;
-    variables['campo_I7'] = this.mywizardRvFormularioService.campo_I7;
 
     variables['campo_R1'] = this.mywizardRvFormularioService.campo_R1;
     variables['campo_R2'] = this.mywizardRvFormularioService.campo_R2;
@@ -268,7 +278,9 @@ export class MywizardRvGeneracionComponent implements OnInit {
     variables['campo_R4'] = this.mywizardRvFormularioService.campo_R4;
     variables['campo_R5'] = this.mywizardRvFormularioService.campo_R5;
     variables['campo_R6'] = this.mywizardRvFormularioService.campo_R6;
-    variables['campo_R7'] = this.mywizardRvFormularioService.campo_R7;
+
+    variables['campo_S1'] = this.mywizardRvFormularioService.campo_S1;
+    variables['campo_S2'] = this.mywizardRvFormularioService.campo_S2;
 
     this.sweetAlerService.mensajeEsperar2().then(resp=>{
       this.pdfService.generaPDF(variables, this.fechaInformeDate).then(resp => {

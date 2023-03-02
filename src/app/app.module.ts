@@ -22,6 +22,9 @@ import { CuadraFacturacionComponent } from './components/cuadra-facturacion/cuad
 import { CuadraFacturacionGenerarComponent } from './components/cuadra-facturacion-generar/cuadra-facturacion-generar.component';
 import { MywizardRvComponent } from './components/mywizard-rv/mywizard-rv.component';
 import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generacion/mywizard-rv-generacion.component';
+import { FechasComponent } from './components/fechas/fechas.component';
+import { FechasGeneracionComponent } from './components/fechas-generacion/fechas-generacion.component';
+import { FechaDMSPipe } from './pipes/fecha-dms.pipe';
 
 // import { DatePipe } from '@angular/common';
 
@@ -44,6 +47,9 @@ import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generaci
     CuadraFacturacionGenerarComponent,
     MywizardRvComponent,
     MywizardRvGeneracionComponent,
+    FechasComponent,
+    FechasGeneracionComponent,
+    FechaDMSPipe,
   ],
   imports: [
     BrowserModule,

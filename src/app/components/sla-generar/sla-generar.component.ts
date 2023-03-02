@@ -76,8 +76,9 @@ export class SlaGenerarComponent implements OnInit {
 
   constructor(public slaFormularioService: SlaFormularioService, public jsonDataService: SlaJsonDataService, private route: ActivatedRoute, public pdfService: SlaJspdfService, private sweetAlerService: SweetAlertService, private feriadosService: FeriadosChileService) {
     this.feriados = feriadosService.getFeriados(); 
+    this.fechaInformeDate = new Date(jsonDataService.getFechaInforme() + '-05');
 
-    this.fechaInformeDate = new Date(jsonDataService.getFechaInforme());
+    //console.log(this.fechaInformeDate.getMonth());
   
     this.cantidadPE1 = 0;
     this.cantidadOKPE1 = 0;
