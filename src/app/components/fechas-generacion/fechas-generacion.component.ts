@@ -17,43 +17,40 @@ export class FechasGeneracionComponent implements OnInit {
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   fechaInformeDate;
 
-    constructor(
-        public jsonDataService: DmsJsonDataService, 
-        private route: ActivatedRoute, 
-        //public pdfService: SlaJspdfService, 
-        private sweetAlerService: SweetAlertService
-    ) { 
+  constructor(
+      public jsonDataService: DmsJsonDataService, 
+      private route: ActivatedRoute, 
+      //public pdfService: SlaJspdfService, 
+      private sweetAlerService: SweetAlertService
+  ){ 
+    this.fechaInformeDate = new Date(jsonDataService.getFechaInforme() + '-05');
 
-      this.fechaInformeDate = new Date(jsonDataService.getFechaInforme() + '-05');
-
-      if(this.jsonDataService.jsonDataDmsService !== undefined) {
-        this.JsonArrayDms = this.jsonDataService.getJsonDataDmsService();
+    if(this.jsonDataService.jsonDataDmsService !== undefined) {
+      this.JsonArrayDms = this.jsonDataService.getJsonDataDmsService();
         
-        //se ordena por ARS
-        this.JsonArrayDms.sort((a, b) => {
-          const arsA = a['ars'];
-          const arsB = b['ars'];
-          if (Number(arsA) < Number(arsB)) {
-            return -1;
-          }
+      //se ordena por ARS
+      this.JsonArrayDms.sort((a, b) => {
+        const arsA = a['ars'];
+        const arsB = b['ars'];
+        if (Number(arsA) < Number(arsB)) {
+          return -1;
+        }
 
-          if (Number(arsA) > Number(arsB)) {
-            return 1;
-          }
-          return 0;
-        });
+        if (Number(arsA) > Number(arsB)) {
+          return 1;
+        }
+        return 0;
+      });
 
-        //realizamos las validaciones
-        this.JsonArrayDms.forEach(this.validarExcel);
-       // this.JsonArrayDms.forEach(this.validarFechasVacias);
-
+      //realizamos las validaciones
+      this.JsonArrayDms.forEach(this.validarExcel);
+      // this.JsonArrayDms.forEach(this.validarFechasVacias);
         //preparamos la vista web
         this.JsonArrayDms.forEach(element => {
           if(element['mostrar'] == 1){
             this.JsonArrayDmsWeb.push(element);
           }
         });
-
       }
   }
 
@@ -67,7 +64,6 @@ export class FechasGeneracionComponent implements OnInit {
 
   //Validamos la fecha de inicio y fin de comprometido, planificado y real
   validarFechasVacias(item, index, arr){
-    
     let fecha = new Date('1899-12-31T00:00:00');
     //let fecha = new Date('2023-01-03T00:00:00');
 
@@ -75,8 +71,6 @@ export class FechasGeneracionComponent implements OnInit {
 
     //Inicio Comprometido
     if(item.inicioComprometido){
-      item.inicioComprometido.setHours(0,0,0,0);
-
       if(fecha.getTime() === item.inicioComprometido.getTime()){
         item['validarFechaInicioComprometido'] = colorVacio;
         item['validarARS'] = colorVacio;
@@ -87,11 +81,9 @@ export class FechasGeneracionComponent implements OnInit {
       item['validarARS'] = colorVacio;
       item['mostrar'] = 1;
     }
-    
+
     //Inicio Planificado
     if(item.inicioPlanificado){
-      item.inicioPlanificado.setHours(0,0,0,0);
-
       if(fecha.getTime() === item.inicioPlanificado.getTime()){
         item['validarFechaInicioPlanificado'] = colorVacio;
         item['validarARS'] = colorVacio;
@@ -105,8 +97,6 @@ export class FechasGeneracionComponent implements OnInit {
 
     //Inicio Real
     if(item.inicioReal){
-      item.inicioReal.setHours(0,0,0,0);
-
       if(fecha.getTime() === item.inicioReal.getTime()){
         item['validarFechaInicioReal'] = colorVacio;
         item['validarARS'] = colorVacio;
@@ -120,8 +110,6 @@ export class FechasGeneracionComponent implements OnInit {
 
     //Fin Comprometido
     if(item.finComprometido){
-      item.finComprometido.setHours(0,0,0,0);
-
       if(fecha.getTime() === item.finComprometido.getTime()){
         item['validarFechaFinComprometido'] = colorVacio;
         item['validarARS'] = colorVacio;
@@ -135,8 +123,6 @@ export class FechasGeneracionComponent implements OnInit {
     
     //Fin Planificado
     if(item.finPlanificado){
-      item.finPlanificado.setHours(0,0,0,0);
-
       if(fecha.getTime() === item.finPlanificado.getTime()){
         item['validarFechaFinPlanificado'] = colorVacio;
         item['validarARS'] = colorVacio;
@@ -150,8 +136,6 @@ export class FechasGeneracionComponent implements OnInit {
 
     //Fin Real
     if(item.finReal){
-      item.finReal.setHours(0,0,0,0);
-
       if(fecha.getTime() === item.finReal.getTime()){
         item['validarFechaFinReal'] = colorVacio;
         item['validarARS'] = colorVacio;
@@ -161,18 +145,14 @@ export class FechasGeneracionComponent implements OnInit {
       item['validarFechaFinReal'] = colorVacio;
       item['validarARS'] = colorVacio;
       item['mostrar'] = 1;
-    } 
+    }
   }
   
- 
-
- 
-
-  //realiza las validdaciones que hay en el archivo DMS Controles 2023-01
+  //realiza las validaciones que hay en el archivo DMS Controles 2023-01
   validarExcel(item, index, arr){
-    let colorConsistencia = '#ff6600';
-    let colorVacio = '#ff0000';
-    let colorMes = '#ffff00';
+    let colorConsistencia = '#ff6600'; //naranjo
+    let colorVacio = '#ff0000'; //rojo
+    let colorMes = '#ffff00'; //amarillo
 
     item['validarFechaInicioComprometido'] = '';
     item['validarFechaInicioPlanificado'] = '';
@@ -189,14 +169,35 @@ export class FechasGeneracionComponent implements OnInit {
     //let fecha = new Date('2023-01-03T00:00:00');
 
     let ws_control = "no";
-
-    //preguntar, es la fecha de hoy o la fecha del informe?
     let ws_hoy = new Date();
 
-    //Validamos la fecha de inicio comprometido
+    //horas en cero
+    if(item.inicioPlanificado){
+      item.inicioPlanificado.setHours(0,0,0,0);
+    }
+
+    if(item.finPlanificado){
+      item.finPlanificado.setHours(0,0,0,0);
+    }
+
+    if(item.inicioReal){
+      item.inicioReal.setHours(0,0,0,0);
+    }
+
+    if(item.finReal){
+      item.finReal.setHours(0,0,0,0);
+    }
+
     if(item.inicioComprometido){
       item.inicioComprometido.setHours(0,0,0,0);
+    }
 
+    if(item.finComprometido){
+      item.finComprometido.setHours(0,0,0,0);
+    }
+
+     //Validamos la fecha de inicio comprometido
+     if(item.inicioComprometido){
       if(fecha.getTime() === item.inicioComprometido.getTime()){
         item['validarFechaInicioComprometido'] = colorVacio;
         item['mostrar'] = 1;
@@ -207,12 +208,10 @@ export class FechasGeneracionComponent implements OnInit {
       item['mostrar'] = 1;
       ws_control = "si";
     }
+	
 
-  
     //Validamos la fecha de fin comprometido
     if(item.finComprometido){
-      item.finComprometido.setHours(0,0,0,0);
-
       if(fecha.getTime() === item.finComprometido.getTime()){
         item['validarFechaFinComprometido'] = colorVacio;
         item['mostrar'] = 1;
@@ -224,7 +223,7 @@ export class FechasGeneracionComponent implements OnInit {
       ws_control = "si";
     }
 
-    //Validamos la fecha de inicio y fin comprometido, consistencia
+    //Validamos la fecha de inicio y fin comprometido, |tencia
     if(ws_control == "no"){
       if( item.inicioComprometido > item.finComprometido ) {
         item['validarFechaInicioComprometido'] = colorConsistencia;
@@ -235,23 +234,14 @@ export class FechasGeneracionComponent implements OnInit {
     }
 
     //Validamos el inicio planificado v/s el real
-    if(item.inicioPlanificado){
-      item.inicioPlanificado.setHours(0,0,0,0);
-    }
-
-    if(item.inicioReal){
-      item.inicioReal.setHours(0,0,0,0);
-    }
-
-
     if( 
       (item.inicioPlanificado && item.inicioPlanificado.getTime() === fecha.getTime()) 
       && 
       (item.inicioReal && item.inicioReal.getTime() != fecha.getTime())
     ){
-      item['validarFechaInicioPlanificado'] = colorVacio; 
-      item['mostrar'] = 1;
-      ws_control = "si"
+        item['validarFechaInicioPlanificado'] = colorVacio; 
+        item['mostrar'] = 1;
+        ws_control = "si"
       }
 
     if( 
@@ -259,7 +249,6 @@ export class FechasGeneracionComponent implements OnInit {
       &&
       (item.inicioReal && item.inicioReal.getTime() === fecha.getTime())  
     ){
-      //REVISAR
       if(item.inicioPlanificado && item.inicioPlanificado < ws_hoy){
         item['validarFechaInicioReal'] = colorVacio;
         item['mostrar'] = 1;
@@ -268,14 +257,6 @@ export class FechasGeneracionComponent implements OnInit {
     }
   
     //Validamos el fin planificado v/s el real
-    if(item.finPlanificado){
-      item.finPlanificado.setHours(0,0,0,0);
-    }
-
-    if(item.finReal){
-      item.finReal.setHours(0,0,0,0);
-    }
-
     if( 
         (item.finPlanificado && item.finPlanificado.getTime() === fecha.getTime())
         &&
@@ -298,19 +279,21 @@ export class FechasGeneracionComponent implements OnInit {
         }
     }
 
-
     if(ws_control == "si"){
       item['validarARS'] = colorVacio;
       item['mostrar'] = 1;
     }
 
     //Validamos las fechas de fin comprometidas contra el fin real, si alguna esta fuera del mes de proceso afecta al EV y PV
+
+    
+
     if(ws_control == "no"){
       if( 
         item.finComprometido && item.finReal &&
         (
           item.finComprometido.getMonth() != item.finReal.getMonth() 
-          &&
+          ||
           item.finComprometido.getFullYear() != item.finReal.getFullYear()
         )
       ){
@@ -442,6 +425,7 @@ export class FechasGeneracionComponent implements OnInit {
           fgColor: { argb: this.toARGB(d['validarFechaInicioComprometido']) },
           bgColor: { argb: this.toARGB(d['validarFechaInicioComprometido']) },
         };
+        cell.numFmt = 'dd/mm/yyyy';
       } else if(number == 10){
         cell.fill = {
           type: 'pattern',
@@ -449,6 +433,7 @@ export class FechasGeneracionComponent implements OnInit {
           fgColor: { argb: this.toARGB(d['validarFechaInicioPlanificado']) },
           bgColor: { argb: this.toARGB(d['validarFechaInicioPlanificado']) },
         };
+        cell.numFmt = 'dd/mm/yyyy';
       } else if(number == 11){
         cell.fill = {
           type: 'pattern',
@@ -456,6 +441,7 @@ export class FechasGeneracionComponent implements OnInit {
           fgColor: { argb: this.toARGB(d['validarFechaInicioReal']) },
           bgColor: { argb: this.toARGB(d['validarFechaInicioReal']) },
         };
+        cell.numFmt = 'dd/mm/yyyy';
       } else if(number == 12){
         cell.fill = {
           type: 'pattern',
@@ -463,6 +449,7 @@ export class FechasGeneracionComponent implements OnInit {
           fgColor: { argb: this.toARGB(d['validarFechaFinComprometido']) },
           bgColor: { argb: this.toARGB(d['validarFechaFinComprometido']) },
         };
+        cell.numFmt = 'dd/mm/yyyy';
       } else if(number == 13){
         cell.fill = {
           type: 'pattern',
@@ -470,6 +457,7 @@ export class FechasGeneracionComponent implements OnInit {
           fgColor: { argb: this.toARGB(d['validarFechaFinPlanificado']) },
           bgColor: { argb: this.toARGB(d['validarFechaFinPlanificado']) },
         };
+        cell.numFmt = 'dd/mm/yyyy';
       } else if(number == 14){
         cell.fill = {
           type: 'pattern',
@@ -477,6 +465,7 @@ export class FechasGeneracionComponent implements OnInit {
           fgColor: { argb: this.toARGB(d['validarFechaFinReal']) },
           bgColor: { argb: this.toARGB(d['validarFechaFinReal']) },
         };
+        cell.numFmt = 'dd/mm/yyyy';
       }
 
     });
