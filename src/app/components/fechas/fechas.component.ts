@@ -76,7 +76,7 @@ export class FechasComponent implements OnInit {
     reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates : true });
-    ;
+      
       if (workBook.SheetNames[1] !== 'DMS Detalle'){
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde');
         this.estadoDms = 4;
