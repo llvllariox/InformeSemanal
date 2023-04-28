@@ -20,7 +20,6 @@ export class FechasGeneracionComponent implements OnInit {
   constructor(
       public jsonDataService: DmsJsonDataService, 
       private route: ActivatedRoute, 
-      //public pdfService: SlaJspdfService, 
       private sweetAlerService: SweetAlertService
   ){ 
     this.fechaInformeDate = new Date(jsonDataService.getFechaInforme() + '-05');
@@ -44,7 +43,7 @@ export class FechasGeneracionComponent implements OnInit {
 
       //realizamos las validaciones
       this.JsonArrayDms.forEach(this.validarExcel);
-      // this.JsonArrayDms.forEach(this.validarFechasVacias);
+        //this.JsonArrayDms.forEach(this.validarFechasVacias);
         //preparamos la vista web
         this.JsonArrayDms.forEach(element => {
           if(element['mostrar'] == 1){
@@ -60,92 +59,6 @@ export class FechasGeneracionComponent implements OnInit {
   //mostrar=1 -> mostrar en web
   agregarCampoMostrar(item, index, arr){
     item['mostrar'] = 0;
-  }
-
-  //Validamos la fecha de inicio y fin de comprometido, planificado y real
-  validarFechasVacias(item, index, arr){
-    let fecha = new Date('1899-12-31T00:00:00');
-    //let fecha = new Date('2023-01-03T00:00:00');
-
-    let colorVacio = '#ff0000';
-
-    //Inicio Comprometido
-    if(item.inicioComprometido){
-      if(fecha.getTime() === item.inicioComprometido.getTime()){
-        item['validarFechaInicioComprometido'] = colorVacio;
-        item['validarARS'] = colorVacio;
-        item['mostrar'] = 1;
-      }
-    } else {
-      item['validarFechaInicioComprometido'] = colorVacio;
-      item['validarARS'] = colorVacio;
-      item['mostrar'] = 1;
-    }
-
-    //Inicio Planificado
-    if(item.inicioPlanificado){
-      if(fecha.getTime() === item.inicioPlanificado.getTime()){
-        item['validarFechaInicioPlanificado'] = colorVacio;
-        item['validarARS'] = colorVacio;
-        item['mostrar'] = 1;
-      }
-    } else {
-      item['validarFechaInicioPlanificado'] = colorVacio;
-      item['validarARS'] = colorVacio;
-      item['mostrar'] = 1;
-    }
-
-    //Inicio Real
-    if(item.inicioReal){
-      if(fecha.getTime() === item.inicioReal.getTime()){
-        item['validarFechaInicioReal'] = colorVacio;
-        item['validarARS'] = colorVacio;
-        item['mostrar'] = 1;
-      }
-    } else {
-      item['validarFechaInicioReal'] = colorVacio;
-      item['validarARS'] = colorVacio;
-      item['mostrar'] = 1;
-    }
-
-    //Fin Comprometido
-    if(item.finComprometido){
-      if(fecha.getTime() === item.finComprometido.getTime()){
-        item['validarFechaFinComprometido'] = colorVacio;
-        item['validarARS'] = colorVacio;
-        item['mostrar'] = 1;
-      }
-    } else {
-      item['validarFechaFinComprometido'] = colorVacio;
-      item['validarARS'] = colorVacio;
-      item['mostrar'] = 1;
-    }
-    
-    //Fin Planificado
-    if(item.finPlanificado){
-      if(fecha.getTime() === item.finPlanificado.getTime()){
-        item['validarFechaFinPlanificado'] = colorVacio;
-        item['validarARS'] = colorVacio;
-        item['mostrar'] = 1;
-      }
-    } else {
-      item['validarFechaFinPlanificado'] = colorVacio;
-      item['validarARS'] = colorVacio;
-      item['mostrar'] = 1;
-    }
-
-    //Fin Real
-    if(item.finReal){
-      if(fecha.getTime() === item.finReal.getTime()){
-        item['validarFechaFinReal'] = colorVacio;
-        item['validarARS'] = colorVacio;
-        item['mostrar'] = 1;
-      }
-    } else {
-      item['validarFechaFinReal'] = colorVacio;
-      item['validarARS'] = colorVacio;
-      item['mostrar'] = 1;
-    }
   }
   
   //realiza las validaciones que hay en el archivo DMS Controles 2023-01
@@ -170,6 +83,7 @@ export class FechasGeneracionComponent implements OnInit {
 
     let ws_control = "no";
     let ws_hoy = new Date();
+    ws_hoy.setHours(0,0,0,0);
 
     //horas en cero
     if(item.inicioPlanificado){
@@ -208,7 +122,6 @@ export class FechasGeneracionComponent implements OnInit {
       item['mostrar'] = 1;
       ws_control = "si";
     }
-	
 
     //Validamos la fecha de fin comprometido
     if(item.finComprometido){
@@ -223,7 +136,7 @@ export class FechasGeneracionComponent implements OnInit {
       ws_control = "si";
     }
 
-    //Validamos la fecha de inicio y fin comprometido, |tencia
+    //Validamos la fecha de inicio y fin comprometido, consistencia
     if(ws_control == "no"){
       if( item.inicioComprometido > item.finComprometido ) {
         item['validarFechaInicioComprometido'] = colorConsistencia;
@@ -285,9 +198,6 @@ export class FechasGeneracionComponent implements OnInit {
     }
 
     //Validamos las fechas de fin comprometidas contra el fin real, si alguna esta fuera del mes de proceso afecta al EV y PV
-
-    
-
     if(ws_control == "no"){
       if( 
         item.finComprometido && item.finReal &&
