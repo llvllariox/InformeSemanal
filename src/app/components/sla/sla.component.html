@@ -24,9 +24,21 @@
                         Requerimientos:
                     </div>
                     <div class="col-12 col-sm-8">
-                        <input [class.is-invalid]="requerimientosNoValido" formControlName="requerimientos" type="file" class="form-control-file" (change)="uploadReq($event)" (click)="click(1)">
+                        <input [class.is-invalid]="requerimientosNoValido" formControlName="requerimientos" type="file" class="form-control-file" (change)="uploadReq($event)" (click)="clickReq(1)">
                         <small *ngIf="requerimientosNoValido" class="text-danger">Seleccione Archivo<br/></small>
                         <small>Descargar abiertas desde hace 1 año atrás y cerradas mes a obtener informe</small>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoSol==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoSol==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoSol==3" class="fas fa-check text-success"></i><i *ngIf="estadoSol==4" class="fas fa-times text-danger"></i>&nbsp;
+                        Solicitudes:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="solicitudesNoValido" formControlName="solicitudes" type="file" class="form-control-file" (change)="uploadSol($event)" (click)="clickSol(1)">
+                        <small *ngIf="solicitudesNoValido" class="text-danger">Seleccione Archivo<br/></small>
+                        <small>Descargar abiertas y cerradas con fecha de perepción y cierre a mes a obtener informe</small>
                     </div>
                 </div>
            
