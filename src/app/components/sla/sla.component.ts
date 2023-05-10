@@ -13,7 +13,9 @@ import { FeriadosChileService } from '../../services/feriados-chile.service';
 export class SlaComponent implements OnInit {
   formulario: FormGroup;
   jsonDataReq = null;
+  jsonDataSol = null;
   estadoReq = 1;
+  estadoSol = 1;
   fechaInforme;
   fechaMin;
   fechaMax;
@@ -44,9 +46,14 @@ export class SlaComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  click(archivo){
+  clickReq(archivo){
     this.formulario.controls.requerimientos.reset();
     this.estadoReq = 4;
+  }
+
+  clickSol(archivo){
+    this.formulario.controls.solicitudes.reset();
+    this.estadoSol = 4;
   }
 
   //si hay archivo se borra y se pide cargar de nuevo
@@ -58,9 +65,14 @@ export class SlaComponent implements OnInit {
       this.formulario.controls.requerimientos.reset();
       this.estadoReq = 4;
     }
+
+    if(this.formulario.value.solicitudes){
+      this.formulario.controls.solicitudes.reset();
+      this.estadoSol = 4;
+    }
   }
 
-  //transforma la data a JSON
+  //transforma la data de requisitos a JSON
   uploadReq(event) {
     if(!this.validarTipo(event)){
       this.estadoReq = 4;
@@ -106,13 +118,55 @@ export class SlaComponent implements OnInit {
         //MANTENIMIENTO
         this.filtrarReqPM1(tmp);
         this.filtrarReqPM2(tmp);    
-        
-        this.filtrarReqPI1(tmp);
-        //this.filtrarReqPI2(tmp);
-      }
+        }
     };
     reader.readAsBinaryString(file);    
  }
+
+ //transforma la data de solicitudes a JSON
+ uploadSol(event) {
+  if(!this.validarTipo(event)){
+    this.estadoSol = 4;
+    return;
+  }
+
+  this.jsonDataSol = null;
+  this.estadoSol = 2;
+  let workBook = null;
+  const reader = new FileReader();
+  const file = event.target.files[0];
+  reader.onload = () => {
+    const data = reader.result;
+    workBook = XLSX.read(data, { type: 'binary', cellDates : true });
+    if (workBook.SheetNames[0] !== 'Solicitudes'){
+      this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Solicitudes');
+      this.estadoSol = 4;
+      this.jsonDataSol = null;
+      return;
+    }
+    this.jsonDataSol = workBook.SheetNames.reduce((initial, name) => {
+      const sheet = workBook.Sheets[name];
+      this.formularioHeaders(sheet, 'AH1');
+      initial[name] = XLSX.utils.sheet_to_json(sheet);
+
+      this.estadoSol = 3;
+      return initial;
+    }, {});
+  
+    if (this.jsonDataSol.Solicitudes === undefined) {
+      this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Solicitudes');
+      this.estadoSol = 4;
+      this.jsonDataSol = null;
+    } else {
+      let tmp = this.jsonDataSol.Solicitudes;
+      
+      this.filtrarSolPI1(tmp);
+      //this.filtrarSolPI2(tmp);
+    }
+  };
+  reader.readAsBinaryString(file);    
+}
+
 
    formularioHeaders(sheet, limit){
     function camalize(str) {
@@ -323,31 +377,42 @@ export class SlaComponent implements OnInit {
 
    /*
    	Fitrar Contrato = Mantenimiento
-    Filtrar Bloque = Cancelaciones
+    Filtrar Línea de Servicio = Soporte
+    Filtrar Bloque = Cancelación
     Filtrar Fecha Recepción MES = MES del informe
    */
-    filtrarReqPI1(jsonDataReqArray: any) {
-      jsonDataReqArray = jsonDataReqArray.filter(a => {
+    filtrarSolPI1(jsonDataSolArray: any) {
+      jsonDataSolArray = jsonDataSolArray.filter(a => {
         return a.contrato === 'Mantenimiento';
       });
-    
-      jsonDataReqArray = jsonDataReqArray.filter(a => {
-        //return a.bloque === 'Mantención';
-        return a.bloque === 'Cancelaciones';
+
+      jsonDataSolArray = jsonDataSolArray.filter(a => {
+        return a.lineaDeServicio === 'Soporte';
+      });
+ 
+      jsonDataSolArray = jsonDataSolArray.filter(a => {
+        return a.bloque === 'Cancelación';
       });
 
-      jsonDataReqArray = jsonDataReqArray.filter(a => {
+      jsonDataSolArray = jsonDataSolArray.filter(a => {
         return (a.fechaRecepcion.getMonth() === this.fechaInforme.getMonth()
         && a.fechaRecepcion.getFullYear() === this.fechaInforme.getFullYear());
       });
 
-      this.jsonDataService.setJsonDataReqPI1Service(jsonDataReqArray);
-      this.jsonDataService.setJsonDataReqPI2Service(jsonDataReqArray);
+      this.jsonDataService.setJsonDataSolPI1Service(jsonDataSolArray);
+      this.jsonDataService.setJsonDataSolPI2Service(jsonDataSolArray);
+
+      console.log(jsonDataSolArray);
     }
 
  guardar() {
     if(this.estadoReq==4){
       this.formulario.value.requerimientos = null;
+      return 1;
+    }
+
+    if(this.estadoSol==4){
+      this.formulario.value.solicitudes = null;
       return 1;
     }
 
@@ -369,6 +434,11 @@ export class SlaComponent implements OnInit {
           return;
         }
 
+        if (this.jsonDataSol == null) {
+          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Solicitudes');
+          return;
+        }
+
         if(this.feriados == null){
           this.sweetAlerService.mensajeError('Feriados', 'No se ha podido obtener los feriados');
           return;
@@ -381,6 +451,7 @@ export class SlaComponent implements OnInit {
           
               //borramos campos que no se necesitan
               this.formulario.value.requerimientos = null;
+              this.formulario.value.solicitudes = null;
 
               this.router.navigateByUrl('/sla-generar');        
             }
@@ -392,12 +463,17 @@ export class SlaComponent implements OnInit {
  crearFormulario() {
   this.formulario = this.formBuilder.group({
       requerimientos : ['', [Validators.required]],
+      solicitudes : ['', [Validators.required]],
       fecha : ['', [Validators.required]],
     });
   }
 
   get requerimientosNoValido() {
     return this.formulario.get('requerimientos').invalid && this.formulario.get('requerimientos').touched;
+  }
+
+  get solicitudesNoValido() {
+    return this.formulario.get('solicitudes').invalid && this.formulario.get('solicitudes').touched;
   }
 
   get fechaNoValido() {
@@ -429,7 +505,7 @@ export class SlaComponent implements OnInit {
     return tmp;
   }
 
-  //valida que el tipo del archivo contanga la palabra sheet
+  //valida que el tipo del archivo contenga la palabra sheet
   validarTipo(event){
     if(event.target.files[0]){
       let tipo = event.target.files[0].type;

@@ -25,6 +25,8 @@ import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generaci
 import { FechasComponent } from './components/fechas/fechas.component';
 import { FechasGeneracionComponent } from './components/fechas-generacion/fechas-generacion.component';
 import { FechaDMSPipe } from './pipes/fecha-dms.pipe';
+import { GenerarArsGplanComponent } from './components/generar-ars-gplan/generar-ars-gplan.component';
+import { VerArsJiraPlanComponent } from './components/ver-ars-jira-plan/ver-ars-jira-plan.component';
 
 // import { DatePipe } from '@angular/common';
 
@@ -50,6 +52,8 @@ import { FechaDMSPipe } from './pipes/fecha-dms.pipe';
     FechasComponent,
     FechasGeneracionComponent,
     FechaDMSPipe,
+    GenerarArsGplanComponent,
+    VerArsJiraPlanComponent,
   ],
   imports: [
     BrowserModule,

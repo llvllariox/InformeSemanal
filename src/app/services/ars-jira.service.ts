@@ -7,6 +7,8 @@ import { arrayBuffer } from 'stream/consumers';
 export class ArsJiraService {
 
   jsonDataReqService;
+  jsonDataReqPlanService;
+
   jsonDataJiraService;
   jsonDataHitosService;
   jsonDataJiraSinArsService;
@@ -20,8 +22,16 @@ export class ArsJiraService {
     return this.jsonDataReqService;
   }
 
+  getJsonDataReqPlanService() {
+    return this.jsonDataReqPlanService;
+  }
+
   setjsonDataReqService(jsonDataReqService: any) {
     this.jsonDataReqService = jsonDataReqService;
+  }
+
+  setjsonDataReqPlanService(jsonDataReqService: any) {
+    this.jsonDataReqPlanService = jsonDataReqService;
   }
 
   getJsonDataJiraService() {
@@ -41,45 +51,49 @@ export class ArsJiraService {
   }
 
   consolidarArchivos() {
-
     console.log('ARS-JIRA SERVICE');
     this.blancoEnCero()
     this.AddJiraToReq();
     this.buscarJiraSinARS();
     console.log(this.jsonDataReqService);
     console.log(this.jsonDataJiraService);
-
   }
 
+  consolidarArchivosPlan() {
+    console.log('ARS-JIRA PLAN SERVICE');
+    this.blancoEnCero();
+    this.AddJiraToReqPlan();
+    //this.buscarJiraSinARSPlan();
+    //console.log(this.jsonDataReqPlanService);
+    //console.log(this.jsonDataJiraService);
+  }
+
+  
   blancoEnCero(){
     let x = 0;
     for (let jira of this.jsonDataJiraService.Sheet0) {
 
-      if(jira["Duración en HH"] == null||  jira["Duración en HH"] == '')
-      {
+      if(jira["Duración en HH"] == null || jira["Duración en HH"] == ''){
         jira["Duración en HH"] = 0;
       }
 
-      if(jira["Tarifa HH/UF"] == null||  jira["Tarifa HH/UF"] == '')
-      {
+      if(jira["Tarifa HH/UF"] == null || jira["Tarifa HH/UF"] == ''){
         jira["Tarifa HH/UF"] = 0;
       }
 
-      if(jira["HH Consumidas"] == null||  jira["HH Consumidas"] == '')
-      {
+      if(jira["HH Consumidas"] == null || jira["HH Consumidas"] == ''){
         jira["HH Consumidas"] = 0;
       }
 
-      if(jira["HH Restantes"] == null||  jira["HH Restantes"] == '')
-      {
+      if(jira["HH Restantes"] == null || jira["HH Restantes"] == ''){
         jira["HH Restantes"] = 0;
       }
-      x++;
 
+      x++;
     }
   }
-  AddJiraToReq() {
 
+  AddJiraToReq() {
     let jirapaso = this.jsonDataJiraService.Sheet0[0];
       jirapaso.proyecto = '',
       jirapaso.tipoDeIncidencia = '',
@@ -116,15 +130,51 @@ export class ArsJiraService {
       }
       x++;
     }
+  }
 
+
+  //se cruzan los requisitos planificados ya sumarizados con lo de Jira
+  AddJiraToReqPlan() {
+    let jirapaso = this.jsonDataJiraService.Sheet0[0];
+      jirapaso.proyecto = '',
+      jirapaso.tipoDeIncidencia = '',
+      jirapaso.clave = '',
+      jirapaso.responsable = '',
+      jirapaso.estado = '',
+      jirapaso.fechaDeInicio = '',
+      jirapaso.resumen = '',
+      jirapaso.incidenciasEnlazadas = ''
+
+      const jira = jirapaso;
+      let i = 0;
+   
+      for (let req of this.jsonDataReqPlanService) {
+      this.jsonDataReqPlanService[i] = {...this.jsonDataReqPlanService[i], jira };
+
+      i++;
+    }
+
+    // se agregan JIRA a los requerimientos como un arreglo
+    let x = 0;
+    // tslint:disable-next-line: prefer-const
+    for (let req of this.jsonDataReqPlanService) {
+
+      
+      for (const  jira of this.jsonDataJiraService.Sheet0) {
+
+        if (req.codigoExterno === jira.clave) {
+          this.jsonDataReqPlanService[x] = {...this.jsonDataReqPlanService[x], jira };
+        }
+      }
+      x++;
+    }
   }
 
   buscarJiraSinARS() {
-
     let JiraSinARS = [];
     for (let jira of this.jsonDataJiraService.Sheet0) {
       let req = [];
-      req =  this.jsonDataReqService.Requerimientos.find((e) => e.codigoExterno === jira.clave);
+      req = this.jsonDataReqService.Requerimientos.find((e) => e.codigoExterno === jira.clave);
   
       if(req){
         // console.log('existe ', req);
@@ -157,5 +207,25 @@ export class ArsJiraService {
 //    x++;
 //  }
 
+  }
+
+  //buscamos los Jira sin ARS
+  buscarJiraSinARSPlan() {
+    let JiraSinARS = [];
+    for (let jira of this.jsonDataJiraService.Sheet0) {
+      let req = [];
+      req = this.jsonDataReqPlanService.find((e) => e.codigoExterno === jira.clave);
+  
+      if(req){
+        // console.log('existe ', req);
+      }else{
+        // console.log('no existe ', jira.clave);
+        JiraSinARS.push(jira);
+      }
+      
+     
+    }
+    
+    this.jsonDataJiraSinArsService = JiraSinARS.slice(1);
   }
 }

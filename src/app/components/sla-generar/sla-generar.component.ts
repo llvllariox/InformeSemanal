@@ -156,13 +156,13 @@ export class SlaGenerarComponent implements OnInit {
       this.getVacios('PM2');
     }
 
-    if(this.jsonDataService.jsonDataReqPI1Service !== undefined) {
-      this.JsonArrayPI1 = this.jsonDataService.getJsonDataReqPI1Service();
+    if(this.jsonDataService.jsonDataSolPI1Service !== undefined) {
+      this.JsonArrayPI1 = this.jsonDataService.getJsonDataSolPI1Service();
       this.getPI1();
     }
 
-    if(this.jsonDataService.jsonDataReqPI2Service !== undefined) {
-      this.JsonArrayPI2 = this.jsonDataService.getJsonDataReqPI2Service();
+    if(this.jsonDataService.jsonDataSolPI2Service !== undefined) {
+      this.JsonArrayPI2 = this.jsonDataService.getJsonDataSolPI2Service();
       this.getPI2();
     }
 

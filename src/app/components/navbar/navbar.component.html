@@ -13,8 +13,16 @@
             <li class="nav-item mr-auto">
                 <a class="nav-link" href="#" [routerLink]="['capacity']" routerLinkActive="active"><i class="fas fa-users"></i>&nbsp; Capacity</a>
             </li>
-            <li class="nav-item mr-auto">
-                <a class="nav-link" href="#" [routerLink]="['ars-gfac']" routerLinkActive="active"><i class="fas fa-paperclip"></i>&nbsp; ARS/JIRA</a>
+
+            <!-- ARS / JIRA -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-paperclip"></i>&nbsp; ARS/JIRA
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#" [routerLink]="['ars-gfac']" routerLinkActive="active">Requerimientos</a>
+                  <a class="dropdown-item" href="#" [routerLink]="['ars-gplan']" routerLinkActive="active">Planificado</a>
+                </div>
             </li>
 
             <!-- SLA -->

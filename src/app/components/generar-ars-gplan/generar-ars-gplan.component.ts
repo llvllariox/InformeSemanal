@@ -6,35 +6,31 @@ import { ArsJiraService } from 'src/app/services/ars-jira.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
 import { JspdfService } from '../../services/jspdf.service';
-import * as moment from 'moment'; // add this 1 of 4
 
 @Component({
-  selector: 'app-generar-ars-gfac',
-  templateUrl: './generar-ars-gfac.component.html',
+  selector: 'app-generar-ars-gplan',
+  templateUrl: './generar-ars-gplan.component.html',
   styles: [
   ]
 })
 
-export class GenerarArsGfacComponent implements OnInit {
+export class GenerarArsGplanComponent implements OnInit {
 
   forma: FormGroup;
   name = 'This is XLSX TO JSON CONVERTER';
-  jsonDataReq = null; //REQUERIMIENTOS
+  jsonDataReq = null; //REQUERIMIENTOS PLANIFICADOS
   jsonDataTar = null; //JIRA
-  jsonDataFac = null; //HITOS
+
   nuevosHeaders = [];
   fechaHoy = '';
   estadoReq = 1;
   estadoTar = 1;
-  estadoFac = 1;
 
-  // tslint:disable-next-line: max-line-length
   constructor(private formBuilder: FormBuilder, private jsonDataService: ArsJiraService, private sweetAlerService: SweetAlertService, private router: Router
             , private jspdfService: JspdfService) {
 
     this.jsonDataService.jsonDataReqService = null;
     this.jsonDataService.jsonDataJiraService = null;
-    this.jsonDataService.jsonDataHitosService = null;
     this.jsonDataService.infoCargada = false;
 
     this.crearFormulario();
@@ -42,61 +38,6 @@ export class GenerarArsGfacComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  uploadFac(event) {
-    if (!this.validarTipo(event)){
-      this.estadoFac = 4;
-      return;
-    }
-    this.jsonDataFac = null;
-    this.estadoFac = 2;
-    // this.sweetAlerService.mensajeEsperar();
-    let workBook = null;
-    const reader = new FileReader();
-    const file = event.target.files[0];
-    reader.onload = () => {
-      const data = reader.result;
-      workBook = XLSX.read(data, { type: 'binary', cellDates: true  });
-      if (workBook.SheetNames[0] !== 'Datos Facturación'){
-        this.estadoFac = 4;
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
-        this.jsonDataFac = null;
-        return;
-      }
-      this.jsonDataFac = workBook.SheetNames.reduce((initial, name) => {
-        const sheet = workBook.Sheets[name];
-        if (name === 'Datos Facturación'){
-          this.formatHeaders(sheet, 'F1');
-        }
-        initial[name] = XLSX.utils.sheet_to_json(sheet);
-        this.estadoFac = 3;
-        // this.sweetAlerService.close();
-        return initial;
-      }, {});
-      if (this.jsonDataFac['Datos Facturación'] === undefined) {
-        this.estadoFac = 4;
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Consolidado de Facturacion');
-        this.jsonDataFac = null;
-      } else {
-        delete this.jsonDataFac['Cuadre'];
-        delete this.jsonDataFac['Info Requerimientos'];
-        delete this.jsonDataFac['Info Solicitudes'];
-        delete this.jsonDataFac['Parametros'];
-        delete this.jsonDataFac['Res por mes'];
-        delete this.jsonDataFac['Resumen'];
-        delete this.jsonDataFac['Temporal'];
-        this.filtrarFac(this.jsonDataFac);
-        // console.log(this.jsonDataFac);
-      }
-    };
-    reader.readAsBinaryString(file);
-  }
-
-  filtrarFac(jsonDataReq: any) {
-
-    this.jsonDataService.setjsonDataHitosService(this.jsonDataFac);
-
   }
   
   click(archivo){
@@ -109,16 +50,12 @@ export class GenerarArsGfacComponent implements OnInit {
         case 2:
           this.estadoTar = 2;
           break;
-        case 4:
-          this.estadoFac = 2;
-          break;
       }
     }, 1000);
     
   }
 
   uploadTar(event) {
-    // console.log(event);
     if (!this.validarTipo(event)){
       this.estadoTar = 4;
       return;
@@ -126,7 +63,6 @@ export class GenerarArsGfacComponent implements OnInit {
     this.jsonDataTar = null;
     this.estadoTar = 2;
 
-    // this.sweetAlerService.mensajeEsperar();
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -134,6 +70,7 @@ export class GenerarArsGfacComponent implements OnInit {
       const data = reader.result;
       
       workBook = XLSX.read(data, { type: 'binary', cellDates: true });
+
       if (workBook.SheetNames[0] !== 'Sheet0'){
         this.estadoTar = 4;
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
@@ -143,86 +80,112 @@ export class GenerarArsGfacComponent implements OnInit {
       this.jsonDataTar = workBook.SheetNames.reduce((initial, name) => {
       
         const sheet = workBook.Sheets[name];
-        this.formatHeadersTar(sheet, 'I3');
+        this.formatHeadersTar(sheet, 'N3');
  
         initial[name] = XLSX.utils.sheet_to_json(sheet,{range:2});
-    
-        // this.sweetAlerService.close();
-        // console.log('pase' + this.estadoTar);
+
         this.estadoTar = 3;
-        // console.log('pase' + this.estadoTar);
         return initial;
     
       }, {});
   
-      // console.log(this.jsonDataTar);
       if (this.jsonDataTar['Sheet0'] === undefined) {
         this.estadoTar = 4;
         this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
         this.jsonDataTar = null;
       } else {
         this.filtrarTar(this.jsonDataTar);
-        //console.log(this.jsonDataTar);
       }
     };
     reader.readAsBinaryString(file);
+  }
 
- }
+  filtrarTar(jsonDataReq: any) {
+    jsonDataReq['Sheet0'] = jsonDataReq['Sheet0'].filter(a => {
+      return a.tipoDeIncidencia !== 'Distribución';
+    });
+    this.jsonDataService.setjsonDataJiraService(jsonDataReq);
+  }
 
-
-filtrarTar(jsonDataReq: any) {
-
-  jsonDataReq['Sheet0'] = jsonDataReq['Sheet0'].filter(a => {
-    return a.tipoDeIncidencia !== 'Distribución';
-  });
-
-  // jsonDataReq['Detalle Tareas'] = jsonDataReq['Detalle Tareas'].filter(a => {
-  //   return a.tipoContrato === 'Evolutivo';
-  // });
-
-  this.jsonDataService.setjsonDataJiraService(jsonDataReq);
-
-}
+  //uploadReq Planificados
   uploadReq(event) {
-    // console.log(event);
     if (!this.validarTipo(event)){
       this.estadoReq = 4;
       return;
     }
     this.jsonDataReq = null;
     this.estadoReq = 2;
-    // this.sweetAlerService.mensajeEsperar();
+
     let workBook = null;
     const reader = new FileReader();
     const file = event.target.files[0];
+    
     reader.onload = () => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates : true });
-      if (workBook.SheetNames[0] !== 'Requerimientos'){
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos');
+      
+      if (workBook.SheetNames[0] !== 'Detalle Horas Planificadas'){
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos Planificados');
         this.estadoReq = 4;
         this.jsonDataReq = null;
         return;
       }
       this.jsonDataReq = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
-        this.formatHeaders(sheet, 'AO1');
+        this.formatHeaders(sheet, 'BA1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
-        // this.sweetAlerService.close();
         this.estadoReq = 3;
         return initial;
       }, {});
-      if (this.jsonDataReq.Requerimientos === undefined) {
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
+     
+      if (this.jsonDataReq['Detalle Horas Planificadas'] === undefined) {
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos Planificados');
         this.estadoReq = 4;
         this.jsonDataReq = null;
       } else {
-        this.filtrarReq(this.jsonDataReq);
-        //console.log(this.jsonDataReq);
+        this.filtrarReq(this.jsonDataReq['Detalle Horas Planificadas']);
       }
     };
     reader.readAsBinaryString(file);
  }
+
+ 
+  //se agregan filtros a los requisitos planificados
+  filtrarReq(jsonDataReq: any) {
+  
+    jsonDataReq = jsonDataReq.filter(a => {
+      return a.lineaDeServicio === 'Evolutivo Mayor';
+    });
+
+    jsonDataReq = jsonDataReq.filter(a => {
+      return a.tipoContrato === 'Evolutivo';
+    });
+
+    this.sumarizar(jsonDataReq);
+  }
+
+  //suma el campo horasPlanificadas para filas con numeroArs iguales
+  sumarizar(jsonDataReq) {
+    let jsonTemporal: [][] = [];
+    let encontrado;
+    
+    jsonDataReq.forEach((element)=>{      
+      encontrado = false;
+      jsonTemporal.forEach((elementTemp)=>{
+        if(element.numeroArs == elementTemp['numeroArs']){
+          elementTemp['horasPlanificadas'] += element.horasPlanificadas;
+          encontrado = true;
+        }
+      });
+
+      if(!encontrado){
+        jsonTemporal.push(element);
+      }
+    });
+
+    this.jsonDataService.setjsonDataReqPlanService(jsonTemporal);
+  }
+
 
  formatHeaders(sheet, limit){
     function camalize(str) {
@@ -250,16 +213,16 @@ filtrarTar(jsonDataReq: any) {
     }
  }
 
- formatHeadersTar(sheet, limit){
-  function camalize(str) {
+  formatHeadersTar(sheet, limit){
+    function camalize(str) {
     
       str = str.replace(/\./g, '');
       str = str.normalize('NFD').replace(/[\u0300-\u036f]/g,"");
       
       return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
-  }
+    }
 
-  let abc = ['A3',	'B3',	'C3',	'D3',	'E3',	'F3',	'G3',	'H3',	'I3',	'J3',	'K3',	'L3',
+    let abc = ['A3',	'B3',	'C3',	'D3',	'E3',	'F3',	'G3',	'H3',	'I3',	'J3',	'K3',	'L3',
              'M3',	'N3',	'O3',	'P3',	'Q3',	'R3',	'S3',	'T3',	'U3',	'V3',	'W3',	'X3',
              'Y3',	'Z3',	'AA3',	'AB3',	'AC3',	'AD3',	'AE3',	'AF3',	'AG3', 'AH3',
              'AI3',	'AJ3',	'AK3',	'AL3',	'AM3',	'AN3',	'AO3', 'AP3',	'AQ3', 'AR3',
@@ -267,50 +230,28 @@ filtrarTar(jsonDataReq: any) {
              'BC3',	'BD3',	'BE3',	'BF3',	'BG3',	'BH3',
             ];
           
-  for (const letra of abc) {
-    sheet[letra].w = camalize(sheet[letra].w);
+    for (const letra of abc) {
+      sheet[letra].w = camalize(sheet[letra].w);
 
-    if (letra == limit){
-      break;
+      if (letra == limit){
+        break;
+      }
     }
   }
-}
 
-filtrarReq(jsonDataReq: any) {
-
-  jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
-    return a.lineaDeServicio === 'Evolutivo Mayor';
-  });
-
-  jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
-    return a.contrato === 'Evolutivo';
-  });
-
-  // jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
-  //   return a.etapa !== 'Comprometido';
-  // });
-
-  // jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
-  //   return a.etapa !== 'Plan';
-  // });
-
-  this.jsonDataService.setjsonDataReqService(jsonDataReq);
-
-}
-
-validarTipo(event){
-  if(event.target.files[0]){
-    let tipo = event.target.files[0].type;
-    if (!tipo.includes('sheet')) {
-      this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo es invalido');
-      return false;
-    }else{
-      return true;
+  validarTipo(event){
+    if(event.target.files[0]){
+      let tipo = event.target.files[0].type;
+      if (!tipo.includes('sheet')) {
+        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo es invalido');
+        return false;
+      }else{
+        return true;
+      }
     }
   }
-}
+
   guardar() {
-
     if (this.forma.invalid) {
       Object.values(this.forma.controls).forEach(control => {
 
@@ -327,12 +268,8 @@ validarTipo(event){
         this.jsonDataService.fechaInformes = this.forma.value.fecha;
         this.jspdfService.fechaInformes = this.forma.value.fecha;
 
-        if (this.jsonDataFac == null) {
-          this.jsonDataService.conFact = false;
-        } else {
-          this.jsonDataService.conFact = true;
-        }
-
+        this.jsonDataService.conFact = false;
+        
         if (this.jsonDataTar == null) {
                 this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
                 return;
@@ -341,11 +278,11 @@ validarTipo(event){
                 this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
                 return;
         }
-        this.jsonDataService.consolidarArchivos();
+        this.jsonDataService.consolidarArchivosPlan();
         this.sweetAlerService.mensajeOK('Generado Exitosamente').then(
           resp => {
             if (resp.value) {
-              this.router.navigateByUrl('/ver-ars-jira');
+              this.router.navigateByUrl('/ver-ars-jira-plan');
             }
           }
         );
@@ -353,14 +290,10 @@ validarTipo(event){
   }
 
   crearFormulario() {
-
     this.forma = this.formBuilder.group({
-
       requerimientos : ['', [Validators.required]],
-      tareas : ['', [Validators.required]],
-      facturacion : ['']
+      tareas : ['', [Validators.required]]
     });
-
   }
 
   get requerimientosNoValido() {
@@ -370,9 +303,5 @@ validarTipo(event){
     return this.forma.get('tareas').invalid && this.forma.get('tareas').touched;
   }
 
-  get facturacionNoValido() {
-    return this.forma.get('facturacion').invalid && this.forma.get('facturacion').touched;
-  }
-
-  }
+}
 

@@ -12,8 +12,8 @@ export class SlaJsonDataService {
   jsonDataReqPM1Service;
   jsonDataReqPM2Service;
 
-  jsonDataReqPI1Service;
-  jsonDataReqPI2Service;
+  jsonDataSolPI1Service;
+  jsonDataSolPI2Service;
 
   fechaInforme: string;
   
@@ -76,19 +76,19 @@ export class SlaJsonDataService {
     this.jsonDataReqPM2Service = jsonDataReqService;
   }
 
-  getJsonDataReqPI1Service() {
-    return this.jsonDataReqPI1Service;
+  getJsonDataSolPI1Service() {
+    return this.jsonDataSolPI1Service;
   }
 
-  setJsonDataReqPI1Service(jsonDataReqService: any) {
-    this.jsonDataReqPI1Service = jsonDataReqService;
+  setJsonDataSolPI1Service(jsonDataSolService: any) {
+    this.jsonDataSolPI1Service = jsonDataSolService;
   }
 
-  getJsonDataReqPI2Service() {
-    return this.jsonDataReqPI2Service;
+  getJsonDataSolPI2Service() {
+    return this.jsonDataSolPI2Service;
   }
 
-  setJsonDataReqPI2Service(jsonDataReqService: any) {
-    this.jsonDataReqPI2Service = jsonDataReqService;
+  setJsonDataSolPI2Service(jsonDataSolService: any) {
+    this.jsonDataSolPI2Service = jsonDataSolService;
   }
 }
