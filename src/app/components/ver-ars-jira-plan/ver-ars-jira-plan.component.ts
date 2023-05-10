@@ -105,7 +105,7 @@ export class VerArsJiraPlanComponent implements OnInit {
               d.fechaRecepcion,
               d.horasEstimadas,
               d.horasPlanificadas,
-              d.horasIncurridas,
+              d.horasIncurridas, 
               d.jira.tipoDeIncidencia,
               d.jira.clave,
               d.jira.responsable,
