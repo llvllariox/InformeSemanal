@@ -1,0 +1,78 @@
+<div class="container-fluid mb-5">
+    <div class="row">
+        <button class="btn btn-primary ml-5" (click)="generateExcel()">Descargar &nbsp;&nbsp;<img src="../../../assets/images/file-excel-regular.png" style="width: 12px; height: 17px;" alt=""> </button>
+    </div>
+
+    <div class="mb-5 mt-5" id="excel-table">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <table class="table table-striped table-bordered table-sm" id="excel-table2">
+                    <thead class="">
+                        <tr class="">
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;">Número ARS</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Descripción</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Etapa</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Estado</th>
+                            <!-- <th class="; small font-weight-bold text-light" scope="col" stbackground-color: rgb(32, 55, 100); yle="width: 50px;text-overflow: ellipsis;">Contrato</th> -->
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Línea de Servicio</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Origen</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Solicitante</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Código Externo</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Req. Origen</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Responsable ARS</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Fecha Recepción</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Horas Estimadas</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Horas Planificadas</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(32, 55, 100); width: 50px;text-overflow: ellipsis;">Horas Incurridas</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">Tipo de Incidencia</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">Clave</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">Responsable JIRA</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">Estado</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">Duracion</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">Tarifa HH/UF</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">HH Consumidas</th>
+                            <th class="; small font-weight-bold text-light" scope="col" style="background-color: rgb(96, 153, 163); width: 50px;text-overflow: ellipsis;">HH Restantes</th>
+                            <!-- <th class="; small font-weight-bold text-light" scope="col" style="width: 50px;text-overflow: ellipsis;">Fecha de Inicio</th> -->
+    
+                        </tr>
+                    </thead>
+                    <tbody class="">
+                        <tr *ngFor="let req of arsJiraService.jsonDataReqPlanService; let i = index" class="" style="background-color: rgb(255, 255, 255)">
+    
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.numeroArs}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.descripcion}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.etapa}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.estado}}</td>
+                            <!-- <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.contrato}}</td> -->
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.lineaDeServicio}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.origen}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.solicitante}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.codigoExterno}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.reqOrigen}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.responsable}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.fechaRecepcion|fechas}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.horasEstimadas}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.horasPlanificadas}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.horasIncurridas}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira.tipoDeIncidencia}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira.clave}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira.responsable}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira.estado}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira["Duración en HH"]}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira["Tarifa HH/UF"]}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira["HH Consumidas"]}}</td>
+                            <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira["HH Restantes"]}}</td>
+                            <!-- <td class="small text-dark text-left" scope="col" style="width: 50px;text-overflow: ellipsis;">{{req.jira.fechaDeInicio|fechas}}</td> -->
+                            <!-- <td class="small text-dark text-left" scope="col" style="width: 350px;text-overflow: ellipsis;">{{req.descripcion}}</td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>

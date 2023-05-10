@@ -4,8 +4,13 @@ import { InformesComponent } from './components/informes/informes.component';
 import { GenerarInformeComponent } from './components/generar-informe/generar-informe.component';
 import { GenerarCapacityComponent } from './components/generar-capacity/generar-capacity.component';
 import { VerCapacityComponent } from './components/ver-capacity/ver-capacity.component';
+
 import { GenerarArsGfacComponent } from './components/generar-ars-gfac/generar-ars-gfac.component';
+import { GenerarArsGplanComponent } from './components/generar-ars-gplan/generar-ars-gplan.component';
+
 import { VerArsJiraComponent } from './components/ver-ars-jira/ver-ars-jira.component';
+import { VerArsJiraPlanComponent } from './components/ver-ars-jira-plan/ver-ars-jira-plan.component';
+
 import { SlaComponent } from './components/sla/sla.component';
 import { SlaGenerarComponent } from './components/sla-generar/sla-generar.component';
 import { CuadraFacturacionComponent } from './components/cuadra-facturacion/cuadra-facturacion.component';
@@ -23,8 +28,12 @@ const routes: Routes = [
   { path: 'verCapacity', component: VerCapacityComponent },
   { path: 'capacity', component: GenerarCapacityComponent },
   { path: 'generar', component: GenerarInformeComponent },
+  
   { path: 'ars-gfac', component: GenerarArsGfacComponent },
+  { path: 'ars-gplan', component: GenerarArsGplanComponent },
+  
   { path: 'ver-ars-jira', component: VerArsJiraComponent },
+  { path: 'ver-ars-jira-plan', component: VerArsJiraPlanComponent },
 
   { path: 'sla', component: SlaComponent },
   { path: 'sla-generar', component: SlaGenerarComponent },
