@@ -171,6 +171,7 @@ export class GenerarArsGfacComponent implements OnInit {
 
 
 filtrarTar(jsonDataReq: any) {
+  console.log(jsonDataReq);
 
   jsonDataReq['Sheet0'] = jsonDataReq['Sheet0'].filter(a => {
     return a.tipoDeIncidencia !== 'Distribución';
@@ -295,7 +296,6 @@ filtrarReq(jsonDataReq: any) {
   // });
 
   this.jsonDataService.setjsonDataReqService(jsonDataReq);
-
 }
 
 validarTipo(event){

@@ -27,6 +27,8 @@ import { FechasGeneracionComponent } from './components/fechas-generacion/fechas
 import { FechaDMSPipe } from './pipes/fecha-dms.pipe';
 import { GenerarArsGplanComponent } from './components/generar-ars-gplan/generar-ars-gplan.component';
 import { VerArsJiraPlanComponent } from './components/ver-ars-jira-plan/ver-ars-jira-plan.component';
+import { InformeSemanalComponent } from './components/manto/informe-semanal/informe-semanal.component';
+import { InformeSemanalGeneracionComponent } from './components/manto/informe-semanal-generacion/informe-semanal-generacion.component';
 
 // import { DatePipe } from '@angular/common';
 
@@ -54,6 +56,8 @@ import { VerArsJiraPlanComponent } from './components/ver-ars-jira-plan/ver-ars-
     FechaDMSPipe,
     GenerarArsGplanComponent,
     VerArsJiraPlanComponent,
+    InformeSemanalComponent,
+    InformeSemanalGeneracionComponent,
   ],
   imports: [
     BrowserModule,

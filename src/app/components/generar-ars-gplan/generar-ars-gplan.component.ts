@@ -5,7 +5,6 @@ import * as XLSX from 'xlsx';
 import { ArsJiraService } from 'src/app/services/ars-jira.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
-import { JspdfService } from '../../services/jspdf.service';
 
 @Component({
   selector: 'app-generar-ars-gplan',
@@ -17,7 +16,6 @@ import { JspdfService } from '../../services/jspdf.service';
 export class GenerarArsGplanComponent implements OnInit {
 
   forma: FormGroup;
-  name = 'This is XLSX TO JSON CONVERTER';
   jsonDataReq = null; //REQUERIMIENTOS PLANIFICADOS
   jsonDataTar = null; //JIRA
 
@@ -26,10 +24,12 @@ export class GenerarArsGplanComponent implements OnInit {
   estadoReq = 1;
   estadoTar = 1;
 
-  constructor(private formBuilder: FormBuilder, private jsonDataService: ArsJiraService, private sweetAlerService: SweetAlertService, private router: Router
-            , private jspdfService: JspdfService) {
+  constructor( private formBuilder: FormBuilder,
+               private jsonDataService: ArsJiraService,
+               private sweetAlertService: SweetAlertService, 
+               private router: Router) {
 
-    this.jsonDataService.jsonDataReqService = null;
+    this.jsonDataService.jsonDataReqPlanService = null;
     this.jsonDataService.jsonDataJiraService = null;
     this.jsonDataService.infoCargada = false;
 
@@ -73,14 +73,14 @@ export class GenerarArsGplanComponent implements OnInit {
 
       if (workBook.SheetNames[0] !== 'Sheet0'){
         this.estadoTar = 4;
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
+        this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
         this.jsonDataTar = null;
         return;
       }
       this.jsonDataTar = workBook.SheetNames.reduce((initial, name) => {
       
         const sheet = workBook.Sheets[name];
-        this.formatHeadersTar(sheet, 'N3');
+        this.formatHeadersTar(sheet, 'I3');
  
         initial[name] = XLSX.utils.sheet_to_json(sheet,{range:2});
 
@@ -91,7 +91,7 @@ export class GenerarArsGplanComponent implements OnInit {
   
       if (this.jsonDataTar['Sheet0'] === undefined) {
         this.estadoTar = 4;
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
+        this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
         this.jsonDataTar = null;
       } else {
         this.filtrarTar(this.jsonDataTar);
@@ -101,10 +101,19 @@ export class GenerarArsGplanComponent implements OnInit {
   }
 
   filtrarTar(jsonDataReq: any) {
+    console.log("filtrar 1");
+    console.log(jsonDataReq);
+
     jsonDataReq['Sheet0'] = jsonDataReq['Sheet0'].filter(a => {
       return a.tipoDeIncidencia !== 'Distribución';
-    });
+    });  
+    
+    console.log("filtrar 2");
+    console.log(jsonDataReq);
+
     this.jsonDataService.setjsonDataJiraService(jsonDataReq);
+    console.log("filtrar");
+    console.log(this.jsonDataService.jsonDataJiraService);
   }
 
   //uploadReq Planificados
@@ -125,7 +134,7 @@ export class GenerarArsGplanComponent implements OnInit {
       workBook = XLSX.read(data, { type: 'binary', cellDates : true });
       
       if (workBook.SheetNames[0] !== 'Detalle Horas Planificadas'){
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos Planificados');
+        this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos Planificados');
         this.estadoReq = 4;
         this.jsonDataReq = null;
         return;
@@ -139,7 +148,7 @@ export class GenerarArsGplanComponent implements OnInit {
       }, {});
      
       if (this.jsonDataReq['Detalle Horas Planificadas'] === undefined) {
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos Planificados');
+        this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos Planificados');
         this.estadoReq = 4;
         this.jsonDataReq = null;
       } else {
@@ -243,7 +252,7 @@ export class GenerarArsGplanComponent implements OnInit {
     if(event.target.files[0]){
       let tipo = event.target.files[0].type;
       if (!tipo.includes('sheet')) {
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo es invalido');
+        this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo es invalido');
         return false;
       }else{
         return true;
@@ -251,7 +260,10 @@ export class GenerarArsGplanComponent implements OnInit {
     }
   }
 
-  guardar() {
+  guardar() {   
+    console.log("guardar");
+    console.log(this.jsonDataService.jsonDataJiraService);
+
     if (this.forma.invalid) {
       Object.values(this.forma.controls).forEach(control => {
 
@@ -266,20 +278,18 @@ export class GenerarArsGplanComponent implements OnInit {
       });
     } else {
         this.jsonDataService.fechaInformes = this.forma.value.fecha;
-        this.jspdfService.fechaInformes = this.forma.value.fecha;
-
-        this.jsonDataService.conFact = false;
         
         if (this.jsonDataTar == null) {
-                this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
+                this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Tareas');
                 return;
         }
         if (this.jsonDataReq == null) {
-                this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
+                this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
                 return;
         }
+
         this.jsonDataService.consolidarArchivosPlan();
-        this.sweetAlerService.mensajeOK('Generado Exitosamente').then(
+        this.sweetAlertService.mensajeOK('Generado Exitosamente').then(
           resp => {
             if (resp.value) {
               this.router.navigateByUrl('/ver-ars-jira-plan');
@@ -302,6 +312,4 @@ export class GenerarArsGplanComponent implements OnInit {
   get tareasNoValido() {
     return this.forma.get('tareas').invalid && this.forma.get('tareas').touched;
   }
-
 }
-

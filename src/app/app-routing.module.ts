@@ -21,6 +21,8 @@ import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generaci
 import { FechasComponent } from './components/fechas/fechas.component';
 import { FechasGeneracionComponent } from './components/fechas-generacion/fechas-generacion.component';
 
+import { InformeSemanalComponent } from './components/manto/informe-semanal/informe-semanal.component';
+
 
 const routes: Routes = [
   { path: '', component: GenerarInformeComponent},
@@ -46,6 +48,8 @@ const routes: Routes = [
 
   { path: 'fechas', component: FechasComponent },
   { path: 'fechas-generar', component: FechasGeneracionComponent },
+
+  { path: 'manto-informe-semanal', component: InformeSemanalComponent },
 
   { path: '', pathMatch: 'full', redirectTo: '' },
   { path: '**', pathMatch: 'full', component: GenerarInformeComponent },

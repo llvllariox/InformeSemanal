@@ -56,16 +56,16 @@ export class ArsJiraService {
     this.AddJiraToReq();
     this.buscarJiraSinARS();
     console.log(this.jsonDataReqService);
-    console.log(this.jsonDataJiraService);
+  //  console.log(this.jsonDataJiraService);
   }
 
   consolidarArchivosPlan() {
     console.log('ARS-JIRA PLAN SERVICE');
+    console.log(this.jsonDataJiraService);
     this.blancoEnCero();
     this.AddJiraToReqPlan();
-    //this.buscarJiraSinARSPlan();
+    this.buscarJiraSinARSPlan();
     //console.log(this.jsonDataReqPlanService);
-    //console.log(this.jsonDataJiraService);
   }
 
   
@@ -135,39 +135,31 @@ export class ArsJiraService {
 
   //se cruzan los requisitos planificados ya sumarizados con lo de Jira
   AddJiraToReqPlan() {
-    let jirapaso = this.jsonDataJiraService.Sheet0[0];
-      jirapaso.proyecto = '',
-      jirapaso.tipoDeIncidencia = '',
-      jirapaso.clave = '',
-      jirapaso.responsable = '',
-      jirapaso.estado = '',
-      jirapaso.fechaDeInicio = '',
-      jirapaso.resumen = '',
-      jirapaso.incidenciasEnlazadas = ''
+    //para cada requerimiento buscamos si tiene un jira
+    let jira;
+    let jiravacio = [];
+    jiravacio['tipoDeIncidencia'] = '';
+    jiravacio['clave'] = '';
 
-      const jira = jirapaso;
-      let i = 0;
-   
-      for (let req of this.jsonDataReqPlanService) {
-      this.jsonDataReqPlanService[i] = {...this.jsonDataReqPlanService[i], jira };
+    jiravacio['responsable'] = '';
+    jiravacio['estado'] = '';
+    jiravacio['Duración en HH'] = '';
+    jiravacio['Tarifa HH/UF'] = '';
+    jiravacio['HH Consumidas'] = '';
+    jiravacio['HH Restantes'] = '';
+    
+  console.log(jiravacio);
 
-      i++;
-    }
 
-    // se agregan JIRA a los requerimientos como un arreglo
-    let x = 0;
-    // tslint:disable-next-line: prefer-const
-    for (let req of this.jsonDataReqPlanService) {
-
+    this.jsonDataReqPlanService.forEach((element, index) => {
+      jira = this.jsonDataJiraService.Sheet0.find((e) => element.codigoExterno === e.clave);
       
-      for (const  jira of this.jsonDataJiraService.Sheet0) {
-
-        if (req.codigoExterno === jira.clave) {
-          this.jsonDataReqPlanService[x] = {...this.jsonDataReqPlanService[x], jira };
-        }
+      if(jira) {
+        this.jsonDataReqPlanService[index]['jira'] = jira;
+      } else {
+        this.jsonDataReqPlanService[index]['jira'] = jiravacio;
       }
-      x++;
-    }
+    });
   }
 
   buscarJiraSinARS() {
@@ -181,9 +173,7 @@ export class ArsJiraService {
       }else{
         // console.log('no existe ', jira.clave);
         JiraSinARS.push(jira);
-      }
-      
-     
+      } 
     }
     console.log(JiraSinARS);
     // JiraSinARS.filter(x => x !== '') 
@@ -223,7 +213,9 @@ export class ArsJiraService {
         JiraSinARS.push(jira);
       }
       
-     
+      
+        if(jira.clave == 'GOTI-5171') console.log(jira);
+
     }
     
     this.jsonDataJiraSinArsService = JiraSinARS.slice(1);
