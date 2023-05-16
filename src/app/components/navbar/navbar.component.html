@@ -44,6 +44,17 @@
             <li class="nav-item mr-auto">
                 <a class="nav-link" href="#" [routerLink]="['fechas']" routerLinkActive="active"><i class="far fa-calendar-alt"></i>&nbsp; Valida DMS</a>
             </li>
+
+            <!-- MANTENIMIENTO -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-wrench"></i>&nbsp; Mantenimiento
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#" [routerLink]="['manto-informe-semanal']" routerLinkActive="active">Informe semanal</a>
+                  <a class="dropdown-item" href="#" [routerLink]="['manto-configuracion']" routerLinkActive="active">Configuración</a>
+                </div>
+            </li>
         </ul>
         <ul class="navbar-nav mr-1">
             <li class="nav-item ">

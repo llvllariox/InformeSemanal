@@ -15,12 +15,10 @@ export class VerArsJiraPlanComponent implements OnInit {
   hoy;
 
 
+
   constructor(public arsJiraService: ArsJiraService) { 
     init_customJS();
     this.hoy = moment().locale('es').format('DD-MM-YYYY');
-
-    console.log(arsJiraService.jsonDataReqPlanService);
-    console.log(arsJiraService.jsonDataJiraSinArsService);
   }
 
   ngOnInit(): void {
