@@ -29,6 +29,11 @@ import { GenerarArsGplanComponent } from './components/generar-ars-gplan/generar
 import { VerArsJiraPlanComponent } from './components/ver-ars-jira-plan/ver-ars-jira-plan.component';
 import { InformeSemanalComponent } from './components/manto/informe-semanal/informe-semanal.component';
 import { InformeSemanalGeneracionComponent } from './components/manto/informe-semanal-generacion/informe-semanal-generacion.component';
+import { InformeSemanalConfComponent } from './components/manto/informe-semanal-conf/informe-semanal-conf.component';
+import { InformeSemanalConfupdComponent } from './components/manto/informe-semanal-confupd/informe-semanal-confupd.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 // import { DatePipe } from '@angular/common';
 
@@ -58,6 +63,8 @@ import { InformeSemanalGeneracionComponent } from './components/manto/informe-se
     VerArsJiraPlanComponent,
     InformeSemanalComponent,
     InformeSemanalGeneracionComponent,
+    InformeSemanalConfComponent,
+    InformeSemanalConfupdComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,7 +73,9 @@ import { InformeSemanalGeneracionComponent } from './components/manto/informe-se
     CurrencyMaskModule,
     FormsModule,
     HttpClientModule,
-    HttpClientJsonpModule
+    HttpClientJsonpModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore())
   ],
   providers: [],
   bootstrap: [AppComponent]
