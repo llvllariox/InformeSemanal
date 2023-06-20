@@ -98,7 +98,6 @@ export class CapacityService {
       console.log(err);
       this.sweetService.mensajeError('Error al obtener Feriados', err.og.message);
     });
-
    }
 
   getJsonDataPlanService() {
@@ -248,7 +247,7 @@ export class CapacityService {
           totalMes1 = totalMes1 + dia.total;
         }
         plan.mes1.totalMes1 = totalMes1;
-
+        
         let totalMes2 = 0;
         for (const dia2 of plan.mes2) {
           totalMes2 = totalMes2 + dia2.total;

@@ -28,7 +28,12 @@ export class CuadraFacturacionComponent implements OnInit {
   monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
-  constructor(private formBuilder: FormBuilder, private cuadraFacturacionJsonDataService: CuadraFacturacionJsonDataService, private sweetAlerService: SweetAlertService, private router: Router) { 
+  constructor(
+                private formBuilder: FormBuilder, 
+                private cuadraFacturacionJsonDataService: CuadraFacturacionJsonDataService, 
+                private sweetAlerService: SweetAlertService, 
+                private router: Router
+              ) { 
     this.crearFormulario();
 
     let hoy = new Date();

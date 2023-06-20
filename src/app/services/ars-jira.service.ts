@@ -140,7 +140,6 @@ export class ArsJiraService {
     let jiravacio = [];
     jiravacio['tipoDeIncidencia'] = '';
     jiravacio['clave'] = '';
-
     jiravacio['responsable'] = '';
     jiravacio['estado'] = '';
     jiravacio['Duración en HH'] = '';
@@ -148,9 +147,6 @@ export class ArsJiraService {
     jiravacio['HH Consumidas'] = '';
     jiravacio['HH Restantes'] = '';
     
-  console.log(jiravacio);
-
-
     this.jsonDataReqPlanService.forEach((element, index) => {
       jira = this.jsonDataJiraService.Sheet0.find((e) => element.codigoExterno === e.clave);
       
