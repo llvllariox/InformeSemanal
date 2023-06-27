@@ -241,8 +241,14 @@ export class CapacityService {
     totalesMes(){
       // se recorre planificacion agrupada y se suman todas las horas de cada dia de mes1 y mes2,
       // creando una nueva variable para cada mes con el total de horas
+
+      
+
       for (let plan of this.jsonDataPlanService) {
         let totalMes1 = 0;
+
+        console.log("------------- jsonDataPlanService");
+      console.log(plan.lineaDeServicio);
         for (const dia of plan.mes1) {
           totalMes1 = totalMes1 + dia.total;
         }
@@ -542,9 +548,11 @@ export class CapacityService {
     filtrarCS(){
       // se mantienen solo los registros que son Evolutivo Mayor o Asesoramiento y Consulta
       this.jsonDataPlanService = this.jsonDataPlanService.filter(a => {
-        return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Asesoramiento y Consulta';
+        return (
+                  (a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Asesoramiento y Consulta')
+                  && a.facturable === 'SI'
+                );
       });
-
     }
 
     ordenarPorARSCS(){
@@ -567,7 +575,6 @@ export class CapacityService {
         this.totalMes1 = this.totalMes1 + plan.mes1.totalMes1;
         this.totalMes2 = this.totalMes2 + plan.mes2.totalMes2;
       }
-
     }
 
     totalEjecucionCS(){
@@ -739,7 +746,7 @@ export class CapacityService {
       let jsonData1 = [...this.jsonDataPlanService];
 
       this.jsonDataMayores1 = jsonData1.filter(a => {
-        return a.mes1.totalMes1 > 0;
+        return a.mes1.totalMes1 > 0 && a.facturable=='SI';
       });
 
       this.jsonDataMayores1.sort((a, b) => {
@@ -754,7 +761,7 @@ export class CapacityService {
 
       let jsonData2 = [...this.jsonDataPlanService2];
       this.jsonDataMayores2 = jsonData2.filter(a => {
-        return a.mes2.totalMes2 > 0;
+        return a.mes2.totalMes2 > 0 && a.facturable == 'SI';
       });
 
       this.jsonDataMayores2.sort((a, b) => {
