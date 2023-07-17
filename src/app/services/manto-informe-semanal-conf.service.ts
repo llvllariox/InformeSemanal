@@ -6,6 +6,10 @@ import { Injectable } from '@angular/core';
 export class MantoInformeSemanalConfService {
   monthNames = [];
 
+  //horas comercial
+  horasCOriginal = [];
+  horasCYears = [];
+
   //horas propuestas
   horasPropuestasOriginal = [];
   horasPropuestasYears = [];
@@ -36,21 +40,29 @@ export class MantoInformeSemanalConfService {
   }
 
   //recibe toda la data almacenada (horas propuestas y utilizadas historicas)
-  setDataOriginal(data){
+  setDataOriginal(data, tipo){
     this.horasUtilizadasOriginal = []; 
     this.horasPropuestasOriginal = [];
-    //primero separamos la data en horas propuestas y utilizadas
+
+    //separamos la data en horas propuestas y utilizadas
     data.forEach(element => {
-      if(element['isUtilizada'] == true) this.horasUtilizadasOriginal.push(element);
+      if(element['isUtilizada'] == true) {
+        this.horasUtilizadasOriginal.push(element);
+      }
       else this.horasPropuestasOriginal.push(element);
     });
   }
 
   //-------horas Propuestas
   //obtiene los años disponibles para la data actual
-  getHorasPropuestasYears(){
-      
-      let currentYear;
+  getHorasPropuestasYears(tipo){
+    this.horasPropuestasYears = []; 
+
+    if(tipo == "transaccional"){
+    } else  if(tipo == "comercial"){
+    }
+
+    let currentYear;
       this.horasPropuestasOriginal.forEach(element => {
         currentYear = element.year;
         if(this.horasPropuestasYears.indexOf(currentYear) == -1){
@@ -72,7 +84,7 @@ export class MantoInformeSemanalConfService {
   }
 
   //obtiene la cantidad de horas propuestas para el mes year month
-  getHorasPropuestasValor(year, month) {
+  getHorasPropuestasValor(year, month, tipo) {
     if(Number(month)<10) month = "0" + month;
 
     let valor = 0; 
@@ -92,7 +104,7 @@ export class MantoInformeSemanalConfService {
   }
 
   //obtiene objeto de la hora propuesta para el mes year month
-  getHoraPropuestas(year, month) {
+  getHoraPropuestas(year, month, tipo) {
     if(Number(month)<10) month = "0" + month;
 
     let valor; 
@@ -113,7 +125,7 @@ export class MantoInformeSemanalConfService {
 
   //---------------------- horas Utilizadas
   //obtiene los años en los que hay horas utilizadas
-  getHorasUtilizadasYears(){    
+  getHorasUtilizadasYears(tipo){    
     
       let currentYear;
       this.horasUtilizadasOriginal.forEach(element => {
@@ -138,7 +150,7 @@ export class MantoInformeSemanalConfService {
   }
 
   //obtiene horas utilizadas para el mes year month
-  getHorasUtilizadasValor(year, month) {
+  getHorasUtilizadasValor(year, month, tipo) {
     if(Number(month)<10) month = "0" + month;
 
     let valor = 0; 
@@ -158,7 +170,7 @@ export class MantoInformeSemanalConfService {
   }
 
   //obtiene objeto de la hora utilizada para el mes year month
-  getHoraUtilizadas(year, month) {
+  getHoraUtilizadas(year, month, tipo) {
     if(Number(month)<10) month = "0" + month;
 
     let valor; 
@@ -178,7 +190,7 @@ export class MantoInformeSemanalConfService {
   }
 
   //retorna true si no hay valor para year month
-  validarAgregar(isUtilizada: boolean, year, month): boolean{
+  validarAgregar(isUtilizada: boolean, year, month, tipo): boolean{
     let disponible = true;
     let arreglo;
 
@@ -195,5 +207,74 @@ export class MantoInformeSemanalConfService {
     });
 
     return disponible;
+  }
+
+
+
+
+
+
+
+  //recibe toda la data almacenada (horas propuestas y utilizadas historicas)
+  setDataCOriginal(data){
+    this.horasCOriginal = []; 
+    this.horasCOriginal = data;
+  }
+
+  //obtiene objeto de la hora para el mes year month
+  getHoraC(year, month) {
+    let valor; 
+
+    this.horasCOriginal.forEach(element => {
+      if(month==element.month && year==element.year) {
+        valor = element;
+      }
+    });
+
+    let horaC = {
+      year: year,
+      month: month,
+      utilizadas: 0,
+      anteriores: 0,
+      propuestas: 0
+    }
+
+    if(valor) return valor;
+    else return horaC;
+  }
+
+  //obtiene los años disponibles para la data actual
+  getHorasCYears(){
+    this.horasCYears = []; 
+    
+    let currentYear;
+    this.horasCOriginal.forEach(element => {
+      currentYear = element.year;
+      if(this.horasCYears.indexOf(currentYear) == -1){
+        this.horasCYears.push(currentYear);
+      }
+    });
+
+    this.horasCYears.sort((a, b) => {
+      if (a < b) {
+        return -1;
+      }
+      if (a > b) {
+        return 1;
+      }
+      return 0;
+    });
+    
+    return this.horasCYears;
+  }
+
+  //true si el documento existe
+  existeHoraC(year, month){
+    let existe = false;
+
+    this.horasCOriginal.forEach(element => {
+      if(element.year == year && element.month == month) existe = true;
+    });
+    return existe;
   }
 }

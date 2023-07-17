@@ -20,30 +20,54 @@
             </tr>
             <tr>
                 <th class="small font-weight-bold text-light" scope="col">Mes</th>
-                <th class="small font-weight-bold text-light" scope="col">HH Presupuestadas</th>
                 <th class="small font-weight-bold text-light" scope="col">HH Utilizadas</th>
-                <th class="small font-weight-bold text-light" scope="col">HH Disponibles</th>
-                <th class="small font-weight-bold text-light" scope="col">HH Excedidas</th>
+                <th class="small font-weight-bold text-light" scope="col">HH Mes anterior</th>
+                <th class="small font-weight-bold text-light" scope="col">HH Presupuestadas</th>
+                <th class="small font-weight-bold text-light" scope="col">Diferencia HH</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let mes of mantoInformeSemanalConfService.getMonthNames(); let i=index">
                 <td class="small">{{mes}}</td>
+                
+                <td *ngIf="(i+1)!=monthInforme; else utilizadasActual" class="small">
+                    {{totales[i+1]['utilizadas']}}
+                </td>
+                <ng-template #utilizadasActual>
+                    <td class="small">
+                        <input type="number" class="form-control" value="{{totales[i+1]['utilizadas']}}" id="inputUtilizadasActual" (change)="cambioActual('utilizadas');" readonly />
+                    </td>
+                </ng-template>
+
+                <td *ngIf="(i+1)!=monthInforme; else anterioresActual" class="small">
+                    {{totales[i+1]['anteriores']}}
+                </td>
+                <ng-template #anterioresActual>
+                    <td class="small">
+                        <input type="number" class="form-control" value="{{totales[i+1]['anteriores']}}" id="inputAnterioresActual" (change)="cambioActual('anterior');" />
+                    </td>
+                </ng-template>
+
                 <td class="small">{{totales[i+1]['propuestas']}}</td>
-                <td class="small">{{totales[i+1]['utilizadas']}}</td>
-                <td class="small">{{totales[i+1]['disponibles']}}</td>
-                <td class="small">{{totales[i+1]['excedidas']}}</td>
+
+                <td *ngIf="(i+1)!=monthInforme; else diferenciaActual" class="small">
+                    {{totales[i+1]['diferencia']}}
+                </td>
+                <ng-template #diferenciaActual>
+                    <td class="small">
+                        <input type="number" class="form-control" value="{{totales[i+1]['diferencia']}}" id="inputDiferenciaActual" (change)="cambioActual('diferencia');" readonly />
+                    </td>
+                </ng-template>
+
             </tr>
             <tr >
                 <th>Total</th>
+                <th><span id="totalUtilizadas">{{sumas['utilizadas']}}</span></th>
+                <th></th>
                 <th>{{sumas['propuestas']}}</th>
-                <th>{{sumas['utilizadas']}}</th>
-                <th>{{sumas['disponibles']}}</th>
-                <th>{{sumas['excedidas']}}</th>
-
+                <th></th>
             </tr>
         </tbody>
-
     </table>
 
     <hr>
@@ -54,10 +78,10 @@
            <img
            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABK0lEQVRIx+2UvUpDMRiGn6hQ/NucRHQT2sFJcOgViKB34Sh4Ed6Ag6u4CIKzToIiblZwc9GlXRxE/KGCYB8HoxyqR05az+a7hITkffIm+QL/SpG6pLbsXU11MesZugBNYKrPfTZDCNN5AP/iJEIIX74DCes2gTngOgWWAtgHqkCjLMAYcAJMlAWohhBugVpZgMHYXqYAir6iDjAL1CPgDBjNNe3hFR0CFWCbjzpZAe6BJ+CxcJyc6uyo8+qW+qIeqONqJbaTak29+1yQ9RwqwN0BLoAZYDcmWAfOgePY7wBvqQme1TV1WN1Q2z+ka6tX6kN2sMglvwLLwAJwChx1z/1N2UvOO6IGcBNj76WYf4PlJOjEXdeBkWTTTILSv+vuOlgFWv2YR49/Fdc7ntsGSiB6CfMAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjAtMDctMDdUMTc6MTM6MjIrMDA6MDCkJIB1AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIwLTA3LTA3VDE3OjEzOjIyKzAwOjAw1Xk4yQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
            alt="">
-       </button>&nbsp;
+       </button>
    </div>
 
-   <hr>
+    <hr>
 
     <div class="col-sm-12 derecha">
         <button class="btn waves-effect waves-light btn-rounded btn-danger" (click)="generateExcel()">
@@ -118,4 +142,5 @@
             </div>
         </div>
     </div>
+
 </div>
