@@ -56,4 +56,49 @@ export class MantoInformeSemanalJspdfService {
 
       doc.save(filename);
   }
+
+
+  generaPDFComercial(month, year, chartData, tblData, barraData){
+    let doc = new jsPDF({
+      orientation: "l",
+      unit: "mm",
+      format: [150, 240]
+    });
+
+    doc.addImage(this.logo, 'png', 192, 8, 36, 8);
+
+    //Consumo de Horas Mantenimiento  
+    doc.setFontSize(16);
+    doc.setFont(undefined, 'bold');
+    doc.setTextColor(0, 0, 0);
+    const tituloInforme = "Consumo de Horas Mantenimiento " + this.monthNames[Number(month-1)] + " de " + year;
+    doc.text(10, 12, tituloInforme);
+
+    //gráfico pie
+    doc.addImage(chartData, 'PNG', 6, 24, 100, 100);
+
+    //gráfico barra
+    doc.addImage(barraData, 'PNG', 107, 24, 120, 100);
+
+    //página 2
+    doc.addPage();
+
+    doc.addImage(this.logo, 'png', 192, 8, 36, 8);
+
+    //Consumo de Horas Mantenimiento  
+    doc.setFontSize(16);
+    doc.setFont(undefined, 'bold');
+    doc.setTextColor(0, 0, 0);
+    doc.text(10, 12, tituloInforme);
+
+    //tabla
+    doc.addImage(tblData, 'PNG', 6, 18, 158, 126);
+   
+    let filename = 'Informe Semanal BC '
+        + year 
+        + month 
+        + '.pdf';
+
+      doc.save(filename);
+  }
 }

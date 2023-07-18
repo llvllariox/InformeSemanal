@@ -401,8 +401,6 @@ export class SlaComponent implements OnInit {
 
       this.jsonDataService.setJsonDataSolPI1Service(jsonDataSolArray);
       this.jsonDataService.setJsonDataSolPI2Service(jsonDataSolArray);
-
-      console.log(jsonDataSolArray);
     }
 
  guardar() {

@@ -34,6 +34,8 @@ import { InformeSemanalConfupdComponent } from './components/manto/informe-seman
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { InformeSemanalGeneracionComercialComponent } from './components/manto/informe-semanal-generacion-comercial/informe-semanal-generacion-comercial.component';
+import { InformeSemanalConfComercialComponent } from './components/manto/informe-semanal-conf-comercial/informe-semanal-conf-comercial.component';
 
 // import { DatePipe } from '@angular/common';
 
@@ -65,6 +67,8 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     InformeSemanalGeneracionComponent,
     InformeSemanalConfComponent,
     InformeSemanalConfupdComponent,
+    InformeSemanalGeneracionComercialComponent,
+    InformeSemanalConfComercialComponent,
   ],
   imports: [
     BrowserModule,

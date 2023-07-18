@@ -5,9 +5,7 @@ import Hora from '../../../model/hora.interface';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
 import { Router } from '@angular/router';
-import { Observable} from 'rxjs';
-
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-informe-semanal-conf',
@@ -26,6 +24,8 @@ export class InformeSemanalConfComponent implements OnInit {
 
   esPosibleBorrarModificar = false;
 
+  subscription: Subscription;
+
   constructor(
               public mantoInformeSemanalConfService: MantoInformeSemanalConfService,
               public mantoInformeSemanalFirebaseService: MantoInformeSemanalFirebaseService,
@@ -41,11 +41,10 @@ export class InformeSemanalConfComponent implements OnInit {
              }
  
   ngOnInit(): void {
-    this.mantoInformeSemanalFirebaseService.getHoras().subscribe(MantoHoras => {
+    this.subscription = this.mantoInformeSemanalFirebaseService.getHoras('transaccional').subscribe(MantoHoras => {
+      console.log("init conf transaccional");
       this.horas = MantoHoras;
-      console.log("this horas conf");
-      //console.log(this.horas);
-      this.mantoInformeSemanalConfService.setDataOriginal(this.horas);
+      this.mantoInformeSemanalConfService.setDataOriginal(this.horas, 'transaccional');
 
       let hoy = new Date();
       const currentDate = hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0');  
@@ -60,7 +59,11 @@ export class InformeSemanalConfComponent implements OnInit {
 
       this.esPosibleBorrarModificar = true;
     });
-  } 
+  }
+  
+  ngOnDestroy(){
+    this.subscription.unsubscribe;
+  }
 
   //crea el formulario
   crearFormulario() {
@@ -82,11 +85,11 @@ export class InformeSemanalConfComponent implements OnInit {
       let tipo;
       if(isUtilizada){
         tipo = "Utilizadas";
-        hora = this.mantoInformeSemanalConfService.getHoraUtilizadas(year, month);
+        hora = this.mantoInformeSemanalConfService.getHoraUtilizadas(year, month, "transaccional");
       }
       else {
         tipo = "Propuestas";
-        hora = this.mantoInformeSemanalConfService.getHoraPropuestas(year, month);
+        hora = this.mantoInformeSemanalConfService.getHoraPropuestas(year, month, "transaccional");
       }
       
       this.sweetAlerService.mensajeConfirmacion("Modificar Hora", "Seguro que desea modificar la hora?").then(
@@ -118,8 +121,8 @@ export class InformeSemanalConfComponent implements OnInit {
     if(this.esPosibleBorrarModificar){
       
       let hora;
-      if(isUtilizada) hora = this.mantoInformeSemanalConfService.getHoraUtilizadas(year, month);
-      else hora = this.mantoInformeSemanalConfService.getHoraPropuestas(year, month);
+      if(isUtilizada) hora = this.mantoInformeSemanalConfService.getHoraUtilizadas(year, month, "transaccional");
+      else hora = this.mantoInformeSemanalConfService.getHoraPropuestas(year, month, "transaccional");
       
       this.sweetAlerService.mensajeConfirmacion("Borrar Hora", "Seguro que desea borrar la hora?").then(
 
@@ -157,7 +160,7 @@ export class InformeSemanalConfComponent implements OnInit {
         isUtilizada: false 
       }
 
-      if(this.mantoInformeSemanalConfService.validarAgregar(false, year, month)){
+      if(this.mantoInformeSemanalConfService.validarAgregar(false, year, month, "transaccional")){
         const response = await this.mantoInformeSemanalFirebaseService.addHora(hora);
         console.log("agrregar: ");
         console.log(response);
@@ -198,7 +201,7 @@ export class InformeSemanalConfComponent implements OnInit {
         isUtilizada: true 
       }
 
-      if(this.mantoInformeSemanalConfService.validarAgregar(true, year, month)){
+      if(this.mantoInformeSemanalConfService.validarAgregar(true, year, month, "transaccional")){
         const response = await this.mantoInformeSemanalFirebaseService.addHora(hora);
         console.log(response);
 
@@ -256,7 +259,7 @@ export class InformeSemanalConfComponent implements OnInit {
     let horaIniFebrero = {
       year: 2023,
       month: 2,
-      valor: 1266,
+      valor: 1373,
       isUtilizada: true
     }
     this.mantoInformeSemanalFirebaseService.addHora(horaIniFebrero);
@@ -280,7 +283,7 @@ export class InformeSemanalConfComponent implements OnInit {
     let horaIniMayo = {
       year: 2023,
       month: 5,
-      valor: 1193,
+      valor: 1417,
       isUtilizada: true
     }
     this.mantoInformeSemanalFirebaseService.addHora(horaIniMayo);

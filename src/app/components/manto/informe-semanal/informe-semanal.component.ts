@@ -26,7 +26,7 @@ export class InformeSemanalComponent implements OnInit {
               private router: Router
              ) { 
                 this.crearFormulario();
-                
+        
                 let hoy = new Date();
                 const currentDate = hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0');  
                 this.fechaMin = '2015-01';
@@ -87,7 +87,10 @@ export class InformeSemanalComponent implements OnInit {
   /*
     Tipo Contrato	= Mantenimiento
     Línea de Servicio sin Capacity Service ni General
-    Grupo de Trabajo Asignado = Mantenimiento - Keyciren Trigo
+   
+    ambos
+    comercial -> Grupo de Trabajo Asignado = Mantenimiento - Carlos Navarro
+    transaccional -> Grupo de Trabajo Asignado = Mantenimiento - Keyciren Trigo
 
     Bloque o descripcion sin sobreesfuerzo
     descipción tarea sin retrabajo
@@ -102,16 +105,20 @@ export class InformeSemanalComponent implements OnInit {
     });
 
     jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.grupoDeTrabajoAsignado === 'Mantenimiento - Keyciren Trigo';
+      return a.grupoDeTrabajoAsignado === 'Mantenimiento - Carlos Navarro' 
+      || a.grupoDeTrabajoAsignado === 'Mantenimiento - Keyciren Trigo';
     });
 
+    let sobreesfuerzo = "SOBREESFUERZO";
+    
     jsonDataReqArray = jsonDataReqArray.filter(a => {
+      let bloque = a.bloque.toUpperCase();
+      let descripcion = a.descripcion.toUpperCase();
+
       return !(
-                a.bloque.includes('sobresfuerzo')
-                || a.bloque.includes('Sobresfuerzo')
-                || a.descripcion.includes('sobresfuerzo')
-                || a.descripcion.includes('Sobresfuerzo')
-              )
+                bloque.includes(sobreesfuerzo)
+                || descripcion.includes(sobreesfuerzo)
+      )
     });
 
     jsonDataReqArray = jsonDataReqArray.filter(a => {
@@ -121,7 +128,9 @@ export class InformeSemanalComponent implements OnInit {
               )
     });
 
-    this.mantoInformeSemanalService.setJsonDataMantoInformeSemanal(jsonDataReqArray);
+    this.jsonDataHoras = jsonDataReqArray;
+    
+    //this.mantoInformeSemanalService.setJsonDataMantoInformeSemanal(jsonDataReqArray);
   }
 
   //genera el informe
@@ -142,25 +151,43 @@ export class InformeSemanalComponent implements OnInit {
         }
       });
     } else {
+        if (this.jsonDataHoras == null) {
+          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a horas');
+          return;
+        }
+
+        if (this.jsonDataHoras == null) {
+          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a horas');
+          return;
+        }
+
+        //se filtra por comercial o transaccional
+        let arrayJSON = this.jsonDataHoras;
+        if(this.formulario.value.tipo=='comercial'){
+          arrayJSON = arrayJSON.filter(a => {
+            return a.grupoDeTrabajoAsignado === 'Mantenimiento - Carlos Navarro';
+          });
+        } else if(this.formulario.value.tipo=='transaccional'){
+          arrayJSON = arrayJSON.filter(a => {
+            return a.grupoDeTrabajoAsignado === 'Mantenimiento - Keyciren Trigo';
+          });
+        }
+        this.mantoInformeSemanalService.setJsonDataMantoInformeSemanal(arrayJSON);
+        this.mantoInformeSemanalService.setTipo(this.formulario.value.tipo);
         this.mantoInformeSemanalService.setFechaInforme(this.formulario.value.fecha);
-
-        if (this.jsonDataHoras == null) {
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a horas');
-          return;
-        }
-
-        if (this.jsonDataHoras == null) {
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a horas');
-          return;
-        }
-
+        
         this.sweetAlerService.mensajeOK('Informe semanal generado exitosamente').then(          
           resp => {
             if (resp.value) {
               //borramos campos que no se necesitan
               this.formulario.value.horas = null;
 
-              this.router.navigateByUrl('/manto-informe-semanal-generar');
+              //se muestra un componente dependiendo el tipo
+              if(this.formulario.value.tipo=='comercial'){
+                this.router.navigateByUrl('/manto-informe-semanal-generar-comercial');
+              } else if(this.formulario.value.tipo=='transaccional'){
+                this.router.navigateByUrl('/manto-informe-semanal-generar');
+              }
             }
           }
         );
@@ -172,6 +199,7 @@ export class InformeSemanalComponent implements OnInit {
     this.formulario = this.formBuilder.group({
         horas : ['', [Validators.required]],
         fecha : ['', [Validators.required]],
+        tipo: ['comercial'],
       });
   }
 
@@ -210,6 +238,10 @@ export class InformeSemanalComponent implements OnInit {
         break;
       }
     }
+ }
+
+ changeTipo(tipo){
+  console.log(tipo);
  }
 
   get horasNoValido() {

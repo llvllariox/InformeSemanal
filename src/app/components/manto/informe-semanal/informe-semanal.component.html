@@ -29,7 +29,21 @@
                         <small>ARS -> Exportaciones -> Horas Nuevo -> Incurridas</small>
                     </div>
                 </div>
-           
+
+                <div class="row">
+                    <div class="col">
+                        <input id="comercial" type="radio" class="custom-control-input" value="comercial" name="tipo" formControlName="tipo" (click)="changeTipo('comercial')">
+                        <label class="custom-control-label" for="comercial">Comercial</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <input id="transaccional" type="radio" class="custom-control-input" value="transaccional" name="tipo" formControlName="tipo" (click)="changeTipo('transaccional')">
+                        <label class="custom-control-label" for="transaccional">Transaccional</label>
+                    </div>
+                </div>
+
                 <div class="row my-3 mt-5">
                     <div class="col">
                         <button class="btn btn-primary btn-block" type="submit">Generar</button>
