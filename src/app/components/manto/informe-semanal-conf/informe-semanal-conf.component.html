@@ -3,7 +3,7 @@
 
     <div class="accordion" id="accordionTablaHorasPropuestas">
             
-        <div class="card"*ngFor="let year of mantoInformeSemanalConfService.getHorasPropuestasYears()" >
+        <div class="card"*ngFor="let year of mantoInformeSemanalConfService.getHorasPropuestasYears('transaccional')" >
             <div class="card-header" id="headingTablaHoras{{year}}">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" attr.data-target="#collapseTablaHoras{{year}}" aria-expanded="false" attr.aria-controls="collapseTablaHoras{{year}}">
@@ -26,15 +26,15 @@
                             <tr *ngFor="let mes of mantoInformeSemanalConfService.getMonthNames(); let i=index">
                                 <td class="small">{{mes}}</td>
                                 <td class="small">
-                                    <div *ngIf="mantoInformeSemanalConfService.getHorasPropuestasValor(year, i+1) > 0; else noValorHoraPropuesta">
-                                        <input type="number" class="form-control" value="{{mantoInformeSemanalConfService.getHorasPropuestasValor(year, i+1)}}" id="inputHoraPropuestas{{year}}{{i+1}}" />
+                                    <div *ngIf="mantoInformeSemanalConfService.getHorasPropuestasValor(year, i+1, 'transaccional') > 0; else noValorHoraPropuesta">
+                                        <input type="number" class="form-control" value="{{mantoInformeSemanalConfService.getHorasPropuestasValor(year, i+1, 'transaccional')}}" id="inputHoraPropuestas{{year}}{{i+1}}" />
                                     </div>
                                     <ng-template #noValorHoraPropuesta>
                                            0
                                     </ng-template>
                                 </td>
                                 <td class="MantoHorasConfAcciones">
-                                    <div *ngIf="mantoInformeSemanalConfService.getHorasPropuestasValor(year, i+1) > 0">
+                                    <div *ngIf="mantoInformeSemanalConfService.getHorasPropuestasValor(year, i+1, 'transaccional') > 0">
                                         <button class="btn" type="button" (click)="modificarHora(year, i+1, false)">
                                             <i class="fas fa-undo"></i>
                                         </button>
@@ -42,7 +42,7 @@
                                 </td>
                                 
                                 <td class="MantoHorasConfAcciones">
-                                    <div *ngIf="mantoInformeSemanalConfService.getHorasPropuestasValor(year, i+1) > 0">       
+                                    <div *ngIf="mantoInformeSemanalConfService.getHorasPropuestasValor(year, i+1, 'transaccional') > 0">       
                                         <button class="btn" type="button" (click)="borrarHora(year, i+1, false)">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
@@ -104,7 +104,7 @@
     <h3>Horas utilizadas históricas</h3>
 
     <div class="accordion" id="accordionTablaHistorica">            
-        <div class="card"*ngFor="let year of mantoInformeSemanalConfService.getHorasUtilizadasYears()" >
+        <div class="card"*ngFor="let year of mantoInformeSemanalConfService.getHorasUtilizadasYears('transaccional')" >
             <div class="card-header" id="headingTablaHistorica{{year}}">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" attr.data-target="#collapseTablaHistorica{{year}}" aria-expanded="false" attr.aria-controls="collapseTablaHistorica{{year}}">
@@ -126,15 +126,15 @@
                             <tr *ngFor="let mes of mantoInformeSemanalConfService.getMonthNames(); let i=index">
                                 <td class="small">{{mes}}</td>
                                 <td class="small">
-                                    <div *ngIf="mantoInformeSemanalConfService.getHorasUtilizadasValor(year, i+1) > 0; else noValorHoraUtilizada">
-                                        <input id="inputHoraUtilizadas{{year}}{{i+1}}" type="number" class="form-control" value="{{mantoInformeSemanalConfService.getHorasUtilizadasValor(year, i+1)}}" />
+                                    <div *ngIf="mantoInformeSemanalConfService.getHorasUtilizadasValor(year, i+1, 'transaccional') > 0; else noValorHoraUtilizada">
+                                        <input id="inputHoraUtilizadas{{year}}{{i+1}}" type="number" class="form-control" value="{{mantoInformeSemanalConfService.getHorasUtilizadasValor(year, i+1, 'transaccional')}}" />
                                     </div>
                                     <ng-template #noValorHoraUtilizada>
                                            0
                                     </ng-template>
                                 </td>
                                 <td class="MantoHorasConfAcciones">
-                                    <div *ngIf="mantoInformeSemanalConfService.getHorasUtilizadasValor(year, i+1) > 0">
+                                    <div *ngIf="mantoInformeSemanalConfService.getHorasUtilizadasValor(year, i+1, 'transaccional') > 0">
                                         <button class="btn" type="button" (click)="modificarHora(year, i+1, true)">
                                             <i class="fas fa-undo"></i>
                                         </button>
@@ -142,7 +142,7 @@
                                 </td>
                                 
                                 <td class="MantoHorasConfAcciones">
-                                    <div *ngIf="mantoInformeSemanalConfService.getHorasUtilizadasValor(year, i+1) > 0">
+                                    <div *ngIf="mantoInformeSemanalConfService.getHorasUtilizadasValor(year, i+1, 'transaccional') > 0">
                                         <button class="btn" type="button" (click)="borrarHora(year, i+1, true)">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>

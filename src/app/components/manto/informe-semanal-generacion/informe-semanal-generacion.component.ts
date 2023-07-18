@@ -9,7 +9,7 @@ import { MantoInformeSemanalJspdfService } from '../../../services/manto-informe
 import html2canvas from 'html2canvas';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
-import { Observable} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-informe-semanal-generacion',
@@ -38,7 +38,7 @@ export class InformeSemanalGeneracionComponent implements OnInit {
   public chart: any;
   public chartBarra: any;
 
-  obs;
+  subscription: Subscription;
 
   @ViewChild('MyChart', {static:false}) el!: ElementRef;
   @ViewChild('MyChartBarra', {static:false}) elBarra!: ElementRef;
@@ -51,7 +51,7 @@ export class InformeSemanalGeneracionComponent implements OnInit {
               public mantoInformeSemanalFirebaseService: MantoInformeSemanalFirebaseService,
               public pdfService: MantoInformeSemanalJspdfService
   ) {
-    
+
     for (let i = 1; i <= 12; i++) {
       this.totales[i] = [];
     }
@@ -59,6 +59,8 @@ export class InformeSemanalGeneracionComponent implements OnInit {
     this.detalleExcel = [];
 
     this.jsonArrayHoras = this.mantoInformeSemanalService.getJsonDataMantoInformeSemanal();
+    //console.log(this.jsonArrayHoras);
+
     this.getDetalleExcel();
    
     let fechaInforme = this.mantoInformeSemanalService.getFechaInforme();
@@ -88,7 +90,6 @@ export class InformeSemanalGeneracionComponent implements OnInit {
       }
     });
 
-    
     this.barras['GEST'] = Math.round(this.barras['GEST']);
     this.barras['INC'] = Math.round(this.barras['INC']);
     this.barras['MJR'] = Math.round(this.barras['MJR']);
@@ -97,12 +98,10 @@ export class InformeSemanalGeneracionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.obs = this.mantoInformeSemanalFirebaseService.getHoras();
-
-    this.obs.subscribe(MantoHoras => {
+    this.subscription = this.mantoInformeSemanalFirebaseService.getHoras("transaccional").subscribe(MantoHoras => {
       console.log("this generar");
       this.horas = MantoHoras;
-      this.mantoInformeSemanalConfService.setDataOriginal(this.horas);
+      this.mantoInformeSemanalConfService.setDataOriginal(this.horas, "transaccional");
       
       //obtenemos las horas propuestas, utilizadas, disponibles y excedidas para cada mes
       //antes del mes del informe
@@ -110,10 +109,10 @@ export class InformeSemanalGeneracionComponent implements OnInit {
         this.totales[i] = [];
 
         //propuestas
-        this.totales[i]['propuestas'] = this.mantoInformeSemanalConfService.getHorasPropuestasValor(this.yearInforme, i);
+        this.totales[i]['propuestas'] = this.mantoInformeSemanalConfService.getHorasPropuestasValor(this.yearInforme, i, "transaccional");
 
         //utilizadas
-        this.totales[i]['utilizadas'] = this.mantoInformeSemanalConfService.getHorasUtilizadasValor(Number(this.yearInforme), i);
+        this.totales[i]['utilizadas'] = this.mantoInformeSemanalConfService.getHorasUtilizadasValor(Number(this.yearInforme), i, "transaccional");
 
         //disponibles
         this.totales[i]['disponibles'] = this.totales[i]['propuestas'] - this.totales[i]['utilizadas'];
@@ -130,7 +129,7 @@ export class InformeSemanalGeneracionComponent implements OnInit {
       this.totales[Number(this.monthInforme)] = [];
       
       ///propuestas
-      this.totales[Number(this.monthInforme)]['propuestas'] = this.mantoInformeSemanalConfService.getHorasPropuestasValor(this.yearInforme, Number(this.monthInforme));
+      this.totales[Number(this.monthInforme)]['propuestas'] = this.mantoInformeSemanalConfService.getHorasPropuestasValor(this.yearInforme, Number(this.monthInforme), "transaccional");
       
       //utilizadas
       this.totales[Number(this.monthInforme)]['utilizadas'] = 0;
@@ -156,7 +155,7 @@ export class InformeSemanalGeneracionComponent implements OnInit {
       for (let i = Number(this.monthInforme)+1; i <= 12; i++) {
         this.totales[i] = [];
         //propuestas
-        this.totales[i]['propuestas'] = this.mantoInformeSemanalConfService.getHorasPropuestasValor(this.yearInforme, i);
+        this.totales[i]['propuestas'] = this.mantoInformeSemanalConfService.getHorasPropuestasValor(this.yearInforme, i, "transaccional");
 
         //utilizadas
         //disponibles
@@ -174,6 +173,10 @@ export class InformeSemanalGeneracionComponent implements OnInit {
 
     //this.obs.unsubscribe();
   }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe;
+  }  
 
   //asigna las variables correspondientes a la suma de todos los meses
   getSuma(){

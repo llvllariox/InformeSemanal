@@ -23,7 +23,9 @@ import { FechasGeneracionComponent } from './components/fechas-generacion/fechas
 
 import { InformeSemanalComponent } from './components/manto/informe-semanal/informe-semanal.component';
 import { InformeSemanalGeneracionComponent } from './components/manto/informe-semanal-generacion/informe-semanal-generacion.component';
+import { InformeSemanalGeneracionComercialComponent } from './components/manto/informe-semanal-generacion-comercial/informe-semanal-generacion-comercial.component';
 import { InformeSemanalConfComponent } from './components/manto/informe-semanal-conf/informe-semanal-conf.component';
+import { InformeSemanalConfComercialComponent } from './components/manto/informe-semanal-conf-comercial/informe-semanal-conf-comercial.component';
 import { InformeSemanalConfupdComponent } from './components/manto/informe-semanal-confupd/informe-semanal-confupd.component';
 
 const routes: Routes = [
@@ -53,7 +55,9 @@ const routes: Routes = [
 
   { path: 'manto-informe-semanal', component: InformeSemanalComponent },
   { path: 'manto-informe-semanal-generar', component: InformeSemanalGeneracionComponent },
+  { path: 'manto-informe-semanal-generar-comercial', component: InformeSemanalGeneracionComercialComponent },
   { path: 'manto-informe-semanal-conf', component: InformeSemanalConfComponent },
+  { path: 'manto-informe-semanal-conf-comercial', component: InformeSemanalConfComercialComponent },
   { path: 'manto-informe-semanal-confupd', component: InformeSemanalConfupdComponent },
 
   { path: '', pathMatch: 'full', redirectTo: '' },
