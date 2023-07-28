@@ -5,6 +5,8 @@ import { SweetAlertService } from '../../services/sweet-alert.service';
 import { SlaJspdfService } from '../../services/sla-jspdf.service';
 import { FeriadosChileService } from '../../services/feriados-chile.service';
 import { SlaFormularioService } from '../../services/sla-formulario.service';
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
 
 @Component({
   selector: 'app-sla-generar',
@@ -773,5 +775,147 @@ validarFechaVaciaRegla(fecha: String){
   } else {
     document.getElementById('p_minimo').style.display = "none";
   }
+ }
+
+ //genera el excel con ARS a corregir
+ generateCorregirExcel(){
+  let workbook = new Workbook();
+
+  let worksheet1 = workbook.addWorksheet('Corregir ARS proyecto');
+  if(this.JsonArrayVaciosProyecto.length>0){
+
+    // Se establecen anchos de las columnas
+    worksheet1.getColumn(1).width = 20;
+    worksheet1.getColumn(2).width = 30;
+    worksheet1.getColumn(3).width = 30;
+    worksheet1.getColumn(4).width = 100;
+
+    const headerProyecto = [
+      'Número REQ',
+      'Responsable',
+      'Indicador',
+      'Campos'
+    ];
+
+    let headerProyectoRow = worksheet1.addRow(headerProyecto);
+
+    // Cell Style : Fill and Border
+    headerProyectoRow.eachCell((cell, number) => {
+      cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'ff4f81bd' },
+          bgColor: { argb: '	ff4f81bd' },
+      };
+    
+      cell.border = { 
+        top: { style: 'thin' }, 
+        left: { style: 'thin' }, 
+        bottom: { style: 'thin' }, 
+        right: { style: 'thin' }
+      };
+    
+      cell.font = {
+        color: {argb: 'FFFFFF'},
+        bold: true,
+        italic: true
+      };
+  
+      cell.alignment = {
+        vertical: 'middle',
+        horizontal: 'center'
+      };
+    });
+
+    headerProyectoRow.height = 40;
+
+    let newRow; 
+    this.JsonArrayVaciosProyecto.forEach(element => {
+       newRow = [
+        element['nroReq'], 
+        element['responsable'],
+        element['indicador'],
+        element['campos']
+      ];
+      worksheet1.addRow(newRow);  
+    });
+
+
+  } else {
+    worksheet1.addRow(['No se encontró data.']); 
+  }
+
+  let worksheet2 = workbook.addWorksheet('Corregir ARS mantenimiento');
+  if(this.JsonArrayVaciosMantenimiento.length>0){
+
+     // Se establecen anchos de las columnas
+     worksheet2.getColumn(1).width = 20;
+     worksheet2.getColumn(2).width = 30;
+     worksheet2.getColumn(3).width = 30;
+     worksheet2.getColumn(4).width = 100;
+ 
+     const headerMantenimiento = [
+       'Número REQ',
+       'Responsable',
+       'Indicador',
+       'Campos'
+     ];
+ 
+     let headerMantenimientoRow = worksheet2.addRow(headerMantenimiento);
+ 
+     // Cell Style : Fill and Border
+     headerMantenimientoRow.eachCell((cell, number) => {
+       cell.fill = {
+           type: 'pattern',
+           pattern: 'solid',
+           fgColor: { argb: 'ff4f81bd' },
+           bgColor: { argb: '	ff4f81bd' },
+       };
+     
+       cell.border = { 
+         top: { style: 'thin' }, 
+         left: { style: 'thin' }, 
+         bottom: { style: 'thin' }, 
+         right: { style: 'thin' }
+       };
+     
+       cell.font = {
+         color: {argb: 'FFFFFF'},
+         bold: true,
+         italic: true
+       };
+   
+       cell.alignment = {
+         vertical: 'middle',
+         horizontal: 'center'
+       };
+     });
+ 
+     headerMantenimientoRow.height = 40;
+ 
+     let newRow; 
+     this.JsonArrayVaciosMantenimiento.forEach(element => {
+        newRow = [
+         element['nroReq'], 
+         element['responsable'],
+         element['indicador'],
+         element['campos']
+       ];
+       worksheet2.addRow(newRow);  
+     });
+  } else {
+    worksheet2.addRow(['No se encontró data.']); 
+  }
+
+  workbook.xlsx.writeBuffer().then((data) => {
+    let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    let filename = 'Corregir ';
+    filename += this.monthNames[this.fechaInformeDate.getMonth()];
+    filename += ' ';
+    filename +=  this.fechaInformeDate.getFullYear();   
+    filename += '.xlsx';
+
+    fs.saveAs(blob, filename);
+  });
  }
 }
