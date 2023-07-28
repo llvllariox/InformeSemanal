@@ -1,0 +1,100 @@
+<div class="container">
+    <div id="formulario">
+        
+        <div class="row my-3">
+            <div class="col-12 col-sm-8">
+                <small>ZH02</small>
+                <input type="file" class="form-control-file" (change)="agregarFile('ZH02', $event)" [attr.disabled]="estadoZH02">
+            </div>
+        </div>
+
+        <div class="row my-3">
+            <div class="col-12 col-sm-8">
+                <small>Reviewer Tracking Report</small>
+                <input type="file" class="form-control-file" (change)="agregarFile('Reviewer Tracking Report', $event)" [attr.disabled]="estadoReviewerTrackingReport">
+            </div>
+        </div>
+
+        <div class="row my-3">
+            <div class="col-12 col-sm-8">
+                <small>Resource Trend</small>
+                <input type="file" class="form-control-file" (change)="agregarFile('Resource Trend', $event)" [attr.disabled]="estadoResourceTrend">
+            </div>
+        </div>
+
+        <div class="row my-3">
+            <div class="col-12 col-sm-8">
+                <small>Forecasted Time Details</small>
+                <input type="file" class="form-control-file" (change)="agregarFile('Forecasted Time Details', $event)" [attr.disabled]="estadoForecastedTimeDetails">
+            </div>
+        </div>
+
+        <div class="row my-3">
+            <div class="col-12 col-sm-8">
+                <small>Authorization List Report</small>
+                <input type="file" class="form-control-file" (change)="agregarFile('Authorization List Report', $event)" [attr.disabled]="estadoAuthorizationListReport">
+            </div>
+        </div>
+
+        <div class="row my-3">
+            <div class="col-12 col-sm-8">
+                <small>Planilla completa</small>
+                <input type="file" class="form-control-file" (change)="agregarFile('Planilla completa', $event)" [attr.disabled]="estadoPlanillaCompleta">
+            </div>
+        </div>
+
+        <div class="switchDiv">
+            <label class="switch">
+                <input type="checkbox" (click)="filtro()" id="checkboxFiltro">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        
+
+        
+
+    </div>
+
+    <div id="tabla" class="table table-striped table-bordered">
+        <table>
+            <thead class="bg-dark">
+                <tr class="small font-weight-bold text-light">
+                    <th *ngFor="let cabecera of cabeceras; let i=index">
+                        {{cabecera}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="small">
+
+                <tr *ngFor="let fila of arreglo[archivos[0]]; let i=index" id="filtroOff" [style.display]="isFiltroOff ? 'table-row' : 'none'">
+                    <td *ngIf="archivos.length >= 1 ">{{ arreglo[archivos[0]][i] }}</td>
+                    <td *ngIf="archivos.length >= 2 ">{{ arreglo[archivos[1]][i] }}</td>
+                    <td *ngIf="archivos.length >= 3 ">{{ arreglo[archivos[2]][i] }}</td>
+                    <td *ngIf="archivos.length >= 4 ">{{ arreglo[archivos[3]][i] }}</td>
+                    <td *ngIf="archivos.length >= 5 ">{{ arreglo[archivos[4]][i] }}</td>
+                    <td *ngIf="archivos.length >= 6 ">{{ arreglo[archivos[5]][i] }}</td>
+                    <td *ngIf="archivos.length >= 7 ">{{ arreglo[archivos[6]][i] }}</td>
+                </tr>
+
+                <tr *ngFor="let fila of arregloWeb[archivos[0]]; let i=index" id="filtroOn" [style.display]="isFiltroOn ? 'table-row' : 'none'">
+                    <td *ngIf="archivos.length >= 1 ">{{ arregloWeb[archivos[0]][i] }}</td>
+                    <td *ngIf="archivos.length >= 2 ">{{ arregloWeb[archivos[1]][i] }}</td>
+                    <td *ngIf="archivos.length >= 3 ">{{ arregloWeb[archivos[2]][i] }}</td>
+                    <td *ngIf="archivos.length >= 4 ">{{ arregloWeb[archivos[3]][i] }}</td>
+                    <td *ngIf="archivos.length >= 5 ">{{ arregloWeb[archivos[4]][i] }}</td>
+                    <td *ngIf="archivos.length >= 6 ">{{ arregloWeb[archivos[5]][i] }}</td>
+                    <td *ngIf="archivos.length >= 7 ">{{ arregloWeb[archivos[6]][i] }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="col-sm-12 derecha" *ngIf="archivos.length > 0">
+            <br>
+            <button class="btn waves-effect waves-light btn-rounded btn-danger" (click)="generarExcel()">
+                Exportar detalles Excel 
+                <img src="../../../assets/images/file-excel-regular.png" style="width: 12px; height: 17px;" alt="">
+            </button>
+        </div>
+    </div>
+</div>
+

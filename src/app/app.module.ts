@@ -36,6 +36,7 @@ import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { InformeSemanalGeneracionComercialComponent } from './components/manto/informe-semanal-generacion-comercial/informe-semanal-generacion-comercial.component';
 import { InformeSemanalConfComercialComponent } from './components/manto/informe-semanal-conf-comercial/informe-semanal-conf-comercial.component';
+import { MyteMmeGeneracionComponent } from './components/mytemme/myte-mme-generacion/myte-mme-generacion.component';
 
 // import { DatePipe } from '@angular/common';
 
@@ -69,6 +70,7 @@ import { InformeSemanalConfComercialComponent } from './components/manto/informe
     InformeSemanalConfupdComponent,
     InformeSemanalGeneracionComercialComponent,
     InformeSemanalConfComercialComponent,
+    MyteMmeGeneracionComponent,
   ],
   imports: [
     BrowserModule,

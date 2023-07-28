@@ -28,6 +28,8 @@ import { InformeSemanalConfComponent } from './components/manto/informe-semanal-
 import { InformeSemanalConfComercialComponent } from './components/manto/informe-semanal-conf-comercial/informe-semanal-conf-comercial.component';
 import { InformeSemanalConfupdComponent } from './components/manto/informe-semanal-confupd/informe-semanal-confupd.component';
 
+import { MyteMmeGeneracionComponent } from './components/mytemme/myte-mme-generacion/myte-mme-generacion.component';
+
 const routes: Routes = [
   { path: '', component: GenerarInformeComponent},
   { path: 'informes/:segmento', component: InformesComponent },
@@ -59,6 +61,8 @@ const routes: Routes = [
   { path: 'manto-informe-semanal-conf', component: InformeSemanalConfComponent },
   { path: 'manto-informe-semanal-conf-comercial', component: InformeSemanalConfComercialComponent },
   { path: 'manto-informe-semanal-confupd', component: InformeSemanalConfupdComponent },
+
+  { path: 'myte-mme-generacion', component: MyteMmeGeneracionComponent },
 
   { path: '', pathMatch: 'full', redirectTo: '' },
   { path: '**', pathMatch: 'full', component: GenerarInformeComponent },
