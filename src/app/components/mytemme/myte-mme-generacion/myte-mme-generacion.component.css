@@ -1,5 +1,5 @@
 #formulario {
-    width: 320px;
+    width: 20%;
     position: fixed;
     z-index: 1;
     overflow-x: hidden;
@@ -11,9 +11,8 @@
 }
 
 #tabla {
-    margin-left: 320px;
-    overflow-x: auto;
-    width: auto;
+    margin-left: 260px;
+    width: 80%;
 }
 
 
@@ -83,4 +82,15 @@
   
   .slider.round:before {
     border-radius: 50%;
+  }
+
+
+
+  .headerFixed {
+    position: relative;
+  }
+
+  .headerFixed thead{
+    position: sticky;
+    top: 0;
   }

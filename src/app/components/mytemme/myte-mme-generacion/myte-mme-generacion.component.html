@@ -43,6 +43,13 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-12 col-sm-8">
+                <small>Revenues New AO</small>
+                <input type="file" class="form-control-file" (change)="agregarFile('Revenues New AO', $event)" [attr.disabled]="estadoRevenuesNewAO">
+            </div>
+        </div>
+
         <div class="switchDiv">
             <label class="switch">
                 <input type="checkbox" (click)="filtro()" id="checkboxFiltro">
@@ -56,7 +63,8 @@
     </div>
 
     <div id="tabla" class="table table-striped table-bordered">
-        <table>
+        
+        <table class="headerFixed">
             <thead class="bg-dark">
                 <tr class="small font-weight-bold text-light">
                     <th *ngFor="let cabecera of cabeceras; let i=index">
@@ -74,6 +82,7 @@
                     <td *ngIf="archivos.length >= 5 ">{{ arreglo[archivos[4]][i] }}</td>
                     <td *ngIf="archivos.length >= 6 ">{{ arreglo[archivos[5]][i] }}</td>
                     <td *ngIf="archivos.length >= 7 ">{{ arreglo[archivos[6]][i] }}</td>
+                    <td *ngIf="archivos.length >= 8 ">{{ arreglo[archivos[7]][i] }}</td>
                 </tr>
 
                 <tr *ngFor="let fila of arregloWeb[archivos[0]]; let i=index" id="filtroOn" [style.display]="isFiltroOn ? 'table-row' : 'none'">
@@ -84,9 +93,35 @@
                     <td *ngIf="archivos.length >= 5 ">{{ arregloWeb[archivos[4]][i] }}</td>
                     <td *ngIf="archivos.length >= 6 ">{{ arregloWeb[archivos[5]][i] }}</td>
                     <td *ngIf="archivos.length >= 7 ">{{ arregloWeb[archivos[6]][i] }}</td>
+                    <td *ngIf="archivos.length >= 8 ">{{ arregloWeb[archivos[7]][i] }}</td>
                 </tr>
             </tbody>
         </table>
+
+        <!--
+            <div class="row">
+              
+              <div class="col" *ngFor="let cabecera of cabeceras; let i=index">
+                {{cabecera}}
+              </div>
+
+              <div class="w-100"></div>
+              
+              <ng-container *ngFor="let fila of arreglo[archivos[0]]; let i=index" id="filtroOff" [style.display]="isFiltroOff ? 'table-row' : 'none'">
+                <div class="col" *ngIf="archivos.length >= 1 ">{{ arreglo[archivos[0]][i] }}</div>
+                <div class="col" *ngIf="archivos.length >= 2 ">{{ arreglo[archivos[1]][i] }}</div>
+                <div class="col" *ngIf="archivos.length >= 3 ">{{ arreglo[archivos[2]][i] }}</div>
+                <div class="col" *ngIf="archivos.length >= 4 ">{{ arreglo[archivos[3]][i] }}</div>
+                <div class="col" *ngIf="archivos.length >= 5 ">{{ arreglo[archivos[4]][i] }}</div>
+                <div class="col" *ngIf="archivos.length >= 6 ">{{ arreglo[archivos[5]][i] }}</div>
+                <div class="col" *ngIf="archivos.length >= 7 ">{{ arreglo[archivos[6]][i] }}</div>
+
+                <div class="w-100"></div>
+              </ng-container>
+            </div>
+        -->
+            
+         
 
         <div class="col-sm-12 derecha" *ngIf="archivos.length > 0">
             <br>
@@ -95,6 +130,7 @@
                 <img src="../../../assets/images/file-excel-regular.png" style="width: 12px; height: 17px;" alt="">
             </button>
         </div>
+
+        
     </div>
 </div>
-

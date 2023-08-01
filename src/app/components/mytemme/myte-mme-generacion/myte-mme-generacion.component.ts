@@ -31,6 +31,7 @@ export class MyteMmeGeneracionComponent implements OnInit {
   jsonForecastedTimeDetails = null;
   jsonAuthorizationListReport = null;
   jsonPlanillaCompleta = null;
+  jsonRevenuesNewAO = null;
 
   estadoZH02;
   estadoReviewerTrackingReport;
@@ -38,6 +39,7 @@ export class MyteMmeGeneracionComponent implements OnInit {
   estadoForecastedTimeDetails;
   estadoAuthorizationListReport;
   estadoPlanillaCompleta;
+  estadoRevenuesNewAO;
 
   isFiltroOn;
   isFiltroOff;
@@ -153,6 +155,23 @@ export class MyteMmeGeneracionComponent implements OnInit {
           this.jsonResourceTrend = this.jsonResourceTrend['Raw Data']
 
           this.filtrar("Resource Trend");
+
+          //totalizar Quantity por Name
+          this.jsonTemp = [];
+          let indexTot;
+
+          this.jsonResourceTrend.forEach(element => {
+            indexTot = this.jsonTemp.findIndex(jFDT => jFDT.name === element.name);
+
+            if(indexTot == -1){
+              this.jsonTemp.push(element);
+            }
+            else {
+                this.jsonTemp[indexTot]['quantity'] += element.quantity;
+            }
+          });
+
+          this.jsonResourceTrend = this.jsonTemp;
 
           this.agregarEnterpriseId('Resource Trend');
           this.preparaArreglo();
@@ -283,6 +302,40 @@ export class MyteMmeGeneracionComponent implements OnInit {
       };
     }
 
+    //ARCHIVO Revenues New AO
+    else if(archivo=='Revenues New AO'){
+      reader.onload = () => {
+        const data = reader.result;
+        workBook = XLSX.read(data, { type: 'binary', cellDates : true });
+        if (workBook.SheetNames[1] !== 'NEW AO'){
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde');
+          return;
+        }
+  
+        this.jsonRevenuesNewAO = workBook.SheetNames.reduce((initial, name) => {
+          if(name === 'NEW AO'){
+            const sheet = workBook.Sheets[name];
+            this.formularioHeadersRevenuesNewAO(sheet, 'G', 3);
+            initial[name] = XLSX.utils.sheet_to_json(sheet, {range:2});
+          }
+
+          return initial;
+        }, {});
+      
+        if (this.jsonRevenuesNewAO['NEW AO'] === undefined) {
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde');
+          this.jsonRevenuesNewAO = null;
+        } else {
+          this.estadoRevenuesNewAO = true;
+          this.jsonRevenuesNewAO = this.jsonRevenuesNewAO['NEW AO']
+          //this.filtrar('Revenues New AO');
+          this.agregarEnterpriseId('Revenues New AO');
+          this.preparaArreglo();
+          this.preparaDataMostrar();
+        }
+      };
+    }
+
     reader.readAsBinaryString(file);
   }
 
@@ -302,6 +355,7 @@ export class MyteMmeGeneracionComponent implements OnInit {
               'BC',	'BD',	'BE',	'BF',	'BG',	'BH',
              ];
 
+    
     for (const letra of abc) {
       let celda = letra + fila.toString();
       sheet[celda].w = camalize(sheet[celda].w);
@@ -311,6 +365,28 @@ export class MyteMmeGeneracionComponent implements OnInit {
     }
  }
 
+ formularioHeadersRevenuesNewAO(sheet, limit, fila){
+
+  function camalize(str) {
+      str = str.replace(/\./g, '');
+      str = str.normalize('NFD').replace(/[\u0300-\u036f]/g,"");
+      return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+  }
+
+  let abc = ['B',	'C',	'D',	'E',	'F',	'G',	'H',	'I',	'J',	'K',	'L',
+            'M',	'N',	'O',	'P',	'Q',	'R',	'S',	'T',	'U',	'V',	'W',	'X',
+            'Y',	'Z'
+           ];
+
+  
+  for (const letra of abc) {
+    let celda = letra + fila.toString();
+    sheet[celda].w = camalize(sheet[celda].w);
+    if (letra == limit){
+      break;
+    }
+  }
+}
  //agrega el enterpriseId único y el archivo al arreglo archivos
  agregarEnterpriseId(archivo){
 
@@ -392,9 +468,22 @@ export class MyteMmeGeneracionComponent implements OnInit {
      });
   }
 
+  //ARCHIVO Revenues New AO
+  else if(archivo=='Revenues New AO'){
+     //para cada elemento sacamos su enterpriseId 'unico
+     let index;
+     this.jsonRevenuesNewAO.forEach(element => {
+       index = this.enterpriseId.findIndex(fila => fila === element["eid)"]);
+ 
+       if(index == -1){
+         this.enterpriseId.push(element["eid"]);
+       }
+     });
+  }
+
   //se sacan los enterpriceId vacios
   this.enterpriseId = this.enterpriseId.filter(a => {
-    return a != '';
+    return a != '' && a !=undefined;
   });
 
   //ordenamos los enterpriseId
@@ -407,8 +496,7 @@ export class MyteMmeGeneracionComponent implements OnInit {
   this.arreglo['Enterprise ID'] = [];
 
   this.enterpriseId.forEach(element => {
-    this.arreglo['Enterprise ID'].push(element);
-    
+    this.arreglo['Enterprise ID'].push(element);  
   });
  }
 
@@ -446,7 +534,12 @@ export class MyteMmeGeneracionComponent implements OnInit {
     else if(archivo=='Planilla completa'){
       this.arreglo['Planilla completa'] = [];
     }
-  }); 
+
+    //ARCHIVO Revenues New AO
+    else if(archivo=='Revenues New AO'){
+      this.arreglo['Revenues New AO'] = [];
+    }
+  });
 
   let i;
 
@@ -515,6 +608,15 @@ export class MyteMmeGeneracionComponent implements OnInit {
             this.arreglo['Planilla completa'].push('SI');
         }
       }
+
+      //ARCHIVO Revenues New AO
+      else if(archivo=='Revenues New AO'){
+        if(i == -1){
+            this.arreglo['Revenues New AO'].push('NO');
+        } else {
+            this.arreglo['Revenues New AO'].push('SI');
+        }
+      }
     });
   });
  }
@@ -534,32 +636,37 @@ export class MyteMmeGeneracionComponent implements OnInit {
 
       // ARCHIVO ZH02
       if(archivo=="ZH02"){
-        this.cabeceras.push('ZH02');
+        this.cabeceras.push('ZH02 (Deploy)');
       }
 
       //ARCHIVO Reviewer Tracking Report
       else if(archivo=='Reviewer Tracking Report'){
-        this.cabeceras.push('Reviewer Tracking Report');
+        this.cabeceras.push('Reviewer Tracking Report (Reviewer MyTe)');
       }
 
       //ARCHIVO Resource Trend
       else if(archivo=='Resource Trend'){
-        this.cabeceras.push('Resource Trend');
+        this.cabeceras.push('Resource Trend (Forecast/MME)');
       }
 
       //ARCHIVO Forecasted Time Details
       else if(archivo=='Forecasted Time Details'){
-        this.cabeceras.push('Forecasted Time Details');
+        this.cabeceras.push('Forecasted Time Details (HH MyTe)');
       }
 
       //ARCHIVO Authorization List Report
       else if(archivo=='Authorization List Report'){
-        this.cabeceras.push('Authorization List Report');
+        this.cabeceras.push('Authorization List Report (Autorizar WBS)');
       }
 
       //ARCHIVO Planilla completa
       else if(archivo=='Planilla completa'){
-        this.cabeceras.push('Planilla completa');
+        this.cabeceras.push('Planilla completa (Estructura Equipo)');
+      }
+
+      //ARCHIVO Revenues New AO
+      else if(archivo=='Revenues New AO'){
+        this.cabeceras.push('Revenues New AO (Forecast Revenues)');
       }
     });
   
@@ -628,6 +735,11 @@ export class MyteMmeGeneracionComponent implements OnInit {
     index = this.jsonPlanillaCompleta.findIndex(fila => fila["usuarioAccEi)"] === eid);
   }
 
+  //ARCHIVO Revenues New AO
+  else if(archivo=='Revenues New AO'){
+    index = this.jsonRevenuesNewAO.findIndex(fila => fila["eid"] === eid);
+  }
+
   return index;
  }
 
@@ -653,24 +765,20 @@ export class MyteMmeGeneracionComponent implements OnInit {
       return a.estadoEmpleado === 'Activo';
     });
   }
+
  }
 
  //se hace click sobre el filtro
  filtro(){
   let checkboxFiltro = <HTMLInputElement> document.getElementById("checkboxFiltro");
   if(checkboxFiltro.checked){
-    console.log("filtroOn");
-
     this.isFiltroOn = true;
     this.isFiltroOff = false;
 
     
   } else {
-    console.log("filtroOff");
-
     this.isFiltroOn = false;
-    this.isFiltroOff = true;
-    
+    this.isFiltroOff = true;    
   }
  }
 
@@ -679,17 +787,20 @@ export class MyteMmeGeneracionComponent implements OnInit {
       let worksheet = workbook.addWorksheet('Reporte');
       
       // Se establecen anchos de las columnas
-      worksheet.getColumn(1).width = 30;
-      worksheet.getColumn(2).width = 26;
-      worksheet.getColumn(3).width = 26;
-      worksheet.getColumn(4).width = 26;
-      worksheet.getColumn(5).width = 26;
-      worksheet.getColumn(6).width = 26;
-      worksheet.getColumn(7).width = 26;
+      worksheet.getColumn(1).width = 28; // eid
+      worksheet.getColumn(2).width = 14; //error
+      worksheet.getColumn(3).width = 36;
+      worksheet.getColumn(4).width = 36;
+      worksheet.getColumn(5).width = 36;
+      worksheet.getColumn(6).width = 36;
+      worksheet.getColumn(7).width = 36;
+      worksheet.getColumn(8).width = 36;
+      worksheet.getColumn(9).width = 36;
 
       const headers = [];
-      this.archivos.forEach(element => {
+      this.cabeceras.forEach(element => {
         headers.push(element);
+        if(element == 'Enterprise ID') headers.push("Error");
       });
       let headerRow = worksheet.addRow(headers);
 
@@ -724,17 +835,73 @@ export class MyteMmeGeneracionComponent implements OnInit {
   
       headerRow.height = 40;      
 
+      //autofilter
+      let to = 'B1';
+      switch (this.cabeceras.length) {
+        case 2:
+              to = 'C1';
+              break;
+        case 3:
+              to = 'D1';
+              break;
+        case 4:
+              to = 'E1';
+              break;
+        case 5:
+              to = 'F1';
+              break;
+        case 6:
+              to = 'G1';
+              break;
+        case 7:
+              to = 'H1';
+              break;
+        case 8:
+              to = 'I1';
+              break;
+        default:
+          to = 'B1'
+          break;
+      }
+
+      worksheet.autoFilter = {
+        from: 'A1',
+        to: to,
+      }
+
+
       let newRow = []; 
       let posEID = 0;
 
-
       this.arreglo[this.archivos[0]].forEach(element1 => {
         newRow = [];
+
+        let agregarError = true;
+        let indexError;
+
         this.archivos.forEach(archivo => {
           newRow.push(this.arreglo[archivo][posEID]);
+
+          if(agregarError == true){
+              
+            indexError = this.arregloWeb['Enterprise ID'].findIndex(arreglo => arreglo === this.arreglo['Enterprise ID'][posEID]);
+            if(indexError == -1){
+              newRow.push('NO');
+            } else {
+              newRow.push('SI');
+            }
+            
+            agregarError = false;
+          }
         });
 
-        worksheet.addRow(newRow);
+        let filaAgregada = worksheet.addRow(newRow);
+        filaAgregada.eachCell((cell, number) => {
+          cell.alignment = {
+            vertical: 'middle',
+            horizontal: 'right'
+          };
+        });
         posEID++;
       });
       
