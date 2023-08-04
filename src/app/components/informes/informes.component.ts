@@ -90,16 +90,20 @@ export class InformesComponent {
         this.paramSeg = params['segmento'];
         if (this.paramSeg === 'BO') {
           // this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backoffice', this.jsonDataService.fechaInformes);
-          this.pdfService.segmento =  'Segmento Backoffice';
+          //this.pdfService.segmento =  'Segmento Backoffice';
+          this.pdfService.segmento =  'Preproceso';
           this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-            return a.area === 'Segmento Backoffice';
+            return (a.bloque == 'VS - Transacciones y Procesamiento' && a.area == 'Procesamiento');
+            //return a.area === 'Segmento Backoffice';
           });
           this.tablasFac();
         } else if (this.paramSeg === 'BE') {
           // this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Segmento Backend', this.jsonDataService.fechaInformes);
-          this.pdfService.segmento =  'Segmento Backend';
+          //this.pdfService.segmento =  'Segmento Backend';
+          this.pdfService.segmento = 'Proceso';
           this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-            return a.area === 'Segmento Backend' || a.area === 'Nuevo Backend Crédito';
+            //return a.area === 'Segmento Backend' || a.area === 'Nuevo Backend Crédito';
+            return a.bloque == 'VS - Onboarding & Contratación & Sibel';
           });
           this.tablasFac();
         } else {

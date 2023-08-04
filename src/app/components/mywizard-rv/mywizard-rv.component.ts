@@ -381,6 +381,12 @@ export class MywizardRvComponent implements OnInit {
       return (!(a.bloque.includes('sobresfuerzo') || a.bloque.includes('Sobresfuerzo')));
     });
 
+    // sin retrabajos
+    console.log(jsonDataArray);
+    jsonDataArray = jsonDataArray.filter(a => {
+      return (!(a.descripcionTarea.includes('Retrabajo') || a.descripcionTarea.includes('retrabajo')));
+    });
+
     //DESCRIPCION INC o PRB
     jsonDataArray = jsonDataArray.filter(a => {
       return (a.descripcion.includes('INC') || a.descripcion.includes('PRB'));
