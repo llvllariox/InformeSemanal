@@ -280,7 +280,7 @@ export class MyteMmeGeneracionComponent implements OnInit {
         this.jsonPlanillaCompleta = workBook.SheetNames.reduce((initial, name) => {
           if(name === 'Completa'){
             const sheet = workBook.Sheets[name];
-            this.formularioHeaders(sheet, 'BB', 1);
+            this.formularioHeaders(sheet, 'AQ', 1);
             initial[name] = XLSX.utils.sheet_to_json(sheet);
           }
           return initial;
@@ -355,7 +355,6 @@ export class MyteMmeGeneracionComponent implements OnInit {
               'BC',	'BD',	'BE',	'BF',	'BG',	'BH',
              ];
 
-    
     for (const letra of abc) {
       let celda = letra + fila.toString();
       sheet[celda].w = camalize(sheet[celda].w);
@@ -457,7 +456,7 @@ export class MyteMmeGeneracionComponent implements OnInit {
 
   //ARCHIVO Planilla completa
   else if(archivo=='Planilla completa'){
-     //para cada elemento sacamos su enterpriseId 'unico
+    //para cada elemento sacamos su enterpriseId 'unico
      let index;
      this.jsonPlanillaCompleta.forEach(element => {
        index = this.enterpriseId.findIndex(fila => fila === element["usuarioAccEi)"]);
