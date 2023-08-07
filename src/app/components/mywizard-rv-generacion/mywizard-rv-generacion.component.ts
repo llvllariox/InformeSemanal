@@ -199,7 +199,7 @@ export class MywizardRvGeneracionComponent implements OnInit {
   //MTD Total Effort Spent on Problem Requests P5-Hours
   getR5(){
     let sumaReq = 0;
-  
+
     this.JsonArrayHoras.forEach(d => {
       if(d['lineaDeServicio'] == 'Problemas') {
         sumaReq += Number(d['horas']);
@@ -207,7 +207,7 @@ export class MywizardRvGeneracionComponent implements OnInit {
     });
 
     this.mywizardRvFormularioService.campo_R5 = sumaReq.toString();
-  }
+  }   
 
   //Number of open Problems exceeding resolution SLA-Number {Cantidad de Problemas abiertos que tenemos vencidos respecto al SLA comprometido} = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE 
   getR6() {
