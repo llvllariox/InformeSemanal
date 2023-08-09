@@ -12,6 +12,9 @@ export class MywizardRvJsonDataService {
   jsonDataSolAbiertosService;
   jsonDataSolCerradosService;
 
+  jsonDataCancelacionesAbiertosService;
+  jsonDataCancelacionesCerradosService;
+
   jsonDataHorasService;
 
   constructor() { }
@@ -70,4 +73,23 @@ export class MywizardRvJsonDataService {
   setJsonDataHorasService(jsonDataHorasService: any) {
     this.jsonDataHorasService = jsonDataHorasService;
   }
+
+
+  //cancelaciones
+  getJsonDataCancelacionesAbiertosService() {
+    return this.jsonDataCancelacionesAbiertosService;
+  }
+
+  setJsonDataCancelacionesAbiertosService(jsonData: any) {
+    this.jsonDataCancelacionesAbiertosService = jsonData;
+  }
+
+  getJsonDataCancelacionesCerradosService() {
+    return this.jsonDataCancelacionesCerradosService;
+  }
+
+  setJsonDataCancelacionesCerradosService(jsonData: any) {
+    this.jsonDataCancelacionesCerradosService = jsonData;
+  }
+
 }

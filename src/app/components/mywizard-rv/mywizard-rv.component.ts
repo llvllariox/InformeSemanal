@@ -22,6 +22,8 @@ export class MywizardRvComponent implements OnInit {
   jsonDataReqCerrados = null;
   jsonDataSolAbiertos = null;
   jsonDataSolCerrados = null;
+  jsonDataCancelacionesAbiertos = null;
+  jsonDataCancelacionesCerrados = null;
   jsonDataHoras = null;
   
   fechaInforme;
@@ -310,6 +312,15 @@ export class MywizardRvComponent implements OnInit {
 
     //solAbiertos
     else if(tipo=='solAbiertos'){
+      //cancelaciones
+      this.jsonDataCancelacionesAbiertos = [];
+      jsonDataArray.forEach(element => {
+        if(element['bloque'] == 'Cancelación'){
+          this.jsonDataCancelacionesAbiertos.push(element);
+        }
+      });
+
+
       jsonDataArray = jsonDataArray.filter(a => {
         return (
           (
@@ -323,6 +334,14 @@ export class MywizardRvComponent implements OnInit {
 
     //solCerrados
     else if(tipo=='solCerrados'){
+      //cancelaciones
+      this.jsonDataCancelacionesCerrados = [];
+      jsonDataArray.forEach(element => {
+        if(element['bloque'] == 'Cancelación'){
+          this.jsonDataCancelacionesCerrados.push(element);
+        }
+      });
+
       jsonDataArray = jsonDataArray.filter(a => {
         return (
           (
@@ -367,8 +386,10 @@ export class MywizardRvComponent implements OnInit {
     } else if(tipo=='reqCerrados'){
       this.mywizardRvJsonDataService.setJsonDataReqCerradosService(data);
     } else if(tipo=='solAbiertos'){
+      this.mywizardRvJsonDataService.setJsonDataCancelacionesAbiertosService(this.jsonDataCancelacionesAbiertos);
       this.mywizardRvJsonDataService.setJsonDataSolAbiertosService(data);
     } else if(tipo=='solCerrados'){
+      this.mywizardRvJsonDataService.setJsonDataCancelacionesCerradosService(this.jsonDataCancelacionesCerrados);
       this.mywizardRvJsonDataService.setJsonDataSolCerradosService(data);
     }  else if(tipo=='horas'){
       this.mywizardRvJsonDataService.setJsonDataHorasService(data);

@@ -71,7 +71,7 @@ export class GenerarInformeComponent implements OnInit {
       this.jsonDataFac = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
         if (name === 'Datos Facturación'){
-          this.formatHeaders(sheet, 'F1');
+          this.formatHeaders(sheet, 'D1');
         }
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         this.estadoFac = 3;
