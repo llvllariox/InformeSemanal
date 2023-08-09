@@ -3,49 +3,49 @@
         
         <div class="row my-3">
             <div class="col-12 col-sm-8">
-                <small>ZH02</small>
+                <small>ZH02 (Deploy)</small>
                 <input type="file" class="form-control-file" (change)="agregarFile('ZH02', $event)" [attr.disabled]="estadoZH02">
             </div>
         </div>
 
         <div class="row my-3">
             <div class="col-12 col-sm-8">
-                <small>Reviewer Tracking Report</small>
-                <input type="file" class="form-control-file" (change)="agregarFile('Reviewer Tracking Report', $event)" [attr.disabled]="estadoReviewerTrackingReport">
+                <small>Time Report Status (Status MyTe)</small>
+                <input type="file" class="form-control-file" (change)="agregarFile('Time Report Status', $event)" [attr.disabled]="estadoTimeReportStatus">
             </div>
         </div>
 
         <div class="row my-3">
             <div class="col-12 col-sm-8">
-                <small>Resource Trend</small>
+                <small>Resource Trend (Forecast/MME)</small>
                 <input type="file" class="form-control-file" (change)="agregarFile('Resource Trend', $event)" [attr.disabled]="estadoResourceTrend">
             </div>
         </div>
 
         <div class="row my-3">
             <div class="col-12 col-sm-8">
-                <small>Forecasted Time Details</small>
+                <small>Forecasted Time Details (HH MyTe)</small>
                 <input type="file" class="form-control-file" (change)="agregarFile('Forecasted Time Details', $event)" [attr.disabled]="estadoForecastedTimeDetails">
             </div>
         </div>
 
         <div class="row my-3">
             <div class="col-12 col-sm-8">
-                <small>Authorization List Report</small>
+                <small>Authorization List Report (Autorizar WBS)</small>
                 <input type="file" class="form-control-file" (change)="agregarFile('Authorization List Report', $event)" [attr.disabled]="estadoAuthorizationListReport">
             </div>
         </div>
 
         <div class="row my-3">
             <div class="col-12 col-sm-8">
-                <small>Planilla completa</small>
+                <small>Planilla completa (Estructura Equipo)</small>
                 <input type="file" class="form-control-file" (change)="agregarFile('Planilla completa', $event)" [attr.disabled]="estadoPlanillaCompleta">
             </div>
         </div>
 
         <div class="row">
             <div class="col-12 col-sm-8">
-                <small>Revenues New AO</small>
+                <small>Revenues New AO (Forecast Revenues)</small>
                 <input type="file" class="form-control-file" (change)="agregarFile('Revenues New AO', $event)" [attr.disabled]="estadoRevenuesNewAO">
             </div>
         </div>
@@ -56,10 +56,6 @@
                 <span class="slider round"></span>
             </label>
         </div>
-        
-
-        
-
     </div>
 
     <div id="tabla" class="table table-striped table-bordered">
@@ -129,8 +125,6 @@
                 Exportar detalles Excel 
                 <img src="../../../assets/images/file-excel-regular.png" style="width: 12px; height: 17px;" alt="">
             </button>
-        </div>
-
-        
+        </div>        
     </div>
 </div>

@@ -343,6 +343,7 @@ export class MywizardRvComponent implements OnInit {
             && a.tipoContrato === 'Mantenimiento' 
             && (a.descripcion.includes('INC') || a.descripcion.includes('PRB'))
             && (!(a.nombre.includes('Eliot')))
+            && (!(a.descripcionTarea.includes('Retrabajo') || a.descripcionTarea.includes('retrabajo')))
           )
         );
       });
@@ -379,12 +380,6 @@ export class MywizardRvComponent implements OnInit {
     //sin sobresfuerzo en el bloque
     jsonDataArray = jsonDataArray.filter(a => {
       return (!(a.bloque.includes('sobresfuerzo') || a.bloque.includes('Sobresfuerzo')));
-    });
-
-    // sin retrabajos
-    console.log(jsonDataArray);
-    jsonDataArray = jsonDataArray.filter(a => {
-      return (!(a.descripcionTarea.includes('Retrabajo') || a.descripcionTarea.includes('retrabajo')));
     });
 
     //DESCRIPCION INC o PRB

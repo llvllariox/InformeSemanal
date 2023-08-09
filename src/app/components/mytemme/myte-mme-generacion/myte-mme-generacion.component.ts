@@ -26,7 +26,7 @@ export class MyteMmeGeneracionComponent implements OnInit {
 
   jsonTemp;
   jsonZH02 = null;
-  jsonReviewerTrackingReport = null;
+  jsonTimeReportStatus = null;
   jsonResourceTrend = null;
   jsonForecastedTimeDetails = null;
   jsonAuthorizationListReport = null;
@@ -34,7 +34,7 @@ export class MyteMmeGeneracionComponent implements OnInit {
   jsonRevenuesNewAO = null;
 
   estadoZH02;
-  estadoReviewerTrackingReport;
+  estadoTimeReportStatus;
   estadoResourceTrend;
   estadoForecastedTimeDetails;
   estadoAuthorizationListReport;
@@ -97,31 +97,31 @@ export class MyteMmeGeneracionComponent implements OnInit {
       };
     }
 
-    //ARCHIVO Reviewer Tracking Report
-    else if(archivo=='Reviewer Tracking Report'){
+    //ARCHIVO Time Report Status
+    else if(archivo=='Time Report Status'){
       reader.onload = () => {
         const data = reader.result;
         workBook = XLSX.read(data, { type: 'binary', cellDates : true });
-        if (workBook.SheetNames[0] !== 'Reviewer Tracking Report'){
+        if (workBook.SheetNames[0] !== 'Time Report Status'){
           this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde');
           return;
         }
   
-        this.jsonReviewerTrackingReport = workBook.SheetNames.reduce((initial, name) => {
+        this.jsonTimeReportStatus = workBook.SheetNames.reduce((initial, name) => {
           const sheet = workBook.Sheets[name];
           this.formularioHeaders(sheet, 'R', 3);
           initial[name] = XLSX.utils.sheet_to_json(sheet, {range:2});
           return initial;
         }, {});
       
-        if (this.jsonReviewerTrackingReport['Reviewer Tracking Report'] === undefined) {
+        if (this.jsonTimeReportStatus['Time Report Status'] === undefined) {
           this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde');
-          this.jsonReviewerTrackingReport = null;
+          this.jsonTimeReportStatus = null;
         } else {
-          this.estadoReviewerTrackingReport = true;
-          this.jsonReviewerTrackingReport = this.jsonReviewerTrackingReport['Reviewer Tracking Report']
-          this.filtrar('Reviewer Tracking Report');
-          this.agregarEnterpriseId('Reviewer Tracking Report');
+          this.estadoTimeReportStatus = true;
+          this.jsonTimeReportStatus = this.jsonTimeReportStatus['Time Report Status']
+          //this.filtrar('Time Report Status');
+          this.agregarEnterpriseId('Time Report Status');
           this.preparaArreglo();
           this.preparaDataMostrar();
         }
@@ -385,7 +385,8 @@ export class MyteMmeGeneracionComponent implements OnInit {
       break;
     }
   }
-}
+ }
+
  //agrega el enterpriseId único y el archivo al arreglo archivos
  agregarEnterpriseId(archivo){
 
@@ -402,15 +403,15 @@ export class MyteMmeGeneracionComponent implements OnInit {
     });
   }
 
-  //ARCHIVO Reviewer Tracking Report
-  else if(archivo=='Reviewer Tracking Report'){
+  //ARCHIVO Time Report Status
+  else if(archivo=='Time Report Status'){
     //para cada elemento sacamos su enterpriseId 'unico
     let index;
-    this.jsonReviewerTrackingReport.forEach(element => {
-      index = this.enterpriseId.findIndex(fila => fila === element.revieweeEnterpriseId);
+    this.jsonTimeReportStatus.forEach(element => {
+      index = this.enterpriseId.findIndex(fila => fila === element.enterpriseId);
 
       if(index == -1){
-        this.enterpriseId.push(element.revieweeEnterpriseId);
+        this.enterpriseId.push(element.enterpriseId);
       }
     });
   }
@@ -480,7 +481,7 @@ export class MyteMmeGeneracionComponent implements OnInit {
      });
   }
 
-  //se sacan los enterpriceId vacios
+  //se sacan los enterpriseId vacios
   this.enterpriseId = this.enterpriseId.filter(a => {
     return a != '' && a !=undefined;
   });
@@ -509,9 +510,9 @@ export class MyteMmeGeneracionComponent implements OnInit {
       this.arreglo['ZH02'] = [];
     }
 
-    //ARCHIVO Reviewer Tracking Report
-    else if(archivo=='Reviewer Tracking Report'){
-      this.arreglo['Reviewer Tracking Report'] = [];
+    //ARCHIVO Time Report Status
+    else if(archivo=='Time Report Status'){
+      this.arreglo['Time Report Status'] = [];
     }
 
     //ARCHIVO Resource Trend
@@ -560,13 +561,12 @@ export class MyteMmeGeneracionComponent implements OnInit {
         }
       }
 
-      //ARCHIVO Reviewer Tracking Report
-      else if(archivo=='Reviewer Tracking Report'){
+      //ARCHIVO Time Report Status
+      else if(archivo=='Time Report Status'){
         if(i == -1){
-          this.arreglo['Reviewer Tracking Report'].push('NO');
+          this.arreglo['Time Report Status'].push('NO');
         } else {
-          //this.arreglo['Reviewer Tracking Report'].push(eid);
-          this.arreglo['Reviewer Tracking Report'].push('SI');
+          this.arreglo['Time Report Status'].push(this.jsonTimeReportStatus[i].trStatus);
         }
       }
 
@@ -638,9 +638,9 @@ export class MyteMmeGeneracionComponent implements OnInit {
         this.cabeceras.push('ZH02 (Deploy)');
       }
 
-      //ARCHIVO Reviewer Tracking Report
-      else if(archivo=='Reviewer Tracking Report'){
-        this.cabeceras.push('Reviewer Tracking Report (Reviewer MyTe)');
+      //ARCHIVO Time Report Status
+      else if(archivo=='Time Report Status'){
+        this.cabeceras.push('Time Report Status (Status MyTe)');
       }
 
       //ARCHIVO Resource Trend
@@ -697,7 +697,6 @@ export class MyteMmeGeneracionComponent implements OnInit {
     //this.arreglo se muestra en el excel
     //console.log(this.arreglo);
     //console.log(this.arregloWeb);
-
  }
 
  //el index del enterpriseId en el json archivo
@@ -709,9 +708,9 @@ export class MyteMmeGeneracionComponent implements OnInit {
     index = this.jsonZH02.findIndex(fila => fila.enterpriseId === eid);
   }
 
-  //ARCHIVO Reviewer Tracking Report
-  else if(archivo=='Reviewer Tracking Report'){
-    index = this.jsonReviewerTrackingReport.findIndex(fila => fila.revieweeEnterpriseId === eid);
+  //ARCHIVO Time Report Status
+  else if(archivo=='Time Report Status'){
+    index = this.jsonTimeReportStatus.findIndex(fila => fila.enterpriseId === eid);
   }
 
   //ARCHIVO Resource Trend
@@ -744,15 +743,9 @@ export class MyteMmeGeneracionComponent implements OnInit {
 
  //se filtra la data que viene del excel segun corresponda
  filtrar(archivo){
-  //ARCHIVO Reviewer Tracking Report
-  if(archivo=='Reviewer Tracking Report'){
-    this.jsonReviewerTrackingReport = this.jsonReviewerTrackingReport.filter(a => {
-      return a.reviewerEnterpriseId === 'm.nunez.fuentes';
-    });
-  }
-
+  
   //ARCHIVO Resource Trend
-  else if(archivo=='Resource Trend'){
+  if(archivo=='Resource Trend'){
     this.jsonResourceTrend = this.jsonResourceTrend.filter(a => {
       return a.category === 'Hours';
     });
