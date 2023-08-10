@@ -17,6 +17,9 @@ export class MywizardRvGeneracionComponent implements OnInit {
   JsonArraySolCerrados: [];
   JsonArrayHoras: [];
 
+  JsonArrayCancelacionesAbiertos: [];
+  JsonArrayCancelacionesCerrados: [];
+
   monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   
@@ -40,10 +43,12 @@ export class MywizardRvGeneracionComponent implements OnInit {
 
     if(this.mywizardRvJsonDataService.jsonDataSolAbiertosService !== undefined) {
       this.JsonArraySolAbiertos = this.mywizardRvJsonDataService.getJsonDataSolAbiertosService();
+      this.JsonArrayCancelacionesAbiertos = this.mywizardRvJsonDataService.getJsonDataCancelacionesAbiertosService();
     }
 
     if(this.mywizardRvJsonDataService.jsonDataSolCerradosService !== undefined) {
       this.JsonArraySolCerrados = this.mywizardRvJsonDataService.getJsonDataSolCerradosService();
+      this.JsonArrayCancelacionesCerrados = this.mywizardRvJsonDataService.getJsonDataCancelacionesCerradosService();
     }
 
     if(this.mywizardRvJsonDataService.jsonDataHorasService !== undefined) {
@@ -52,6 +57,7 @@ export class MywizardRvGeneracionComponent implements OnInit {
 
     this.getIndicadoresSolicitudes();
     this.getIndicadoresRequerimientos();
+    this.getIndicadoresServiceDelivery();
   }
 
   ngOnInit(): void {
@@ -103,7 +109,6 @@ export class MywizardRvGeneracionComponent implements OnInit {
     let cant = 0;
     this.JsonArraySolAbiertos.forEach(d => {
       if(String(d['etapa']).includes('detenido') || String(d['etapa']).includes('Detenido')) {
-        console.log(d);
         cant++;
       }
     });
@@ -253,7 +258,30 @@ export class MywizardRvGeneracionComponent implements OnInit {
 
   //MTD Total SLA-Number
   getS2(){
-    this.mywizardRvFormularioService.campo_S2 = '0';
+    let cantidad = 0;
+
+    
+    this.JsonArrayCancelacionesAbiertos.forEach(element => {
+      let fecha = new Date(element['fechaRecepcion']);
+      if(
+        fecha.getMonth() == this.fechaInformeDate.getMonth()
+        && fecha.getFullYear() == this.fechaInformeDate.getFullYear()
+        ){
+        cantidad++;
+      }
+    });
+
+    this.JsonArrayCancelacionesCerrados.forEach(element => {
+      let fecha = new Date(element['fechaRecepcion']);
+      if(
+        fecha.getMonth() == this.fechaInformeDate.getMonth()
+        && fecha.getFullYear() == this.fechaInformeDate.getFullYear()
+        ){
+        cantidad++;
+      }
+    });
+    
+    this.mywizardRvFormularioService.campo_S2 = cantidad.toString();
   }
 
   //actualiza los valores de los campos

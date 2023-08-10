@@ -93,7 +93,7 @@ export class InformesComponent {
           //this.pdfService.segmento =  'Segmento Backoffice';
           this.pdfService.segmento =  'Preproceso';
           this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-            return (a.bloque == 'VS - Transacciones y Procesamiento' && a.area == 'Procesamiento');
+            return (a.bloque == 'VS - Transacciones y Procesamiento' && a.area == 'Pre-Proceso');
             //return a.area === 'Segmento Backoffice';
           });
           this.tablasFac();
@@ -103,14 +103,15 @@ export class InformesComponent {
           this.pdfService.segmento = 'Proceso';
           this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
             //return a.area === 'Segmento Backend' || a.area === 'Nuevo Backend Crédito';
-            return a.bloque == 'VS - Onboarding & Contratación & Sibel';
+            return (a.bloque == 'VS - Transacciones y Procesamiento' && a.area == 'Procesamiento');
           });
           this.tablasFac();
         } else {
           // this.exportador = new Exportador('Informe Semanal Evolutivo -', 'Plataforma de Integración', this.jsonDataService.fechaInformes);
-          this.pdfService.segmento =  'Plataforma de Integración';
+          this.pdfService.segmento =  'Onboarding';
           this.JsonArray = this.jsonDataReqInf.Requerimientos.filter(a => {
-            return a.area === 'Plataforma de Integración';
+            //return a.area === 'Plataforma de Integración';
+            return a.bloque == 'VS - Onboarding & Contratación & Sibel';
           });
           this.tablasFac();
         }

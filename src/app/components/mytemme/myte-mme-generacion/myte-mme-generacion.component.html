@@ -56,6 +56,13 @@
                 <span class="slider round"></span>
             </label>
         </div>
+
+        <div class="col-sm-12 derecha" *ngIf="archivos.length > 0">
+            <button class="btn waves-effect waves-light btn-rounded btn-danger btnExportar" (click)="generarExcel()" [style.display]="archivos.length > 1 ? 'inline-block' : 'none'">
+                Exportar detalles Excel 
+                <img src="../../../assets/images/file-excel-regular.png" style="width: 12px; height: 17px;" alt="">
+            </button>
+        </div>
     </div>
 
     <div id="tabla" class="table table-striped table-bordered">
@@ -116,15 +123,5 @@
               </ng-container>
             </div>
         -->
-            
-         
-
-        <div class="col-sm-12 derecha" *ngIf="archivos.length > 0">
-            <br>
-            <button class="btn waves-effect waves-light btn-rounded btn-danger" (click)="generarExcel()">
-                Exportar detalles Excel 
-                <img src="../../../assets/images/file-excel-regular.png" style="width: 12px; height: 17px;" alt="">
-            </button>
-        </div>        
     </div>
 </div>
