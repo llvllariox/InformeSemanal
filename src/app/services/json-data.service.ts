@@ -547,11 +547,49 @@ export class JsonDataService {
     });
   }
 
+  // se suman todas las facturaciones por MA;
   facSumarMA() {
+    this.facAgrupado = [];
+
+    let i;
+
+    for (let fac of this.jsonDataFacService['Datos Facturación']) {
+        this.facAgrupado[i].total1 = Number(this.facAgrupado[i].total1) +  Number(fac.total1);
+        this.facAgrupado[i].total2 = Number(this.facAgrupado[i].total2) +  Number(fac.total2);
+        this.facAgrupado[i].total3 = Number(this.facAgrupado[i].total3) +  Number(fac.total3);
+        this.facAgrupado[i].total4 = Number(this.facAgrupado[i].total4) +  Number(fac.total4);
+        this.facAgrupado[i].total5 = Number(this.facAgrupado[i].total5) +  Number(fac.total5);
+        this.facAgrupado[i].total6 = Number(this.facAgrupado[i].total6) +  Number(fac.total6);
+        this.facAgrupado[i].total7 = Number(this.facAgrupado[i].total7) +  Number(fac.total7);
+        this.facAgrupado[i].total8 = Number(this.facAgrupado[i].total8) +  Number(fac.total8);
+        this.facAgrupado[i].total9 = Number(this.facAgrupado[i].total9) +  Number(fac.total9);
+        this.facAgrupado[i].total10 = Number(this.facAgrupado[i].total10) +  Number(fac.total10);
+        this.facAgrupado[i].total11 = Number(this.facAgrupado[i].total11) +  Number(fac.total11);
+        this.facAgrupado[i].total12 = Number(this.facAgrupado[i].total12) +  Number(fac.total12);
+        this.facAgrupado[i].total13 = Number(this.facAgrupado[i].total13) +  Number(fac.total13);
+        this.facAgrupado[i].total14 = Number(this.facAgrupado[i].total14) +  Number(fac.total14);
+        this.facAgrupado[i].total15 = Number(this.facAgrupado[i].total15) +  Number(fac.total15);
+        this.facAgrupado[i].total16 = Number(this.facAgrupado[i].total16) +  Number(fac.total16);
+        this.facAgrupado[i].total17 = Number(this.facAgrupado[i].total17) +  Number(fac.total17);
+        this.facAgrupado[i].total18 = Number(this.facAgrupado[i].total18) +  Number(fac.total18);
+        this.facAgrupado[i].total19 = Number(this.facAgrupado[i].total19) +  Number(fac.total19);
+        this.facAgrupado[i].total20 = Number(this.facAgrupado[i].total20) +  Number(fac.total20);
+        this.facAgrupado[i].total21 = Number(this.facAgrupado[i].total21) +  Number(fac.total21);
+        this.facAgrupado[i].total22 = Number(this.facAgrupado[i].total22) +  Number(fac.total22);
+        this.facAgrupado[i].total23 = Number(this.facAgrupado[i].total23) +  Number(fac.total23);
+        this.facAgrupado[i].total24 = Number(this.facAgrupado[i].total24) +  Number(fac.total24);
+        this.facAgrupado[i].total25 = Number(this.facAgrupado[i].total25) +  Number(fac.total25);
+      }
+    }
+  }
+
+  //cambiar
+  facSumarMA_old() {
   // se suman todas las facturaciones por MA;
     let facpadre: any = [];
 
     // tslint:disable-next-line: prefer-const
+
     for (let fac of this.jsonDataFacService['Datos Facturación']) {
 
       if (fac.MA !== facpadre.MA) {
@@ -597,7 +635,8 @@ export class JsonDataService {
   facAgregarReq() {
 
     // se agregan la suma de facturaciones a los requerimientos
-    this.facAgrupado.splice(0, 1);
+    //this.facAgrupado.splice(0, 1);
+
     let i = 0;
     // tslint:disable-next-line: prefer-const
     for (let req of this.jsonDataReqService.Requerimientos) {
