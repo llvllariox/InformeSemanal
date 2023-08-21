@@ -248,6 +248,9 @@ filtrarTar(jsonDataReq: any) {
  }
 
 filtrarReq(jsonDataReq: any) {
+  jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
+    return a.facturable === 'SI';
+  });
 
   jsonDataReq.Requerimientos = jsonDataReq.Requerimientos.filter(a => {
     return a.lineaDeServicio === 'Evolutivo Mayor';

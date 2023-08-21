@@ -554,6 +554,13 @@ export class JsonDataService {
     let i;
 
     for (let fac of this.jsonDataFacService['Datos Facturación']) {
+      i = this.facAgrupado.findIndex(elemento => elemento.MA === fac.MA);
+
+      if(i == -1){
+        this.facAgrupado.push(fac);
+      } else {
+        this.facAgrupado[i].hhIncurridas = Number(this.facAgrupado[i].hhIncurridas) + Number(fac.hhIncurridas);
+        
         this.facAgrupado[i].total1 = Number(this.facAgrupado[i].total1) +  Number(fac.total1);
         this.facAgrupado[i].total2 = Number(this.facAgrupado[i].total2) +  Number(fac.total2);
         this.facAgrupado[i].total3 = Number(this.facAgrupado[i].total3) +  Number(fac.total3);
