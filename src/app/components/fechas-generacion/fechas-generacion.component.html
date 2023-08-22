@@ -28,8 +28,8 @@
                 <td>{{ ars.lineaDeServicio }}</td>
                 <td>{{ ars.tarea }}</td>
                 <td [style.background-color]="ars.validarHorasEstimadas">{{ ars.horasEstimadas }}</td>
-                <td>{{ ars.horasPlanificadas }}</td>
-                <td>{{ ars.horasIncurridas }}</td>
+                <td [style.background-color]="ars.validarHorasPlanificadas">{{ ars.horasPlanificadas }}</td>
+                <td [style.background-color]="ars.validarHorasIncurridas">{{ ars.horasIncurridas }}</td>
                 <td>{{ ars.etc }}</td>
                 <td [style.background-color]="ars.validarFechaInicioComprometido">{{ ars.inicioComprometido | fechaDMS }}</td>
                 <td [style.background-color]="ars.validarFechaInicioPlanificado">{{ ars.inicioPlanificado | fechaDMS }}</td>

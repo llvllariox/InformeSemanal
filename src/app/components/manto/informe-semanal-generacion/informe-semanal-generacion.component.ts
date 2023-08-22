@@ -110,18 +110,22 @@ export class InformeSemanalGeneracionComponent implements OnInit {
 
         //propuestas
         this.totales[i]['propuestas'] = this.mantoInformeSemanalConfService.getHorasPropuestasValor(this.yearInforme, i, "transaccional");
+        this.totales[i]['propuestas'] = Math.round(this.totales[i]['propuestas']);
 
         //utilizadas
         this.totales[i]['utilizadas'] = this.mantoInformeSemanalConfService.getHorasUtilizadasValor(Number(this.yearInforme), i, "transaccional");
+        this.totales[i]['utilizadas'] = Math.round(this.totales[i]['utilizadas']);
 
         //disponibles
         this.totales[i]['disponibles'] = this.totales[i]['propuestas'] - this.totales[i]['utilizadas'];
         if(this.totales[i]['disponibles']<=0) this.totales[i]['disponibles'] = 0;
+        this.totales[i]['disponibles'] = Math.round(this.totales[i]['disponibles']);
 
         //excedidas
         if(this.totales[i]['propuestas'] - this.totales[i]['utilizadas'] >= 0) {
           this.totales[i]['excedidas'] = 0;
         } else this.totales[i]['excedidas'] = (this.totales[i]['propuestas'] - this.totales[i]['utilizadas']) * -1;
+        this.totales[i]['excedidas'] = Math.round(this.totales[i]['excedidas']);
       }
 
       // *********************
@@ -136,6 +140,7 @@ export class InformeSemanalGeneracionComponent implements OnInit {
       this.jsonArrayHoras.forEach(element => {
         this.totales[Number(this.monthInforme)]['utilizadas'] += Number(element.horas);
       });
+      this.totales[Number(this.monthInforme)]['utilizadas'] = Math.round(this.totales[Number(this.monthInforme)]['utilizadas']);
       
       //disponibles
       this.totales[Number(this.monthInforme)]['disponibles'] = this.totales[Number(this.monthInforme)]['propuestas'] - this.totales[Number(this.monthInforme)]['utilizadas'];
@@ -149,7 +154,7 @@ export class InformeSemanalGeneracionComponent implements OnInit {
       } else {
         this.totales[Number(this.monthInforme)]['excedidas'] = (this.totales[Number(this.monthInforme)]['propuestas'] - this.totales[Number(this.monthInforme)]['utilizadas']) * -1;
       }
-
+    
       //***********************
       //después del mes del informe
       for (let i = Number(this.monthInforme)+1; i <= 12; i++) {
@@ -180,6 +185,8 @@ export class InformeSemanalGeneracionComponent implements OnInit {
 
   //asigna las variables correspondientes a la suma de todos los meses
   getSuma(){
+    console.log("qeqweqweq");
+    console.log(this.totales);
     for (let i = 1; i <= 12; i++) {
       //utilizadas
       if(this.totales[i]['utilizadas']) {
@@ -202,10 +209,10 @@ export class InformeSemanalGeneracionComponent implements OnInit {
       }
     }
 
-    this.sumas['propuestas'] = Math.round(this.sumas['propuestas']);
-    this.sumas['utilizadas'] = Math.round(this.sumas['utilizadas']);
-    this.sumas['disponibles'] = Math.round(this.sumas['disponibles']);
-    this.sumas['excedidas'] = Math.round(this.sumas['excedidas']);
+    this.sumas['propuestas'] = this.sumas['propuestas'];
+    this.sumas['utilizadas'] = this.sumas['utilizadas'];
+    this.sumas['disponibles'] = this.sumas['disponibles'];
+    this.sumas['excedidas'] = this.sumas['excedidas'];
   }
 
   //crea el gráfico que se muestra
@@ -373,10 +380,10 @@ export class InformeSemanalGeneracionComponent implements OnInit {
 
       let newRow; 
       this.detalleExcel.forEach(d => {
-        sumaIncurridas += Number(d['horas']);
+        sumaIncurridas += Math.round(Number(d['horas']));
         newRow = [
                 d['descripcion'], 
-                d['horas'],
+                Math.round(d['horas']),
                 d['lineaDeServicio'],
                 d['aplicacion'],
                 d['solicitante']

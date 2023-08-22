@@ -43,14 +43,15 @@ export class FechasGeneracionComponent implements OnInit {
 
       //realizamos las validaciones
       this.JsonArrayDms.forEach(this.validarExcel);
-        //this.JsonArrayDms.forEach(this.validarFechasVacias);
-        //preparamos la vista web
-        this.JsonArrayDms.forEach(element => {
-          if(element['mostrar'] == 1){
-            this.JsonArrayDmsWeb.push(element);
-          }
-        });
-      }
+
+      //this.JsonArrayDms.forEach(this.validarFechasVacias);
+      //preparamos la vista web
+      this.JsonArrayDms.forEach(element => {
+        if(element['mostrar'] == 1){
+          this.JsonArrayDmsWeb.push(element);
+        }
+      });
+     }
   }
 
   ngOnInit(): void {
@@ -60,9 +61,168 @@ export class FechasGeneracionComponent implements OnInit {
   agregarCampoMostrar(item, index, arr){
     item['mostrar'] = 0;
   }
+
+  //realiza las validaciones sobre la descarga de DMS
+
+  /*
+    regla1: Fecha ini Planificada no puede ser vacio "01-01-1900"
+    regla2: Fecha Fin Planificada no puede ser vacio "01-01-1900"
+    
+    regla3: Fec ini Planificado no puede ser distinta a fec ini comprometido
+    regla4: Fec fin Planificado no puede ser distinta a fec fin comprometido
+    
+    regla5: Fec Ini Real no puede ser vacio
+    regla6: Fec Fin Real no puede ser vacio
+    
+    regla7: Fec In Real si es mayor fec ini planificada error
+    regla8: Fec Fin Real si es mayor fec fin planificado error
+
+  */
+
+  validarExcel(item, index, arr){
+    let colorNaranjo = '#ff6600'; //naranjo
+    let colorRojo = '#ff0000'; //rojo
+    let colorAmarillo = '#ffff00'; //amarillo
+
+    let fechaVacio = new Date('1899-12-31T00:00:00');
+    //let fechaVacio = new Date('2023-01-03T00:00:00');
+
+    //horas en cero
+    if(item.inicioPlanificado){
+      item.inicioPlanificado.setHours(0,0,0,0);
+    }
+
+    if(item.finPlanificado){
+      item.finPlanificado.setHours(0,0,0,0);
+    }
+
+    if(item.inicioReal){
+      item.inicioReal.setHours(0,0,0,0);
+    }
+
+    if(item.finReal){
+      item.finReal.setHours(0,0,0,0);
+    }
+
+    if(item.inicioComprometido){
+      item.inicioComprometido.setHours(0,0,0,0);
+    }
+
+    if(item.finComprometido){
+      item.finComprometido.setHours(0,0,0,0);
+    }
+
+    //color de cada regla
+    item['validarFechaInicioPlanificado'] = '';
+    item['validarFechaFinPlanificado'] = '';
+    item['validarFechaInicioComprometido'] = '';
+    item['validarFechaFinComprometido'] = '';
+
+    // ***** FECHAS *****
+
+    //regla1: Fecha ini Planificada no puede ser vacio "01-01-1900"
+    if(item.inicioPlanificado){
+      if(item.inicioPlanificado.getTime() == fechaVacio.getTime())
+      {
+        item['validarFechaInicioPlanificado'] = colorAmarillo;
+        item['mostrar'] = 1;  
+      }
+    } else {
+      item['validarFechaInicioPlanificado'] = colorAmarillo;
+      item['mostrar'] = 1;  
+    }
+
+    //regla2: Fecha Fin Planificada no puede ser vacio "01-01-1900"
+    if(item.finPlanificado){
+      if(item.finPlanificado.getTime() == fechaVacio.getTime())
+      {
+        item['validarFechaFinPlanificado'] = colorAmarillo;
+        item['mostrar'] = 1;  
+      }
+    } else {
+      item['validarFechaFinPlanificado'] = colorAmarillo;
+      item['mostrar'] = 1;  
+    }
+
+
+    //regla3: Fec ini Planificado no puede ser distinta a fec ini comprometido
+    if(item.inicioPlanificado && (item.inicioPlanificado.getTime() != item.inicioComprometido.getTime())){
+      item['validarFechaInicioPlanificado'] = colorAmarillo;
+      item['validarFechaInicioComprometido'] = colorAmarillo;
+      item['mostrar'] = 1;  
+    }
+
+    //regla4: Fec fin Planificado no puede ser distinta a fec fin comprometido
+    if(item.finPlanificado && (item.finPlanificado.getTime() != item.finComprometido.getTime())){
+      item['validarFechaFinPlanificado'] = colorAmarillo;
+      item['validarFechaFinComprometido'] = colorAmarillo;
+      item['mostrar'] = 1;  
+    }
+
+    //regla5: Fec Ini Real no puede ser vacio
+    if(item.inicioReal){
+      if(item.inicioReal.getTime() == fechaVacio.getTime()) {
+        item['validarFechaInicioReal'] = colorRojo;
+        item['mostrar'] = 1;  
+      }
+    } else {
+      item['validarFechaInicioReal'] = colorRojo;
+      item['mostrar'] = 1;  
+    }
+
+    //regla6: Fec Fin Real no puede ser vacio
+    if(item.finReal){
+      if(item.finReal.getTime() == fechaVacio.getTime()) {
+        item['validarFechaFinReal'] = colorRojo;
+        item['mostrar'] = 1;  
+      }
+    } else {
+      item['validarFechaFinReal'] = colorRojo;
+      item['mostrar'] = 1;  
+    }
+
+    //regla7: Fec Ini Real si es mayor fec ini planificada error
+    if(
+        //item.inicioReal && item.inicioPlanificado 
+        (item.inicioReal.getTime() > item.inicioPlanificado.getTime())
+      ){
+      item['validarFechaInicioReal'] = colorRojo;
+      item['validarFechaInicioPlanificado'] = colorRojo;
+      item['mostrar'] = 1;  
+    }
+  
+    //regla8: Fec Fin Real si es mayor fec fin planificado error
+    if(
+      //item.finReal && item.finPlanificado 
+      (item.finReal.getTime() > item.finPlanificado.getTime())
+    ){
+      item['validarFechaFinReal'] = colorRojo;
+      item['validarFechaFinPlanificado'] = colorRojo;
+      item['mostrar'] = 1;
+    }
+
+    // ***** HORAS *****
+    //planif > estimadas
+    if(item.horasPlanificadas && item.horasEstimadas){
+      if(item.horasPlanificadas > item.horasEstimadas){
+        item['validarHorasPlanificadas'] = colorNaranjo;
+        item['validarHorasEstimadas'] = colorNaranjo;
+        item['mostrar'] = 1;
+      }      
+    }
+
+    //incu > planif
+    if(item.horasIncurridas && item.horasPlanificadas){
+      if(item.horasIncurridas > item.horasPlanificadas){
+        item['validarHorasIncurridas'] = colorNaranjo;
+        item['validarHorasPlanificadas'] = colorNaranjo;
+        item['mostrar'] = 1;
+      }      
+    }
+  }
   
   //realiza las validaciones que hay en el archivo DMS Controles 2023-01
-  validarExcel(item, index, arr){
+  validarExcel_old(item, index, arr){
     let colorConsistencia = '#ff6600'; //naranjo
     let colorVacio = '#ff0000'; //rojo
     let colorMes = '#ffff00'; //amarillo

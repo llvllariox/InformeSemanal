@@ -67,7 +67,6 @@ export class FechasComponent implements OnInit {
       return;
     }
 
-
     this.jsonDataDms = null;
     this.estadoDms = 2;
     let workBook = null;

@@ -141,11 +141,9 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       this.jsonArrayHoras.forEach(element => {
         this.totales[mesActual]['utilizadas'] += Number(element.horas);
       });
-      this.totales[mesActual]['utilizadas'] = this.totales[mesActual]['utilizadas']
+      
+      this.totales[mesActual]['utilizadas'] = Math.round(this.totales[mesActual]['utilizadas']);
       this.horasUtilizadasOriginal = this.totales[mesActual]['utilizadas'];
-
-      console.log("-----");
-      console.log(this.horasUtilizadasOriginal);
 
       //anterior
       if(mesActual != 1){
@@ -368,10 +366,10 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
 
       let newRow; 
       this.detalleExcel.forEach(d => {
-        sumaIncurridas += Number(d['horas']);
+        sumaIncurridas += Math.round(Number(d['horas']));
         newRow = [
                 d['descripcion'], 
-                d['horas'],
+                Math.round(d['horas']),
                 d['lineaDeServicio'],
                 d['aplicacion'],
                 d['solicitante']
@@ -412,10 +410,6 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       if(mesActual != 1){
         //sumamos las horas anteriores
         if(this.totales[mesActual]['anterior'] < 0){
-          
-          
-
-          
         }
       }
       
