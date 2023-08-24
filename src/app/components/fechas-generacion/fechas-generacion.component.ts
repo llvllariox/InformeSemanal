@@ -87,118 +87,183 @@ export class FechasGeneracionComponent implements OnInit {
     let fechaVacio = new Date('1899-12-31T00:00:00');
     //let fechaVacio = new Date('2023-01-03T00:00:00');
 
-    //horas en cero
-    if(item.inicioPlanificado){
-      item.inicioPlanificado.setHours(0,0,0,0);
-    }
-
-    if(item.finPlanificado){
-      item.finPlanificado.setHours(0,0,0,0);
-    }
-
-    if(item.inicioReal){
-      item.inicioReal.setHours(0,0,0,0);
-    }
-
-    if(item.finReal){
-      item.finReal.setHours(0,0,0,0);
-    }
-
-    if(item.inicioComprometido){
-      item.inicioComprometido.setHours(0,0,0,0);
-    }
-
-    if(item.finComprometido){
-      item.finComprometido.setHours(0,0,0,0);
-    }
-
     //color de cada regla
     item['validarFechaInicioPlanificado'] = '';
     item['validarFechaFinPlanificado'] = '';
     item['validarFechaInicioComprometido'] = '';
     item['validarFechaFinComprometido'] = '';
+    item['validarFechaInicioReal'] = '';
+    item['validarFechaFinReal'] = '';
 
-    // ***** FECHAS *****
+    
+    let fechaActual = new Date();
+    fechaActual.setHours(0,0,0,0);
 
-    //regla1: Fecha ini Planificada no puede ser vacio "01-01-1900"
+    // ***** FECHAS INICIO *****
+    
+    //si fecha de inicio comprometida es vacia vacia -> rojo
+    if(item.inicioComprometido){
+      item.inicioComprometido.setHours(0,0,0,0);
+
+      if(item.inicioComprometido.getTime() == fechaVacio.getTime()){
+        item['validarFechaInicioComprometido'] = colorRojo;
+        item['mostrar'] = 1; 
+      }
+    }
+
+    //si fecha de inicio planificada es vacia y 
+    //fecha actual > fecha de inicio comprometida -> rojo
     if(item.inicioPlanificado){
-      if(item.inicioPlanificado.getTime() == fechaVacio.getTime())
-      {
-        item['validarFechaInicioPlanificado'] = colorAmarillo;
-        item['mostrar'] = 1;  
+      item.inicioPlanificado.setHours(0,0,0,0);
+
+      if(item.inicioPlanificado.getTime() == fechaVacio.getTime()){
+        if(item.inicioComprometido){
+          item.inicioComprometido.setHours(0,0,0,0);
+
+          if(fechaActual.getTime() > item.inicioComprometido.getTime()){
+            item['validarFechaInicioPlanificado'] = colorRojo;
+            item['mostrar'] = 1; 
+          }
+        }
       }
-    } else {
-      item['validarFechaInicioPlanificado'] = colorAmarillo;
-      item['mostrar'] = 1;  
     }
-
-    //regla2: Fecha Fin Planificada no puede ser vacio "01-01-1900"
-    if(item.finPlanificado){
-      if(item.finPlanificado.getTime() == fechaVacio.getTime())
-      {
-        item['validarFechaFinPlanificado'] = colorAmarillo;
-        item['mostrar'] = 1;  
-      }
-    } else {
-      item['validarFechaFinPlanificado'] = colorAmarillo;
-      item['mostrar'] = 1;  
-    }
-
-
-    //regla3: Fec ini Planificado no puede ser distinta a fec ini comprometido
-    if(item.inicioPlanificado && (item.inicioPlanificado.getTime() != item.inicioComprometido.getTime())){
-      item['validarFechaInicioPlanificado'] = colorAmarillo;
-      item['validarFechaInicioComprometido'] = colorAmarillo;
-      item['mostrar'] = 1;  
-    }
-
-    //regla4: Fec fin Planificado no puede ser distinta a fec fin comprometido
-    if(item.finPlanificado && (item.finPlanificado.getTime() != item.finComprometido.getTime())){
-      item['validarFechaFinPlanificado'] = colorAmarillo;
-      item['validarFechaFinComprometido'] = colorAmarillo;
-      item['mostrar'] = 1;  
-    }
-
-    //regla5: Fec Ini Real no puede ser vacio
+    
+    //si fecha de inicio real es vacia y
+    //fecha actual > fecha de inicio planificada -> rojo
     if(item.inicioReal){
-      if(item.inicioReal.getTime() == fechaVacio.getTime()) {
-        item['validarFechaInicioReal'] = colorRojo;
-        item['mostrar'] = 1;  
+      item.inicioReal.setHours(0,0,0,0);
+
+      if(item.inicioReal.getTime() == fechaVacio.getTime()){
+        if(item.inicioPlanificado){
+          item.inicioPlanificado.setHours(0,0,0,0);
+
+          if(fechaActual.getTime() > item.inicioPlanificado.getTime()){
+            item['validarFechaInicioReal'] = colorRojo;
+            item['mostrar'] = 1; 
+          }
+        }
       }
-    } else {
-      item['validarFechaInicioReal'] = colorRojo;
-      item['mostrar'] = 1;  
     }
 
-    //regla6: Fec Fin Real no puede ser vacio
+    //si fecha de inicio comprometida es diferente a fecha de inicio planificada 
+    //y ambas no vacias -> amarillo
+    if(item.inicioComprometido && item.inicioPlanificado){
+      item.inicioComprometido.setHours(0,0,0,0);
+      item.inicioPlanificado.setHours(0,0,0,0);
+
+      if(
+          (item.inicioComprometido.getTime() != fechaVacio.getTime())
+          &&
+          (item.inicioPlanificado.getTime() != fechaVacio.getTime())
+          &&
+          (item.inicioComprometido.getTime() != item.inicioPlanificado.getTime())
+        ){
+          item['validarFechaInicioComprometido'] = colorAmarillo;
+          item['validarFechaInicioPlanificado'] = colorAmarillo;
+          item['mostrar'] = 1; 
+        }
+    }
+
+    //si fecha de inicio planificada es diferente a fecha de inicio real
+    // y ambas no vacias -> amarillo
+    if(item.inicioPlanificado && item.inicioReal){
+      item.inicioPlanificado.setHours(0,0,0,0);
+      item.inicioReal.setHours(0,0,0,0);
+
+      if(
+          (item.inicioPlanificado.getTime() != fechaVacio.getTime())
+          &&
+          (item.inicioReal.getTime() != fechaVacio.getTime())
+          &&
+          (item.inicioPlanificado.getTime() != item.inicioReal.getTime())
+        ){
+          item['validarFechaInicioPlanificado'] = colorAmarillo;
+          item['validarFechaInicioReal'] = colorAmarillo;
+          item['mostrar'] = 1; 
+        }
+    }
+
+    // ***** FECHAS FIN *****
+    //si fecha de fin comprometida es vacia vacia -> rojo
+    if(item.finComprometido){
+      item.finComprometido.setHours(0,0,0,0);
+
+      if(item.finComprometido.getTime() == fechaVacio.getTime()){
+        item['validarFechaFinComprometido'] = colorRojo;
+        item['mostrar'] = 1; 
+      }
+    }
+
+    //si fecha de fin planificada es vacia y 
+    //fecha actual > fecha de fin comprometida -> rojo
+    if(item.finPlanificado){
+      item.finPlanificado.setHours(0,0,0,0);
+
+      if(item.finPlanificado.getTime() == fechaVacio.getTime()){
+        if(item.finComprometido){
+          item.finComprometido.setHours(0,0,0,0);
+
+          if(fechaActual.getTime() > item.finComprometido.getTime()){
+            item['validarFechaFinPlanificado'] = colorRojo;
+            item['mostrar'] = 1; 
+          }
+        }
+      }
+    }
+    
+    //si fecha de fin real es vacia y
+    //fecha actual > fecha de fin planificada -> rojo
     if(item.finReal){
-      if(item.finReal.getTime() == fechaVacio.getTime()) {
-        item['validarFechaFinReal'] = colorRojo;
-        item['mostrar'] = 1;  
+      item.finReal.setHours(0,0,0,0);
+
+      if(item.finReal.getTime() == fechaVacio.getTime()){
+        if(item.finPlanificado){
+          item.finPlanificado.setHours(0,0,0,0);
+
+          if(fechaActual.getTime() > item.finPlanificado.getTime()){
+            item['validarFechaFinReal'] = colorRojo;
+            item['mostrar'] = 1; 
+          }
+        }
       }
-    } else {
-      item['validarFechaFinReal'] = colorRojo;
-      item['mostrar'] = 1;  
     }
 
-    //regla7: Fec Ini Real si es mayor fec ini planificada error
-    if(
-        //item.inicioReal && item.inicioPlanificado 
-        (item.inicioReal.getTime() > item.inicioPlanificado.getTime())
-      ){
-      item['validarFechaInicioReal'] = colorRojo;
-      item['validarFechaInicioPlanificado'] = colorRojo;
-      item['mostrar'] = 1;  
+    //si fecha de fin comprometida es diferente a fecha de fin planificada 
+    //y ambas no vacias -> amarillo
+    if(item.finComprometido && item.finPlanificado){
+      item.finComprometido.setHours(0,0,0,0);
+      item.finPlanificado.setHours(0,0,0,0);
+
+      if(
+          (item.finComprometido.getTime() != fechaVacio.getTime())
+          &&
+          (item.finPlanificado.getTime() != fechaVacio.getTime())
+          &&
+          (item.finComprometido.getTime() != item.finPlanificado.getTime())
+        ){
+          item['validarFechaFinComprometido'] = colorAmarillo;
+          item['validarFechaFinPlanificado'] = colorAmarillo;
+          item['mostrar'] = 1; 
+        }
     }
-  
-    //regla8: Fec Fin Real si es mayor fec fin planificado error
-    if(
-      //item.finReal && item.finPlanificado 
-      (item.finReal.getTime() > item.finPlanificado.getTime())
-    ){
-      item['validarFechaFinReal'] = colorRojo;
-      item['validarFechaFinPlanificado'] = colorRojo;
-      item['mostrar'] = 1;
+
+    //si fecha de fin planificada es diferente a fecha de fin real
+    // y ambas no vacias -> amarillo
+    if(item.finPlanificado && item.finReal){
+      item.finPlanificado.setHours(0,0,0,0);
+      item.finReal.setHours(0,0,0,0);
+
+      if(
+          (item.finPlanificado.getTime() != fechaVacio.getTime())
+          &&
+          (item.finReal.getTime() != fechaVacio.getTime())
+          &&
+          (item.finPlanificado.getTime() != item.finReal.getTime())
+        ){
+          item['validarFechaFinPlanificado'] = colorAmarillo;
+          item['validarFechaFinReal'] = colorAmarillo;
+          item['mostrar'] = 1;
+        }
     }
 
     // ***** HORAS *****
@@ -379,116 +444,163 @@ export class FechasGeneracionComponent implements OnInit {
     let workbook = new Workbook();
     let worksheet = workbook.addWorksheet('DMS Detalle');
     
-      // Se establecen anchos de las columnas
-      worksheet.getColumn(1).width = 12;
-      worksheet.getColumn(2).width = 10;
-      worksheet.getColumn(3).width = 20;
-      worksheet.getColumn(4).width = 38;
-      worksheet.getColumn(5).width = 20;
-      worksheet.getColumn(6).width = 20;
-      worksheet.getColumn(7).width = 20;
-      worksheet.getColumn(8).width = 10;
-      worksheet.getColumn(9).width = 20;
-      worksheet.getColumn(10).width = 20;
-      worksheet.getColumn(11).width = 20;
-      worksheet.getColumn(12).width = 20;
-      worksheet.getColumn(13).width = 20;
-      worksheet.getColumn(14).width = 20;
-      worksheet.getColumn(15).width = 20;
-      worksheet.getColumn(16).width = 20;
-
-      const headerCS = [
-        'Contrato',
-        'ARS',
-        'Línea de Servicio',
-        'Tarea',
-        'Horas Estimadas',
-        'Horas Planificadas',
-        'Horas Incurridas',
-        'ETC',
-        'Inicio Comprometido',
-        'Inicio Planificado',
-        'Inicio Real',
-        'Fin Comprometido',
-        'Fin Planificado',
-        'Fin Real',
-        'Grupo de Trabajo',
-        'Responsable'
-      ];
-      let headerRowCS = worksheet.addRow(headerCS);
-
-        // Cell Style : Fill and Border
-      headerRowCS.eachCell((cell, number) => {
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: 'ff4f81bd' },
-          bgColor: { argb: '	ff4f81bd' },
-
-        };
-    
-    cell.border = { 
-      top: { style: 'thin' }, 
-      left: { style: 'thin' }, 
-      bottom: { style: 'thin' }, 
-      right: { style: 'thin' }
-    };
-    
-    cell.font = {
-      color: {argb: 'FFFFFF'},
-      bold: true,
-      italic: true
-    };
-
-    cell.alignment = {
-      vertical: 'middle',
-      horizontal: 'center'
-    };
-  });
-
-  headerRowCS.height = 40;
- 
-
-  let newRow; 
-  this.JsonArrayDms.forEach(d => {
-    newRow = [
-              d['contrato'], 
-              d['ars'], 
-              d['lineaDeServicio'], 
-              d['tarea'], 
-              d['horasEstimadas'], 
-              d['horasPlanificadas'], 
-              d['horasIncurridas'], 
-              d['etc'], 
-              d['inicioComprometido'], 
-              d['inicioPlanificado'], 
-              d['inicioReal'], 
-              d['finComprometido'], 
-              d['finPlanificado'], 
-              d['finReal'], 
-              d['grupoDeTrabajo'], 
-              d['responsable']
+    // Se establecen anchos de las columnas
+    worksheet.getColumn(1).width = 20;
+    worksheet.getColumn(2).width = 12;
+    worksheet.getColumn(3).width = 10;
+    worksheet.getColumn(4).width = 20;
+    worksheet.getColumn(5).width = 38;
+    worksheet.getColumn(6).width = 20;
+    worksheet.getColumn(7).width = 20;
+    worksheet.getColumn(8).width = 20;
+    worksheet.getColumn(9).width = 20;
+    worksheet.getColumn(10).width = 20;
+    worksheet.getColumn(11).width = 20;
+    worksheet.getColumn(12).width = 20;
+    worksheet.getColumn(13).width = 20;
+    worksheet.getColumn(14).width = 20;
+    worksheet.getColumn(15).width = 20;
+    worksheet.getColumn(16).width = 20;
+      
+    const headerCS = [
+      'Responsable',
+      'Contrato',
+      'ARS',
+      'Línea de Servicio',
+      'Tarea',
+      'Horas Estimadas',
+      'Horas Planificadas',
+      'Horas Incurridas',
+      'ETC',
+      'Inicio Comprometido',
+      'Inicio Planificado',
+      'Inicio Real',
+      'Fin Comprometido',
+      'Fin Planificado',
+      'Fin Real',
+      'Grupo de Trabajo'
     ];
+    let headerRowCS = worksheet.addRow(headerCS);
+
+      // Cell Style : Fill and Border
+    headerRowCS.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'ff4f81bd' },
+        bgColor: { argb: '	ff4f81bd' },
+      };
     
-    let insertedRow = worksheet.addRow(newRow);
+      cell.border = { 
+        top: { style: 'thin' }, 
+        left: { style: 'thin' }, 
+        bottom: { style: 'thin' }, 
+        right: { style: 'thin' }
+      };
+    
+      cell.font = {
+        color: {argb: 'FFFFFF'},
+        bold: true,
+        italic: true
+      };
+
+      cell.alignment = {
+        vertical: 'middle',
+        horizontal: 'center'
+      };
+    });
+
+    headerRowCS.height = 40;
+
+    worksheet.autoFilter = {
+      from: 'A1',
+      to: 'P1',
+    }
+
+    let newRow; 
+    this.JsonArrayDms.forEach(d => {
+      if(d['mostrar'] == 1){
+          newRow = [
+            d['responsable'],
+            d['contrato'], 
+            "***" + d['ars'], 
+            d['lineaDeServicio'], 
+            d['tarea'], 
+            d['horasEstimadas'], 
+            d['horasPlanificadas'], 
+            d['horasIncurridas'], 
+            d['etc'], 
+            d['inicioComprometido'], 
+            d['inicioPlanificado'], 
+            d['inicioReal'], 
+            d['finComprometido'], 
+            d['finPlanificado'], 
+            d['finReal'], 
+            d['grupoDeTrabajo'],
+          ];
+
+      } else {
+      newRow = [
+          d['responsable'],
+          d['contrato'], 
+          d['ars'], 
+          d['lineaDeServicio'], 
+          d['tarea'], 
+          d['horasEstimadas'], 
+          d['horasPlanificadas'], 
+          d['horasIncurridas'], 
+          d['etc'], 
+          d['inicioComprometido'], 
+          d['inicioPlanificado'], 
+          d['inicioReal'], 
+          d['finComprometido'], 
+          d['finPlanificado'], 
+          d['finReal'], 
+          d['grupoDeTrabajo'],
+        ];
+      }
+    
+      let insertedRow = worksheet.addRow(newRow);
+
+      let colorAmarillo = this.toARGB('#ffff00'); //amarillo
 
     insertedRow.eachCell((cell, number) => {
-
-      if(number == 2){
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: this.toARGB(d['validarARS']) },
-          bgColor: { argb: this.toARGB(d['validarARS']) },
-        };
-      } else if(number == 5){
+      if(number == 3){
+        if(cell.value.toString().slice(0, 3) == "***"){
+          cell.value = Number(cell.value.toString().slice(3));
+          cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: colorAmarillo },
+            bgColor: { argb: colorAmarillo },
+          };
+          cell.alignment = {
+            vertical: 'middle',
+            horizontal: 'right'
+          };
+        }
+      } else if(number == 6){
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
           fgColor: { argb: this.toARGB(d['validarHorasEstimadas']) },
           bgColor: { argb: this.toARGB(d['validarHorasEstimadas']) },
         };
-      } else if(number == 9){
+      } else if(number == 7){
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: this.toARGB(d['validarHorasPlanificadas']) },
+          bgColor: { argb: this.toARGB(d['validarHorasPlanificadas']) },
+        };
+      } else if(number == 8){
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: this.toARGB(d['validarHorasIncurridas']) },
+          bgColor: { argb: this.toARGB(d['validarHorasIncurridas']) },
+        };
+      } else if(number == 10){
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
@@ -496,7 +608,7 @@ export class FechasGeneracionComponent implements OnInit {
           bgColor: { argb: this.toARGB(d['validarFechaInicioComprometido']) },
         };
         cell.numFmt = 'dd/mm/yyyy';
-      } else if(number == 10){
+      } else if(number == 11){
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
@@ -504,7 +616,7 @@ export class FechasGeneracionComponent implements OnInit {
           bgColor: { argb: this.toARGB(d['validarFechaInicioPlanificado']) },
         };
         cell.numFmt = 'dd/mm/yyyy';
-      } else if(number == 11){
+      } else if(number == 12){
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
@@ -512,7 +624,7 @@ export class FechasGeneracionComponent implements OnInit {
           bgColor: { argb: this.toARGB(d['validarFechaInicioReal']) },
         };
         cell.numFmt = 'dd/mm/yyyy';
-      } else if(number == 12){
+      } else if(number == 13){
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
@@ -520,7 +632,7 @@ export class FechasGeneracionComponent implements OnInit {
           bgColor: { argb: this.toARGB(d['validarFechaFinComprometido']) },
         };
         cell.numFmt = 'dd/mm/yyyy';
-      } else if(number == 13){
+      } else if(number == 14){
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
@@ -528,7 +640,7 @@ export class FechasGeneracionComponent implements OnInit {
           bgColor: { argb: this.toARGB(d['validarFechaFinPlanificado']) },
         };
         cell.numFmt = 'dd/mm/yyyy';
-      } else if(number == 14){
+      } else if(number == 15){
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
@@ -538,6 +650,12 @@ export class FechasGeneracionComponent implements OnInit {
         cell.numFmt = 'dd/mm/yyyy';
       }
 
+      cell.border = {
+          top: { style: "thin" },
+          left: { style: "thin" },
+          bottom: { style: "thin" },
+          right: { style: "thin" }
+        };
     });
   });
   

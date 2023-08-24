@@ -3,6 +3,7 @@
     <table class="tablaDMS">
         <thead>
             <tr>
+                <th>Responsable</th>
                 <th>Contrato</th>
                 <th>ARS</th>
                 <th>Línea de Servicio</th>
@@ -18,11 +19,11 @@
                 <th>Fin Planificado</th>
                 <th>Fin Real</th>
                 <th>Grupo de Trabajo</th>
-                <th>Responsable</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let ars of JsonArrayDmsWeb; let i=index">
+                <td>{{ ars.responsable }}</td>
                 <td>{{ ars.contrato }}</td>
                 <td [style.background-color]="ars.validarARS">{{ ars.ars }}</td>
                 <td>{{ ars.lineaDeServicio }}</td>
@@ -38,7 +39,6 @@
                 <td [style.background-color]="ars.validarFechaFinPlanificado">{{ ars.finPlanificado | fechaDMS }}</td>
                 <td [style.background-color]="ars.validarFechaFinReal">{{ ars.finReal | fechaDMS }}</td>
                 <td>{{ ars.grupoDeTrabajo }}</td>
-                <td>{{ ars.responsable }}</td>
             </tr>
         </tbody>
     </table>
