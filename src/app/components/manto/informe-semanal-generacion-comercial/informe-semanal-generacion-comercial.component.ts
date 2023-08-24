@@ -139,10 +139,10 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       //utilizadas
       this.totales[mesActual]['utilizadas'] = 0;
       this.jsonArrayHoras.forEach(element => {
-        this.totales[mesActual]['utilizadas'] += Number(element.horas);
+        this.totales[mesActual]['utilizadas'] += Math.round(Number(element.horas));
       });
       
-      this.totales[mesActual]['utilizadas'] = Math.round(this.totales[mesActual]['utilizadas']);
+      this.totales[mesActual]['utilizadas'] = (this.totales[mesActual]['utilizadas']);
       this.horasUtilizadasOriginal = this.totales[mesActual]['utilizadas'];
 
       //anterior
