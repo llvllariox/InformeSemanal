@@ -64,21 +64,6 @@ export class FechasGeneracionComponent implements OnInit {
 
   //realiza las validaciones sobre la descarga de DMS
 
-  /*
-    regla1: Fecha ini Planificada no puede ser vacio "01-01-1900"
-    regla2: Fecha Fin Planificada no puede ser vacio "01-01-1900"
-    
-    regla3: Fec ini Planificado no puede ser distinta a fec ini comprometido
-    regla4: Fec fin Planificado no puede ser distinta a fec fin comprometido
-    
-    regla5: Fec Ini Real no puede ser vacio
-    regla6: Fec Fin Real no puede ser vacio
-    
-    regla7: Fec In Real si es mayor fec ini planificada error
-    regla8: Fec Fin Real si es mayor fec fin planificado error
-
-  */
-
   validarExcel(item, index, arr){
     let colorNaranjo = '#ff6600'; //naranjo
     let colorRojo = '#ff0000'; //rojo
@@ -283,6 +268,18 @@ export class FechasGeneracionComponent implements OnInit {
         item['validarHorasPlanificadas'] = colorNaranjo;
         item['mostrar'] = 1;
       }      
+    }
+
+    //marcar en naranjo si las horas estimadas y las planificadas son distintas
+
+    if(item.horasEstimadas && item.horasPlanificadas){ //&& item.finReal){
+      if(
+        (item.horasEstimadas != item.horasPlanificadas)
+      ){
+        item['validarHorasEstimadas'] = colorAmarillo;
+        item['validarHorasPlanificadas'] = colorAmarillo;
+        item['mostrar'] = 1;
+      }
     }
   }
   
