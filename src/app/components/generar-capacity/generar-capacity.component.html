@@ -13,7 +13,20 @@
                     </div>
                     <div class="col">
                         <input [class.is-invalid]="planificacionNoValido" formControlName="planificacion" type="file" (change)="uploadPlan($event)" (click)="click(1)">
+                        <small>Exportaciones -> Detalle de Planificación</small>
                         <small *ngIf="planificacionNoValido" class="text-danger">Seleccione Archivo</small>
+                    </div>
+                </div>
+
+                <!-- Requerimientos -->
+                <div class="row my-3">
+                    <div class="col">
+                        <i *ngIf="estadoReq==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoReq==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoReq==3" class="fas fa-check text-success"></i><i *ngIf="estadoReq==4" class="fas fa-times text-danger"></i>&nbsp;Requerimientos:
+                    </div>
+                    <div class="col">
+                        <input [class.is-invalid]="requerimientosNoValido" formControlName="requerimientos" type="file" (change)="uploadReq($event)" (click)="click(2)">
+                        <small>Exportaciones -> Requerimientos</small>
+                        <small *ngIf="requerimientosNoValido" class="text-danger">Seleccione Archivo</small>
                     </div>
                 </div>
 
@@ -23,6 +36,5 @@
                     </div>
                 </div>
             </form>
-
         </div>
     </div>

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, setTestabilityGetter } from '@angular/core';
 import { CapacityService } from '../../services/capacity.service';
 declare function init_customJS();
 import * as moment from 'moment'; //
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import { exit } from 'process';
+import { Console } from 'console';
+import { jsDocComment } from '@angular/compiler';
 
 @Component({
   selector: 'app-ver-capacity',
@@ -30,6 +32,23 @@ export class VerCapacityComponent implements OnInit {
   mostrarVal2 = true;
   textoVar = 'Detalle';
 
+  jsonDataReq = null;
+  tablaRequerimientos = [];
+  arregloBloques = [];
+  totalReq = [];
+
+  primeraFecha;
+  segundaFecha;
+  terceraFecha;
+  primeraFechaTabla;
+  segundaFechaTabla;
+  terceraFechaTabla;
+  tablaReqPrimerMes = [];
+  tablaReqSegundoMes = [];
+  tablaReqTercerMes = [];
+  monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
   constructor(public capacityService: CapacityService) {
     init_customJS();
 
@@ -45,6 +64,14 @@ export class VerCapacityComponent implements OnInit {
     this.dias =  Number(this.finMes.format('DD'));
 
     // this.capacityService.horasMtto = this.Mttovalor1 + this.Mttovalor2;
+
+    //Requerimientos
+    this.jsonDataReq = capacityService.getJsonDataReqService();
+    this.getFechasReq();
+    this.getTablaRequerimientos(this.jsonDataReq);
+
+    console.log('SALIDA');
+    console.log(this.tablaRequerimientos);
   }
 
   ngOnInit(): void {
@@ -609,10 +636,424 @@ export class VerCapacityComponent implements OnInit {
 
     // se establece ancho de primera columna
     worksheet2.getColumn(1).width = 65;
+
+    //agregamos una hoja referente a los Requerimientos
+    let worksheet3 = workbook.addWorksheet(`Requerimientos`);
+
+    //A1
+    let A1Row = worksheet3.addRow(['Asignación Capacity Services']);
+    A1Row.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '203764' },
+        bgColor: { argb: '203764' },
+
+      };
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+      cell.font = {
+        color: {argb: 'FFFFFF'},
+        bold: true,
+      };
+
+      cell.alignment = {
+        horizontal: 'center'
+      };
+    });
+
+    worksheet3.mergeCells('A1:H1');
+
+    //B
+    let headerBReq = [
+      'VS',
+      'Responsable',
+      this.primeraFechaTabla,
+      '',
+      this.segundaFechaTabla,
+      '',
+      this.terceraFechaTabla,
+      ''
+    ];
+
+    let headerBRowReq = worksheet3.addRow(headerBReq);
+
+    headerBRowReq.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '203764' },
+        bgColor: { argb: '203764' },
+      };
+
+      cell.border = { 
+        top: { style: 'thin' }, 
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+      };
+
+      cell.font = {
+        color: {argb: 'FFFFFF'},
+        bold: true,
+      };
+
+      cell.alignment = {
+        horizontal: 'center',
+        vertical: 'middle',
+      };
+    });
+
+
+    //C
+    let headerCReq = [
+      '',
+      '',
+      'Cantidad',
+      'Valor UF',
+      'Cantidad',
+      'Valor UF',
+      'Cantidad',
+      'Valor UF'
+    ];
+
+    let headerCRowReq = worksheet3.addRow(headerCReq);
+
+    headerCRowReq.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '203764' },
+        bgColor: { argb: '203764' },
+      };
+
+      cell.border = { 
+        top: { style: 'thin' }, 
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+      };
+
+      cell.font = {
+        color: {argb: 'FFFFFF'},
+        bold: true,
+      };
+
+     
+        cell.alignment = {
+          horizontal: 'center',
+        };
+     
+
+     
+    });
+
+    worksheet3.mergeCells('A2:A3');
+    worksheet3.mergeCells('B2:B3');
+    worksheet3.mergeCells('C2:D2');
+    worksheet3.mergeCells('E2:F2');
+    worksheet3.mergeCells('G2:H2');
+
+    worksheet3.getColumn(1).width = 44;
+    worksheet3.getColumn(2).width = 24;
+    worksheet3.getColumn(3).width = 14;
+    worksheet3.getColumn(4).width = 14;
+    worksheet3.getColumn(5).width = 14;
+    worksheet3.getColumn(6).width = 14;
+    worksheet3.getColumn(7).width = 14;
+    worksheet3.getColumn(8).width = 14;
+
+    let newReqRow;
+    let bloque;
+
+    this.tablaRequerimientos.forEach(element => {
+      if(element['mostrar'] == 1){
+        bloque = element['bloque'];
+      } else {
+        bloque = '';
+      }
+
+
+       newReqRow = [
+        bloque, 
+        element['origen'],
+        element['cuenta1M'],
+        element['suma1M'],
+        element['cuenta2M'],
+        element['suma2M'],
+        element['cuenta3M'],
+        element['suma3M']
+      ];
+      
+      let dataReq = worksheet3.addRow(newReqRow);  
+
+      dataReq.eachCell((cell, number) => {
+        console.log(number);
+          if(number==1 || number==2){
+            cell.alignment = {
+              vertical: 'middle',
+              horizontal: 'left'
+            };
+          } else{
+            cell.alignment = {
+              vertical: 'middle',
+              horizontal: 'center'
+            };
+          }      
+      });
+    });
+
+    //Total
+    let totalReq = [
+      '',
+      'Total CS',
+      this.totalReq['cuenta1M'],
+      this.totalReq['suma1M'],
+      this.totalReq['cuenta2M'],
+      this.totalReq['suma2M'],
+      this.totalReq['cuenta3M'],
+      this.totalReq['suma3M']
+    ];
+
+    let totalRowReq = worksheet3.addRow(totalReq);
+
+    totalRowReq.eachCell((cell, number) => {
+
+      if(number == 1){
+
+      } else if(number == 2){
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: '203764' },
+          bgColor: { argb: '203764' },
+  
+        };
+        cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+        cell.font = {
+          color: {argb: 'FFFFFF'},
+          bold: true,
+        }; 
+      } else {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'B4C6E7' },
+          bgColor: { argb: 'B4C6E7' },
+        };
+        cell.font = {
+          bold: true,
+        };
+        cell.alignment = {
+          vertical: 'middle',
+          horizontal: 'center'
+        };
+      }
+    });
+
     // se genera excel para descargar
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       fs.saveAs(blob, `Capacity_${this.hoy}.xlsx`);
     });
   }
+
+  //obtiene la data de los requerimientos con fecha de recepcion hasta fecha
+  getReqMes(fecha){
+    let tabla = [];
+    return tabla;
+  }
+
+  //se obtienen las fechas para los Requerimientos
+  getFechasReq(){
+    let primeraFecha; // 1 del mes anterior al actual
+    let segundaFecha; // 1 del mes actual
+    let terceraFecha; // 1 del siguiente mes al actual
+
+    //terceraFecha
+    let fechaActual = new Date();
+    fechaActual.setHours(0,0,0,0);
+
+    let terceraFechaMes = fechaActual.getMonth();
+    let terceraFechaYear = fechaActual.getFullYear();
+
+    if(terceraFechaMes == 11){
+      terceraFechaMes = 1;
+      terceraFechaYear += 1;
+    } else {
+      terceraFechaMes += 2;
+    }
+
+    terceraFecha = new Date(terceraFechaMes.toString() + '-1-' + terceraFechaYear.toString());
+
+    //segundaFecha
+    let segundaFechaMes = terceraFecha.getMonth(); 
+    let segundaFechaYear = terceraFecha.getFullYear();
+
+    if(segundaFechaMes == 0){
+      segundaFechaMes = 12;
+      segundaFechaYear += -1;
+    }
+
+    segundaFecha = new Date(segundaFechaMes.toString() + '-1-' + segundaFechaYear.toString());
+
+
+    //primeraFecha
+    let primeraFechaMes = segundaFecha.getMonth(); 
+    let primeraFechaYear = segundaFecha.getFullYear();
+
+    if(primeraFechaMes == 0){
+      primeraFechaMes = 12;
+      primeraFechaYear += -1;
+    }
+
+    primeraFecha = new Date(primeraFechaMes.toString() + '-1-' + primeraFechaYear.toString());
+
+    this.primeraFecha = primeraFecha;
+    this.segundaFecha = segundaFecha;
+    this.terceraFecha = terceraFecha;
+
+    //obtenemos las fechas a mostrar en las tablas
+    if(this.primeraFecha.getMonth() == 0){
+      this.primeraFechaTabla = 'Diciembre-'+ (this.primeraFecha.getFullYear()-1);
+    } else {
+      this.primeraFechaTabla = this.monthNames[this.primeraFecha.getMonth()-1] + '-' + this.primeraFecha.getFullYear();
+    }
+
+    if(this.segundaFecha.getMonth() == 0){
+      this.segundaFechaTabla = 'Diciembre-'+ (this.segundaFecha.getFullYear()-1);
+    } else {
+      this.segundaFechaTabla = this.monthNames[this.segundaFecha.getMonth()-1] + '-' + this.segundaFecha.getFullYear();
+    }
+
+    if(this.terceraFecha.getMonth() == 0){
+      this.terceraFechaTabla = 'Diciembre-'+ (this.terceraFecha.getFullYear()-1);
+    } else {
+      this.terceraFechaTabla = this.monthNames[this.terceraFecha.getMonth()-1] + '-' + this.terceraFecha.getFullYear();
+    }
+  }
+
+  //se agrupa por bloque y origen y se cuentan y suman las prioridades
+  //para la fecha (mes) dada mas 2 meses antes
+  getTablaRequerimientos(jsonDataReq){
+    let indexFind = -1;
+
+    
+    this.totalReq['cuenta1M'] = 0;
+    this.totalReq['suma1M'] = 0;
+    this.totalReq['cuenta2M'] = 0;
+    this.totalReq['suma2M'] = 0;
+    this.totalReq['cuenta3M'] = 0;
+    this.totalReq['suma3M'] = 0;
+
+    indexFind = -1;
+
+    //tercera fecha
+    
+    jsonDataReq = jsonDataReq.filter(a => {
+      return (a.fechaRecepcion < this.terceraFecha);
+    });
+
+    jsonDataReq.forEach(element => {
+      indexFind = this.tablaRequerimientos.findIndex(
+        req => (req.bloque === element.bloque && req.origen === element.origen)
+      );
+     
+      if(indexFind == -1){
+        let jsonReq = [];
+        jsonReq['bloque'] = element.bloque;
+        jsonReq['origen'] = element.origen;
+        jsonReq['suma1M'] = 0;
+        jsonReq['cuenta1M'] = 0;
+        jsonReq['suma2M'] = 0;
+        jsonReq['cuenta2M'] = 0;
+        jsonReq['suma3M'] = Number(element.prioridad);
+        jsonReq['cuenta3M'] = 1;
+        jsonReq['mostrar'] = 1;
+
+        this.tablaRequerimientos.push(jsonReq);
+      } else {
+        this.tablaRequerimientos[indexFind]['cuenta3M'] += 1;
+        this.tablaRequerimientos[indexFind]['suma3M'] += Number(element.prioridad);
+      }
+    });
+  
+
+
+    //segunda fecha
+    jsonDataReq = jsonDataReq.filter(a => {
+      return (a.fechaRecepcion < this.segundaFecha);
+    });
+
+    jsonDataReq.forEach(element => {
+      indexFind = this.tablaRequerimientos.findIndex(
+        req => (req.bloque === element.bloque && req.origen === element.origen)
+      );
+
+      this.tablaRequerimientos[indexFind]['cuenta2M'] += 1;
+      this.tablaRequerimientos[indexFind]['suma2M'] += Number(element.prioridad);
+    });
+
+
+
+    //primera fecha
+    jsonDataReq = jsonDataReq.filter(a => {
+      return (a.fechaRecepcion < this.primeraFecha);
+    });
+
+    jsonDataReq.forEach(element => {
+      indexFind = this.tablaRequerimientos.findIndex(
+        req => (req.bloque === element.bloque && req.origen === element.origen)
+      );
+
+      this.tablaRequerimientos[indexFind]['cuenta1M'] += 1;
+      this.tablaRequerimientos[indexFind]['suma1M'] += Number(element.prioridad);
+    });
+
+    this.tablaRequerimientos.forEach((elementToFixed, indexToFixed) => {
+      this.tablaRequerimientos[indexToFixed].suma3M = this.tablaRequerimientos[indexToFixed].suma3M.toFixed(2);
+      this.tablaRequerimientos[indexToFixed].suma2M = this.tablaRequerimientos[indexToFixed].suma2M.toFixed(2);
+      this.tablaRequerimientos[indexToFixed].suma1M = this.tablaRequerimientos[indexToFixed].suma1M.toFixed(2);
+    });
+
+    //ordenamos la tabla por su bloque
+    this.tablaRequerimientos.sort((a, b) => {
+      const reqA = a['bloque'];
+      const reqB = b['bloque'];
+      if (reqA < reqB) {
+        return -1;
+      }
+
+      if (reqA > reqB) {
+        return 1;
+      }
+      return 0;
+    });
+
+    //si el bloque ya fue agregado lo marcamos para no mostrarlo
+    let indexBloque = -1;
+    this.tablaRequerimientos.forEach(element => {
+      indexBloque = this.arregloBloques.findIndex(req => (req == element.bloque));
+      
+      if(indexBloque == -1){        
+        this.arregloBloques.push(element.bloque);
+      } else {
+        element.mostrar = 0;
+      }   
+    });
+
+    //calculamos los totales
+    this.tablaRequerimientos.forEach(element => {
+      this.totalReq['cuenta3M'] += element.cuenta3M;
+      this.totalReq['suma3M'] += Number(element.suma3M);
+      this.totalReq['cuenta2M'] += element.cuenta2M;
+      this.totalReq['suma2M'] += Number(element.suma2M);
+      this.totalReq['cuenta1M'] += element.cuenta1M;
+      this.totalReq['suma1M'] += Number(element.suma1M);
+    });
+    this.totalReq['suma3M'] = this.totalReq['suma3M'].toFixed(2);
+    this.totalReq['suma2M'] = this.totalReq['suma2M'].toFixed(2);
+    this.totalReq['suma1M'] = this.totalReq['suma1M'].toFixed(2);
+   
+  }
+
 }

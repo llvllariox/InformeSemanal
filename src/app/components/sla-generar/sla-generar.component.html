@@ -322,7 +322,7 @@
 
             <div id="collapseTablaValoresVaciosM" class="collapse" aria-labelledby="headingTablaValoresVaciosM" data-parent="#accordionTablaValoresVacios">
                 <div class="card-body">
-                    <div *ngIf="JsonArrayVaciosMantenimiento.length==0; else noVVM">
+                    <div *ngIf="arrayVaciosMantenimiento.length==0; else noVVM">
                         No se encontró data. 
                     </div>
                     <ng-template #noVVM>
@@ -332,17 +332,14 @@
                                     <th class="small font-weight-bold text-light indice" scope="col"></th>
                                     <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
                                     <th class="small font-weight-bold text-light" scope="col">Responsable</th>
-                                    <th class="small font-weight-bold text-light" scope="col">Indicador</th>
                                     <th class="small font-weight-bold text-light" scope="col">Campos</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let ars of JsonArrayVaciosMantenimiento; let i=index">
+                                <tr *ngFor="let ars of arrayVaciosMantenimiento; let i=index">
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nroReq}}</td>
                                     <td class="small">{{ars.responsable}}</td>
-                    
-                                    <td class="small">{{ars.indicador}}</td>
                                     <td class="small">{{ars.campos}}</td>
                                 </tr> 
                             </tbody>
@@ -363,7 +360,7 @@
             </div>
             <div id="collapseTablaValoresVaciosP" class="collapse" aria-labelledby="headingTablaValoresVaciosP" data-parent="#accordionTablaValoresVacios">
                 <div class="card-body">
-                    <div *ngIf="JsonArrayVaciosProyecto.length==0; else noVVP">
+                    <div *ngIf="arrayVaciosProyecto.length==0; else noVVP">
                         No se encontró data. 
                     </div>
                     <ng-template #noVVP>
@@ -373,17 +370,14 @@
                                     <th class="small font-weight-bold text-light indice" scope="col"></th>
                                     <th class="small font-weight-bold text-light" scope="col">Número REQ</th>
                                     <th class="small font-weight-bold text-light" scope="col">Responsable</th>
-                                    <th class="small font-weight-bold text-light" scope="col">Indicador</th>
                                     <th class="small font-weight-bold text-light" scope="col">Campos</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let ars of JsonArrayVaciosProyecto; let i=index">
+                                <tr *ngFor="let ars of arrayVaciosProyecto; let i=index">
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nroReq}}</td>
                                     <td class="small">{{ars.responsable}}</td>
-                    
-                                    <td class="small">{{ars.indicador}}</td>
                                     <td class="small">{{ars.campos}}</td>
                                 </tr> 
                             </tbody>
@@ -419,7 +413,7 @@
           
             <div id="collapseTablaPE1" class="collapse" aria-labelledby="headingTablaPE1" data-parent="#accordionTablaIndicadores">
                 <div class="card-body">
-                    <div *ngIf="JsonArrayPE1.length==0; else noPE1">
+                    <div *ngIf="jsonArrayPE1.length==0; else noPE1">
                         No se encontró data. 
                     </div>
                     <ng-template #noPE1>
@@ -435,7 +429,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let ars of JsonArrayPE1; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                <tr *ngFor="let ars of jsonArrayPE1; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nroReq}}</td>
                                     <td class="small">{{ars.contrato}}</td>
@@ -462,7 +456,7 @@
           
             <div id="collapseTablaPE2" class="collapse" aria-labelledby="headingTablaPE2" data-parent="#accordionTablaIndicadores">
                 <div class="card-body">   
-                    <div *ngIf="JsonArrayPE2.length==0; else noPE2">
+                    <div *ngIf="jsonArrayPE2.length==0; else noPE2">
                         No se encontró data. 
                     </div>
                     <ng-template #noPE2>
@@ -478,7 +472,7 @@
                                     <th class="small font-weight-bold text-light" scope="col">Fec. Plan Pase Aprobación
                             </thead>
                             <tbody>
-                                <tr *ngFor="let ars of JsonArrayPE2; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                <tr *ngFor="let ars of jsonArrayPE2; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nroReq}}</td>
                                     <td class="small">{{ars.contrato}}</td>
@@ -506,7 +500,7 @@
         
             <div id="collapseTablaPE3" class="collapse" aria-labelledby="headingTablaPE3" data-parent="#accordionTablaIndicadores">
                 <div class="card-body">
-                    <div *ngIf="JsonArrayPE3.length==0; else noPE3">
+                    <div *ngIf="jsonArrayPE3.length==0; else noPE3">
                         No se encontró data. 
                     </div>
                     <ng-template #noPE3>
@@ -524,7 +518,7 @@
                                     <th class="small font-weight-bold text-light" scope="col">Horas Incurridas</th>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let ars of JsonArrayPE3; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                <tr *ngFor="let ars of jsonArrayPE3; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nroReq}}</td>
                                     <td class="small">{{ars.contrato}}</td>
@@ -554,7 +548,7 @@
         
             <div id="collapseTablaPE6" class="collapse" aria-labelledby="headingTablaPE6" data-parent="#accordionTablaIndicadores">
                 <div class="card-body">
-                    <div *ngIf="JsonArrayPE6.length==0; else noPE6">
+                    <div *ngIf="jsonArrayPE6.length==0; else noPE6">
                         No se encontró data. 
                     </div>
                     <ng-template #noPE6>
@@ -570,7 +564,7 @@
                                     <th class="small font-weight-bold text-light" scope="col">Fec. Plan. Pase Producción</th>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let ars of JsonArrayPE6; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                <tr *ngFor="let ars of jsonArrayPE6; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nroReq}}</td>
                                     <td class="small">{{ars.contrato}}</td>
@@ -598,7 +592,7 @@
         
             <div id="collapseTablaPM1" class="collapse" aria-labelledby="headingTablaPM1" data-parent="#accordionTablaIndicadores">
                 <div class="card-body">
-                    <div *ngIf="JsonArrayPM1.length==0; else noPM1">
+                    <div *ngIf="jsonArrayPM1.length==0; else noPM1">
                         No se encontró data. 
                     </div>
                     <ng-template #noPM1>
@@ -614,7 +608,7 @@
                                     <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let ars of JsonArrayPM1; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                <tr *ngFor="let ars of jsonArrayPM1; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nroReq}}</td>
                                     <td class="small">{{ars.contrato}}</td>
@@ -642,7 +636,7 @@
         
             <div id="collapseTablaPM2" class="collapse" aria-labelledby="headingTablaPM2" data-parent="#accordionTablaIndicadores">
                 <div class="card-body">   
-                    <div *ngIf="JsonArrayPM2.length==0; else noPM2">
+                    <div *ngIf="jsonArrayPM2.length==0; else noPM2">
                         No se encontró data. 
                     </div>
                     <ng-template #noPM2>
@@ -658,7 +652,7 @@
                                     <th class="small font-weight-bold text-light" scope="col">Fec.Real Estimación</th>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let ars of JsonArrayPM2; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
+                                <tr *ngFor="let ars of jsonArrayPM2; let i=index" [ngClass]="{'noCumple' : ars.noCumple==1}">
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nroReq}}</td>
                                     <td class="small">{{ars.contrato}}</td>
@@ -686,7 +680,7 @@
         
             <div id="collapseTablaPI1" class="collapse" aria-labelledby="headingTablaPI1" data-parent="#accordionTablaIndicadores">
                 <div class="card-body">
-                    <div *ngIf="JsonArrayPI1.length==0; else noPI1">
+                    <div *ngIf="jsonArrayPI1.length==0; else noPI1">
                         No se encontró data. 
                     </div>
                     <ng-template #noPI1>
@@ -701,7 +695,7 @@
                                     <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let ars of JsonArrayPI1; let i=index">
+                                <tr *ngFor="let ars of jsonArrayPI1; let i=index">
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nroSol}}</td>
                                     <td class="small">{{ars.contrato}}</td>
@@ -728,7 +722,7 @@
         
             <div id="collapseTablaPI2" class="collapse" aria-labelledby="headingTablaPI2" data-parent="#accordionTablaIndicadores">
                 <div class="card-body">
-                    <div *ngIf="JsonArrayPI2.length==0; else noPI2">
+                    <div *ngIf="jsonArrayPI2.length==0; else noPI2">
                         No se encontró data. 
                     </div>
                     <ng-template #noPI2>
@@ -743,7 +737,7 @@
                                     <th class="small font-weight-bold text-light" scope="col">Fecha Recepción</th>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let ars of JsonArrayPI2; let i=index">
+                                <tr *ngFor="let ars of jsonArrayPI2; let i=index">
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nroSol}}</td>
                                     <td class="small">{{ars.contrato}}</td>
