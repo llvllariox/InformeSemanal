@@ -14,223 +14,104 @@ import * as fs from 'file-saver';
 })
 export class SlaGenerarComponent implements OnInit {
   //formulario: FormGroup;
-  jsonDataReqInf: any;
 
-  JsonArrayPE1: [] = [];
-  JsonArrayPE2: [] = [];
-  JsonArrayPE3: [] = [];
-  JsonArrayPE6: [] = [];
+  jsonArrayReq = [];
+  jsonArraySol = [];
 
-  JsonArrayPM1: [] = [];
-  JsonArrayPM2: [] = [];
+  jsonArrayPE1 = [];
+  jsonArrayPE2 = [];
+  jsonArrayPE3 = [];
+  jsonArrayPE6 = [];
 
-  JsonArrayPI1: [] = [];
-  JsonArrayPI2: [] = [];
+  jsonArrayPM1 = [];
+  jsonArrayPM2 = [];
 
-  JsonArrayVaciosMantenimiento = [];
-  JsonArrayVaciosProyecto = [];
+  jsonArrayPI1 = [];
+  jsonArrayPI2 = [];
+
+  arrayVaciosMantenimiento = [];
+  arrayVaciosProyecto = [];
 
   monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   fechaInformeDate;
-
-  cantidadPE1;
-  cantidadOKPE1;
-  cantidadNOOKPE1;
-  SLAPE1: Number;
-
-  cantidadPE2;
-  cantidadOKPE2;
-  cantidadNOOKPE2;
-  SLAPE2: Number;
-
-  cantidadPE3;
-  cantidadOKPE3;
-  cantidadNOOKPE3;
-  SLAPE3: Number;
-
-  cantidadPE6;
-  cantidadOKPE6;
-  cantidadNOOKPE6;
-  SLAPE6: Number;
-
-  cantidadPM1;
-  cantidadOKPM1;
-  cantidadNOOKPM1;
-  SLAPM1: Number;
-
-  cantidadPM2;
-  cantidadOKPM2;
-  cantidadNOOKPM2;
-  SLAPM2: Number;
-
-  cantidadPI1;
-  cantidadOKPI1;
-  cantidadNOOKPI1;
-  SLAPI1: Number;
-
-  cantidadPI2;
-  cantidadOKPI2;
-  cantidadNOOKPI2;
-  SLAPI2: Number;
 
   private feriados = [];
 
   constructor(public slaFormularioService: SlaFormularioService, public jsonDataService: SlaJsonDataService, private route: ActivatedRoute, public pdfService: SlaJspdfService, private sweetAlerService: SweetAlertService, private feriadosService: FeriadosChileService) {
     this.feriados = feriadosService.getFeriados(); 
     this.fechaInformeDate = new Date(jsonDataService.getFechaInforme() + '-05');
-
-    //console.log(this.fechaInformeDate.getMonth());
   
-    this.cantidadPE1 = 0;
-    this.cantidadOKPE1 = 0;
-    this.cantidadNOOKPE1 = 0;
-    this.SLAPE1 = 0;
-
-    this.cantidadPE2 = 0;
-    this.cantidadOKPE2 = 0;
-    this.cantidadNOOKPE2 = 0;
-    this.SLAPE2 = 0;
-
-    this.cantidadPE3 = 0;
-    this.cantidadOKPE3 = 0;
-    this.cantidadNOOKPE3 = 0;
-    this.SLAPE3 = 0;
-
-    this.cantidadPE6 = 0;
-    this.cantidadOKPE6 = 0;
-    this.cantidadNOOKPE6 = 0;
-    this.SLAPE1 = 0;
-
-    this.cantidadPM1 = 0;
-    this.cantidadOKPM1 = 0;
-    this.cantidadNOOKPM1 = 0;
-    this.SLAPM1 = 0;
-
-    this.cantidadPM2 = 0;
-    this.cantidadOKPM2 = 0;
-    this.cantidadNOOKPM2 = 0;
-    this.SLAPM2 = 0;
-
-    this.cantidadPI1 = 0;
-    this.cantidadOKPI1 = 0;
-    this.cantidadNOOKPI1 = 0;
-    this.SLAPI1 = 0;
-    
-    this.cantidadPI2 = 0;
-    this.cantidadOKPI2 = 0;
-    this.cantidadNOOKPI2 = 0;
-    this.SLAPI2 = 0;
-
-    if(this.jsonDataService.jsonDataReqPE1Service !== undefined) {
-      this.JsonArrayPE1 = this.jsonDataService.getJsonDataReqPE1Service();
+    if(this.jsonDataService.jsonDataReqService !== undefined) {
+      this.jsonArrayReq = this.jsonDataService.getJsonDataReqService();
       this.getPE1();
-      this.getVacios('PE1');
-    }
-
-    if(this.jsonDataService.jsonDataReqPE2Service !== undefined) {
-      this.JsonArrayPE2 = this.jsonDataService.getJsonDataReqPE2Service();
       this.getPE2();
-      this.getVacios('PE2');
-    }
-
-    if(this.jsonDataService.jsonDataReqPE3Service !== undefined) {
-      this.JsonArrayPE3 = this.jsonDataService.getJsonDataReqPE3Service();
       this.getPE3();
-      this.getVacios('PE3');
-    }
-
-    if(this.jsonDataService.jsonDataReqPE6Service !== undefined) {
-      this.JsonArrayPE6 = this.jsonDataService.getJsonDataReqPE6Service();
       this.getPE6();
-      this.getVacios('PE6');
-    }
+    
+      this.llenarFormulario('PE1', this.jsonArrayPE1);
+      this.llenarFormulario('PE2', this.jsonArrayPE2);
+      this.llenarFormulario('PE3', this.jsonArrayPE3);
+      this.llenarFormulario('PE6', this.jsonArrayPE6);
 
-    if(this.jsonDataService.jsonDataReqPM1Service !== undefined) {
-      this.JsonArrayPM1 = this.jsonDataService.getJsonDataReqPM1Service();
       this.getPM1();
-      this.getVacios('PM1');
-    }
-
-    if(this.jsonDataService.jsonDataReqPM2Service !== undefined) {
-      this.JsonArrayPM2 = this.jsonDataService.getJsonDataReqPM2Service();
       this.getPM2();
-      this.getVacios('PM2');
+
+      this.llenarFormulario('PM1', this.jsonArrayPM1);
+      this.llenarFormulario('PM2', this.jsonArrayPM2);
+
+      this.getVacios();
     }
 
-    if(this.jsonDataService.jsonDataSolPI1Service !== undefined) {
-      this.JsonArrayPI1 = this.jsonDataService.getJsonDataSolPI1Service();
+    if(this.jsonDataService.jsonDataSolService !== undefined) {
+      this.jsonArraySol = this.jsonDataService.getJsonDataSolService();
+
       this.getPI1();
-    }
-
-    if(this.jsonDataService.jsonDataSolPI2Service !== undefined) {
-      this.JsonArrayPI2 = this.jsonDataService.getJsonDataSolPI2Service();
       this.getPI2();
+
+      this.llenarFormulario('PI1', this.jsonArrayPI1);
+      this.llenarFormulario('PI2', this.jsonArrayPI2);
     }
-
-    this.slaFormularioService['campo_PE1_cantidad'] = this.cantidadPE1;
-    this.slaFormularioService['campo_PE1_cantidadOk'] = this.cantidadOKPE1;
-    this.slaFormularioService['campo_PE1_cantidadNoOk'] = this.cantidadNOOKPE1;
-    this.slaFormularioService['campo_PE1_SLA'] = this.SLAPE1.toFixed(1);
-
-    this.slaFormularioService['campo_PE2_cantidad'] = this.cantidadPE2;
-    this.slaFormularioService['campo_PE2_cantidadOk'] = this.cantidadOKPE2;
-    this.slaFormularioService['campo_PE2_cantidadNoOk'] = this.cantidadNOOKPE2;
-    this.slaFormularioService['campo_PE2_SLA'] = this.SLAPE2.toFixed(1);
-
-    this.slaFormularioService['campo_PE3_cantidad'] = this.cantidadPE3;
-    this.slaFormularioService['campo_PE3_cantidadOk'] = this.cantidadOKPE3;
-    this.slaFormularioService['campo_PE3_cantidadNoOk'] = this.cantidadNOOKPE3;
-    this.slaFormularioService['campo_PE3_SLA'] = this.SLAPE3.toFixed(1);
-
-    this.slaFormularioService['campo_PE6_cantidad'] = this.cantidadPE6;
-    this.slaFormularioService['campo_PE6_cantidadOk'] = this.cantidadOKPE6;
-    this.slaFormularioService['campo_PE6_cantidadNoOk'] = this.cantidadNOOKPE6;
-    this.slaFormularioService['campo_PE6_SLA'] = this.SLAPE6.toFixed(1);
-
-    this.slaFormularioService['campo_PM1_cantidad'] = this.cantidadPM1;
-    this.slaFormularioService['campo_PM1_cantidadOk'] = this.cantidadOKPM1;
-    this.slaFormularioService['campo_PM1_cantidadNoOk'] = this.cantidadNOOKPM1;
-    this.slaFormularioService['campo_PM1_SLA'] = this.SLAPM1.toFixed(1);
-
-    this.slaFormularioService['campo_PM2_cantidad'] = this.cantidadPM2;
-    this.slaFormularioService['campo_PM2_cantidadOk'] = this.cantidadOKPM2;
-    this.slaFormularioService['campo_PM2_cantidadNoOk'] = this.cantidadNOOKPM2;
-    this.slaFormularioService['campo_PM2_SLA'] = this.SLAPM2.toFixed(1);
-
-    this.slaFormularioService['campo_PI1_cantidad'] = this.cantidadPI1;
-    this.slaFormularioService['campo_PI1_cantidadOk'] = this.cantidadOKPI1;
-    this.slaFormularioService['campo_PI1_cantidadNoOk'] = this.cantidadNOOKPI1;
-    this.slaFormularioService['campo_PI1_SLA'] = this.SLAPI1.toFixed(1);
-
-    this.slaFormularioService['campo_PI2_cantidad'] = this.cantidadPI2;
-    this.slaFormularioService['campo_PI2_cantidadOk'] = this.cantidadOKPI2;
-    this.slaFormularioService['campo_PI2_cantidadNoOk'] = this.cantidadNOOKPI2;
-    this.slaFormularioService['campo_PI2_SLA'] = this.SLAPI2.toFixed(1);
   }
 
   ngOnInit(): void {
     this.mostrarFlechas();
   }
 
-  // calcula cantidad, ok y nook del indicador
-  getPE1(){
-    this.cantidadPE1 = this.JsonArrayPE1.length;
-    
-    //Cumplen los que Fecha Recepción VS Fec. Real Estimación <= 5 días hábiles
-    let cantOk = 0;
-    this.JsonArrayPE1.forEach(function(valor, index){
-      let fechaRecepcion = new Date(valor['fechaRecepcion']);
-      let fecRealEstimacion = new Date(valor['fecRealEstimacion']);
+  /*
+    Filtrar Contrato = Evolutivo
+    Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
 
-      //vemos si alguna de las fechas es vacia
+    Revisar Fecha Recepción = MES del informe
+    Validar Fecha Recepción VS Fec. Real Estimación <= 5 días hábiles,
+    Se informa el total Liberar filtros
+  */
+  getPE1(){
+    let fechaRecepcion;
+    let fecRealEstimacion;
+
+    this.jsonArrayReq.forEach(valor => {   
+      fechaRecepcion = new Date(valor['fechaRecepcion']);
+      fecRealEstimacion = new Date(valor['fecRealEstimacion']);
+
       if(
-          this.validarFechaVaciaRegla(fechaRecepcion.toString()) 
-          || this.validarFechaVaciaRegla(fecRealEstimacion.toString())
+          valor['contrato'] == 'Evolutivo'
+          &&
+          (valor['lineaDeServicio']=='Evolutivo Mayor' || valor['lineaDeServicio']=='Evolutivo Menor')
+          &&
+          !(
+            this.validarFechaVaciaRegla(fechaRecepcion.toString()) 
+            ||
+            this.validarFechaVaciaRegla(fecRealEstimacion.toString())
+          )
+          &&
+          (
+            fechaRecepcion.getFullYear() == this.fechaInformeDate.getFullYear()
+            &&
+            fechaRecepcion.getMonth() == this.fechaInformeDate.getMonth()
+          )
       ){
-        this.JsonArrayPE1[index]['noCumple'] = 1;
-        //cantOk++;
-      } else {
+        //Validar Fecha Recepción VS Fec. Real Estimación <= 5 días hábiles
         let contador = 0;
         let fechaIni;
         let fechaFin;
@@ -245,334 +126,462 @@ export class SlaGenerarComponent implements OnInit {
           fechaIni = fecRealEstimacion;
           fechaFin = fechaRecepcion;
         }
+
+        for(let i=fechaIni; i<fechaFin; i.setDate(i.getDate()+1)){
+          if(this.esHabil(i)){
+            contador++;
+          }
+        }
+
+        let noCumple = 0;
+        //cumple
+        if(contador <= 5){    
+          noCumple = 0;
+        } else {
+          noCumple = 1;
+        }
+
+        let nuevo = [];
+        nuevo['nroReq'] = valor['nroReq'];
+        nuevo['noCumple'] = noCumple;
+        nuevo['contrato'] = valor['contrato'];
+        nuevo['lineaDeServicio'] = valor['lineaDeServicio'];
+        nuevo['fechaRecepcion'] = valor['fechaRecepcion'];
+        nuevo['fecRealEstimacion'] = valor['fecRealEstimacion'];
         
-        /*
-        if(valor['nroReq']=='4392'){
-          console.log('hjk');
-        } 
-        */
-
-        for(let i=fechaIni; i<fechaFin; i.setDate(i.getDate()+1)){
-          if(this.esHabil(i)){
-            contador++;
-          }
-        }
-      
-        //console.log(valor['nroReq'] + ' - ' + contador);
-
-        //cumple
-        if(contador <= 5){
-          this.JsonArrayPE1[index]['noCumple'] = 0;
-          cantOk++;
-        } else {
-          this.JsonArrayPE1[index]['noCumple'] = 1;
-        }
+        this.jsonArrayPE1.push(nuevo);
       }
-    }, this);
-    
-    this.cantidadOKPE1 = cantOk;
+    });
 
-    this.cantidadNOOKPE1 = this.cantidadPE1 - this.cantidadOKPE1;
-
-    if(this.cantidadPE1 != 0) {
-      this.SLAPE1 = (this.cantidadOKPE1 * 100 / this.cantidadPE1);  
-    } else {
-      this.SLAPE1 = 100;  
-    }
+    this.jsonArrayPE1.forEach(element => {
+      //console.log(element.nroReq + ' - ' + element.noCumple);
+    });
   }
 
-  // calcula cantidad, ok y nook del indicador
+  /*
+    Filtrar Contrato = Evolutivo
+    Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
+    Validar Fec. Real Pase Aprobación = Mes en curso 
+    VS Fec. Plan. Pase Aprobación, deben ser iguales
+  */
   getPE2(){
-    this.cantidadPE2 = this.JsonArrayPE2.length;
+    let fecRealPaseAprobacion;
+    let fecPlanPaseAprobacion;
 
-    //Cumplen los que Fec. Real Pase Aprobación <= Fec. Plan. Pase Aprobación.
-    let cantOk = 0;
-    this.JsonArrayPE2.forEach(function(valor, index){
-      let fecRealPaseAprobacion = new Date(valor['fecRealPaseAprobacion']);
-      let fecPlanPaseAprobacion = new Date(valor['fecPlanPaseAprobacion']);
+    this.jsonArrayReq.forEach(valor => {   
+      fecRealPaseAprobacion = new Date(valor['fecRealPaseAprobacion']);
+      fecPlanPaseAprobacion = new Date(valor['fecPlanPaseAprobacion']);
 
-      fecRealPaseAprobacion.setHours(0,0,0,0);
-      fecPlanPaseAprobacion.setHours(0,0,0,0);
+      if(
+        valor['contrato'] == 'Evolutivo'
+        &&
+        (valor['lineaDeServicio']=='Evolutivo Mayor' || valor['lineaDeServicio']=='Evolutivo Menor')
+        &&
+        !(
+          this.validarFechaVaciaRegla(fecRealPaseAprobacion.toString()) 
+          ||
+          this.validarFechaVaciaRegla(fecPlanPaseAprobacion.toString())
+        )
+        &&
+        (
+          fecRealPaseAprobacion.getFullYear() == this.fechaInformeDate.getFullYear()
+          &&
+          fecRealPaseAprobacion.getMonth() == this.fechaInformeDate.getMonth() 
+          &&
+          fecPlanPaseAprobacion.getFullYear() == this.fechaInformeDate.getFullYear()
+          &&
+          fecPlanPaseAprobacion.getMonth() == this.fechaInformeDate.getMonth() 
+        )
+      ){
+        //iguales
+        fecRealPaseAprobacion.setHours(0,0,0,0);
+        fecPlanPaseAprobacion.setHours(0,0,0,0);
 
-      //cumple
-      if(fecRealPaseAprobacion <= fecPlanPaseAprobacion){
-        this.JsonArrayPE2[index]['noCumple'] = 0;
-        cantOk++;
+        let noCumple = 0;
+        if(fecRealPaseAprobacion.getTime() == fecPlanPaseAprobacion.getTime()){
+          noCumple = 0;
+        } else {
+          noCumple = 1;
+        }
+
+        let nuevo = [];
+        nuevo['nroReq'] = valor['nroReq'];
+        nuevo['noCumple'] = noCumple;
+        nuevo['contrato'] = valor['contrato'];
+        nuevo['lineaDeServicio'] = valor['lineaDeServicio'];
+        nuevo['fecRealPaseAprobacion'] = valor['fecRealPaseAprobacion'];
+        nuevo['fecPlanPaseAprobacion'] = valor['fecPlanPaseAprobacion'];
+
+        this.jsonArrayPE2.push(nuevo); 
       }
-      else {
-        this.JsonArrayPE2[index]['noCumple'] = 1;
-      }
-    }, this);
-    
-    this.cantidadOKPE2 = cantOk;
-
-    this.cantidadNOOKPE2 = this.cantidadPE2 - this.cantidadOKPE2;
-
-    if(this.cantidadPE2 != 0) {
-      this.SLAPE2 = (this.cantidadOKPE2 * 100 / this.cantidadPE2);  
-    } else {
-      this.SLAPE2 = 100;  
-    }
+    });
   }
 
-  // calcula cantidad, ok y nook del indicador
+  /*
+    Filtrar Contrato = Evolutivo
+    Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
+    Filtrar Estado = Finalizado 
+    Validar Fec Real Fin = mes en curso
+    Validar Horas Estimadas => Horas Incurridas, Se informa el total
+  */
   getPE3(){
-    this.cantidadPE3 = this.JsonArrayPE3.length;
+    let fecRealFin;
+    
+    this.jsonArrayReq.forEach(valor => {
+      fecRealFin = new Date(valor['fecRealFin']);
 
-    //cumplen las que Horas Incurridas <= Horas Estimadas
-    let cantOk = 0;
-    this.JsonArrayPE3.forEach(function(valor, index){
-      //cumple
-      if(valor['horasIncurridas'] <= valor['horasEstimadas']){
-        this.JsonArrayPE3[index]['noCumple'] = 0;
-        cantOk++;
-      } else {
-        this.JsonArrayPE3[index]['noCumple'] = 1;
-      }
-    }, this);
-    this.cantidadOKPE3 = cantOk;
+      if(
+        valor['contrato'] == 'Evolutivo'
+        &&
+        (valor['lineaDeServicio']=='Evolutivo Mayor' || valor['lineaDeServicio']=='Evolutivo Menor')
+        &&
+        valor.estado == '02 Finalizado'
+        &&
+        !this.validarFechaVaciaRegla(fecRealFin.toString())
+        &&
+        (
+          fecRealFin.getFullYear() == this.fechaInformeDate.getFullYear()
+          &&
+          fecRealFin.getMonth() == this.fechaInformeDate.getMonth()
+        )
+        &&
+        (valor.horasEstimadas && valor.horasIncurridas)        
+      ){
+        let noCumple = 0;
+        //Horas Estimadas => Horas Incurridas
+        if(valor.horasEstimadas >= valor.horasIncurridas){
+          noCumple = 0;
+        } else {
+          noCumple = 1;
+        }
 
-    this.cantidadNOOKPE3 = this.cantidadPE3 - this.cantidadOKPE3;
-
-    //SLA
-      if(this.cantidadPE3 != 0) {
-      this.SLAPE3 = (this.cantidadOKPE3 * 100 / this.cantidadPE3);  
-    }
-    else {
-      this.SLAPE3 = 100;  
-    }
+        let nuevo = [];
+        nuevo['nroReq'] = valor['nroReq'];
+        nuevo['noCumple'] = noCumple;
+        nuevo['contrato'] = valor['contrato'];
+        nuevo['lineaDeServicio'] = valor['lineaDeServicio'];
+        nuevo['estado'] = valor['estado'];
+        nuevo['fecRealFin'] = valor['fecRealFin'];
+        nuevo['horasEstimadas'] = valor['horasEstimadas'];
+        nuevo['horasIncurridas'] = valor['horasIncurridas'];
+        
+        this.jsonArrayPE3.push(nuevo);
+      }     
+    });
   }
 
-  // calcula cantidad, ok y nook del indicador
+  /*
+    Filtrar Contrato = Evolutivo
+    Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
+    Validar Fec. Real Pase Producción = Mes en curso VS
+      Fec. Plan. Pase Producción, deben ser iguales
+  */
   getPE6(){
-    this.cantidadPE6 = this.JsonArrayPE6.length;
+    let fecRealPaseProduccion;
+    let fecPlanPaseProduccion;
 
-    //Cumplen los que  Fec. Real Pase Producción <=  Fec. Plan. Pase Producción.
-    let cantOk = 0;
+    this.jsonArrayReq.forEach(valor => {   
+      fecRealPaseProduccion = new Date(valor['fecRealPaseProduccion']);
+      fecPlanPaseProduccion = new Date(valor['fecPlanPaseProduccion']);
 
-    this.JsonArrayPE6.forEach(function(valor, index){
-      let fecRealPaseProduccion = new Date(valor['fecRealPaseProduccion']);
-      let fecPlanPaseProduccion = new Date(valor['fecPlanPaseProduccion']);
-      
-      fecRealPaseProduccion.setHours(0,0,0,0);
-      fecPlanPaseProduccion.setHours(0,0,0,0);
-
-      //vemos si alguna de las fechas es vacia
       if(
-        this.validarFechaVaciaRegla(fecRealPaseProduccion.toString()) 
-        || this.validarFechaVaciaRegla(fecPlanPaseProduccion.toString())
+        valor['contrato'] == 'Evolutivo'
+        &&
+        (valor['lineaDeServicio']=='Evolutivo Mayor' || valor['lineaDeServicio']=='Evolutivo Menor')
+        &&
+        !(
+          this.validarFechaVaciaRegla(fecRealPaseProduccion.toString()) 
+          ||
+          this.validarFechaVaciaRegla(fecPlanPaseProduccion.toString())
+        )
+        &&
+        (
+          fecRealPaseProduccion.getFullYear() == this.fechaInformeDate.getFullYear()
+          &&
+          fecRealPaseProduccion.getMonth() == this.fechaInformeDate.getMonth()
+          &&
+          fecPlanPaseProduccion.getFullYear() == this.fechaInformeDate.getFullYear()
+          &&
+          fecPlanPaseProduccion.getMonth() == this.fechaInformeDate.getMonth() 
+        )    
       ){
-        this.JsonArrayPE6[index]['noCumple'] = 1;
-        //cantOk++;
-      } else {
-        //cumple
-        if(fecRealPaseProduccion <= fecPlanPaseProduccion){
-          this.JsonArrayPE6[index]['noCumple'] = 0;
-          cantOk++;
-        } else {
-          this.JsonArrayPE6[index]['noCumple'] = 1;
-        }
+         //Fec. Real Pase Producción VS Fec. Plan. Pase Producción, deben ser iguales
+         fecRealPaseProduccion.setHours(0,0,0,0);
+         fecPlanPaseProduccion.setHours(0,0,0,0);
+
+         let noCumple = 0;
+         if(fecRealPaseProduccion.getTime() == fecPlanPaseProduccion.getTime()){
+           noCumple = 0;
+         } else {
+           noCumple = 1;
+         }
+
+         let nuevo = [];
+         nuevo['nroReq'] = valor['nroReq'];
+         nuevo['noCumple'] = noCumple;
+         nuevo['contrato'] = valor['contrato'];
+         nuevo['lineaDeServicio'] = valor['lineaDeServicio'];
+         nuevo['fecRealPaseProduccion'] = valor['fecRealPaseProduccion'];
+         nuevo['fecPlanPaseProduccion'] = valor['fecPlanPaseProduccion'];
+
+          this.jsonArrayPE6.push(nuevo);
       }
-    }, this);
-    this.cantidadOKPE6 = cantOk;
+    });
 
-    this.cantidadNOOKPE6 = this.cantidadPE6 - this.cantidadOKPE6;
-
-    if(this.cantidadPE6 != 0) {
-      this.SLAPE6 = (this.cantidadOKPE6 * 100 / this.cantidadPE6);  
-    }
-    else {
-      this.SLAPE6 = 100;  
-    }
+    this.jsonArrayPE6.forEach(element => {
+      //console.log(element.nroReq + ' - ' + element.noCumple);
+    });
   }
 
-  // calcula cantidad, ok y nook del indicador
+  /*
+    Fitrar Contrato = Mantenimiento
+    Fitrar Línea de Servicio = Problemas
+    Revisar Fecha Recepción MES = MES del informe
+    Revisar Fec. Real Estimación
+    o	Si tiene 1/1/1900, se debe solicitar corregir ARS
+    Revisar Fec. Real Inicio
+    o	Si tiene 1/1/1900, se debe solicitar corregir ARS
+    
+    PM1: Cumplimiento de Plazo de Respuesta Estimación: 
+    se cuentan la cantidad de días desde Fecha Recepción 
+    hasta Fec.Real Estimación <= 11 días.
+  */
   getPM1(){
-    this.cantidadPM1 = this.JsonArrayPM1.length;
+    let fechaRecepcion;
+    let fecRealEstimacion;
+    let fecRealInicio;
 
-    //se cuentan la cantidad de días desde Fecha Recepción 
-    //hasta Fec.Real Estimación <= 11 días hábiles.
-    let cantOk = 0;
+    this.jsonArrayReq.forEach(valor => {   
+      fechaRecepcion = new Date(valor['fechaRecepcion']);
+      fecRealEstimacion = new Date(valor['fecRealEstimacion']);
+      fecRealInicio = new Date(valor['fecRealInicio']);
 
-    this.JsonArrayPM1.forEach(function(valor, index){
-
-      //this.JsonArrayPM1[index]['marca']=1;
-
-      let fechaRecepcion = new Date(valor['fechaRecepcion']);
-      let fecRealEstimacion = new Date(valor['fecRealEstimacion']);
-
-      fechaRecepcion.setHours(0,0,0,0);
-      fecRealEstimacion.setHours(0,0,0,0);
-
-      //vemos si alguna de las fechas es vacia
       if(
-        this.validarFechaVaciaRegla(fechaRecepcion.toString()) 
-        || this.validarFechaVaciaRegla(fecRealEstimacion.toString())
+        valor['contrato'] == 'Mantenimiento'
+        &&
+        valor['lineaDeServicio']=='Problemas'
+        &&
+        !(
+          this.validarFechaVaciaRegla(fechaRecepcion.toString()) 
+          ||
+          this.validarFechaVaciaRegla(fecRealEstimacion.toString())
+          ||
+          this.validarFechaVaciaRegla(fecRealInicio.toString())
+        )
+        &&
+        (
+          fechaRecepcion.getFullYear() == this.fechaInformeDate.getFullYear()
+          &&
+          fechaRecepcion.getMonth() == this.fechaInformeDate.getMonth()
+        )    
       ){
-        this.JsonArrayPM1[index]['noCumple'] = 1;
-        //cantOk++;
-      } else {
-        let contador = 0;
-        let fechaIni;
-        let fechaFin;
+         let contador = 0;
 
-        if(fechaRecepcion < fecRealEstimacion){ 
-          fechaIni = fechaRecepcion;
-          fechaFin = fecRealEstimacion;
-        } else {
-          fechaIni = fecRealEstimacion;
-          fechaFin = fechaRecepcion;
-        }
-
-        for(let i=fechaIni; i<fechaFin; i.setDate(i.getDate()+1)){
+         for(let i=fechaRecepcion; i<fecRealEstimacion; i.setDate(i.getDate()+1)){
           if(this.esHabil(i)){
             contador++;
           }
         }
-        //console.log(valor['nroReq'] + ' - ' + contador);
 
         //cumple
-        if(contador <= 11){
-          this.JsonArrayPM1[index]['noCumple']=0;
-          cantOk++;
+        let noCumple = 0;
+        if(contador <= 11){    
+          noCumple = 0;
         } else {
-          this.JsonArrayPM1[index]['noCumple']=1;
+          noCumple = 1;
         }
+
+        let nuevo = [];
+        nuevo['nroReq'] = valor['nroReq'];
+        nuevo['noCumple'] = noCumple;
+        nuevo['contrato'] = valor['contrato'];
+        nuevo['lineaDeServicio'] = valor['lineaDeServicio'];
+        nuevo['fechaRecepcion'] = valor['fechaRecepcion'];
+        nuevo['fecRealEstimacion'] = valor['fecRealEstimacion'];
+
+        this.jsonArrayPM1.push(nuevo);
       }
-    }, this);
-    this.cantidadOKPM1 = cantOk;
-
-    this.cantidadNOOKPM1 = this.cantidadPM1 - this.cantidadOKPM1;
-
-    //SLA
-    if(this.cantidadPM1 != 0) {
-      this.SLAPM1 = (this.cantidadOKPM1 * 100 / this.cantidadPM1);
-    } else {
-      this.SLAPM1 = 100;  
-    }
+    });
   }
 
-  // calcula cantidad, ok y nook del indicador
+  /*
+    Fitrar Contrato = Mantenimiento
+    Fitrar Línea de Servicio = Problemas
+    Revisar Fecha Recepción MES = MES del informe
+    Revisar Fec. Real Estimación
+    o	Si tiene 1/1/1900, se debe solicitar corregir ARS
+    Revisar Fec. Real Inicio
+    o	Si tiene 1/1/1900, se debe solicitar corregir ARS
+    
+    PM2: Cumplimiento de Plazo de Entrega de Planificación 
+    Fec. Real Inicio vs Fec.Real Estimación <= 2 días.
+  */
   getPM2(){
-    this.cantidadPM2 = this.JsonArrayPM2.length;
+    let fechaRecepcion;
+    let fecRealEstimacion;
+    let fecRealInicio;
 
-    //Fec. Real Inicio vs Fec.Real Estimación <= 2 días.
-    let cantOk = 0;
+    this.jsonArrayReq.forEach(valor => {   
+      fechaRecepcion = new Date(valor['fechaRecepcion']);
+      fecRealEstimacion = new Date(valor['fecRealEstimacion']);
+      fecRealInicio = new Date(valor['fecRealInicio']);
 
-    this.JsonArrayPM2.forEach(function(valor, index){
-      
-      //this.JsonArrayPM2[index]['marca']=2;
-
-      let fecRealInicio = new Date(valor['fecRealInicio']);
-      let fecRealEstimacion = new Date(valor['fecRealEstimacion']);
-      
-      fecRealInicio.setHours(0,0,0,0);
-      fecRealEstimacion.setHours(0,0,0,0);
-
-      //vemos si alguna de las fechas es vacia
       if(
-        this.validarFechaVaciaRegla(fecRealInicio.toString()) 
-        || this.validarFechaVaciaRegla(fecRealEstimacion.toString())
+        valor['contrato'] == 'Mantenimiento'
+        &&
+        valor['lineaDeServicio']=='Problemas'
+        &&
+        !(
+          this.validarFechaVaciaRegla(fechaRecepcion.toString()) 
+          ||
+          this.validarFechaVaciaRegla(fecRealEstimacion.toString())
+          ||
+          this.validarFechaVaciaRegla(fecRealInicio.toString())
+        )
+        &&
+        (
+          fechaRecepcion.getFullYear() == this.fechaInformeDate.getFullYear()
+          &&
+          fechaRecepcion.getMonth() == this.fechaInformeDate.getMonth()
+        )    
       ){
-        this.JsonArrayPM2[index]['noCumple'] = 1;
-        //cantOk++;
-      } else {
-        let contador = 0;
-        let fechaIni;
-        let fechaFin;
+         let contador = 0;
 
-        if(fecRealInicio < fecRealEstimacion){ 
-          fechaIni = fecRealInicio;
-          fechaFin = fecRealEstimacion;
-        } else {
-          fechaIni = fecRealEstimacion;
-          fechaFin = fecRealInicio;
-        }
-
-        for(let i=fechaIni; i<fechaFin; i.setDate(i.getDate()+1)){
+         for(let i=fecRealInicio; i<fecRealEstimacion; i.setDate(i.getDate()+1)){
           if(this.esHabil(i)){
             contador++;
           }
         }
 
-        //console.log(valor['roReq'] + ' - ' + contador);
-
         //cumple
-        if(contador <= 2){
-          this.JsonArrayPM1[index]['noCumple']=0;
-          cantOk++;
+        let noCumple = 0;
+        if(contador <= 2){    
+          noCumple = 0;
         } else {
-          this.JsonArrayPM1[index]['noCumple']=1;
+          noCumple = 1;
+        }
+
+        let nuevo = [];
+        nuevo['nroReq'] = valor['nroReq'];
+        nuevo['noCumple'] = noCumple;
+        nuevo['contrato'] = valor['contrato'];
+        nuevo['lineaDeServicio'] = valor['lineaDeServicio'];
+        nuevo['fecRealInicio'] = valor['fecRealInicio'];
+        nuevo['fecRealEstimacion'] = valor['fecRealEstimacion'];
+
+        this.jsonArrayPM2.push(nuevo);
+      }
+    });
+  }
+
+  /*
+    Revisar Fecha Recepción MES = MES del informe
+    PI1: Cumplimiento de Plazo en Resolución de Incidencia, se cuentan y se informa
+  */
+  getPI1(){
+    let fechaRecepcion;
+
+    this.jsonArraySol.forEach(valor => {   
+      fechaRecepcion = new Date(valor['fechaRecepcion']);
+ 
+      if(
+        !(
+          this.validarFechaVaciaRegla(fechaRecepcion.toString()) 
+        )
+        &&
+        (
+          fechaRecepcion.getFullYear() == this.fechaInformeDate.getFullYear()
+          &&
+          fechaRecepcion.getMonth() == this.fechaInformeDate.getMonth()
+        )    
+      ){
+          let nuevo = [];
+          nuevo['nroSol'] = valor['nroSol'];
+          nuevo['noCumple'] = 0; //todos cumplen
+          nuevo['contrato'] = valor['contrato'];
+          nuevo['bloque'] = valor['bloque'];
+          nuevo['fechaRecepcion'] = valor['fechaRecepcion'];
+          
+          this.jsonArrayPI1.push(nuevo);
+      }
+    });
+  }
+
+  /*
+    Revisar Fecha Recepción MES = MES del informe
+    PI2: Cumplimiento en Tiempo de Respuesta Telefónica, se repite el numero anterior
+  */
+  getPI2(){
+    this.jsonArrayPI2 = this.jsonArrayPI1;
+  }
+  
+  /*
+    llena los arreglos arrayVaciosMantenimiento y arrayVaciosProyecto
+    con todos los campos que tengan fecha por defecto
+  */
+  getVacios(){
+    let agregar = [];
+    let campos = '';
+    let revisar = [];
+    revisar.push('fecRealEstimacion');
+    revisar.push('fecRealInicio');
+    revisar.push('fecPlanPaseAprobacion');
+    revisar.push('fecRealPaseAprobacion');
+    revisar.push('fecRealFin');
+    revisar.push('fecPlanPaseProduccion');
+    revisar.push('fecRealPaseProduccion');
+
+    this.jsonArrayReq.forEach(element => {
+      //PROYECTO
+      if(
+          element['contrato'] == 'Evolutivo'
+          &&
+          (
+            element['lineaDeServicio']=='Evolutivo Mayor' 
+            ||
+            element['lineaDeServicio']=='Evolutivo Menor'
+          )
+      ){
+        campos = '';
+        revisar.forEach(campo => {
+          if(this.validarFechaVaciaRegla(element[campo].toString()) ){
+            campos += ', ' + campo;
+          }
+        });
+
+        agregar = [];
+        if(campos.length > 0){
+          agregar['nroReq'] = element['nroReq'];
+          agregar['responsable'] = element['responsable'];
+          agregar['campos'] = campos.substring(2);
+
+          this.arrayVaciosProyecto.push(agregar);
         }
       }
-    }, this);
-    this.cantidadOKPM2 = cantOk;
 
-    this.cantidadNOOKPM2 = this.cantidadPM2 - this.cantidadOKPM2;
+      //MANTENIMIENTO
+      else if(
+        element['contrato'] == 'Mantenimiento'
+        &&
+        element['lineaDeServicio']=='Problemas' 
+      ){
+        campos = '';
+        revisar.forEach(campo => {
+          if(this.validarFechaVaciaRegla(element[campo].toString()) ){
+            campos += ', ' + campo;
+          }
+        });
 
-    //SLA
-    if(this.cantidadPM2 != 0) {
-      this.SLAPM2 = (this.cantidadOKPM2 * 100 / this.cantidadPM2);  
-    } else {
-      this.SLAPM2 = 100;  
-    }
-  }
+        agregar = [];
+        if(campos.length > 0){
+          agregar['nroReq'] = element['nroReq'];
+          agregar['responsable'] = element['responsable'];
+          agregar['campos'] = campos.substring(2);
 
-  // calcula cantidad, ok y nook del indicador
-  getPI1(){
-    //PI1: Cumplimiento de Plazo en Resolución de Incidencia, se cuentan y se informa
-    this.cantidadPI1 = this.JsonArrayPI1.length;
-    this.cantidadOKPI1 = this.cantidadPI1;
-    this.cantidadNOOKPI1 = 0;
-    this.SLAPI1 = 100;
-  }
-
-  // calcula cantidad, ok y nook del indicador
-  getPI2(){
-    //se repite PI1
-    this.cantidadPI2 = this.cantidadPI1;
-    this.cantidadOKPI2 = this.cantidadPI2;
-    this.cantidadNOOKPI2 = 0;
-    this.SLAPI2 = 100;
-  }
-
-  //por cada ARS mira si hay campos vacíos
-  getVacios(indicador){
-    let contrato = '';
-    let arreglo = [];
-
-    if(indicador=='PE1'){
-      arreglo = this.JsonArrayPE1;
-      contrato = 'proyecto';
-    } else if(indicador=='PE2') {
-      arreglo = this.JsonArrayPE2;
-      contrato = 'proyecto';
-    } else if(indicador=='PE3') {
-      arreglo = this.JsonArrayPE3;
-      contrato = 'proyecto';
-    } else if(indicador=='PE6') {
-      arreglo = this.JsonArrayPE6;
-      contrato = 'proyecto';
-    } else if(indicador=='PM1') {
-      arreglo = this.JsonArrayPM1;
-      contrato = 'mantenimiento';
-    } else if(indicador=='PM2') {
-      arreglo = this.JsonArrayPM2;
-      contrato = 'mantenimiento';
-    }
-
-    if(arreglo) {
-      arreglo.forEach(function(valor: Array<String>, index){  
-        if (this.validarFechaVacia(valor)){
-          this.agregarArregloCorregir(
-                                        contrato, 
-                                        valor['nroReq'], indicador, 
-                                        this.getCamposFechaVacia(valor),
-                                        valor['responsable']
-                                      );
+          this.arrayVaciosMantenimiento.push(agregar);
         }
-      }, this);
-    }
+      }
+    });
   }
 
   //true si la fecha es habil
@@ -596,15 +605,20 @@ export class SlaGenerarComponent implements OnInit {
 
   //actualiza los valores de los campos
   cambiarCampo(event, tabla, campo) {
-    if(campo=='cantidadOk' || campo=='cantidadNoOk'){
+ 
       let cantidadOk = Number(this.slaFormularioService['campo_' + tabla + '_cantidadOk']);
       let cantidadNoOk = Number(this.slaFormularioService['campo_' + tabla + '_cantidadNoOk']);
 
       this.slaFormularioService['campo_' + tabla + '_cantidad'] = String(cantidadOk + cantidadNoOk);
-      this.slaFormularioService['campo_' + tabla + '_SLA'] = String(((cantidadOk*100)/(cantidadOk + cantidadNoOk)).toFixed(1));
+
+      if((cantidadOk + cantidadNoOk) == 0){
+        this.slaFormularioService['campo_' + tabla + '_SLA'] = String('0.00');  
+      } else {
+        this.slaFormularioService['campo_' + tabla + '_SLA'] = String(((cantidadOk*100)/(cantidadOk + cantidadNoOk)).toFixed(2));
+      }
 
       this.mostrarFlechas();
-   } 
+ 
   }
 
   //genera un archivo PDF
@@ -657,102 +671,16 @@ export class SlaGenerarComponent implements OnInit {
     });
   }
 
- //true si la fecha es 1/1/1900 (vacia)
- validarFechaVacia(ars){
-  if(
-      this.validarFechaVaciaRegla(ars['fecRealEstimacion'].toString())
-      || this.validarFechaVaciaRegla(ars['fecRealInicio'].toString())
-      || this.validarFechaVaciaRegla(ars['fecPlanPaseAprobacion'].toString())
-      || this.validarFechaVaciaRegla(ars['fecRealPaseAprobacion'].toString())
-      || this.validarFechaVaciaRegla(ars['fecRealFin'].toString())
-      || this.validarFechaVaciaRegla(ars['fecPlanPaseProduccion'].toString())
-      || this.validarFechaVaciaRegla(ars['fecRealPaseProduccion'].toString())
-  ){
-    return true;
-  } else {
-    return false;
-  }
- }
-
 //revisa la regla de fecha por defecto
 validarFechaVaciaRegla(fecha: String){
   if(fecha == 'Sun Dec 31 1899 00:00:00 GMT-0442 (hora de verano de Chile)'
     ||
-    fecha.includes('Sun Dec 31 1899')
+    fecha.includes('Dec 31 1899')
+    ||
+    fecha.includes('Jan 1 1900')
   ){
     return true;
   } else return false;
- }
-
- //obtiene un string con los campos que tienen la regla vacia
- getCamposFechaVacia(ars){
-  let campos: String = '';
- 
-  if(this.validarFechaVaciaRegla(ars['fecRealEstimacion'].toString())){
-    campos += ', fecRealEstimacion';
-  }
-
-  if(this.validarFechaVaciaRegla(ars['fecRealInicio'].toString())){
-    campos += ', fecRealInicio';
-  }
-
-  if(this.validarFechaVaciaRegla(ars['fecPlanPaseAprobacion'].toString())){
-    campos += ', fecPlanPaseAprobacion';
-  }
-
-  if(this.validarFechaVaciaRegla(ars['fecRealPaseAprobacion'].toString())){
-    campos += ', fecRealPaseAprobacion';
-  }
-
-  if(this.validarFechaVaciaRegla(ars['fecRealFin'].toString())){
-    campos += ', fecRealFin';
-  }
-
-  if(this.validarFechaVaciaRegla(ars['fecPlanPaseProduccion'].toString())){
-    campos += ', fecPlanPaseProduccion';
-  }
-
-  if(this.validarFechaVaciaRegla(ars['fecRealPaseProduccion'].toString())){
-    campos += ', fecRealPaseProduccion';
-  }
-
-  if(campos) campos = campos.substring(2);
-
-  return campos;
- }
-
- //si es nuevo agrega un elemento al arreglo de vacios 
- //en caso contrario lo agrega a la columna indicador
- agregarArregloCorregir(contrato, nroReq, indicadores, campos, responsable){
-  let ars = [];
-  ars['nroReq'] = nroReq.toString();
-  ars['indicador'] = indicadores;
-  ars['campos'] = campos;
-  ars['responsable'] = responsable;
-
-  let flagRepetidoM = 0;
-  let flagRepetidoP = 0;
-  if(contrato=='mantenimiento'){
-    this.JsonArrayVaciosMantenimiento.forEach(function(valor, index){
-      if(valor['nroReq'] ==  ars['nroReq']){
-        flagRepetidoM = 1;
-        this.JsonArrayVaciosMantenimiento[index]['indicador'] = 
-        this.JsonArrayVaciosMantenimiento[index]['indicador'] + ', ' + indicadores;
-      }
-    }, this);
-
-    if(!flagRepetidoM) this.JsonArrayVaciosMantenimiento.push(ars);
-  } else if(contrato=='proyecto'){
-    this.JsonArrayVaciosProyecto.forEach(function(valor, index){
-      if(valor['nroReq'] ==  ars['nroReq']){
-        flagRepetidoP = 1;
-        this.JsonArrayVaciosProyecto[index]['indicador'] = 
-        this.JsonArrayVaciosProyecto[index]['indicador'] + ', ' + indicadores;
-      }
-    }, this);
-
-    if(!flagRepetidoP) this.JsonArrayVaciosProyecto.push(ars);
-  }
  }
 
  //revisa las cantidades y le agrega una flecha si están bajo el mínimo
@@ -782,18 +710,16 @@ validarFechaVaciaRegla(fecha: String){
   let workbook = new Workbook();
 
   let worksheet1 = workbook.addWorksheet('Corregir ARS proyecto');
-  if(this.JsonArrayVaciosProyecto.length>0){
+  if(this.arrayVaciosProyecto.length>0){
 
     // Se establecen anchos de las columnas
-    worksheet1.getColumn(1).width = 20;
+    worksheet1.getColumn(1).width = 16;
     worksheet1.getColumn(2).width = 30;
-    worksheet1.getColumn(3).width = 30;
-    worksheet1.getColumn(4).width = 100;
+    worksheet1.getColumn(3).width = 180;
 
     const headerProyecto = [
       'Número REQ',
       'Responsable',
-      'Indicador',
       'Campos'
     ];
 
@@ -830,11 +756,10 @@ validarFechaVaciaRegla(fecha: String){
     headerProyectoRow.height = 40;
 
     let newRow; 
-    this.JsonArrayVaciosProyecto.forEach(element => {
+    this.arrayVaciosProyecto.forEach(element => {
        newRow = [
         element['nroReq'], 
         element['responsable'],
-        element['indicador'],
         element['campos']
       ];
       worksheet1.addRow(newRow);  
@@ -846,18 +771,16 @@ validarFechaVaciaRegla(fecha: String){
   }
 
   let worksheet2 = workbook.addWorksheet('Corregir ARS mantenimiento');
-  if(this.JsonArrayVaciosMantenimiento.length>0){
+  if(this.arrayVaciosMantenimiento.length>0){
 
      // Se establecen anchos de las columnas
-     worksheet2.getColumn(1).width = 20;
+     worksheet2.getColumn(1).width = 16;
      worksheet2.getColumn(2).width = 30;
-     worksheet2.getColumn(3).width = 30;
-     worksheet2.getColumn(4).width = 100;
+     worksheet2.getColumn(3).width = 180;
  
      const headerMantenimiento = [
        'Número REQ',
        'Responsable',
-       'Indicador',
        'Campos'
      ];
  
@@ -894,11 +817,10 @@ validarFechaVaciaRegla(fecha: String){
      headerMantenimientoRow.height = 40;
  
      let newRow; 
-     this.JsonArrayVaciosMantenimiento.forEach(element => {
+     this.arrayVaciosMantenimiento.forEach(element => {
         newRow = [
          element['nroReq'], 
          element['responsable'],
-         element['indicador'],
          element['campos']
        ];
        worksheet2.addRow(newRow);  
@@ -917,5 +839,38 @@ validarFechaVaciaRegla(fecha: String){
 
     fs.saveAs(blob, filename);
   });
+ }
+
+ //se asignan las variables del formulario
+ llenarFormulario(indicador, jsonArray){
+  let cantidadOk = 0;
+  let cantidadNoOk = 0;
+  let sla = 0;
+  let cantidad = 0;
+
+  if(jsonArray){
+    cantidad = jsonArray.length;
+
+    jsonArray.forEach(element => {
+      if(element.noCumple == '1'){
+        cantidadNoOk++;
+      } else {
+        cantidadOk++;
+      }
+    });
+  
+    if(cantidad == 0){
+      sla = 0;
+    } else {
+      sla = cantidadOk * 100 / cantidad;
+    }
+  } else {
+
+  }
+  
+  this.slaFormularioService['campo_'+indicador+'_cantidad'] = cantidad;
+  this.slaFormularioService['campo_'+indicador+'_cantidadOk'] = cantidadOk;
+  this.slaFormularioService['campo_'+indicador+'_cantidadNoOk'] = cantidadNoOk;
+  this.slaFormularioService['campo_'+indicador+'_SLA'] = sla.toFixed(2);
  }
 }

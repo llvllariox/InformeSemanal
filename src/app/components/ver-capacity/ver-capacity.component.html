@@ -1,13 +1,72 @@
 <div class="container mb-5">
-    jsonDataMayores1<div class="row">
+
+    <div class="row">
         <button class="btn btn-primary" (click)="generateExcel()">Descargar &nbsp;&nbsp;<img src="../../../assets/images/file-excel-regular.png" style="width: 12px; height: 17px;" alt=""> </button>
     </div>
+
     <div class="row mt-2">
         <div class="form-check">
             <input [ngClass]="{'border-0': !mostrarVal,'d-none': !mostrarVal}" class="form-check-input" type="checkbox" value="" id="defaultCheck1" (click)="cambiaValor()">
             <label [ngClass]="{'text-white': !mostrarVal}" class="form-check-label" for="defaultCheck1">Ocultar Edicion</label>
         </div>
     </div>
+    
+    <br>
+    <!-- Requerimientos -->
+    <div class="row justify-content-center">
+        <table class="table table-striped table-bordered table-sm tablaReq">
+            <thead>
+                <tr>
+                    <th colspan="8">Asignación Capacity Services</th>
+                </tr>
+
+                <tr>
+                    <th rowspan="2">VS</th>
+                    <th rowspan="2">Responsable</th>
+                    <th colspan="2">{{primeraFechaTabla}}</th>
+                    <th colspan="2">{{segundaFechaTabla}}</th>
+                    <th colspan="2">{{terceraFechaTabla}}</th>
+                </tr>
+
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Valor UF</th>
+                    <th>Cantidad</th>
+                    <th>Valor UF</th>
+                    <th>Cantidad</th>
+                    <th>Valor UF</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let arsReq of tablaRequerimientos;">
+                    <td *ngIf="arsReq.mostrar; else reqNoMostrar">{{arsReq.bloque}}</td>
+                    <ng-template #reqNoMostrar>
+                        <td></td>
+                    </ng-template>
+                    <td>{{arsReq.origen}}</td>
+                    <td class="text-center">{{arsReq.cuenta1M}}</td>
+                    <td class="text-center">{{arsReq.suma1M}}</td>
+                    <td class="text-center">{{arsReq.cuenta2M}}</td>
+                    <td class="text-center">{{arsReq.suma2M}}</td>
+                    <td class="text-center">{{arsReq.cuenta3M}}</td>
+                    <td class="text-center">{{arsReq.suma3M}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th class="clear"></th>
+                    <th class="clear">Total CS</th>
+                    <th>{{totalReq['cuenta1M']}}</th>
+                    <th>{{totalReq['suma1M']}}</th>
+                    <th>{{totalReq['cuenta2M']}}</th>
+                    <th>{{totalReq['suma2M']}}</th>
+                    <th>{{totalReq['cuenta3M']}}</th>
+                    <th>{{totalReq['suma3M']}}</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <br>
 
     <div class="row justify-content-center">
         <div class="col-8">

@@ -110,15 +110,8 @@ export class SlaComponent implements OnInit {
         let tmp = this.jsonDataReq.Requerimientos;
         
         //PROYECTO
-        this.filtrarReqPE1(tmp);
-        this.filtrarReqPE2(tmp);
-        this.filtrarReqPE3(tmp);
-        this.filtrarReqPE6(tmp);
-
-        //MANTENIMIENTO
-        this.filtrarReqPM1(tmp);
-        this.filtrarReqPM2(tmp);    
-        }
+        this.filtrarReq(tmp);
+      }
     };
     reader.readAsBinaryString(file);    
  }
@@ -159,9 +152,7 @@ export class SlaComponent implements OnInit {
       this.jsonDataSol = null;
     } else {
       let tmp = this.jsonDataSol.Solicitudes;
-      
-      this.filtrarSolPI1(tmp);
-      //this.filtrarSolPI2(tmp);
+      this.filtrarSol(tmp);
     }
   };
   reader.readAsBinaryString(file);    
@@ -193,217 +184,58 @@ export class SlaComponent implements OnInit {
  }
 
  /*
-	Filtrar Contrato = Evolutivo
-	Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
-	Filtra Fecha Recepción = MES del informe (por pantalla) 
- */
-  filtrarReqPE1(jsonDataReqArray: any) {
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.contrato === 'Evolutivo';
-    });
-
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
-    });
-
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-        return (a.fechaRecepcion.getMonth() === this.fechaInforme.getMonth()
-              && a.fechaRecepcion.getFullYear() === this.fechaInforme.getFullYear());
-    });
-
-        //definimos un arreglo temporal para hacer unicos los objetos
-        let Jsontemporal = [];
-        jsonDataReqArray.forEach(element => {
-          let tmp = this.agregarJson(element);
-          Jsontemporal.push(tmp);
-        });
-    
-        this.jsonDataService.setjsonDataReqPE1Service(Jsontemporal);
-  }
-
-
- /*
   Filtrar Contrato = Evolutivo
-	Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
-	Filtrar Fec. Real Pase Aprobación = Mes en curso(por pantalla)
-  */
-  filtrarReqPE2(jsonDataReqArray: any) {
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.contrato === 'Evolutivo';
-    });
-
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
-    });
-
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return (a.fecRealPaseAprobacion.getMonth() === this.fechaInforme.getMonth()
-            && a.fecRealPaseAprobacion.getFullYear() === this.fechaInforme.getFullYear());
-    });
-  
-    //definimos un arreglo temporal para hacer unicos los objetos
-    let Jsontemporal = [];
-    jsonDataReqArray.forEach(element => {
-      let tmp = this.agregarJson(element);
-      Jsontemporal.push(tmp);
-    });
-
-    this.jsonDataService.setjsonDataReqPE2Service(Jsontemporal);
- }
-
-  /*
-    Filtrar Contrato = Evolutivo
-    Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
-    Filtrar Estado = Finalizado 
-    Filtrar Fec Real Fin = mes en curso (por pantalla)
-  */
- filtrarReqPE3(jsonDataReqArray: any) {
-
-
-  jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.contrato === 'Evolutivo';
-    });
-  
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
-    });
-
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.estado === '02 Finalizado';
-    });
-
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return (a.fecRealFin.getMonth() === this.fechaInforme.getMonth()
-            && a.fecRealFin.getFullYear() === this.fechaInforme.getFullYear());
-    });
-
-    //definimos un arreglo temporal para hacer unicos los objetos
-    let Jsontemporal = [];
-    jsonDataReqArray.forEach(element => {
-      let tmp = this.agregarJson(element);
-      Jsontemporal.push(tmp);
-    });
-
-    this.jsonDataService.setJsonDataReqPE3Service(Jsontemporal);
- }
-
-   /*
-    Filtrar Contrato = Evolutivo
-    Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
-    Filtrar Fec. Real Pase Producción = Mes en curso
-  */
- filtrarReqPE6(jsonDataReqArray: any) {
-  jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.contrato === 'Evolutivo';
-    });
-  
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor';
-    });
-
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return (a.fecRealPaseProduccion.getMonth() === this.fechaInforme.getMonth()
-            && a.fecRealPaseProduccion.getFullYear() === this.fechaInforme.getFullYear());
-    });
-
-    //definimos un arreglo temporal para hacer unicos los objetos
-    let Jsontemporal = [];
-    jsonDataReqArray.forEach(element => {
-      let tmp = this.agregarJson(element);
-      Jsontemporal.push(tmp);
-    });
-  
-    this.jsonDataService.setJsonDataReqPE6Service(Jsontemporal);
- }
-
- /*
-  Fitrar Contrato = Mantenimiento
-	Fitrar Línea de Servicio = Problemas
-	Filtrar Fecha Recepción MES = MES del informe
+  Fitrar Línea de Servicio = Evolutivo Mayor y Evolutivo Menor
  */
- filtrarReqPM1(jsonDataReqArray: any) {
+ filtrarReq(jsonDataReqArray: any) {
   jsonDataReqArray = jsonDataReqArray.filter(a => {
-    return a.contrato === 'Mantenimiento';
+    return (
+              (a.contrato === 'Evolutivo'
+              &&
+              (a.lineaDeServicio === 'Evolutivo Mayor' || a.lineaDeServicio === 'Evolutivo Menor'))
+              ||
+              (a.contrato === 'Mantenimiento'
+              &&
+              a.lineaDeServicio === 'Problemas')
+              && a.facurable == 'SI'
+    );
   });
 
-  jsonDataReqArray = jsonDataReqArray.filter(a => {
-    return a.lineaDeServicio === 'Problemas';
-  });
-
-  jsonDataReqArray = jsonDataReqArray.filter(a => {
-    return (a.fechaRecepcion.getMonth() === this.fechaInforme.getMonth()
-          && a.fechaRecepcion.getFullYear() === this.fechaInforme.getFullYear());
-  });
- 
   //definimos un arreglo temporal para hacer unicos los objetos
-  let Jsontemporal = [];
+  let jsontemporal = [];
   jsonDataReqArray.forEach(element => {
     let tmp = this.agregarJson(element);
-    Jsontemporal.push(tmp);
+    jsontemporal.push(tmp);
   });
 
-  this.jsonDataService.setJsonDataReqPM1Service(Jsontemporal);
- }
+  this.jsonDataService.setjsonDataReqService(jsontemporal);
+}
 
-  /*
+
+/*
   Fitrar Contrato = Mantenimiento
-	Fitrar Línea de Servicio = Problemas
-	Filtrar Fecha Recepción MES = MES del informe
- */
-  filtrarReqPM2(jsonDataReqArray: any) {
-
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.contrato === 'Mantenimiento';
-    });
-
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.lineaDeServicio === 'Problemas';
-    });
-  
-    jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return (a.fechaRecepcion.getMonth() === this.fechaInforme.getMonth()
-            && a.fechaRecepcion.getFullYear() === this.fechaInforme.getFullYear());
-    });
+  Filtrar Bloque = Cancelaciones
+*/
+filtrarSol(jsonDataReqArray: any){
+  jsonDataReqArray = jsonDataReqArray.filter(a => {
+    return (
+              a.contrato === 'Mantenimiento'
+              &&
+              a.bloque === 'Cancelaciones'
+    );
 
     //definimos un arreglo temporal para hacer unicos los objetos
-    let Jsontemporal = [];
+    let jsontemporal = [];
     jsonDataReqArray.forEach(element => {
       let tmp = this.agregarJson(element);
-      Jsontemporal.push(tmp);
+      jsontemporal.push(tmp);
     });
 
-    this.jsonDataService.setJsonDataReqPM2Service(Jsontemporal);
-   }
+    this.jsonDataService.setjsonDataSolService(jsontemporal);
+  });
+}
 
-   /*
-   	Fitrar Contrato = Mantenimiento
-    Filtrar Línea de Servicio = Soporte
-    Filtrar Bloque = Cancelación
-    Filtrar Fecha Recepción MES = MES del informe
-   */
-    filtrarSolPI1(jsonDataSolArray: any) {
-      jsonDataSolArray = jsonDataSolArray.filter(a => {
-        return a.contrato === 'Mantenimiento';
-      });
-
-      jsonDataSolArray = jsonDataSolArray.filter(a => {
-        return a.lineaDeServicio === 'Soporte';
-      });
- 
-      jsonDataSolArray = jsonDataSolArray.filter(a => {
-        return a.bloque === 'Cancelación';
-      });
-
-      jsonDataSolArray = jsonDataSolArray.filter(a => {
-        return (a.fechaRecepcion.getMonth() === this.fechaInforme.getMonth()
-        && a.fechaRecepcion.getFullYear() === this.fechaInforme.getFullYear());
-      });
-
-      this.jsonDataService.setJsonDataSolPI1Service(jsonDataSolArray);
-      this.jsonDataService.setJsonDataSolPI2Service(jsonDataSolArray);
-    }
-
- guardar() {
+guardar() {
     if(this.estadoReq==4){
       this.formulario.value.requerimientos = null;
       return 1;
@@ -500,6 +332,7 @@ export class SlaComponent implements OnInit {
 
     tmp['responsable'] = ars['responsable'];
     
+    tmp['estado'] = ars['estado'];
     return tmp;
   }
 

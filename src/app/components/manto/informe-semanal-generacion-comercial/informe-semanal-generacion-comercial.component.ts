@@ -139,10 +139,10 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       //utilizadas
       this.totales[mesActual]['utilizadas'] = 0;
       this.jsonArrayHoras.forEach(element => {
-        this.totales[mesActual]['utilizadas'] += Math.round(Number(element.horas));
+        this.totales[mesActual]['utilizadas'] += Number(element.horas);
       });
+      this.totales[mesActual]['utilizadas'] = Math.round(this.totales[mesActual]['utilizadas']);
       
-      this.totales[mesActual]['utilizadas'] = (this.totales[mesActual]['utilizadas']);
       this.horasUtilizadasOriginal = this.totales[mesActual]['utilizadas'];
 
       //anterior
@@ -209,10 +209,10 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
 
     }
 
-    this.sumas['utilizadas'] = Math.round(this.sumas['utilizadas']);
-    this.sumas['anteriores'] = Math.round(this.sumas['anteriores']);
-    this.sumas['propuestas'] = Math.round(this.sumas['propuestas']);
-    this.sumas['diferencia'] = Math.round(this.sumas['diferencia']);
+    this.sumas['utilizadas'] = (this.sumas['utilizadas']);
+    this.sumas['anteriores'] = (this.sumas['anteriores']);
+    this.sumas['propuestas'] = (this.sumas['propuestas']);
+    this.sumas['diferencia'] = (this.sumas['diferencia']);
   }
 
   //asigna al arreglo detalleExcel para obtener los detalles a generar en un excel
@@ -226,7 +226,7 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
         //creamos un ars para agregar al arreglo detalleExcel
         let arsExcel = {
           numeroArs: element.numeroArs,
-          horas: Number(element.horas),
+          horas: (Number(element.horas)),
           descripcion: element.descripcion,
           lineaDeServicio: element.lineaDeServicio,
           aplicacion: element.aplicacion,
@@ -235,7 +235,7 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
         this.detalleExcel.push(arsExcel);
       } else {
         let horasSumar = Number(this.detalleExcel[index].horas);
-        this.detalleExcel[index].horas = Number(element.horas) + horasSumar;
+        this.detalleExcel[index].horas = (Number(element.horas)) + horasSumar;
       }
     });
   }
@@ -366,10 +366,10 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
 
       let newRow; 
       this.detalleExcel.forEach(d => {
-        sumaIncurridas += Math.round(Number(d['horas']));
+        sumaIncurridas += Number(d['horas']);
         newRow = [
                 d['descripcion'], 
-                Math.round(d['horas']),
+                d['horas'],
                 d['lineaDeServicio'],
                 d['aplicacion'],
                 d['solicitante']
@@ -415,7 +415,7 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       
       let sumaRow = [
         'Total', 
-        sumaIncurridas,
+        Math.round(sumaIncurridas),
         '',
         '',
         ''

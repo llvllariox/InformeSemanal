@@ -136,36 +136,44 @@ export class SlaJspdfService {
       let flagMin = 0;
       let xFlecha = 226; 
 
-      if(cantidadPE1 <= 10){
+      let minimo = 10;
+
+      if(cantidadPE1 < minimo){
         doc.addImage(this.flecha, 'PNG', xFlecha, 37, 5, 5);
         flagMin = 1;
       }
-      if(cantidadPE2 <= 10){
+
+      if(cantidadPE2 < minimo){
         doc.addImage(this.flecha, 'PNG', xFlecha, 44, 5, 5);
         flagMin = 1;
       }
-      if(cantidadPE3 <= 10){
+
+      if(cantidadPE3 < minimo){
         doc.addImage(this.flecha, 'PNG', xFlecha, 51, 5, 5);
         flagMin = 1;
       }
-      if(cantidadPE6 <= 10){
+
+      if(cantidadPE6 < minimo){
         doc.addImage(this.flecha, 'PNG', xFlecha, 70, 5, 5);
         flagMin = 1;
       }
 
-      if(cantidadPM2 <= 10){
+      if(cantidadPM2 < minimo){
         doc.addImage(this.flecha, 'PNG', xFlecha, 91, 5, 5);
         flagMin = 1;
       }
-      if(cantidadPM2 <= 10){
+
+      if(cantidadPM2 < minimo){
         doc.addImage(this.flecha, 'PNG', xFlecha, 98, 5, 5);
         flagMin = 1;
       }
-      if(cantidadPI1 <= 10){
+
+      if(cantidadPI1 < minimo){
         doc.addImage(this.flecha, 'PNG', xFlecha, 105, 5, 5);
         flagMin = 1;
       }
-      if(cantidadPI2 <= 10){
+
+      if(cantidadPI2 < minimo){
         doc.addImage(this.flecha, 'PNG', xFlecha, 112, 5, 5);
         flagMin = 1;
       }

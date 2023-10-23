@@ -10,6 +10,7 @@ import { SweetAlertService } from './sweet-alert.service';
 export class CapacityService {
 
   jsonDataPlanService;
+  jsonDataReqService;
   jsonDataPlanService2;
   jsonDataPlanServiceCS;
   jsonDataPlanMttoBO;
@@ -106,6 +107,15 @@ export class CapacityService {
 
   setjsonDataPlanService(jsonDataPlanService: any) {
     this.jsonDataPlanService = jsonDataPlanService;
+  }
+
+  //Requerimientos
+  getJsonDataReqService() {
+    return this.jsonDataReqService;
+  }
+
+  setjsonDataReqService(jsonDataReqService: any) {
+    this.jsonDataReqService = jsonDataReqService;
   }
 
   getJsonDataPlanServiceCS() {

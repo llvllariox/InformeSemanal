@@ -33,3 +33,31 @@ input[type="text"][disabled] {
     background: white;
     border: none;
 }
+
+.tablaReq thead tr {
+    background-color: rgb(32, 55, 100);
+    text-align: center;
+    color: #f8f9fa;
+    font-weight: 700;
+    font-size: 80%;
+}
+
+.tablaReq thead tr th {
+    border: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.tablaReq tfoot tr {
+    text-overflow: ellipsis;
+    background-color: rgb(180, 198, 231);
+    color: #343a40;
+    font-weight: 700;
+    font-size: 80%;
+    text-align: center;
+}
+
+.clear{
+    border: none;
+    background-color: transparent;
+    text-align: left;
+}
