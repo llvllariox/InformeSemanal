@@ -108,11 +108,11 @@ export class MywizardRvJspdfService {
 
         body: [
           ['MTD Cancelled Problem Requests P5-Number', campo_R1],
-          ['MTD New Problems P5-Number \n (Cantidad de nuevos Problemas recibidos en el mes)', campo_R2],
-          ['MTD On Hold Problems P5-Number \n (Cantidad de Problemas detenidos en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS', campo_R3],
-          ['MTD Resolved Problems P5-Number \n (Cantidad de Problemas cerrados en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO', campo_R4],
-          ['MTD Total Effort Spent on Problems P5-Hours \n (Total de horas invertidas en la atención de Problemas en el mes) = SE REFIERE A LA CANTIDAD DE HH INVERTIDAS EN RESOLUCIÓN DE TICKETS PRODUCTIVOS', campo_R5],
-          ['Number of open Problems exceeding resolution SLA-Number \n (Cantidad de Problemas abiertos que tenemos vencidos respecto al SLA comprometido) = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE', campo_R6],
+          ['MTD New Problem Requests P5-Number \n (Cantidad de nuevos Problemas recibidos en el mes)', campo_R2],
+          ['MTD On Hold Problem Requests P5-Number \n (Cantidad de Problemas detenidos en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS', campo_R3],
+          ['MTD Resolved Problem Requests P5-Number \n (Cantidad de Problemas cerrados en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO', campo_R4],
+          ['MTD Total Effort Spent on Problem Requests P5-Hours \n (Total de horas invertidas en la atención de Problemas en el mes) = SE REFIERE A LA CANTIDAD DE HH INVERTIDAS EN RESOLUCIÓN DE TICKETS PRODUCTIVOS', campo_R5],
+          ['Number of open incidents exceeding resolution SLA-Number \n (Cantidad de Problemas abiertos que tenemos vencidos respecto al SLA comprometido) = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE', campo_R6],
         ],
       });
 
