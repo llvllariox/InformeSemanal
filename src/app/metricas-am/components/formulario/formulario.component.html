@@ -1,0 +1,95 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-6 ">
+            <div class="row">
+                <div class="col ">
+                    <h4>Subir Archivos</h4>
+                </div>
+            </div>
+            <form autocomplete="off" [formGroup]="formulario" (ngSubmit)="guardar()">
+
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        Fecha:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input [class.is-invalid]="fechaNoValido" formControlName="fecha" type="month" class="date form-control" (change)="cambiarFecha($event)"  min="{{fechaMin}}" max="{{fechaMax}}" >
+                        <small *ngIf="fechaNoValido" class="text-danger">Seleccione Fecha</small>
+                    </div>
+                </div>
+                
+                <fieldset>
+                    <legend>Requerimientos</legend>
+                    <div class="row my-3">
+                        <div class="col-12 col-sm-4">
+                            <i *ngIf="estadoReqAbiertos==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoReqAbiertos==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoReqAbiertos==3" class="fas fa-check text-success"></i><i *ngIf="estadoReqAbiertos==4" class="fas fa-times text-danger"></i>&nbsp;
+                            Abiertos:
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input [class.is-invalid]="requerimientosAbiertosNoValido" formControlName="requerimientosAbiertos" type="file" class="form-control-file" (change)="uploadReq($event, 'reqAbiertos')" (click)="click('reqAbiertos')">
+                            <small *ngIf="requerimientosAbiertosNoValido" class="text-danger">Seleccione Archivo<br/></small>
+                        </div>
+                    </div>
+
+                    <div class="row my-3">
+                        <div class="col-12 col-sm-4">
+                            <i *ngIf="estadoReqCerrados==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoReqCerrados==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoReqCerrados==3" class="fas fa-check text-success"></i><i *ngIf="estadoReqCerrados==4" class="fas fa-times text-danger"></i>&nbsp;
+                            Cerrados:
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input [class.is-invalid]="requerimientosCerradosNoValido" formControlName="requerimientosCerrados" type="file" class="form-control-file" (change)="uploadReq($event, 'reqCerrados')" (click)="click('reqCerrados')">
+                            <small *ngIf="requerimientosCerradosNoValido" class="text-danger">Seleccione Archivo<br/></small>
+                        </div>
+                    </div>
+                </fieldset>
+
+
+                <fieldset>
+                    <legend>Solicitudes</legend>
+                    <div class="row my-3">
+                        <div class="col-12 col-sm-4">
+                            <i *ngIf="estadoSolAbiertos==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoSolAbiertos==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoSolAbiertos==3" class="fas fa-check text-success"></i><i *ngIf="estadoSolAbiertos==4" class="fas fa-times text-danger"></i>&nbsp;
+                            Abiertos:
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input [class.is-invalid]="solicitudesAbiertosNoValido" formControlName="solicitudesAbiertos" type="file" class="form-control-file" (change)="uploadReq($event, 'solAbiertos')" (click)="click('solAbiertos')">
+                            <small *ngIf="solicitudesAbiertosNoValido" class="text-danger">Seleccione Archivo<br/></small>
+                        </div>
+                    </div>
+
+                    <div class="row my-3">
+                        <div class="col-12 col-sm-4">
+                            <i *ngIf="estadoSolCerrados==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoSolCerrados==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoSolCerrados==3" class="fas fa-check text-success"></i><i *ngIf="estadoSolCerrados==4" class="fas fa-times text-danger"></i>&nbsp;
+                            Cerrados:
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input [class.is-invalid]="solicitudesCerradosNoValido" formControlName="solicitudesCerrados" type="file" class="form-control-file" (change)="uploadReq($event, 'solCerrados')" (click)="click('solCerrados')">
+                            <small *ngIf="solicitudesCerradosNoValido" class="text-danger">Seleccione Archivo<br/></small>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Horas nuevo</legend>
+                    <div class="row my-3">
+                        <div class="col-12 col-sm-4">
+                            <i *ngIf="estadoHoras==1" class="fas fa-chevron-right text-dark"></i><i *ngIf="estadoHoras==2" class="fas fa-spinner fa-spin"></i><i *ngIf="estadoHoras==3" class="fas fa-check text-success"></i><i *ngIf="estadoHoras==4" class="fas fa-times text-danger"></i>&nbsp;
+                            Horas:
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input [class.is-invalid]="horasNoValido" formControlName="horas" type="file" class="form-control-file" (change)="uploadReq($event, 'horas')" (click)="click('horas')">
+                            <small *ngIf="solicitudesCerradosNoValido" class="text-danger">Seleccione Archivo<br/></small>
+                            <small>Exportación -> horas nuevos (mes informe)</small>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="row my-3 mt-5">
+                    <div class="col">
+                        <button class="btn btn-primary btn-block" type="submit">Generar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

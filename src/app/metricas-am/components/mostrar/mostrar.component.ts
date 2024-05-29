@@ -1,24 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { MywizardRvJsonDataService } from 'src/app/metricas-am/services/mywizard-rv-json-data.service';
-import { MywizardRvFormularioService } from '../../metricas-am/services/mywizard-rv-formulario.service';
-import { MywizardRvJspdfService } from '../../metricas-am/services/mywizard-rv-jspdf.service';
-import { SweetAlertService } from '../../services/sweet-alert.service';
 
+import { MywizardRvJsonDataService } from 'src/app/metricas-am/services/mywizard-rv-json-data.service';
+import { MywizardRvFormularioService } from 'src/app/metricas-am/services/mywizard-rv-formulario.service';
+import { MywizardRvJspdfService } from 'src/app/metricas-am/services/mywizard-rv-jspdf.service';
+
+import { SweetAlertService } from 'src/app/shared/services/sweet-alert.service';
 
 @Component({
-  selector: 'app-mywizard-rv-generacion',
-  templateUrl: './mywizard-rv-generacion.component.html'
+  selector: 'app-mostrar',
+  templateUrl: './mostrar.component.html',
+  styleUrls: ['./mostrar.component.css']
 })
-export class MywizardRvGeneracionComponent implements OnInit {
+export class MostrarComponent implements OnInit {
 
-  JsonArrayReqAbiertos: [];
-  JsonArrayReqCerrados: [];
-  JsonArraySolAbiertos: [];
-  JsonArraySolCerrados: [];
-  JsonArrayHoras: [];
+  JsonArrayReqAbiertos: [] = [];
+  JsonArrayReqCerrados: [] = [];
+  JsonArraySolAbiertos: [] = [];
+  JsonArraySolCerrados: [] = [];
+  JsonArrayHoras: [] = [];
 
-  JsonArrayCancelacionesAbiertos: [];
-  JsonArrayCancelacionesCerrados: [];
+  JsonArrayCancelacionesAbiertos: [] = [];
+  JsonArrayCancelacionesCerrados: [] = [];
 
   monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -279,8 +281,7 @@ export class MywizardRvGeneracionComponent implements OnInit {
         cantidad++;
       }
     });
-
-
+    
     this.mywizardRvFormularioService.campo_S2 = cantidad.toString();
   }
 
@@ -312,6 +313,33 @@ export class MywizardRvGeneracionComponent implements OnInit {
 
     this.sweetAlerService.mensajeEsperar2().then(resp=>{
       this.pdfService.generaPDF(variables, this.fechaInformeDate).then(resp => {
+        this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
+      });
+    });
+  }
+
+  //genera un archivo PDF para TBK
+  generaNuevoPDFTBK() {
+    let variables = [];
+    variables['campo_I1'] = this.mywizardRvFormularioService.campo_I1;
+    variables['campo_I2'] = this.mywizardRvFormularioService.campo_I2;
+    variables['campo_I3'] = this.mywizardRvFormularioService.campo_I3;
+    variables['campo_I4'] = this.mywizardRvFormularioService.campo_I4;
+    variables['campo_I5'] = this.mywizardRvFormularioService.campo_I5;
+    variables['campo_I6'] = this.mywizardRvFormularioService.campo_I6;
+
+    variables['campo_R1'] = this.mywizardRvFormularioService.campo_R1;
+    variables['campo_R2'] = this.mywizardRvFormularioService.campo_R2;
+    variables['campo_R3'] = this.mywizardRvFormularioService.campo_R3;
+    variables['campo_R4'] = this.mywizardRvFormularioService.campo_R4;
+    variables['campo_R5'] = this.mywizardRvFormularioService.campo_R5;
+    variables['campo_R6'] = this.mywizardRvFormularioService.campo_R6;
+
+    variables['campo_S1'] = this.mywizardRvFormularioService.campo_S1;
+    variables['campo_S2'] = this.mywizardRvFormularioService.campo_S2;
+
+    this.sweetAlerService.mensajeEsperar2().then(resp=>{
+      this.pdfService.generaPDFTBK(variables, this.fechaInformeDate).then(resp => {
         this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
       });
     });

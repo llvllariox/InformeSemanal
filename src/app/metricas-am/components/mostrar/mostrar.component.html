@@ -87,6 +87,17 @@
                alt="">
            </button>&nbsp;
        </div>
+
+       <br>
+       
+       <div class="col-sm-12 derecha">
+        <button class="btn waves-effect waves-light btn-rounded btn-danger" (click)="generaNuevoPDFTBK()">
+           Exportar Informe PDF TBK
+           <img
+           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABK0lEQVRIx+2UvUpDMRiGn6hQ/NucRHQT2sFJcOgViKB34Sh4Ed6Ag6u4CIKzToIiblZwc9GlXRxE/KGCYB8HoxyqR05az+a7hITkffIm+QL/SpG6pLbsXU11MesZugBNYKrPfTZDCNN5AP/iJEIIX74DCes2gTngOgWWAtgHqkCjLMAYcAJMlAWohhBugVpZgMHYXqYAir6iDjAL1CPgDBjNNe3hFR0CFWCbjzpZAe6BJ+CxcJyc6uyo8+qW+qIeqONqJbaTak29+1yQ9RwqwN0BLoAZYDcmWAfOgePY7wBvqQme1TV1WN1Q2z+ka6tX6kN2sMglvwLLwAJwChx1z/1N2UvOO6IGcBNj76WYf4PlJOjEXdeBkWTTTILSv+vuOlgFWv2YR49/Fdc7ntsGSiB6CfMAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjAtMDctMDdUMTc6MTM6MjIrMDA6MDCkJIB1AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIwLTA3LTA3VDE3OjEzOjIyKzAwOjAw1Xk4yQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
+           alt="">
+       </button>&nbsp;
+   </div>
     </div>
 
     <hr />
@@ -126,7 +137,8 @@
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nombre}}</td>
                                     <td class="small">{{ars.lineaDeServicio}}</td>
-                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                    <!-- <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td> -->
+                                    <td class="small">{{ars.fechaRecepcion}}</td>
                                     <td class="small">{{ars.horas}}</td>
                                     <td class="small">{{ars.etapa}}</td>
                                     <td class="small">{{ars.rework}}</td>
@@ -170,7 +182,8 @@
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nombre}}</td>
                                     <td class="small">{{ars.lineaDeServicio}}</td>
-                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                    <!-- <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td> -->
+                                    <td class="small">{{ars.fechaRecepcion}}</td>
                                     <td class="small">{{ars.horas}}</td>
                                     <td class="small">{{ars.etapa}}</td>
                                     <td class="small">{{ars.rework}}</td>
@@ -215,7 +228,8 @@
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nombre}}</td>
                                     <td class="small">{{ars.lineaDeServicio}}</td>
-                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                    <!-- <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td> -->
+                                    <td class="small">{{ars.fechaRecepcion}}</td>
                                     <td class="small">{{ars.horas}}</td>
                                     <td class="small">{{ars.etapa}}</td>
                                     <td class="small">{{ars.rework}}</td>
@@ -259,7 +273,8 @@
                                     <td class="small">{{i+1}}</td>
                                     <td class="small">{{ars.nombre}}</td>
                                     <td class="small">{{ars.lineaDeServicio}}</td>
-                                    <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td>
+                                    <!-- <td class="small">{{ars.fechaRecepcion | fechaVacia}}</td> -->
+                                    <td class="small">{{ars.fechaRecepcion}}</td>
                                     <td class="small">{{ars.horas}}</td>
                                     <td class="small">{{ars.etapa}}</td>
                                     <td class="small">{{ars.rework}}</td>

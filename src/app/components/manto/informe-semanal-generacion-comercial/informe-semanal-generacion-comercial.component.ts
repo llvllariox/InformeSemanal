@@ -186,6 +186,11 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
 
   //asigna las variables correspondientes a la suma de todos los meses
   getSuma(){
+    this.sumas['utilizadas'] = 0;
+    this.sumas['propuestas'] = 0;
+    this.sumas['anteriores'] = 0;
+    this.sumas['diferencia'] = 0;
+
     for (let i = 1; i <= 12; i++) {
       //utilizadas
       if(this.totales[i]['utilizadas']) {
@@ -206,7 +211,6 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       if(this.totales[i]['anteriores']) {
         this.sumas['anteriores'] += this.totales[i]['anteriores'];
       }
-
     }
 
     this.sumas['utilizadas'] = (this.sumas['utilizadas']);
@@ -220,7 +224,11 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
     this.detalleExcel = [];
 
     this.jsonArrayHoras.forEach(element => {
-      let index = this.detalleExcel.findIndex(ars  => ars['numeroArs'] === element.numeroArs);
+      let index = this.detalleExcel.findIndex(ars => ars['numeroArs'] === element.numeroArs);
+      
+      if(element['numeroArs'] == '4409'){
+        console.log('hola');
+      }
 
       if(index == -1){
         //creamos un ars para agregar al arreglo detalleExcel
@@ -438,11 +446,17 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
 
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      let filename = 'Detalle_Mantencion_Comercial_';
-      filename += this.monthNames[Number(this.monthInforme)-1];
-      filename += '_';
-      filename +=  this.yearInforme;
-     
+      
+      let filename = 'detalle_mantencion_BO_Comercial_';
+
+      let mesInforme = Number(this.monthInforme);
+      if(mesInforme < 10){
+        filename += "0" + mesInforme;
+      } else {
+        filename += mesInforme;
+      }
+  
+      filename +=  this.yearInforme;     
       filename += '.xlsx';
   
       fs.saveAs(blob, filename);

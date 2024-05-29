@@ -1,0 +1,92 @@
+<div class="accordion" id="accordion{{ tipo + mes }}">
+    <div class="card">
+        <div class="card-header" id="heading{{ tipo + mes }}">
+            <h2 class="mb-0">
+                <button 
+                    class="btn btn-link collapsed" 
+                    type="button" 
+                    data-toggle="collapse"
+                    [attr.data-target]="'#collapse' +  tipo + mes" 
+                    aria-expanded="false" 
+                    [attr.aria-controls]="'collapse'+  tipo + mes">
+                        {{ mes }}
+                </button>
+            </h2>
+
+            <div 
+                id="collapse{{ tipo + mes }}" 
+                class="collapse" 
+                [attr.aria-labelledby]="'heading' + tipo + mes " 
+                [attr.data-parent]="'#accordion' + tipo + mes">
+                
+                <div class="card-body">
+                    <div *ngIf="data.length==0; else siHoras">
+                        No se encontró data. 
+                    </div>
+                    <ng-template #siHoras>
+                        <table class="table table-striped table-bordered" *ngIf="ars=='true'; else tabla">
+                            <thead class="bg-dark">
+                                <tr class="small font-weight-bold text-light">
+                                    
+                                    <th class="indice"></th>
+                                    <th>Número ARS</th>
+                                    <th>Horas</th>
+                                    <th>Tipo Contrato</th>
+                                    <th>Línea de Servicio</th>
+                                    <th>Descripción</th>
+                                    <th>Grupo de Trabajo Asignado</th>
+                                    <th>Bloque</th>
+                                    <th>Descripción Tarea</th>
+                                    <th>Área</th>
+                                    <th>Aplicación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let arsData of data; let i=index" class="small">
+                                    <td>{{i+1}}</td>
+                                    <td>{{arsData.numeroArs}}</td>
+                                    <td>{{arsData.horas}}</td>
+                                    <td>{{arsData.tipoContrato}}</td>
+                                    <td>{{arsData.lineaDeServicio}}</td>
+                                    <td>{{arsData.descripcion}}</td>
+                                    <td>{{arsData.grupoDeTrabajoAsignado}}</td>
+                                    <td>{{arsData.bloque}}</td>
+                                    <td>{{arsData.descripcionTarea}}</td>
+                                    <td>{{arsData.area}}</td>
+                                    <td>{{arsData.aplicacion}}</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+
+                        <ng-template #tabla>
+                            <table class="table table-striped table-bordered">
+                                <thead class="bg-dark">
+                                    <tr class="small font-weight-bold text-light">
+                                        <th class="indice"></th>
+                                        <th>Descripción</th>
+                                        <th>Horas Incurridas</th>
+                                        <th>Línea de Servicio</th>
+                                        <th>Sistema</th>
+                                        <th>Solicitante</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let arsData of data; let i=index" class="small">
+                                        <td>{{i+1}}</td>
+                                        <td>{{ arsData.descripcion }}</td>
+
+                                        <td>{{ arsData.horasIncurridas }}</td>
+                                        <td>{{ arsData.lineaDeServicio }}</td>
+                                        <td>{{ arsData.sistema }}</td>
+                                        <td>{{ arsData.solicitante }}</td>
+
+                                    </tr> 
+                                </tbody>
+                            </table>
+                        </ng-template>
+                    </ng-template> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

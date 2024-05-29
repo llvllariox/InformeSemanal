@@ -86,8 +86,8 @@ export class InformeSemanalComponent implements OnInit {
 
   /*
     Tipo Contrato	= Mantenimiento
-    Línea de Servicio sin Capacity Service ni General
-   
+    Línea de Servicio sin Capacity Service ni General ni Backlog de Mantenimiento
+
     ambos
     comercial -> Grupo de Trabajo Asignado = Mantenimiento - Carlos Navarro
     transaccional -> Grupo de Trabajo Asignado = Mantenimiento - Keyciren Trigo
@@ -100,8 +100,16 @@ export class InformeSemanalComponent implements OnInit {
       return a.tipoContrato === 'Mantenimiento';
     });
 
+    /* jsonDataReqArray = jsonDataReqArray.filter(a => {
+      return a.facturable === 'SI';
+    }); */
+
     jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return (a.lineaDeServicio != 'Capacity Service' && a.lineaDeServicio != 'General');
+      return (
+          a.lineaDeServicio != 'Capacity Service' 
+          && a.lineaDeServicio != 'General'
+          && a.lineaDeServicio != 'Backlog de Mantenimiento'
+        );
     });
 
     jsonDataReqArray = jsonDataReqArray.filter(a => {
@@ -110,6 +118,7 @@ export class InformeSemanalComponent implements OnInit {
     });
 
     let sobreesfuerzo = "SOBREESFUERZO";
+    let sobresfuerzo = "SOBRESFUERZO";
     
     jsonDataReqArray = jsonDataReqArray.filter(a => {
       let bloque = a.bloque.toUpperCase();
@@ -118,6 +127,9 @@ export class InformeSemanalComponent implements OnInit {
       return !(
                 bloque.includes(sobreesfuerzo)
                 || descripcion.includes(sobreesfuerzo)
+                || bloque.includes(sobresfuerzo)
+                || descripcion.includes(sobresfuerzo)
+
       )
     });
 
@@ -129,6 +141,8 @@ export class InformeSemanalComponent implements OnInit {
     });
 
     this.jsonDataHoras = jsonDataReqArray;
+
+    //console.log(jsonDataReqArray);
     
     //this.mantoInformeSemanalService.setJsonDataMantoInformeSemanal(jsonDataReqArray);
   }
@@ -161,6 +175,7 @@ export class InformeSemanalComponent implements OnInit {
           return;
         }
 
+        
         //se filtra por comercial o transaccional
         let arrayJSON = this.jsonDataHoras;
         if(this.formulario.value.tipo=='comercial'){
@@ -172,6 +187,7 @@ export class InformeSemanalComponent implements OnInit {
             return a.grupoDeTrabajoAsignado === 'Mantenimiento - Keyciren Trigo';
           });
         }
+
         this.mantoInformeSemanalService.setJsonDataMantoInformeSemanal(arrayJSON);
         this.mantoInformeSemanalService.setTipo(this.formulario.value.tipo);
         this.mantoInformeSemanalService.setFechaInforme(this.formulario.value.fecha);
@@ -241,7 +257,7 @@ export class InformeSemanalComponent implements OnInit {
  }
 
  changeTipo(tipo){
-  console.log(tipo);
+  //console.log(tipo);
  }
 
   get horasNoValido() {

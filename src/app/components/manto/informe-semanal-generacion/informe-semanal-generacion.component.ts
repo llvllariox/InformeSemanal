@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
-import { MantoInformeSemanalService } from 'src/app/services/manto-informe-semanal.service';
+import { MantoInformeSemanalService } from 'src/app//services/manto-informe-semanal.service';
 import { MantoInformeSemanalConfService } from 'src/app/services/manto-informe-semanal-conf.service';
 import Chart from 'chart.js/auto';
 import { MantoInformeSemanalFirebaseService } from 'src/app/services/manto-informe-semanal-firebase.service';
@@ -412,11 +412,17 @@ export class InformeSemanalGeneracionComponent implements OnInit {
 
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      let filename = 'Detalle_Mantencion_';
-      filename += this.monthNames[Number(this.monthInforme)-1];
-      filename += '_';
-      filename +=  this.yearInforme;
-     
+      
+      let filename = 'detalle_mantencion_BO_TRX_';
+
+      let mesInforme = Number(this.monthInforme);
+      if(mesInforme < 10){
+        filename += "0" + mesInforme;
+      } else {
+        filename += mesInforme;
+      }
+  
+      filename +=  this.yearInforme;     
       filename += '.xlsx';
   
       fs.saveAs(blob, filename);
