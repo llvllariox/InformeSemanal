@@ -36,8 +36,13 @@
             </li>
 
             <!-- MYWIZARD ROXANA VIDAL -->
+            <!-- <li class="nav-item mr-auto">
+                <a class="nav-link" href="#" [routerLink]="['mywizard-rv']" routerLinkActive="active"><i class="fas fa-desktop"></i>&nbsp; Métricas AM old</a>
+            </li> -->
+
+            <!-- METRICAS AM -->
             <li class="nav-item mr-auto">
-                <a class="nav-link" href="#" [routerLink]="['mywizard-rv']" routerLinkActive="active"><i class="fas fa-desktop"></i>&nbsp; Métricas AM</a>
+                <a class="nav-link" href="#" [routerLink]="['metricas-am']" routerLinkActive="active"><i class="fas fa-desktop"></i>&nbsp; Métricas AM</a>
             </li>
 
             <!-- FECHAS -->
@@ -54,12 +59,33 @@
                   <a class="dropdown-item" href="#" [routerLink]="['manto-informe-semanal']" routerLinkActive="active">Informe semanal</a>
                   <a class="dropdown-item" href="#" [routerLink]="['manto-informe-semanal-conf-comercial']" routerLinkActive="active">Configuración Comercial</a>
                   <a class="dropdown-item" href="#" [routerLink]="['manto-informe-semanal-conf']" routerLinkActive="active">Configuración Transaccional</a>
+
+                    <a 
+                        class="dropdown-item" 
+                        href="#" 
+                        [routerLink]="['mantenimiento-consolidar/formulario']" 
+                        routerLinkActive="active">
+                            Consolidar
+                    </a>
+
+                    <a 
+                        class="dropdown-item" 
+                        href="#" 
+                        [routerLink]="['mantenimiento-consolidar/formulario-ars']" 
+                        routerLinkActive="active">
+                            Consolidar ARS
+                    </a>
                 </div>
             </li>
 
             <!-- MyTe/MME -->
             <li class="nav-item mr-auto">
                 <a class="nav-link" href="#" [routerLink]="['myte-mme-generacion']" routerLinkActive="active"><i class="fa fa-wallet"></i>&nbsp; MyTe/MME</a>
+            </li>
+
+            <!-- validar HH -->
+            <li class="nav-item mr-auto">
+                <a class="nav-link" href="#" [routerLink]="['validarHH']" routerLinkActive="active"><i class="fa fa-calendar-alt"></i>&nbsp; validar HH</a>
             </li>
         </ul>
         <ul class="navbar-nav mr-1">

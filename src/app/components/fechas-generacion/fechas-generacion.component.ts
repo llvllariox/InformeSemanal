@@ -276,8 +276,8 @@ export class FechasGeneracionComponent implements OnInit {
       if(
         (item.horasEstimadas != item.horasPlanificadas)
       ){
-        item['validarHorasEstimadas'] = colorAmarillo;
-        item['validarHorasPlanificadas'] = colorAmarillo;
+        item['validarHorasEstimadas'] = colorNaranjo;
+        item['validarHorasPlanificadas'] = colorNaranjo;
         item['mostrar'] = 1;
       }
     }

@@ -112,7 +112,7 @@ export class MywizardRvJspdfService {
           ['MTD On Hold Problem Requests P5-Number \n (Cantidad de Problemas detenidos en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS DETENIDOS POR EL CLIENTE O EN ESPERA DE FALTA DE DEFINICION, BRANCH, DATA, ENTRE OTROS', campo_R3],
           ['MTD Resolved Problem Requests P5-Number \n (Cantidad de Problemas cerrados en el mes independiente el mes de ingreso) = SE REFIERE A TICKETS CERRADOS EN EL MES INDEPENDIENTE EL MES DE INGRESO', campo_R4],
           ['MTD Total Effort Spent on Problem Requests P5-Hours \n (Total de horas invertidas en la atención de Problemas en el mes) = SE REFIERE A LA CANTIDAD DE HH INVERTIDAS EN RESOLUCIÓN DE TICKETS PRODUCTIVOS', campo_R5],
-          ['Number of open incidents exceeding resolution SLA-Number \n (Cantidad de Problemas abiertos que tenemos vencidos respecto al SLA comprometido) = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE', campo_R6],
+          ['Number of open Problems exceeding resolution SLA-Number \n (Cantidad de Problemas abiertos que tenemos vencidos respecto al SLA comprometido) = SE REFIERE A LA CANTIDAD DE TICKETS QUE NO FUERON ATENDIDOS EN EL SLA ACORDADO, NO INCLUYE DETENIDOS POR CLIENTE', campo_R6],
         ],
       });
 
@@ -152,6 +152,153 @@ export class MywizardRvJspdfService {
 
       
       let filename = 'Indicadores MyWizard '
+        + this.monthNames[this.fecha.getMonth()] 
+        + ' ' + this.fecha.getFullYear() 
+        + '.pdf';
+
+      doc.save(filename);
+
+      return resolve('resolved');
+    });
+  }
+
+  generaPDFTBK(variables, fecha){
+    let campo_I1 = variables['campo_I1'];
+    let campo_I2 = variables['campo_I2'];
+    let campo_I3 = variables['campo_I3'];
+    let campo_I4 = variables['campo_I4'];
+    let campo_I5 = variables['campo_I5'];
+    let campo_I6 = variables['campo_I6'];
+  
+    let campo_R1 = variables['campo_R1'];
+    let campo_R2 = variables['campo_R2'];
+    let campo_R3 = variables['campo_R3'];
+    let campo_R4 = variables['campo_R4'];
+    let campo_R5 = variables['campo_R5'];
+    let campo_R6 = variables['campo_R6'];
+    
+    let campo_S1 = variables['campo_S1'];
+    let campo_S2 = variables['campo_S2'];
+
+    this.fecha = fecha;
+
+    return new Promise((resolve, reject) => {
+      const doc = new jsPDF({
+        orientation: "l",
+        unit: "mm",
+        format: [150, 240]
+      });
+
+      doc.addImage(this.logo, 'png', 192, 8, 36, 8);
+
+      //Indicadores MyWizard
+      doc.setFontSize(20);
+      doc.setFont(undefined, 'bold');
+      doc.setTextColor(0, 0, 0);
+      const tituloInforme = "Indicadores Mantenimiento " + this.monthNames[this.fecha.getMonth()] + " de " + this.fecha.getFullYear();
+      doc.text(10, 12, tituloInforme);
+
+      //titulo
+      doc.setFontSize(18);
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(0, 0, 0);
+      doc.text(10, 20, 'Incidentes / Solicitudes');
+      
+      //tabla
+      doc.autoTable({
+        theme: 'striped',
+        startY: 26,
+        margin: {top: 0, left: 10},
+        styles: { fontSize: 8},
+        columnStyles: {
+          0: {cellWidth: 200, fontStyle: 'bold', halign: 'left' },
+          1: {cellWidth: 20, fontStyle: 'bold', halign: 'center' },
+        },
+
+        body: [
+          ['Incidentes cancelados durante el mes', campo_I1],
+          ['Cantidad de nuevos incidentes recibidos en el mes', campo_I2],
+          ['Cantidad de incidentes detenidos en el mes independiente el mes de ingreso', campo_I3],
+          ['Cantidad de incidentes cerrados en el mes independiente mes de ingreso', campo_I4],
+          ['Total de horas incurridas en la atención de incidentes en el mes', campo_I5],
+          ['Cantidad de incidentes abiertos que tenemos vencidos respecto al SLA comprometido', campo_I6],
+        ],
+      });
+
+      
+      doc.addPage();
+      
+      doc.addImage(this.logo, 'png', 192, 8, 36, 8);
+
+      //Indicadores MyWizard
+      doc.setFontSize(20);
+      doc.setFont(undefined, 'bold');
+      doc.setTextColor(0, 0, 0);
+      doc.text(10, 12, tituloInforme);
+
+      //titulo
+      doc.setFontSize(18);
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(0, 0, 0);
+      doc.text(10, 20, 'Problemas / Requerimientos');
+
+      //tabla
+      doc.autoTable({
+        theme: 'striped',
+        startY: 26,
+        margin: {top: 0, left: 10},
+        styles: { fontSize: 8},
+        columnStyles: {
+          0: {cellWidth: 200, fontStyle: 'bold', halign: 'left' },
+          1: {cellWidth: 20, fontStyle: 'bold', halign: 'center' },
+        },
+
+        body: [
+          ['Requerimientos cancelados durante el mes', campo_R1],
+          ['Cantidad de nuevos Problemas recibidos en el mes', campo_R2],
+          ['Cantidad de Problemas detenidos en el mes independiente el mes de ingreso', campo_R3],
+          ['Cantidad de Problemas cerrados en el mes independiente el mes de ingreso', campo_R4],
+          ['Total de horas incurridas en la atención de Problemas en el mes', campo_R5],
+          ['Cantidad de Problemas abiertos que tenemos vencidos respecto al SLA comprometido', campo_R6],
+        ],
+      });
+
+
+      doc.addPage();
+      
+      doc.addImage(this.logo, 'png', 192, 8, 36, 8);
+
+      //Indicadores MyWizard
+      doc.setFontSize(20);
+      doc.setFont(undefined, 'bold');
+      doc.setTextColor(0, 0, 0);
+      doc.text(10, 12, tituloInforme);
+
+      //titulo
+      doc.setFontSize(18);
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(0, 0, 0);
+      doc.text(10, 20, 'SERVICE DELIVERY');
+
+      //tabla
+      doc.autoTable({
+        theme: 'striped',
+        startY: 26,
+        margin: {top: 0, left: 10},
+        styles: { fontSize: 8},
+        columnStyles: {
+          0: {cellWidth: 200, fontStyle: 'bold', halign: 'left' },
+          1: {cellWidth: 20, fontStyle: 'bold', halign: 'center' },
+        },
+
+        body: [
+          ['Cantidad de defectos o errores que se han reportado de las correcciones implementadas en el mes', campo_S1],
+          ['Cumplimiento de Plazo en Resolución de Incidencia - Cumplimiento en Tiempo de Respuesta Telefónica', campo_S2],
+        ],
+      });
+
+      
+      let filename = 'Indicadores Mantenimiento '
         + this.monthNames[this.fecha.getMonth()] 
         + ' ' + this.fecha.getFullYear() 
         + '.pdf';

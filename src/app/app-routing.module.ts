@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { InformesComponent } from './components/informes/informes.component';
 import { GenerarInformeComponent } from './components/generar-informe/generar-informe.component';
 import { GenerarCapacityComponent } from './components/generar-capacity/generar-capacity.component';
@@ -15,8 +16,8 @@ import { SlaComponent } from './components/sla/sla.component';
 import { SlaGenerarComponent } from './components/sla-generar/sla-generar.component';
 import { CuadraFacturacionComponent } from './components/cuadra-facturacion/cuadra-facturacion.component';
 import { CuadraFacturacionGenerarComponent } from './components/cuadra-facturacion-generar/cuadra-facturacion-generar.component';
-import { MywizardRvComponent } from './components/mywizard-rv/mywizard-rv.component';
-import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generacion/mywizard-rv-generacion.component';
+//import { MywizardRvComponent } from './components/mywizard-rv/mywizard-rv.component';
+//import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generacion/mywizard-rv-generacion.component';
 
 import { FechasComponent } from './components/fechas/fechas.component';
 import { FechasGeneracionComponent } from './components/fechas-generacion/fechas-generacion.component';
@@ -49,11 +50,16 @@ const routes: Routes = [
   { path: 'cuadra-facturacion', component: CuadraFacturacionComponent },
   { path: 'cuadra-facturacion-generar', component: CuadraFacturacionGenerarComponent },
 
-  { path: 'mywizard-rv', component: MywizardRvComponent },
-  { path: 'mywizard-rv-generar', component: MywizardRvGeneracionComponent },
+ // { path: 'mywizard-rv', component: MywizardRvComponent },
+//  { path: 'mywizard-rv-generar', component: MywizardRvGeneracionComponent },
 
   { path: 'fechas', component: FechasComponent },
   { path: 'fechas-generar', component: FechasGeneracionComponent },
+
+  { 
+    path: 'mantenimiento-consolidar', 
+    loadChildren: () => import('./mantenimiento/mantenimiento.module').then( m => m.MantenimientoModule ),
+  },
 
   { path: 'manto-informe-semanal', component: InformeSemanalComponent },
   { path: 'manto-informe-semanal-generar', component: InformeSemanalGeneracionComponent },
@@ -63,6 +69,18 @@ const routes: Routes = [
   { path: 'manto-informe-semanal-confupd', component: InformeSemanalConfupdComponent },
 
   { path: 'myte-mme-generacion', component: MyteMmeGeneracionComponent },
+
+  // Metricas AM
+  { 
+    path: 'metricas-am', 
+    loadChildren: () => import('./metricas-am/metricas-am.module').then( m => m.MetricasAMModule ),
+  },
+
+  // validarHH
+  { 
+    path: 'validarHH', 
+    loadChildren: () => import('./validarHH/validarHH.module').then( m => m.ValidarHHModule ),
+  },
 
   { path: '', pathMatch: 'full', redirectTo: '' },
   { path: '**', pathMatch: 'full', component: GenerarInformeComponent },

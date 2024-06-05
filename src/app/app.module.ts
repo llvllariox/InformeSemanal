@@ -6,13 +6,13 @@ import { AppComponent } from './app.component';
 import { InformesComponent } from './components/informes/informes.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { GenerarInformeComponent } from './components/generar-informe/generar-informe.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { FechasPipe } from './pipes/fechas.pipe';
 import { GenerarCapacityComponent } from './components/generar-capacity/generar-capacity.component';
 import { VerCapacityComponent } from './components/ver-capacity/ver-capacity.component';
 import { CurrencyMaskModule } from "ng2-currency-mask";
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule , HttpClientJsonpModule} from '@angular/common/http';
+import { HttpClientModule , HttpClientJsonpModule } from '@angular/common/http';
 import { GenerarArsGfacComponent } from './components/generar-ars-gfac/generar-ars-gfac.component';
 import { VerArsJiraComponent } from './components/ver-ars-jira/ver-ars-jira.component';
 import { SlaComponent } from './components/sla/sla.component';
@@ -37,6 +37,12 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { InformeSemanalGeneracionComercialComponent } from './components/manto/informe-semanal-generacion-comercial/informe-semanal-generacion-comercial.component';
 import { InformeSemanalConfComercialComponent } from './components/manto/informe-semanal-conf-comercial/informe-semanal-conf-comercial.component';
 import { MyteMmeGeneracionComponent } from './components/mytemme/myte-mme-generacion/myte-mme-generacion.component';
+
+import { MetricasAMModule } from './metricas-am/metricas-am.module';
+import { MantenimientoModule } from './mantenimiento/mantenimiento.module';
+import { ValidarHHModule } from './validarHH/validarHH.module';
+import { SharedModule } from './shared/shared.module';
+
 
 // import { DatePipe } from '@angular/common';
 
@@ -78,10 +84,19 @@ import { MyteMmeGeneracionComponent } from './components/mytemme/myte-mme-genera
     ReactiveFormsModule,
     CurrencyMaskModule,
     FormsModule,
+    
     HttpClientModule,
     HttpClientJsonpModule,
+
+    SharedModule,
+
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
+
+
+    MetricasAMModule,
+    MantenimientoModule,
+    ValidarHHModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

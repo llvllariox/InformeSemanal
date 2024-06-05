@@ -1,39 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
-import * as XLSX from 'xlsx';
-import { SweetAlertService } from '../../services/sweet-alert.service';
-import { MywizardRvJsonDataService } from 'src/app/metricas-am/services/mywizard-rv-json-data.service';
 import { Router } from '@angular/router';
+import { SweetAlertService } from 'src/app/shared/services/sweet-alert.service';
+import { MywizardRvJsonDataService } from 'src/app/metricas-am/services/mywizard-rv-json-data.service';
+import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-mywizard-rv',
-  templateUrl: './mywizard-rv.component.html'
+  selector: 'metricas-am-formulario',
+  templateUrl: './formulario.component.html',
+  styleUrls: ['./formulario.component.css']
 })
-export class MywizardRvComponent implements OnInit {
-  formulario: FormGroup;
+export class FormularioComponent implements OnInit {
 
-  estadoReqAbiertos = 1;
-  estadoReqCerrados = 1;
-  estadoSolAbiertos = 1;
-  estadoSolCerrados = 1;
-  estadoHoras = 1;
+  public formulario: FormGroup;
 
-  jsonDataReqAbiertos = null;
-  jsonDataReqCerrados = null;
-  jsonDataSolAbiertos = null;
-  jsonDataSolCerrados = null;
-  jsonDataCancelacionesAbiertos = null;
-  jsonDataCancelacionesCerrados = null;
-  jsonDataHoras = null;
+  public estadoReqAbiertos = 1;
+  public estadoReqCerrados = 1;
+  public estadoSolAbiertos = 1;
+  public estadoSolCerrados = 1;
+  public estadoHoras = 1;
+
+  public jsonDataReqAbiertos = null;
+  public jsonDataReqCerrados = null;
+  public jsonDataSolAbiertos = null;
+  public jsonDataSolCerrados = null;
+  public jsonDataCancelacionesAbiertos = null;
+  public jsonDataCancelacionesCerrados = null;
+  public jsonDataHoras = null;
   
-  fechaInforme;
-  fechaMin;
-  fechaMax;
+  public fechaInforme;
+  public fechaMin;
+  public fechaMax;
 
-  monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  public monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
-  constructor(private formBuilder: FormBuilder, private mywizardRvJsonDataService: MywizardRvJsonDataService, private sweetAlerService: SweetAlertService, private router: Router) { 
+  constructor(
+    private formBuilder: FormBuilder,
+    private mywizardRvJsonDataService: MywizardRvJsonDataService,
+    private sweetAlertService: SweetAlertService,
+    private router: Router
+  ) { 
     this.crearFormulario();
 
     let hoy = new Date();
@@ -71,15 +78,15 @@ export class MywizardRvComponent implements OnInit {
 
   //transforma la data a JSON
   //tipo = reqAbiertos, reqCerrados, solAbiertos, solCerrados
-  uploadReq(event, tipo) {
+  uploadReq(event, tipo: string) {
     
     if(!this.validarTipo(event, tipo)){
       this.cambiarEstado(tipo, 4);
       return;
     }
 
-    let sheetName = '';
-    let limit = '';
+    let sheetName: string = '';
+    let limit: string = '';
 
     if(tipo=='reqAbiertos'){
       sheetName = 'Requerimientos';
@@ -112,7 +119,7 @@ export class MywizardRvComponent implements OnInit {
         workBook = XLSX.read(data, { type: 'binary', cellDates : true });
   
         if (workBook.SheetNames[0] !== sheetName){
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos');
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos');
           this.cambiarEstado(tipo, 4);
           this.vaciarJsonData(tipo);
           return;
@@ -127,7 +134,7 @@ export class MywizardRvComponent implements OnInit {
         }, {});
   
         if (this.jsonDataReqAbiertos[sheetName] === undefined) {
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
           this.cambiarEstado(tipo, 4);
           this.vaciarJsonData(tipo);
         } else {
@@ -146,7 +153,7 @@ export class MywizardRvComponent implements OnInit {
         workBook = XLSX.read(data, { type: 'binary', cellDates : true });
   
         if (workBook.SheetNames[0] !== sheetName){
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos');
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos');
           this.cambiarEstado(tipo, 4);
           this.vaciarJsonData(tipo);
           return;
@@ -161,7 +168,7 @@ export class MywizardRvComponent implements OnInit {
         }, {});
   
         if (this.jsonDataReqCerrados[sheetName] === undefined) {
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
           this.cambiarEstado(tipo, 4);
           this.vaciarJsonData(tipo);
         } else {
@@ -180,7 +187,7 @@ export class MywizardRvComponent implements OnInit {
         workBook = XLSX.read(data, { type: 'binary', cellDates : true });
   
         if (workBook.SheetNames[0] !== sheetName){
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a solicitudes');
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a solicitudes');
           this.cambiarEstado(tipo, 4);
           this.vaciarJsonData(tipo);
           return;
@@ -195,7 +202,7 @@ export class MywizardRvComponent implements OnInit {
         }, {});
   
         if (this.jsonDataSolAbiertos[sheetName] === undefined) {
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a solicitudes');
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a solicitudes');
           this.cambiarEstado(tipo, 4);
           this.vaciarJsonData(tipo);
         } else {
@@ -214,7 +221,7 @@ export class MywizardRvComponent implements OnInit {
         workBook = XLSX.read(data, { type: 'binary', cellDates : true });
   
         if (workBook.SheetNames[0] !== sheetName){
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a solicitudes');
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a solicitudes');
           this.cambiarEstado(tipo, 4);
           this.vaciarJsonData(tipo);
           return;
@@ -229,7 +236,7 @@ export class MywizardRvComponent implements OnInit {
         }, {});
   
         if (this.jsonDataSolCerrados[sheetName] === undefined) {
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a solicitudes');
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a solicitudes');
           this.cambiarEstado(tipo, 4);
           this.vaciarJsonData(tipo);
         } else {
@@ -248,7 +255,7 @@ export class MywizardRvComponent implements OnInit {
         workBook = XLSX.read(data, { type: 'binary', cellDates : true });
   
         if (workBook.SheetNames[0] !== sheetName){
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a horas');
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a horas');
           this.cambiarEstado(tipo, 4);
           this.vaciarJsonData(tipo);
           return;
@@ -263,7 +270,7 @@ export class MywizardRvComponent implements OnInit {
         }, {});
   
         if (this.jsonDataHoras[sheetName] === undefined) {
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a horas');
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a horas');
           this.cambiarEstado(tipo, 4);
           this.vaciarJsonData(tipo);
         } else {
@@ -451,12 +458,12 @@ export class MywizardRvComponent implements OnInit {
     } else {
       this.mywizardRvJsonDataService.setFechaInforme(this.formulario.value.fecha);
       
-      if (this.jsonDataReqAbiertos == null || this.jsonDataReqCerrados == null || this.jsonDataSolAbiertos == null || this.jsonDataSolCerrados == null || this.jsonDataHoras == null) {
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde');
+      /* if (this.jsonDataReqAbiertos == null || this.jsonDataReqCerrados == null || this.jsonDataSolAbiertos == null || this.jsonDataSolCerrados == null || this.jsonDataHoras == null) {
+        this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde');
         return;
-      }
+      } */
 
-      this.sweetAlerService.mensajeOK('Indicadores generados exitosamente').then(          
+      this.sweetAlertService.mensajeOK('Indicadores generados exitosamente').then(          
         resp => {
           if (resp.value) {
             //borramos campos que no se necesitan
@@ -466,7 +473,7 @@ export class MywizardRvComponent implements OnInit {
             this.formulario.value.solicitudesCerrados = null;
             this.formulario.value.horas = null;
 
-            this.router.navigateByUrl('/mywizard-rv-generar');        
+            this.router.navigateByUrl('/metricas-am/mostrar');
           }
         }
       );

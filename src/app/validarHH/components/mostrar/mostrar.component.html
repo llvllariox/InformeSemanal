@@ -1,0 +1,60 @@
+<div *ngIf="!flagHorasHabiles; else tabla" >
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden"></span>
+    </div>
+    Cargado los feriados....
+</div>
+
+<ng-template #tabla>
+    <div class="col-sm-12 derecha">
+        <button class="btn waves-effect waves-light btn-rounded btn-danger" (click)="generateExcel()">
+            Exportar a Excel 
+            <img src="../../../assets/images/file-excel-regular.png" style="width: 12px; height: 17px;" alt="">
+        </button>
+
+        <br>
+
+        Horas hábiles {{ validarHHService.getFechaInforme() }}: {{ horasHabiles }}
+    </div>
+    
+    <table class="table table-striped table-bordered tabla">
+        <thead class="bg-dark">
+            <tr class="small font-weight-bold text-light">
+                <th>Enterprise ID</th>
+                <th>Total</th>
+                <th *ngFor="let header of headers;">{{ header }}</th>
+
+                <th>MME (HH Habiles - todas las WBS execpto holiday</th>
+                <!-- <th style="background-color:yellow;">Revisar</th> -->
+                <th>Revisar</th>
+                <th>Viernes +8 horas</th>
+            </tr>
+        </thead>
+    
+        <tbody>
+            <tr *ngFor="let enterpriseId of filaEnterpriseId" [ngClass]="{'noCumple' : detalles[enterpriseId]['validacionFlag']==1}" >
+                <td>{{ enterpriseId }}</td>
+
+                <td>
+                    {{ detalles[enterpriseId]['Total'] }}
+                </td>
+    
+                <td *ngFor="let header of headers;">
+                    {{ detalles[enterpriseId][header] }}
+                </td>
+
+                <td>
+                    {{ detalles[enterpriseId]['MME'] }}
+                </td>
+
+                <td>
+                    <span>{{ detalles[enterpriseId]['Revisar'] }}</span>
+                </td>
+                
+                <td>
+                    <span>{{ detalles[enterpriseId]['validacionTexto'] }}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-template>
