@@ -15,8 +15,8 @@ import * as fs from 'file-saver';
 })
 export class MostrarConsolidarComponent implements OnInit {
 
-  public jsonDataHorasComercial: [] = [];
-  public jsonDataHorasTransaccional: number[] = [];
+  public jsonDataHorasComercial: [][] = [];
+  public jsonDataHorasTransaccional: [][] = [];
 
   monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -34,10 +34,30 @@ export class MostrarConsolidarComponent implements OnInit {
   public horasMes: Chart;
   public horasMesPorArea: Chart;
 
+  public barrasHorasComercial: Chart;
+  public barrasPorcentajeComercial: Chart;
+  public horasMesComercial: Chart;
+  public horasMesPorAreaComercial: Chart;
+
+  public barrasHorasTransaccional: Chart;
+  public barrasPorcentajeTransaccional: Chart;
+  public horasMesTransaccional: Chart;
+  public horasMesPorAreaTransaccional: Chart;
+
   @ViewChild('barrasHoras', {static:false}) eBarrasHoras!: ElementRef;
   @ViewChild('barrasPorcentaje', {static:false}) eBarrasPorcentaje!: ElementRef;
   @ViewChild('horasMes', {static:false}) eHorasMes!: ElementRef;
   @ViewChild('horasMesPorArea', {static:false}) eHorasMesPorArea!: ElementRef;
+
+  @ViewChild('barrasHorasComercial', {static:false}) eBarrasHorasComercial!: ElementRef;
+  @ViewChild('barrasPorcentajeComercial', {static:false}) eBarrasPorcentajeComercial!: ElementRef;
+  @ViewChild('horasMesComercial', {static:false}) eHorasMesComercial!: ElementRef;
+  @ViewChild('horasMesPorAreaComercial', {static:false}) eHorasMesPorAreaComercial!: ElementRef;
+
+  @ViewChild('barrasHorasTransaccional', {static:false}) eBarrasHorasTransaccional!: ElementRef;
+  @ViewChild('barrasPorcentajeTransaccional', {static:false}) eBarrasPorcentajeTransaccional!: ElementRef;
+  @ViewChild('horasMesTransaccional', {static:false}) eHorasMesTransaccional!: ElementRef;
+  @ViewChild('horasMesPorAreaTransaccional', {static:false}) eHorasMesPorAreaTransaccional!: ElementRef;
  
   constructor(
     private consolidarDataService: ConsolidarDataService,
@@ -52,95 +72,172 @@ export class MostrarConsolidarComponent implements OnInit {
         this.detalles[mes]['Problema'] = 0;
         this.detalles[mes]['Gestion'] = 0;
         this.detalles[mes]['Mantenimiento'] = 0;
+        this.detalles[mes]['GLD'] = 0;
 
-        this.jsonDataHorasComercial[mes] = consolidarDataService.getJsonDataHorasComercial(mes);
-        this.jsonDataHorasTransaccional[mes] = consolidarDataService.getJsonDataHorasTransaccional(mes);
+        this.jsonDataHorasComercial[mes] = [];
+        this.jsonDataHorasComercial[mes]['Detalles'] = consolidarDataService.getJsonDataHorasComercial(mes);
+        this.jsonDataHorasComercial[mes]['Soporte'] = 0;
+        this.jsonDataHorasComercial[mes]['Incidente'] = 0;
+        this.jsonDataHorasComercial[mes]['Problema'] = 0;
+        this.jsonDataHorasComercial[mes]['Gestion'] = 0;
+        this.jsonDataHorasComercial[mes]['Mantenimiento'] = 0;
+        this.jsonDataHorasComercial[mes]['GLD'] = 0;
+
+        this.jsonDataHorasTransaccional[mes] = [];
+        this.jsonDataHorasTransaccional[mes]['Detalles'] = consolidarDataService.getJsonDataHorasTransaccional(mes);
+        this.jsonDataHorasTransaccional[mes]['Soporte'] = 0;
+        this.jsonDataHorasTransaccional[mes]['Incidente'] = 0;
+        this.jsonDataHorasTransaccional[mes]['Problema'] = 0;
+        this.jsonDataHorasTransaccional[mes]['Gestion'] = 0;
+        this.jsonDataHorasTransaccional[mes]['Mantenimiento'] = 0;
       }); 
 
-      // Presupuesto
-      this.detalles['Enero']['Presupuesto'] = 500;
-      this.detalles['Febrero']['Presupuesto'] = 600;
-      this.detalles['Marzo']['Presupuesto'] = 2183;
-      this.detalles['Abril']['Presupuesto'] = 500;
-      this.detalles['Mayo']['Presupuesto'] = 400;
-      this.detalles['Junio']['Presupuesto'] = 400;
-      this.detalles['Julio']['Presupuesto'] = 400;
-      this.detalles['Agosto']['Presupuesto'] = 400;
-      this.detalles['Septiembre']['Presupuesto'] = 400;
-      this.detalles['Octubre']['Presupuesto'] = 400;
-      this.detalles['Noviembre']['Presupuesto'] = 400;
-      this.detalles['Diciembre']['Presupuesto'] = 400;
+      //console.log(this.jsonDataHorasComercial);
+      this.redondear();
+      //console.log(this.jsonDataHorasComercial);
 
-      this.sumarLineaDeServicio();
-      
+      // Presupuesto
+      this.detalles['Enero']['Presupuesto'] = 1479;
+      this.detalles['Febrero']['Presupuesto'] = 1479;
+      this.detalles['Marzo']['Presupuesto'] = 1479;
+      this.detalles['Abril']['Presupuesto'] = 1479;
+      this.detalles['Mayo']['Presupuesto'] = 1479;
+      this.detalles['Junio']['Presupuesto'] = 1479;
+      this.detalles['Julio']['Presupuesto'] = 1479;
+      this.detalles['Agosto']['Presupuesto'] = 1479;
+      this.detalles['Septiembre']['Presupuesto'] = 1479;
+      this.detalles['Octubre']['Presupuesto'] = 1479;
+      this.detalles['Noviembre']['Presupuesto'] = 1479;
+      this.detalles['Diciembre']['Presupuesto'] = 1479;
+
+      this.jsonDataHorasComercial['Enero']['Presupuesto'] = 773;
+      this.jsonDataHorasComercial['Febrero']['Presupuesto'] = 773;
+      this.jsonDataHorasComercial['Marzo']['Presupuesto'] = 773;
+      this.jsonDataHorasComercial['Abril']['Presupuesto'] = 773;
+      this.jsonDataHorasComercial['Mayo']['Presupuesto'] = 773;
+      this.jsonDataHorasComercial['Junio']['Presupuesto'] = 773;
+      this.jsonDataHorasComercial['Julio']['Presupuesto'] = 773;
+      this.jsonDataHorasComercial['Agosto']['Presupuesto'] = 773;
+      this.jsonDataHorasComercial['Septiembre']['Presupuesto'] = 773;
+      this.jsonDataHorasComercial['Octubre']['Presupuesto'] = 773;
+      this.jsonDataHorasComercial['Noviembre']['Presupuesto'] = 773;
+      this.jsonDataHorasComercial['Diciembre']['Presupuesto'] = 773;
+
+      this.jsonDataHorasTransaccional['Enero']['Presupuesto'] = 706;
+      this.jsonDataHorasTransaccional['Febrero']['Presupuesto'] = 706;
+      this.jsonDataHorasTransaccional['Marzo']['Presupuesto'] = 706;
+      this.jsonDataHorasTransaccional['Abril']['Presupuesto'] = 706;
+      this.jsonDataHorasTransaccional['Mayo']['Presupuesto'] = 706;
+      this.jsonDataHorasTransaccional['Junio']['Presupuesto'] = 706;
+      this.jsonDataHorasTransaccional['Julio']['Presupuesto'] = 706;
+      this.jsonDataHorasTransaccional['Agosto']['Presupuesto'] = 706;
+      this.jsonDataHorasTransaccional['Septiembre']['Presupuesto'] = 706;
+      this.jsonDataHorasTransaccional['Octubre']['Presupuesto'] = 706;
+      this.jsonDataHorasTransaccional['Noviembre']['Presupuesto'] = 706;
+      this.jsonDataHorasTransaccional['Diciembre']['Presupuesto'] = 706;
+
+      this.sumarLineaDeServicio('');
+      this.sumarLineaDeServicio('Comercial');
+      this.sumarLineaDeServicio('Transaccional');
+
       //suma de los detalles
       this.detalles['total']['Presupuesto'] = 0;
+      this.jsonDataHorasComercial['total']['Presupuesto'] = 0;
+      this.jsonDataHorasTransaccional['total']['Presupuesto'] = 0;
 
       this.monthNames.forEach(mes => {
         this.detalles['total']['Presupuesto'] += this.detalles[mes]['Presupuesto'];
+        this.jsonDataHorasComercial['total']['Presupuesto'] += this.jsonDataHorasComercial[mes]['Presupuesto'];
+        this.jsonDataHorasTransaccional['total']['Presupuesto'] += this.jsonDataHorasTransaccional[mes]['Presupuesto'];
       });
 
       this.porcentajeHorasConsumidas();
       this.totalPorcentajeHorasConsumidas();
-  
-    //ordenamos los arreglos por fecha incurrido
-
-    /* var sortedJsonDataHorasComercial: string[] = this.jsonDataHorasComercial.sort((n1,n2) => {
-      if (n1.fechaDeRecepcion > n2.fechaDeRecepcion) {
-          return 1;
-      }
-
-      if (n1.fechaDeRecepcion < n2.fechaDeRecepcion) {
-          return -1;
-      }
-      return 0;
-    });
-
-    this.jsonDataHorasComercial = sortedJsonDataHorasComercial;
-
-    this.agruparPorMes(); */
   }
 
   ngOnInit(): void {
-    this.horasUtilizadasPorAreaDeServicio();
-    this.porcentajeHorasUtilizadasPorAreaDeServicio();
-    this.horasPorMes();
-    this.horasPorMesPorArea();
+    this.horasUtilizadasPorAreaDeServicio('');
+    this.horasUtilizadasPorAreaDeServicio('Comercial');
+    this.horasUtilizadasPorAreaDeServicio('Transaccional');
+
+    this.porcentajeHorasUtilizadasPorAreaDeServicio('');
+    this.porcentajeHorasUtilizadasPorAreaDeServicio('Comercial');
+    this.porcentajeHorasUtilizadasPorAreaDeServicio('Transaccional');
+
+    this.horasPorMes('');
+    this.horasPorMes('Comercial');
+    this.horasPorMes('Transaccional')
+    
+    this.horasPorMesPorArea('');
+    this.horasPorMesPorArea('Comercial');
+    this.horasPorMesPorArea('Transaccional');
   }
 
-
   //suma las horas de acuerdo a su linea de servicio
-  sumarLineaDeServicio(): void {
-    this.detalles['total'] = [];
-    this.detalles['total']['Soporte'] = 0;
-    this.detalles['total']['Incidente'] = 0;
-    this.detalles['total']['Problema'] = 0;
-    this.detalles['total']['Gestion'] = 0;
-    this.detalles['total']['Mantenimiento'] = 0;
-    this.detalles['total']['HHConsumidas'] = 0;
-
+  sumarLineaDeServicio(tipo: string): void {
     let soporte = 0;
     let incidente = 0;
     let problema = 0;
     let gestion = 0;
     let mantenimiento = 0;
+    let gld = 0;
 
     let data = [];
-  
+
+    if(tipo == ''){
+      this.detalles['total'] = [];
+      this.detalles['total']['Soporte'] = 0;
+      this.detalles['total']['Incidente'] = 0;
+      this.detalles['total']['Problema'] = 0;
+      this.detalles['total']['Gestion'] = 0;
+      this.detalles['total']['Mantenimiento'] = 0;
+      this.detalles['total']['GLD'] = 0;
+      this.detalles['total']['HHConsumidas'] = 0;
+
+    } else if(tipo == 'Comercial'){
+      this.jsonDataHorasComercial['total'] = [];
+      this.jsonDataHorasComercial['total']['Soporte'] = 0;
+      this.jsonDataHorasComercial['total']['Incidente'] = 0;
+      this.jsonDataHorasComercial['total']['Problema'] = 0;
+      this.jsonDataHorasComercial['total']['Gestion'] = 0;
+      this.jsonDataHorasComercial['total']['Mantenimiento'] = 0;
+      this.jsonDataHorasComercial['total']['GLD'] = 0;
+      this.jsonDataHorasComercial['total']['HHConsumidas'] = 0;
+
+    } else if(tipo == 'Transaccional'){
+      this.jsonDataHorasTransaccional['total'] = [];
+      this.jsonDataHorasTransaccional['total']['Soporte'] = 0;
+      this.jsonDataHorasTransaccional['total']['Incidente'] = 0;
+      this.jsonDataHorasTransaccional['total']['Problema'] = 0;
+      this.jsonDataHorasTransaccional['total']['Gestion'] = 0;
+      this.jsonDataHorasTransaccional['total']['Mantenimiento'] = 0;
+      this.jsonDataHorasTransaccional['total']['HHConsumidas'] = 0;
+    }
+
     this.monthNames.forEach(mes => {
-      
-      data = this.jsonDataHorasComercial[mes]
-            .concat(this.jsonDataHorasTransaccional[mes]);
+      if(tipo == ''){
+        data = this.jsonDataHorasComercial[mes]['Detalles']
+                .concat(this.jsonDataHorasTransaccional[mes]['Detalles']);
+      } else if(tipo == 'Comercial'){
+        data = this.jsonDataHorasComercial[mes]['Detalles'];
+      } else if(tipo == 'Transaccional'){
+        data = this.jsonDataHorasTransaccional[mes]['Detalles'];
+      }
       
       let horas = 0;
       data.forEach(element => {
+        //horas = Math.round(Number(element.horasIncurridas));
+
         horas = Number(element.horasIncurridas);
+
         if(element.lineaDeServicio == "Incidentes") {
           incidente += horas;
         } else if(element.lineaDeServicio == "Problemas") {
           problema += horas;
         } else if(element.lineaDeServicio == "Evolutivo Menor") {
           mantenimiento += horas;
+        }  else if(element.lineaDeServicio == "Gestión LD") {
+          gld += horas;
         } else if(element.lineaDeServicio == 'Soporte'){
           if(element.bloque == 'Gestión'){
             gestion += horas;
@@ -150,59 +247,136 @@ export class MostrarConsolidarComponent implements OnInit {
         }
       });
 
-      this.detalles[mes]['Soporte'] = soporte;
-      this.detalles[mes]['Incidente'] = incidente;
-      this.detalles[mes]['Problema'] = problema;
-      this.detalles[mes]['Gestion'] = gestion;
-      this.detalles[mes]['Mantenimiento'] = mantenimiento;
+      let suma = soporte + incidente + problema + gestion + mantenimiento + gld;
 
+      if(tipo == ''){
+        this.detalles[mes]['Soporte'] = soporte;
+        this.detalles[mes]['Incidente'] = incidente;
+        this.detalles[mes]['Problema'] = problema;
+        this.detalles[mes]['Gestion'] = gestion;
+        this.detalles[mes]['Mantenimiento'] = mantenimiento;
+        this.detalles[mes]['GLD'] = gld;
 
-      let suma = soporte + incidente + problema + gestion + mantenimiento;
-      this.detalles[mes]['HHConsumidas'] = suma;
+        this.detalles[mes]['HHConsumidas'] = suma;
 
-      this.detalles['total']['Soporte'] += soporte;
-      this.detalles['total']['Incidente'] += incidente;
-      this.detalles['total']['Problema'] += problema;
-      this.detalles['total']['Gestion'] += gestion;
-      this.detalles['total']['Mantenimiento'] += mantenimiento;
-      this.detalles['total']['HHConsumidas'] += suma;
-      
+        this.detalles['total']['Soporte'] += soporte;
+        this.detalles['total']['Incidente'] += incidente;
+        this.detalles['total']['Problema'] += problema;
+        this.detalles['total']['Gestion'] += gestion;
+        this.detalles['total']['Mantenimiento'] += mantenimiento;
+        this.detalles['total']['GLD'] += gld;
+        this.detalles['total']['HHConsumidas'] += suma;
+
+      } else if(tipo == 'Comercial'){
+        this.jsonDataHorasComercial[mes]['Soporte'] = soporte;
+        this.jsonDataHorasComercial[mes]['Incidente'] = incidente;
+        this.jsonDataHorasComercial[mes]['Problema'] = problema;
+        this.jsonDataHorasComercial[mes]['Gestion'] = gestion;
+        this.jsonDataHorasComercial[mes]['Mantenimiento'] = mantenimiento;
+        this.jsonDataHorasComercial[mes]['GLD'] = gld;
+
+        this.jsonDataHorasComercial[mes]['HHConsumidas'] = suma;
+
+        this.jsonDataHorasComercial['total']['Soporte'] += soporte;
+        this.jsonDataHorasComercial['total']['Incidente'] += incidente;
+        this.jsonDataHorasComercial['total']['Problema'] += problema;
+        this.jsonDataHorasComercial['total']['Gestion'] += gestion;
+        this.jsonDataHorasComercial['total']['Mantenimiento'] += mantenimiento;
+        this.jsonDataHorasComercial['total']['GLD'] += gld;
+        this.jsonDataHorasComercial['total']['HHConsumidas'] += suma;
+
+      } else if(tipo == 'Transaccional'){
+        this.jsonDataHorasTransaccional[mes]['Soporte'] = soporte;
+        this.jsonDataHorasTransaccional[mes]['Incidente'] = incidente;
+        this.jsonDataHorasTransaccional[mes]['Problema'] = problema;
+        this.jsonDataHorasTransaccional[mes]['Gestion'] = gestion;
+        this.jsonDataHorasTransaccional[mes]['Mantenimiento'] = mantenimiento;
+
+        this.jsonDataHorasTransaccional[mes]['HHConsumidas'] = suma;
+
+        this.jsonDataHorasTransaccional['total']['Soporte'] += soporte;
+        this.jsonDataHorasTransaccional['total']['Incidente'] += incidente;
+        this.jsonDataHorasTransaccional['total']['Problema'] += problema;
+        this.jsonDataHorasTransaccional['total']['Gestion'] += gestion;
+        this.jsonDataHorasTransaccional['total']['Mantenimiento'] += mantenimiento;
+        this.jsonDataHorasTransaccional['total']['HHConsumidas'] += suma;        
+      }
+
       soporte = 0;
       incidente = 0;
       problema = 0;
       gestion = 0;
       mantenimiento = 0;
+      gld = 0;
       data = [];
     });
   }
 
-
   //grafico Horas utilizadas por área de servicio
-  horasUtilizadasPorAreaDeServicio(): void {
+  horasUtilizadasPorAreaDeServicio(tipo: string): void {
+    let data;
+    let variable;
 
+    if(tipo == ''){
+      data = this.detalles;
+      variable = this.barrasHoras;
+    } else if(tipo == 'Comercial'){
+      data = this.jsonDataHorasComercial;
+      variable = this.barrasHorasComercial;
+    } else if(tipo == 'Transaccional'){
+      data = this.jsonDataHorasTransaccional;
+      variable = this.barrasHorasTransaccional;
+    }
+
+    let labels;
+    let dataset;
+
+    if(tipo == 'Transaccional'){
+      labels = [
+        'Soporte ' + data['total']['Soporte'],
+        'Incidente ' + data['total']['Incidente'],
+        'Problema ' + data['total']['Problema'],
+        'Gestion ' + data['total']['Gestion'],
+        'Mantenimiento ' + data['total']['Mantenimiento']
+      ];
+
+      dataset = [
+        data['total']['Soporte'],
+        data['total']['Incidente'],
+        data['total']['Problema'],
+        data['total']['Gestion'],
+        data['total']['Mantenimiento']
+      ];
+    } else {
+      labels = [
+        'Soporte ' + data['total']['Soporte'],
+        'Incidente ' + data['total']['Incidente'],
+        'Problema ' + data['total']['Problema'],
+        'Gestion ' + data['total']['Gestion'],
+        'Mantenimiento ' + data['total']['Mantenimiento'],
+        'Gestión LD ' + data['total']['GLD']
+      ];
+
+      dataset = [
+        data['total']['Soporte'],
+        data['total']['Incidente'],
+        data['total']['Problema'],
+        data['total']['Gestion'],
+        data['total']['Mantenimiento'],
+        data['total']['GLD']
+      ];
+    }
     //gráfico de barras
-    this.barrasHoras = new Chart("barrasHoras", {
+    variable = new Chart("barrasHoras" + tipo, {
       type: 'bar',
 
       data: {
-        labels: [
-                  'Soporte ' + this.detalles['total']['Soporte'],
-                  'Incidente ' + this.detalles['total']['Incidente'],
-                  'Problema ' + this.detalles['total']['Problema'],
-                  'Gestion ' + this.detalles['total']['Gestion'],
-                  'Mantenimiento ' + this.detalles['total']['Mantenimiento']
-                ], 
+        labels: labels, 
 	      
         datasets: [
           {
-            label: "label",
-              data: [
-                this.detalles['total']['Soporte'],
-                this.detalles['total']['Incidente'],
-                this.detalles['total']['Problema'],
-                this.detalles['total']['Gestion'],
-                this.detalles['total']['Mantenimiento']
-              ],
+            label: "valor",
+              data: dataset,
               barThickness: 70,   
           },
         ]
@@ -218,53 +392,99 @@ export class MostrarConsolidarComponent implements OnInit {
             
           }
         }
-
       },
     });
   }
 
   //grafico Horas utilizadas por área de servicio
-  porcentajeHorasUtilizadasPorAreaDeServicio(): void {
+  porcentajeHorasUtilizadasPorAreaDeServicio(tipo: string): void {
+    let data;
+    let variable;
 
-    this.detalles['porcentaje'] = [];
-    this.detalles['porcentaje']['Soporte'] = this.detalles['total']['Soporte'] / this.detalles['total']['HHConsumidas'] * 100;
-    this.detalles['porcentaje']['Soporte'] = Number.parseInt(this.detalles['porcentaje']['Soporte']);
+    if(tipo == ''){
+      data = this.detalles;
+      variable = this.barrasPorcentaje;
+    } else if(tipo == 'Comercial'){
+      data = this.jsonDataHorasComercial;
+      variable = this.barrasPorcentajeComercial;
+    } else if(tipo == 'Transaccional'){
+      data = this.jsonDataHorasTransaccional;
+      variable = this.barrasPorcentajeTransaccional;
+    }
 
-    this.detalles['porcentaje']['Incidente'] = this.detalles['total']['Incidente'] / this.detalles['total']['HHConsumidas'] * 100;
-    this.detalles['porcentaje']['Incidente'] = Number.parseInt(this.detalles['porcentaje']['Incidente']);
-    
-    this.detalles['porcentaje']['Problema'] = this.detalles['total']['Problema'] / this.detalles['total']['HHConsumidas'] * 100;
-    this.detalles['porcentaje']['Problema'] = Number.parseInt(this.detalles['porcentaje']['Problema']);
+    data['porcentaje'] = [];
+    data['porcentaje']['Soporte'] = data['total']['Soporte'] / data['total']['HHConsumidas'] * 100;
+    data['porcentaje']['Soporte'] = Number.parseInt(data['porcentaje']['Soporte']);
 
-    this.detalles['porcentaje']['Gestion'] = this.detalles['total']['Gestion'] / this.detalles['total']['HHConsumidas'] * 100;
-    this.detalles['porcentaje']['Gestion'] = Number.parseInt(this.detalles['porcentaje']['Gestion']);
+    data['porcentaje']['Incidente'] = data['total']['Incidente'] / data['total']['HHConsumidas'] * 100;
+    data['porcentaje']['Incidente'] = Number.parseInt(data['porcentaje']['Incidente']);
 
-    this.detalles['porcentaje']['Mantenimiento'] = this.detalles['total']['Mantenimiento'] / this.detalles['total']['HHConsumidas'] * 100;
-    this.detalles['porcentaje']['Mantenimiento'] = Number.parseInt(this.detalles['porcentaje']['Mantenimiento']);
+    data['porcentaje']['Problema'] = data['total']['Problema'] / data['total']['HHConsumidas'] * 100;
+    data['porcentaje']['Problema'] = Number.parseInt(data['porcentaje']['Problema']);
 
+    data['porcentaje']['Gestion'] = data['total']['Gestion'] / data['total']['HHConsumidas'] * 100;
+    data['porcentaje']['Gestion'] = Number.parseInt(data['porcentaje']['Gestion']);
+
+    data['porcentaje']['Mantenimiento'] = data['total']['Mantenimiento'] / data['total']['HHConsumidas'] * 100;
+    data['porcentaje']['Mantenimiento'] = Number.parseInt(data['porcentaje']['Mantenimiento']);
+
+    if(tipo == 'Transaccional'){
+
+    } else {
+      data['porcentaje']['GLD'] = data['total']['GLD'] / data['total']['HHConsumidas'] * 100;
+      data['porcentaje']['GLD'] = Number.parseInt(data['porcentaje']['GLD']);
+    }
+
+
+    let labels;
+    let dataset;
+
+    if(tipo == 'Transaccional'){
+      labels = [
+        'Soporte ' + data['porcentaje']['Soporte'] + '%',
+        'Incidente ' + data['porcentaje']['Incidente'] + '%',
+        'Problema ' + data['porcentaje']['Problema'] + '%',
+        'Gestion ' + data['porcentaje']['Gestion'] + '%',
+        'Mantenimiento ' + data['porcentaje']['Mantenimiento'] + '%'
+      ];
+
+      dataset = [
+        data['porcentaje']['Soporte'],
+        data['porcentaje']['Incidente'],
+        data['porcentaje']['Problema'],
+        data['porcentaje']['Gestion'],
+        data['porcentaje']['Mantenimiento']
+      ];
+    } else {
+      labels = [
+        'Soporte ' + data['porcentaje']['Soporte'] + '%',
+        'Incidente ' + data['porcentaje']['Incidente'] + '%',
+        'Problema ' + data['porcentaje']['Problema'] + '%',
+        'Gestion ' + data['porcentaje']['Gestion'] + '%',
+        'Mantenimiento ' + data['porcentaje']['Mantenimiento'] + '%',
+        'Gestión LD ' + data['porcentaje']['GLD'] + '%'
+      ];
+
+      dataset = [
+        data['porcentaje']['Soporte'],
+        data['porcentaje']['Incidente'],
+        data['porcentaje']['Problema'],
+        data['porcentaje']['Gestion'],
+        data['porcentaje']['Mantenimiento'],
+        data['porcentaje']['GLD']
+      ];
+    }
     //gráfico de barras
-    this.barrasPorcentaje = new Chart("barrasPorcentaje", {
+    variable = new Chart("barrasPorcentaje" + tipo, {
       type: 'bar',
 
       data: {
-        labels: [
-                  'Soporte ' + this.detalles['porcentaje']['Soporte'] + '%',
-                  'Incidente ' + this.detalles['porcentaje']['Incidente'] + '%',
-                  'Problema ' + this.detalles['porcentaje']['Problema'] + '%',
-                  'Gestion ' + this.detalles['porcentaje']['Gestion'] + '%',
-                  'Mantenimiento ' + this.detalles['porcentaje']['Mantenimiento'] + '%'
-                ], 
+        labels: labels, 
 	      
         datasets: [
           {
-            label: "label",
-              data: [
-                this.detalles['porcentaje']['Soporte'],
-                this.detalles['porcentaje']['Incidente'],
-                this.detalles['porcentaje']['Problema'],
-                this.detalles['porcentaje']['Gestion'],
-                this.detalles['porcentaje']['Mantenimiento']
-              ],
+            label: "porcentaje",
+              data: dataset,
               barThickness: 70,   
           },
         ]
@@ -279,13 +499,26 @@ export class MostrarConsolidarComponent implements OnInit {
             display: false,
           }
         }
-
       },
     });
   }
 
   //grafico Horas / mes
-  horasPorMes(): void{
+  horasPorMes(tipo: string): void{
+    let data;
+    let variable;
+
+    if(tipo == ''){
+      data = this.detalles;
+      variable = this.horasMes;
+    } else if(tipo == 'Comercial'){
+      data = this.jsonDataHorasComercial;
+      variable = this.horasMesComercial;
+    } else if(tipo == 'Transaccional'){
+      data = this.jsonDataHorasTransaccional;
+      variable = this.horasMesTransaccional;
+    }
+
     let labels = [];
     this.monthNames.forEach(element => {
       labels.push(element);
@@ -293,15 +526,15 @@ export class MostrarConsolidarComponent implements OnInit {
 
     let dataset1 = [];
     this.monthNames.forEach(mes => {
-      dataset1.push(this.detalles[mes]['HHConsumidas'],);
+      dataset1.push(data[mes]['HHConsumidas'],);
     });
 
     let dataset2 = [];
     this.monthNames.forEach(mes => {
-      dataset2.push(this.detalles[mes]['Presupuesto'],);
+      dataset2.push(data[mes]['Presupuesto'],);
     });
 
-    this.horasMes = new Chart("horasMes", {
+    variable = new Chart("horasMes" + tipo, {
       type: 'line',
       data: {
         labels: labels,
@@ -336,7 +569,21 @@ export class MostrarConsolidarComponent implements OnInit {
   }
 
   //grafico Horas / mes
-  horasPorMesPorArea(): void{
+  horasPorMesPorArea(tipo: string): void{
+    let data;
+    let variable;
+
+    if(tipo == ''){
+      data = this.detalles;
+      variable = this.horasMesPorArea;
+    } else if(tipo == 'Comercial'){
+      data = this.jsonDataHorasComercial;
+      variable = this.horasMesPorAreaComercial;
+    } else if(tipo == 'Transaccional'){
+      data = this.jsonDataHorasTransaccional;
+      variable = this.horasMesPorAreaTransaccional;
+    }
+
     let labels = [];
     this.monthNames.forEach(element => {
       labels.push(element);
@@ -347,52 +594,65 @@ export class MostrarConsolidarComponent implements OnInit {
     let datasetProblema = [];
     let datasetGestion = [];
     let datasetMantenimiento = [];
+    let datasetGLD = [];
 
     this.monthNames.forEach(mes => {
-      datasetSoporte.push(this.detalles[mes]['Soporte']);
-      datasetIncidente.push(this.detalles[mes]['Incidente']);
-      datasetProblema.push(this.detalles[mes]['Problema']);
-      datasetGestion.push(this.detalles[mes]['Gestion']);
-      datasetMantenimiento.push(this.detalles[mes]['Mantenimiento']);
+      datasetSoporte.push(data[mes]['Soporte']);
+      datasetIncidente.push(data[mes]['Incidente']);
+      datasetProblema.push(data[mes]['Problema']);
+      datasetGestion.push(data[mes]['Gestion']);
+      datasetMantenimiento.push(data[mes]['Mantenimiento']);
+
+      if(tipo != 'Transaccional') datasetGLD.push(data[mes]['GLD']);
     });
 
+    let datasets = [
+      {
+        label: 'Soporte',
+        data: datasetSoporte,
+        borderColor: '#000000',
+        backgroundColor: '#4287f5',
+      },
+      {
+        label: 'Incidente',
+        data: datasetIncidente,
+        borderColor: '#000000',
+        backgroundColor: '#f54266',
+      },
+      {
+        label: 'Problema',
+        data: datasetProblema,
+        borderColor: '#000000',
+        backgroundColor: '#81858a',
+      },
+      {
+        label: 'Gestion',
+        data: datasetGestion,
+        borderColor: '#000000',
+        backgroundColor: '#debb71',
+      },
+      {
+        label: 'Mantenimiento',
+        data: datasetMantenimiento,
+        borderColor: '#000000',
+        backgroundColor: '#9fd1f5',
+      },
+    ];
 
-    this.horasMesPorArea = new Chart("horasMesPorArea", {
+    if(tipo != 'Transaccional') datasets.push(
+      {
+        label: 'Gestión LD',
+        data: datasetGLD,
+        borderColor: '#000000',
+        backgroundColor: '#00d100',
+      }
+    );
+
+    variable = new Chart("horasMesPorArea" + tipo, {
       type: 'bar',
       data: {
         labels: labels,
-        datasets: [
-          {
-            label: 'Soporte',
-            data: datasetSoporte,
-            borderColor: '#000000',
-            backgroundColor: '#4287f5',
-          },
-          {
-            label: 'Incidente',
-            data: datasetIncidente,
-            borderColor: '#000000',
-            backgroundColor: '#f54266',
-          },
-          {
-            label: 'Problema',
-            data: datasetProblema,
-            borderColor: '#000000',
-            backgroundColor: '#81858a',
-          },
-          {
-            label: 'Gestion',
-            data: datasetGestion,
-            borderColor: '#000000',
-            backgroundColor: '#debb71',
-          },
-          {
-            label: 'Mantenimiento',
-            data: datasetMantenimiento,
-            borderColor: '#000000',
-            backgroundColor: '#83a2eb',
-          },
-        ]
+        datasets: datasets
       },
       options: {
         responsive: true,
@@ -405,14 +665,22 @@ export class MostrarConsolidarComponent implements OnInit {
             text: 'Horas / mes por área de servicio '
           }
         }
-      },
+        },
     });
   }
 
   // porcentaje de horas consumidas sobre el presupuesto
   porcentajeHorasConsumidas(): void {
     this.monthNames.forEach(mes => {
-      this.detalles[mes]['Porcentaje'] = this.porcentajeHorasConsumidasPorMes(mes);
+      //this.detalles[mes]['Porcentaje'] = this.porcentajeHorasConsumidasPorMes(mes);
+
+      //this.jsonDataHorasComercial[mes]['Porcentaje'] = this.porcentajeHorasConsumidasPorMes(mes);
+      //this.jsonDataHorasTransaccional[mes]['Porcentaje'] = this.porcentajeHorasConsumidasPorMes(mes);
+
+      this.detalles[mes]['Porcentaje'] = (this.detalles[mes]['HHConsumidas'] / this.detalles[mes]['Presupuesto'] * 100).toFixed(0);
+
+      this.jsonDataHorasComercial[mes]['Porcentaje'] = (this.jsonDataHorasComercial[mes]['HHConsumidas'] / this.jsonDataHorasComercial[mes]['Presupuesto'] * 100).toFixed(0);
+      this.jsonDataHorasTransaccional[mes]['Porcentaje'] = (this.jsonDataHorasTransaccional[mes]['HHConsumidas'] / this.jsonDataHorasTransaccional[mes]['Presupuesto'] * 100).toFixed(0);
     });
   }
 
@@ -424,6 +692,9 @@ export class MostrarConsolidarComponent implements OnInit {
   //  porcentaje de horas totales consumidas sobre el presupuesto total
   totalPorcentajeHorasConsumidas(): void {
     this.detalles['total']['Porcentaje'] = (this.detalles['total']['HHConsumidas'] / this.detalles['total']['Presupuesto'] * 100).toFixed(0);
+
+    this.jsonDataHorasComercial['total']['Porcentaje'] = (this.jsonDataHorasComercial['total']['HHConsumidas'] / this.jsonDataHorasComercial['total']['Presupuesto'] * 100).toFixed(0);
+    this.jsonDataHorasTransaccional['total']['Porcentaje'] = (this.jsonDataHorasTransaccional['total']['HHConsumidas'] / this.jsonDataHorasTransaccional['total']['Presupuesto'] * 100).toFixed(0);
   }
 
   //cada vez que se cambia un presupuesto
@@ -447,19 +718,21 @@ export class MostrarConsolidarComponent implements OnInit {
 
     // se actualiza el grafico Horas / mes
     this.horasMes.destroy();
-    this.horasPorMes();
+    //this.horasPorMes();
   }
 
   //genera un archivo Excel
   generateExcel(){
     let workbook = new Workbook();
 
-    //se crean las hojas Comercial y Transaccional
-    this.createSheet(workbook, 'Comercial', this.jsonDataHorasComercial );
-    this.createSheet(workbook, 'Transaccional', this.jsonDataHorasTransaccional );
+    //se crean las hojas
+    this.createSheet(workbook, 'Detalles Comercial', this.jsonDataHorasComercial );
+    this.createSheetResumen(workbook, 'Resumen Comercial', this.jsonDataHorasComercial, 'Comercial');
+
+    this.createSheet(workbook, 'Detalles Transaccional', this.jsonDataHorasTransaccional);
+    this.createSheetResumen(workbook, 'Resumen Transaccional', this.jsonDataHorasTransaccional, 'Transaccional');
  
-    //se crea la hoja Resumen
-    this.createSheetResumen(workbook, 'Resumen', this.detalles);
+    this.createSheetResumen(workbook, 'Resumen', this.detalles, '');
 
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -482,7 +755,8 @@ export class MostrarConsolidarComponent implements OnInit {
     worksheet.getColumn(3).width = 16;
     worksheet.getColumn(4).width = 16;
     worksheet.getColumn(5).width = 20;
-    worksheet.getColumn(6).width = 20;   
+    worksheet.getColumn(6).width = 20;
+    worksheet.getColumn(7).width = 20;   
      
     const headerCS = [
         'Periodo',
@@ -490,7 +764,8 @@ export class MostrarConsolidarComponent implements OnInit {
         'Horas Incurridas',
         'Línea de Servicio',
         'Sistema',
-        'Solicitante'
+        'Solicitante',
+        'Bloque'
     ];
     let headerRowCS = worksheet.addRow(headerCS);
 
@@ -530,7 +805,7 @@ export class MostrarConsolidarComponent implements OnInit {
     let newRow; 
 
     this.monthNames.forEach(mes => {
-      data[mes].forEach(d => {
+      data[mes]['Detalles'].forEach(d => {
         sumaIncurridas += Number(d['horasIncurridas']);
         newRow = [
                 mes,
@@ -538,7 +813,8 @@ export class MostrarConsolidarComponent implements OnInit {
                 d['horasIncurridas'],
                 d['lineaDeServicio'],
                 d['sistema'],
-                d['solicitante']
+                d['solicitante'],
+                d['bloque']
               ];
   
         worksheet.addRow(newRow);
@@ -570,19 +846,32 @@ export class MostrarConsolidarComponent implements OnInit {
   }
 
   //crea la hoja Resumen en el excel
-  createSheetResumen(workbook, nombre: string, data){
+  createSheetResumen(workbook, nombre: string, data, tipo){
     let worksheet = workbook.addWorksheet(nombre);
-    
+
     // Se establecen anchos de las columnas
-    worksheet.getColumn(1).width = 14;
-    worksheet.getColumn(2).width = 14;
-    worksheet.getColumn(3).width = 14;
-    worksheet.getColumn(4).width = 14;
-    worksheet.getColumn(5).width = 14;
-    worksheet.getColumn(6).width = 20;   
-    worksheet.getColumn(7).width = 12;   
-    worksheet.getColumn(8).width = 18;   
-    worksheet.getColumn(9).width = 18;   
+    if(tipo=='Transaccional') {
+      worksheet.getColumn(1).width = 14;
+      worksheet.getColumn(2).width = 14;
+      worksheet.getColumn(3).width = 14;
+      worksheet.getColumn(4).width = 14;
+      worksheet.getColumn(5).width = 14;
+      worksheet.getColumn(6).width = 20;
+      worksheet.getColumn(7).width = 12;
+      worksheet.getColumn(8).width = 18;  
+      worksheet.getColumn(9).width = 18;
+    } else {
+      worksheet.getColumn(1).width = 14;
+      worksheet.getColumn(2).width = 14;
+      worksheet.getColumn(3).width = 14;
+      worksheet.getColumn(4).width = 14;
+      worksheet.getColumn(5).width = 14;
+      worksheet.getColumn(6).width = 20;
+      worksheet.getColumn(7).width = 22;
+      worksheet.getColumn(8).width = 12;
+      worksheet.getColumn(9).width = 18;  
+      worksheet.getColumn(10).width = 18;
+    }
      
     const headerCS = [
         'Periodo',
@@ -591,10 +880,14 @@ export class MostrarConsolidarComponent implements OnInit {
         'Problema',
         'Gestión',
         'Mantenimiento',
-        '%',
-        'HH Consumidas',
-        'Presupuesto'
     ];
+
+    if(tipo!='Transaccional') headerCS.push('Gestión LD');
+
+    headerCS.push('%');
+    headerCS.push('HH Consumidas');
+    headerCS.push('Presupuesto');
+
     let headerRowCS = worksheet.addRow(headerCS);
 
     // Cell Style : Fill and Border
@@ -626,71 +919,180 @@ export class MostrarConsolidarComponent implements OnInit {
     });
 
     headerRowCS.height = 40;
-
-    let newRow; 
+    
     this.monthNames.forEach(mes => {
+      let newRow;
       newRow = [
-              mes,
-              data[mes]['Soporte'],
-              data[mes]['Incidente'],
-              data[mes]['Problema'],
-              data[mes]['Gestion'],
-              data[mes]['Mantenimiento'],
-              Number(data[mes]['Porcentaje']), 
-              data[mes]['HHConsumidas'],
-              data[mes]['Presupuesto']
-            ];
-  
-        worksheet.addRow(newRow);
+        mes,
+        data[mes]['Soporte'],
+        data[mes]['Incidente'],
+        data[mes]['Problema'],
+        data[mes]['Gestion'],
+        data[mes]['Mantenimiento'],
+        data[mes]['GLD'],
+        Number(data[mes]['Porcentaje']), 
+        data[mes]['HHConsumidas'],
+        data[mes]['Presupuesto']
+      ];
+
+      if(tipo == 'Transaccional'){
+        newRow = [
+          mes,
+          data[mes]['Soporte'],
+          data[mes]['Incidente'],
+          data[mes]['Problema'],
+          data[mes]['Gestion'],
+          data[mes]['Mantenimiento'],
+          Number(data[mes]['Porcentaje']), 
+          data[mes]['HHConsumidas'],
+          data[mes]['Presupuesto']
+        ];
+      }
+      worksheet.addRow(newRow);
     });
 
     //Total general	
+
     let totalRow  = [
-                      'Total general',
-                      data['total']['Soporte'],
-                      data['total']['Incidente'],
-                      data['total']['Problema'],
-                      data['total']['Gestion'],
-                      data['total']['Mantenimiento'],
-                      Number(data['total']['Porcentaje']), 
-                      data['total']['HHConsumidas'],
-                      data['total']['Presupuesto']
-                    ];
+      'Total general',
+      data['total']['Soporte'],
+      data['total']['Incidente'],
+      data['total']['Problema'],
+      data['total']['Gestion'],
+      data['total']['Mantenimiento'],
+      data['total']['GLD'],
+      Number(data['total']['Porcentaje']), 
+      data['total']['HHConsumidas'],
+      data['total']['Presupuesto']
+    ];
+
+    if(tipo == 'Transaccional'){
+      totalRow  = [
+        'Total general',
+        data['total']['Soporte'],
+        data['total']['Incidente'],
+        data['total']['Problema'],
+        data['total']['Gestion'],
+        data['total']['Mantenimiento'],
+        Number(data['total']['Porcentaje']), 
+        data['total']['HHConsumidas'],
+        data['total']['Presupuesto']
+      ];
+    }
+    
   
     worksheet.addRow(totalRow);
   }  
 
   //genera un archivo PDF
-  generaNuevoPDF(){
+  //tipo = '' -> resumen
+  //tipo 'Comercial' | 'Transaccional'
+  generaNuevoPDF(tipo: string){
     this.sweetAlertService.mensajeEsperar2().then(resp=>{
       
-      html2canvas(this.eBarrasHoras.nativeElement).then((canvas) => {
-        const imgBarrasHoras = canvas.toDataURL('img/jpg');
+      
+      if(tipo ==  ''){
 
-        html2canvas(this.eBarrasPorcentaje.nativeElement).then((canvas) => {
-          const imgBarrasPorcentaje = canvas.toDataURL('img/jpg');
-
-          html2canvas(this.eHorasMes.nativeElement).then((canvas) => {
-            const imgHorasMes = canvas.toDataURL('img/jpg');
-
-            html2canvas(this.eHorasMesPorArea.nativeElement).then((canvas) => {
-              const imgHorasMesPorArea = canvas.toDataURL('img/jpg');
-
-                this.pdfService.generaPDF(
-                    this.jsonDataHorasComercial, 
-                    this.jsonDataHorasTransaccional, 
-                    this.detalles,
-                    imgBarrasHoras,
-                    imgBarrasPorcentaje,
-                    imgHorasMes,
-                    imgHorasMesPorArea
-                ).then(resp => {
-                  this.sweetAlertService.mensajeOK('PDF Generado Exitosamente');
+        html2canvas(this.eBarrasHoras.nativeElement).then((canvas) => {
+          const imgBarrasHoras = canvas.toDataURL('img/jpg');
+  
+          html2canvas(this.eBarrasPorcentaje.nativeElement).then((canvas) => {
+            const imgBarrasPorcentaje = canvas.toDataURL('img/jpg');
+  
+            html2canvas(this.eHorasMes.nativeElement).then((canvas) => {
+              const imgHorasMes = canvas.toDataURL('img/jpg');
+  
+              html2canvas(this.eHorasMesPorArea.nativeElement).then((canvas) => {
+                const imgHorasMesPorArea = canvas.toDataURL('img/jpg');
+  
+                  this.pdfService.generaPDF(
+                      '',
+                      this.detalles,
+                      imgBarrasHoras,
+                      imgBarrasPorcentaje,
+                      imgHorasMes,
+                      imgHorasMesPorArea
+                  ).then(resp => {
+                    this.sweetAlertService.mensajeOK('PDF Generado Exitosamente');
+                  });
                 });
               });
             });
-          });
-       });
+         });
+        
+      } else if(tipo == 'Comercial') {
+
+        html2canvas(this.eBarrasHorasComercial.nativeElement).then((canvas) => {
+          const imgBarrasHoras = canvas.toDataURL('img/jpg');
+  
+          html2canvas(this.eBarrasPorcentajeComercial.nativeElement).then((canvas) => {
+            const imgBarrasPorcentaje = canvas.toDataURL('img/jpg');
+  
+            html2canvas(this.eHorasMesComercial.nativeElement).then((canvas) => {
+              const imgHorasMes = canvas.toDataURL('img/jpg');
+  
+              html2canvas(this.eHorasMesPorAreaComercial.nativeElement).then((canvas) => {
+                const imgHorasMesPorArea = canvas.toDataURL('img/jpg');
+  
+                  this.pdfService.generaPDF(
+                      'Comercial',
+                      this.jsonDataHorasComercial,
+                      imgBarrasHoras,
+                      imgBarrasPorcentaje,
+                      imgHorasMes,
+                      imgHorasMesPorArea
+                  ).then(resp => {
+                    this.sweetAlertService.mensajeOK('PDF Generado Exitosamente');
+                  });
+                });
+              });
+            });
+         });
+        
+      }if(tipo ==  'Transaccional'){
+        
+        html2canvas(this.eBarrasHorasTransaccional.nativeElement).then((canvas) => {
+          const imgBarrasHoras = canvas.toDataURL('img/jpg');
+  
+          html2canvas(this.eBarrasPorcentajeTransaccional.nativeElement).then((canvas) => {
+            const imgBarrasPorcentaje = canvas.toDataURL('img/jpg');
+  
+            html2canvas(this.eHorasMesTransaccional.nativeElement).then((canvas) => {
+              const imgHorasMes = canvas.toDataURL('img/jpg');
+  
+              html2canvas(this.eHorasMesPorAreaTransaccional.nativeElement).then((canvas) => {
+                const imgHorasMesPorArea = canvas.toDataURL('img/jpg');
+  
+                  this.pdfService.generaPDF(
+                      'Transaccional',
+                      this.jsonDataHorasTransaccional,
+                      imgBarrasHoras,
+                      imgBarrasPorcentaje,
+                      imgHorasMes,
+                      imgHorasMesPorArea
+                  ).then(resp => {
+                    this.sweetAlertService.mensajeOK('PDF Generado Exitosamente');
+                  });
+                });
+              });
+            });
+         });
+
+      }
     });
+  }
+
+  //le aplica Math.roud a todas las horas de 
+  redondear(): void{
+    this.monthNames.forEach(mes => {
+      this.jsonDataHorasComercial[mes]['Detalles'].forEach(element => {
+        element.horasIncurridas = Math.round(element.horasIncurridas);
+      });
+
+      this.jsonDataHorasTransaccional[mes]['Detalles'].forEach(element => {
+        element.horasIncurridas = Math.round(element.horasIncurridas);
+      });      
+    });
+
   }
 }

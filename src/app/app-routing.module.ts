@@ -50,9 +50,6 @@ const routes: Routes = [
   { path: 'cuadra-facturacion', component: CuadraFacturacionComponent },
   { path: 'cuadra-facturacion-generar', component: CuadraFacturacionGenerarComponent },
 
- // { path: 'mywizard-rv', component: MywizardRvComponent },
-//  { path: 'mywizard-rv-generar', component: MywizardRvGeneracionComponent },
-
   { path: 'fechas', component: FechasComponent },
   { path: 'fechas-generar', component: FechasGeneracionComponent },
 

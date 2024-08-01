@@ -24,7 +24,7 @@ import { MywizardRvComponent } from './components/mywizard-rv/mywizard-rv.compon
 import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generacion/mywizard-rv-generacion.component';
 import { FechasComponent } from './components/fechas/fechas.component';
 import { FechasGeneracionComponent } from './components/fechas-generacion/fechas-generacion.component';
-import { FechaDMSPipe } from './pipes/fecha-dms.pipe';
+
 import { GenerarArsGplanComponent } from './components/generar-ars-gplan/generar-ars-gplan.component';
 import { VerArsJiraPlanComponent } from './components/ver-ars-jira-plan/ver-ars-jira-plan.component';
 import { InformeSemanalComponent } from './components/manto/informe-semanal/informe-semanal.component';
@@ -40,6 +40,9 @@ import { MyteMmeGeneracionComponent } from './components/mytemme/myte-mme-genera
 
 import { MetricasAMModule } from './metricas-am/metricas-am.module';
 import { MantenimientoModule } from './mantenimiento/mantenimiento.module';
+
+import { FechaDMSPipe } from 'src/app/pipes/fecha-dms.pipe';
+
 import { ValidarHHModule } from './validarHH/validarHH.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -54,6 +57,7 @@ import { SharedModule } from './shared/shared.module';
     NavbarComponent,
     GenerarInformeComponent,
     FechasPipe,
+    FechaDMSPipe,
     GenerarCapacityComponent,
     VerCapacityComponent,
     GenerarArsGfacComponent,
@@ -67,7 +71,6 @@ import { SharedModule } from './shared/shared.module';
     MywizardRvGeneracionComponent,
     FechasComponent,
     FechasGeneracionComponent,
-    FechaDMSPipe,
     GenerarArsGplanComponent,
     VerArsJiraPlanComponent,
     InformeSemanalComponent,
@@ -92,7 +95,6 @@ import { SharedModule } from './shared/shared.module';
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
-
 
     MetricasAMModule,
     MantenimientoModule,
