@@ -58,6 +58,11 @@ const routes: Routes = [
     loadChildren: () => import('./mantenimiento/mantenimiento.module').then( m => m.MantenimientoModule ),
   },
 
+  { 
+    path: 'fechasDMS-comparar', 
+    loadChildren: () => import('./fechasDMS/fechasDMS.module').then( m => m.FechasDMSModule ),
+  },
+
   { path: 'manto-informe-semanal', component: InformeSemanalComponent },
   { path: 'manto-informe-semanal-generar', component: InformeSemanalGeneracionComponent },
   { path: 'manto-informe-semanal-generar-comercial', component: InformeSemanalGeneracionComercialComponent },

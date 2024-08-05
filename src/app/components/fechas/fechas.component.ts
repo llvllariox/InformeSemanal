@@ -104,7 +104,7 @@ export class FechasComponent implements OnInit {
         this.jsonDataService.setJsonDataDmsService(this.jsonDataDms['DMS Detalle']);
       }
     };
-    reader.readAsBinaryString(file);    
+    reader.readAsBinaryString(file);
  }
 
  //valida que el tipo del archivo contenga la palabra sheet

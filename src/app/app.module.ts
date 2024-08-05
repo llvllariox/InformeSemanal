@@ -43,11 +43,10 @@ import { MantenimientoModule } from './mantenimiento/mantenimiento.module';
 
 import { FechaDMSPipe } from 'src/app/pipes/fecha-dms.pipe';
 
+import { FechasDMSModule } from './fechasDMS/fechasDMS.module';
 import { ValidarHHModule } from './validarHH/validarHH.module';
 import { SharedModule } from './shared/shared.module';
 
-
-// import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -99,6 +98,7 @@ import { SharedModule } from './shared/shared.module';
     MetricasAMModule,
     MantenimientoModule,
     ValidarHHModule,
+    FechasDMSModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

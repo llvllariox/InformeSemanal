@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-6 ">
+            <div class="row">
+                <div class="col ">
+                    Muestras las diferencias entre los informes A y B.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col ">
+                    <br>
+                    <h4>Subir Archivos</h4>
+                </div>
+            </div>
+            <form autocomplete="off" [formGroup]="formulario" (ngSubmit)="generar()">
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoDmsA==1" class="fas fa-chevron-right text-dark"></i>
+                        <i *ngIf="estadoDmsA==2" class="fas fa-spinner fa-spin"></i>
+                        <i *ngIf="estadoDmsA==3" class="fas fa-check text-success"></i>
+                        <i *ngIf="estadoDmsA==4" class="fas fa-times text-danger"></i>&nbsp;
+                        DMS A:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input 
+                            [class.is-invalid]="dmsANoValido" 
+                            formControlName="dmsA" 
+                            type="file" 
+                            class="form-control-file" 
+                            (change)="uploadDms($event, 'A')">
+
+                        <small *ngIf="dmsANoValido" class="text-danger">Seleccione Archivo<br/></small>
+                        
+                        <small>ARS -> Reportes -> DMS (solo evolutivo mayor)</small>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="col-12 col-sm-4">
+                        <i *ngIf="estadoDmsB==1" class="fas fa-chevron-right text-dark"></i>
+                        <i *ngIf="estadoDmsB==2" class="fas fa-spinner fa-spin"></i>
+                        <i *ngIf="estadoDmsB==3" class="fas fa-check text-success"></i>
+                        <i *ngIf="estadoDmsB==4" class="fas fa-times text-danger"></i>&nbsp;
+                        DMS B:
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <input 
+                            [class.is-invalid]="dmsBNoValido" 
+                            formControlName="dmsB" 
+                            type="file" 
+                            class="form-control-file" 
+                            (change)="uploadDms($event, 'B')">
+                        
+                        <small *ngIf="dmsBNoValido" class="text-danger">Seleccione Archivo<br/></small>
+                        <small>ARS -> Reportes -> DMS (solo evolutivo mayor)</small>
+                    </div>
+                </div>
+           
+                <div class="row my-3 mt-5">
+                    <div class="col">
+                        <button class="btn btn-primary btn-block" type="submit">Generar</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

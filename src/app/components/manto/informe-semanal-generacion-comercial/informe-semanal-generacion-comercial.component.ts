@@ -46,7 +46,7 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
   @ViewChild('MyChart', {static:false}) el!: ElementRef;
   @ViewChild('tablaConsumoTotal', {static:false}) elTabla!: ElementRef;
   @ViewChild('MyChartBarra', {static:false}) elBarra!: ElementRef;
-  @ViewChild('chartDetalles', {static:false}) elTablaDetalles!: ElementRef;
+  //@ViewChild('chartDetalles', {static:false}) elTablaDetalles!: ElementRef;
   
   constructor(
     private mantoInformeSemanalService: MantoInformeSemanalService, 
@@ -75,14 +75,14 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
     this.barras['MJR'] = 0;
     this.barras['SPT'] = 0;
     this.barras['PRB'] = 0;
-    //this.barras['GLD'] = 0;
+    this.barras['GLD'] = 0;
 
     this.jsonArrayHoras.forEach(element => {
       if(element.bloque == "Gestión LD") {
-        //this.barras['GLD'] += Number(element.horas);
         this.barras['INC'] += Number(element.horas);
+      } else if(element.bloque == "VS - Transversales") {
+        this.barras['GLD'] += Number(element.horas);
       } else {
-
         if(element.lineaDeServicio == "Incidentes") {
           this.barras['INC'] += Number(element.horas);
         } else if(element.lineaDeServicio == "Problemas") {
@@ -99,27 +99,22 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       }
     });
 
-    this.barras['GEST'] = this.barras['GEST'];
-    this.barras['INC'] = this.barras['INC'];
-    this.barras['MJR'] = this.barras['MJR'];
-    this.barras['SPT'] = this.barras['SPT'];
-    this.barras['PRB'] = this.barras['PRB'];
-    //this.barras['GLD'] = this.barras['GLD'];
 
-    //se crea la tabla explicativa
     this.tabla.push(['Gestión', this.barras['GEST']]);
     this.tabla.push(['Incidentes', this.barras['INC']]);
     this.tabla.push(['Mejoras', this.barras['MJR']]);
     this.tabla.push(['Soportes', this.barras['SPT']]);
     this.tabla.push(['Problemas', this.barras['PRB']]);
-    //this.tabla.push(['Gestión LD', this.barras['GLD']]);
-
+    this.tabla.push(['Gestión LD', this.barras['GLD']]);
+    
     this.tablaTotal = this.barras['GEST'] 
                       + this.barras['INC']
                       + this.barras['MJR']
                       + this.barras['SPT']
-                      + this.barras['PRB'];
-                    //  + this.barras['GLD'];
+                      + this.barras['PRB']
+                      + this.barras['GLD'];
+
+    this.tabla.push(['Total', this.tablaTotal]);
   }
 
   ngOnInit(): void {
@@ -180,6 +175,15 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       this.totales[mesActual]['saldoMensual'] = this.totales[mesActual]['propuestas'] - this.totales[mesActual]['utilizadas'];
       this.totales[mesActual]['saldoAcumulado'] = this.totales[mesActual]['saldoMensual'] + saldoAnterior;
       
+
+      //agregamos la ultima columna a la tabla explicativa
+      let propuestas = this.totales[mesActual]['propuestas'];
+
+      this.tabla.forEach(element => {
+        element[2] = Math.round(100 * element[1] / propuestas) + '%';
+      });
+
+
       //*************************************
       //después del mes del informe
       
@@ -290,8 +294,8 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
                   'INC ' + this.barras['INC'], 
                   'MJR ' + this.barras['MJR'], 
                   'SPT ' + this.barras['SPT'], 
-                  'PRB ' + this.barras['PRB']
-                  //'GLD ' + this.barras['GLD']
+                  'PRB ' + this.barras['PRB'],
+                  'GLD ' + this.barras['GLD']
                 ], 
 	      
         datasets: [
@@ -302,8 +306,8 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
                 this.barras['INC'],
                 this.barras['MJR'],
                 this.barras['SPT'],
-                this.barras['PRB']
-                //this.barras['GLD']
+                this.barras['PRB'],
+                this.barras['GLD']
               ],
               barThickness: 70,   
           },
@@ -322,7 +326,7 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       },
     });
 
-    this.generateHorizontalBars();
+    //this.generateHorizontalBars();
   }
 
   generateHorizontalBars(){
@@ -338,7 +342,7 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
                   'Mejoras ' + this.barras['MJR'], 
                   'Soportes ' + this.barras['SPT'], 
                   'Problemas ' + this.barras['PRB'],
-                  //'Gestión LD ' + this.barras['GLD'],
+                  'Gestión LD ' + this.barras['GLD'],
                   'Total ' + this.tablaTotal,
                   'Disponibles ' + disponibles
                 ], 
@@ -352,7 +356,7 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
                 this.barras['MJR'],
                 this.barras['SPT'],
                 this.barras['PRB'],
-                //this.barras['GLD'],
+                this.barras['GLD'],
                 this.tablaTotal,
                 disponibles
               ],
@@ -545,12 +549,20 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
 
           html2canvas(this.elTabla.nativeElement).then((canvas) => {
             const tblData = canvas.toDataURL('img/jpg');
-      
-            html2canvas(this.elTablaDetalles.nativeElement).then((canvas) => {
+
+            this.pdfService.generaPDFComercial(
+                this.monthInforme, 
+                this.yearInforme, 
+                imgData, 
+                tblData, 
+                barraData, 
+                this.tabla);
+
+            /* html2canvas(this.elTablaDetalles.nativeElement).then((canvas) => {
               const tblDetalles = canvas.toDataURL('img/jpg');
         
               this.pdfService.generaPDFComercial(this.monthInforme, this.yearInforme, imgData, tblData, barraData, this.tabla, this.tablaTotal, tblDetalles);
-            });
+            }); */
           });
         });
     });

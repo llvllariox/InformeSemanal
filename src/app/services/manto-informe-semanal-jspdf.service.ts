@@ -55,8 +55,8 @@ export class MantoInformeSemanalJspdfService {
       doc.save(filename);
   }
 
-
-  generaPDFComercial(month, year, chartData, tblData, barraData, tablaDetalles, totalTablaDetalles, tblDetalles){
+  //generaPDFComercial(month, year, chartData, tblData, barraData, tablaDetalles, totalTablaDetalles, tblDetalles){
+  generaPDFComercial(month, year, chartData, tblData, barraData, tablaDetalles){
     let doc = new jsPDF({
       orientation: "l",
       unit: "mm",
@@ -97,18 +97,20 @@ export class MantoInformeSemanalJspdfService {
     doc.addPage();
     doc.addImage(this.logo, 'png', 192, 8, 36, 8);
 
-    tablaDetalles.push(['Total:', totalTablaDetalles]);
+    //tablaDetalles.push(['Total:', totalTablaDetalles]);
 
     let columnStyles;
     columnStyles = {
       0: { cellWidth: 22, fontStyle: 'bold' },
       1: { cellWidth: 22, fontStyle: 'bold' },
+      2: { cellWidth: 22, fontStyle: 'bold' },
     };
 
     let head;
     head = [[
       'Servicio',
-      'Consumo de horas'
+      'Consumo de horas',
+      '% sobre las horas presupuestadas'
     ]];
     
     //headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
@@ -129,9 +131,9 @@ export class MantoInformeSemanalJspdfService {
 
 
     //PROPUESTA
-    doc.addPage();
+    /* doc.addPage();
     doc.addImage(this.logo, 'png', 192, 8, 36, 8);
-    doc.addImage(tblDetalles, 'PNG', 6, 18, 140, 80);
+    doc.addImage(tblDetalles, 'PNG', 6, 18, 140, 80); */
 
 
     let filename = "informe_mantencion_BO_Comercial_";       

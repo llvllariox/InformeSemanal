@@ -1,0 +1,45 @@
+<div class="container">
+
+    <table class="tablaDMS">
+        <thead>
+            <tr>
+                <th>Responsable</th>
+                <th>Contrato</th>
+                <th>ARS</th>
+                <th>Línea de Servicio</th>
+                <th>Tarea</th>
+                <th>Horas Estimadas</th>
+                <th>Horas Planificadas</th>
+                <th>Horas Incurridas</th>
+                <th>ETC</th>
+                <th>Inicio Comprometido</th>
+                <th>Inicio Planificado</th>
+                <th>Inicio Real</th>
+                <th>Fin Comprometido</th>
+                <th>Fin Planificado</th>
+                <th>Fin Real</th>
+                <th>Grupo de Trabajo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ars of jsonArrayDmsDiferencias; let i=index">
+                <td>{{ ars.responsable }}</td>
+                <td>{{ ars.contrato }}</td>
+                <td>{{ ars.ars }}</td>
+                <td>{{ ars.lineaDeServicio }}</td>
+                <td>{{ ars.tarea }}</td>
+                <td>{{ ars.horasEstimadas }}</td>
+                <td>{{ ars.horasPlanificadas }}</td>
+                <td>{{ ars.horasIncurridas }}</td>
+                <td>{{ ars.etc }}</td>
+                <td>{{ ars.inicioComprometido }}</td>
+                <td>{{ ars.inicioPlanificado }}</td>
+                <td>{{ ars.inicioReal }}</td>
+                <td>{{ ars.finComprometido }}</td>
+                <td>{{ ars.finPlanificado }}</td>
+                <td>{{ ars.finReal }}</td>
+                <td>{{ ars.grupoDeTrabajo }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

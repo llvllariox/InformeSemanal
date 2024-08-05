@@ -11,10 +11,10 @@
             <canvas id="MyChartBarra" #MyChartBarra>{{ chartBarra }}</canvas>
         </div>
 
-        <div class="chart-container" style="float:right;width: 60%;">
+        <!-- <div class="chart-container" style="float:right;width: 60%;">
             <h3>CONSUMO MENSUAL HH POR SERVICIO</h3>
             <canvas id="chartDetalles" #chartDetalles>{{ chartDetalles }}</canvas>
-        </div>
+        </div> -->
 
     </div>
 
@@ -23,20 +23,22 @@
         <thead class="bg-dark small font-weight-bold text-light">
             <th>Servicio</th>
             <th>Consumo de horas</th>
+            <th>% sobre las horas presupuestadas</th>
         </thead>
         <tbody>
             <tr *ngFor="let fila of tabla;">
                 <td class="small">{{ fila[0] }}</td>
                 <td class="small">{{ fila[1] }}</td>
+                <td class="small">{{ fila[2] }}</td>
             </tr>
         </tbody>
-        <tfoot>
+ <!--        <tfoot>
             <tr>
                 <td class="small"><b>Total:</b></td>
                 <td class="small"><b>{{ tablaTotal }}</b></td>
             </tr>
         </tfoot>
-    </table>
+  -->   </table>
 
     <!-- tabla de informe semanal -->
     <table class="table table-striped table-bordered letraGrande" id="tablaConsumoTotal" #tablaConsumoTotal>
