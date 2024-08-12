@@ -116,12 +116,12 @@ export class MostrarConsolidarComponent implements OnInit {
       this.jsonDataHorasComercial['Abril']['Presupuesto'] = 773;
       this.jsonDataHorasComercial['Mayo']['Presupuesto'] = 773;
       this.jsonDataHorasComercial['Junio']['Presupuesto'] = 773;
-      this.jsonDataHorasComercial['Julio']['Presupuesto'] = 773;
-      this.jsonDataHorasComercial['Agosto']['Presupuesto'] = 773;
-      this.jsonDataHorasComercial['Septiembre']['Presupuesto'] = 773;
-      this.jsonDataHorasComercial['Octubre']['Presupuesto'] = 773;
-      this.jsonDataHorasComercial['Noviembre']['Presupuesto'] = 773;
-      this.jsonDataHorasComercial['Diciembre']['Presupuesto'] = 773;
+      this.jsonDataHorasComercial['Julio']['Presupuesto'] = 923;
+      this.jsonDataHorasComercial['Agosto']['Presupuesto'] = 760;
+      this.jsonDataHorasComercial['Septiembre']['Presupuesto'] = 760;
+      this.jsonDataHorasComercial['Octubre']['Presupuesto'] = 760;
+      this.jsonDataHorasComercial['Noviembre']['Presupuesto'] = 760;
+      this.jsonDataHorasComercial['Diciembre']['Presupuesto'] = 760;
 
       this.jsonDataHorasTransaccional['Enero']['Presupuesto'] = 706;
       this.jsonDataHorasTransaccional['Febrero']['Presupuesto'] = 706;
@@ -230,21 +230,28 @@ export class MostrarConsolidarComponent implements OnInit {
 
         horas = Number(element.horasIncurridas);
 
-        if(element.lineaDeServicio == "Incidentes") {
+      
+        if(element.bloque == "Gestión LD") {
           incidente += horas;
-        } else if(element.lineaDeServicio == "Problemas") {
-          problema += horas;
-        } else if(element.lineaDeServicio == "Evolutivo Menor") {
-          mantenimiento += horas;
-        }  else if(element.lineaDeServicio == "Gestión LD") {
+        } else if(element.bloque == "VS - Transversales") {
           gld += horas;
-        } else if(element.lineaDeServicio == 'Soporte'){
-          if(element.bloque == 'Gestión'){
-            gestion += horas;
-          } else {
-            soporte += horas;
+        } else {
+          if(element.lineaDeServicio == "Incidentes") {
+            incidente += horas;
+          } else if(element.lineaDeServicio == "Problemas") {
+            problema += horas;
+          } else if(element.lineaDeServicio == "Evolutivo Menor") {
+            mantenimiento += horas;
+          } else if(element.lineaDeServicio == 'Soporte'){
+            if(element.bloque == 'Gestión'){
+              gestion += horas;
+            } else {
+              soporte += horas;
+            }
           }
         }
+
+        
       });
 
       let suma = soporte + incidente + problema + gestion + mantenimiento + gld;

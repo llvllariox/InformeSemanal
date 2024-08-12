@@ -211,6 +211,7 @@ export class InformeSemanalGeneracionComponent implements OnInit {
   createChart(){
     let mesInforme = Number(this.monthInforme);
     let disponibles = this.totales[mesInforme]['propuestas'] - this.totales[mesInforme]['utilizadas']; 
+    if(disponibles < 0) disponibles = 0;
     
     this.chart = new Chart("MyChart", {
       type: 'pie',
@@ -250,7 +251,7 @@ export class InformeSemanalGeneracionComponent implements OnInit {
                 ], 
 	      
         datasets: [
-          {
+        {
             label: "label",
               data: [
                 this.barras['GEST'],
