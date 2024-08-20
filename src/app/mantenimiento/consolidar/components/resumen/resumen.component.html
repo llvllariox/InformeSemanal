@@ -1,0 +1,66 @@
+<table class="table table-striped table-bordered">
+    <thead class="bg-dark">
+        <tr class="small font-weight-bold text-light">
+            <th>Periodo</th>
+            <th>Soporte</th>
+            <th>Incidente</th>
+            <th>Problema</th>
+            <th>Gestión</th>
+            <th>Mantenimiento</th>
+            <th *ngIf="tipo!='Transaccional'" >
+                Gestión LD
+            </th>
+            <th>%</th>
+            <th>HH Consumidas</th>
+            <th>Presupuesto</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let mes of monthNames;">
+            <td>{{ mes }}</td>
+            <td>{{ data[mes]['Soporte'] }}</td>
+            <td>{{ data[mes]['Incidente'] }}</td>
+            <td>{{ data[mes]['Problema'] }}</td>
+            <td>{{ data[mes]['Gestion'] }}</td>
+            <td>{{ data[mes]['Mantenimiento'] }}</td>
+           
+            <td *ngIf="tipo!='Transaccional'">{{ data[mes]['GLD'] }}</td>
+
+            <td>{{ data[mes]['Porcentaje'] }}%</td>
+
+            <td>{{ data[mes]['HHConsumidas'] }}</td>
+
+            <td>
+                <!-- <input 
+                    type="number" 
+                    class="form-control" 
+                    value="{{ data[mes]['Presupuesto'] }}"
+                    id="inputPresupuesto{{ mes }}"                     
+                    (change)="cambiarPresupuesto(mes);"
+                /> -->
+
+                {{ data[mes]['Presupuesto'] }}
+            </td>
+        </tr>
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td>Total general</td>
+
+            <td>{{ data['total']['Soporte'] }}</td>
+            <td>{{ data['total']['Incidente'] }}</td>
+            <td>{{ data['total']['Problema'] }}</td>
+            <td>{{ data['total']['Gestion'] }}</td>
+            <td>{{ data['total']['Mantenimiento'] }}</td>
+          
+            <td *ngIf="tipo!='Transaccional'">{{ data['total']['GLD'] }}</td>
+
+            <td>{{ data['total']['Porcentaje'] }}%</td>
+
+            <td>{{ data['total']['HHConsumidas'] }}</td>
+            <td>{{ data['total']['Presupuesto'] }}</td>
+        </tr>
+    </tfoot>
+</table>

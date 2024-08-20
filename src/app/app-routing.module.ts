@@ -50,15 +50,17 @@ const routes: Routes = [
   { path: 'cuadra-facturacion', component: CuadraFacturacionComponent },
   { path: 'cuadra-facturacion-generar', component: CuadraFacturacionGenerarComponent },
 
- // { path: 'mywizard-rv', component: MywizardRvComponent },
-//  { path: 'mywizard-rv-generar', component: MywizardRvGeneracionComponent },
-
   { path: 'fechas', component: FechasComponent },
   { path: 'fechas-generar', component: FechasGeneracionComponent },
 
   { 
     path: 'mantenimiento-consolidar', 
     loadChildren: () => import('./mantenimiento/mantenimiento.module').then( m => m.MantenimientoModule ),
+  },
+
+  { 
+    path: 'fechasDMS-comparar', 
+    loadChildren: () => import('./fechasDMS/fechasDMS.module').then( m => m.FechasDMSModule ),
   },
 
   { path: 'manto-informe-semanal', component: InformeSemanalComponent },

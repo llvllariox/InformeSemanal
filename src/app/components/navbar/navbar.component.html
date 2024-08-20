@@ -35,19 +35,33 @@
                 <a class="nav-link" href="#" [routerLink]="['cuadra-facturacion']" routerLinkActive="active"><i class="fas fa-dollar-sign"></i>&nbsp; Facturación</a>
             </li>
 
-            <!-- MYWIZARD ROXANA VIDAL -->
-            <!-- <li class="nav-item mr-auto">
-                <a class="nav-link" href="#" [routerLink]="['mywizard-rv']" routerLinkActive="active"><i class="fas fa-desktop"></i>&nbsp; Métricas AM old</a>
-            </li> -->
-
             <!-- METRICAS AM -->
             <li class="nav-item mr-auto">
                 <a class="nav-link" href="#" [routerLink]="['metricas-am']" routerLinkActive="active"><i class="fas fa-desktop"></i>&nbsp; Métricas AM</a>
             </li>
 
-            <!-- FECHAS -->
-            <li class="nav-item mr-auto">
+            <!-- FECHAS DMS -->
+            <!-- <li class="nav-item mr-auto">
                 <a class="nav-link" href="#" [routerLink]="['fechas']" routerLinkActive="active"><i class="far fa-calendar-alt"></i>&nbsp; Valida DMS</a>
+            </li> -->
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFechasDMS" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="far fa-calendar-alt"></i>&nbsp; Fechas DMS
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownFechasDMS">
+                  
+                    <a class="dropdown-item" href="#" [routerLink]="['fechas']" routerLinkActive="active">Valida DMS</a>
+
+                    <a 
+                        class="dropdown-item" 
+                        href="#" 
+                        [routerLink]="['fechasDMS-comparar/formulario']" 
+                        routerLinkActive="active">
+                            Comparar
+                    </a>
+
+                </div>
             </li>
 
             <!-- MANTENIMIENTO -->

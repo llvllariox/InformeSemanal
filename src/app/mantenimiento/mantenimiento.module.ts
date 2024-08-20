@@ -9,6 +9,7 @@ import { FormularioConsolidarComponent } from './consolidar/components/formulari
 import { TablaPorMesComponent } from './consolidar/components/tabla-por-mes/tabla-por-mes.component';
 import { FormularioConsolidarARSComponent } from './consolidar/components/formulario-consolidar-ars/formulario-consolidar-ars.component';
 import { MostrarARSConsolidarComponent } from './consolidar/components/mostrar-ars/mostrar-ars.component';
+import { ResumenComponent } from './consolidar/components/resumen/resumen.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { MostrarARSConsolidarComponent } from './consolidar/components/mostrar-a
     FormularioConsolidarComponent,
     FormularioConsolidarARSComponent,
     TablaPorMesComponent,
+    ResumenComponent,
   ],
   imports: [
     CommonModule,

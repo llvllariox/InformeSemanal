@@ -18,28 +18,38 @@
             <tr>
                 <th class="small font-weight-bold text-light" scope="col" colspan="5">CONSUMO DE HORAS</th>
             </tr>
-            <tr>
+            <!-- <tr>
                 <th class="small font-weight-bold text-light" scope="col">Mes</th>
                 <th class="small font-weight-bold text-light" scope="col">HH Presupuestadas</th>
                 <th class="small font-weight-bold text-light" scope="col">HH Utilizadas</th>
                 <th class="small font-weight-bold text-light" scope="col">HH Disponibles</th>
                 <th class="small font-weight-bold text-light" scope="col">HH Excedidas</th>
+            </tr> -->
+            <tr class="small font-weight-bold text-light">
+                <th>Mes</th>
+                <th>HH Presupuestadas</th>
+                <th>HH Utilizadas</th>
+                <th>Saldo Acumulado</th>
+                <th>Saldo Mensual</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let mes of mantoInformeSemanalConfService.getMonthNames(); let i=index">
-                <td class="small">{{mes}}</td>
-                <td class="small">{{totales[i+1]['propuestas']}}</td>
-                <td class="small">{{totales[i+1]['utilizadas']}}</td>
-                <td class="small">{{totales[i+1]['disponibles']}}</td>
-                <td class="small">{{totales[i+1]['excedidas']}}</td>
+                <td class="small">{{ mes }}</td>
+                <td class="small">{{ totales[i+1]['propuestas'] }}</td>
+                <td class="small">{{ totales[i+1]['utilizadas'] }}</td>
+                <td class="small">{{ totales[i+1]['saldoAcumulado'] }}</td>
+                <td class="small">{{ totales[i+1]['saldoMensual'] }}</td>
+                <!-- <td class="small">{{totales[i+1]['disponibles']}}</td>
+                <td class="small">{{totales[i+1]['excedidas']}}</td> -->
             </tr>
             <tr >
                 <th>Total</th>
-                <th>{{sumas['propuestas']}}</th>
-                <th>{{sumas['utilizadas']}}</th>
-                <th>{{sumas['disponibles']}}</th>
-                <th>{{sumas['excedidas']}}</th>
+                <th>{{ sumas['propuestas'] }}</th>
+                <th>{{ sumas['utilizadas'] }}</th>
+                <th></th>
+                <th></th>
+                <!-- <th>{{sumas['excedidas']}}</th> -->
 
             </tr>
         </tbody>

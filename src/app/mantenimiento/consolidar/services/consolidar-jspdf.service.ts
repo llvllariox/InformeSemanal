@@ -15,53 +15,51 @@ export class ConsolidarJspdfService {
   constructor() { }
 
   //genera un archivo PDF
+  //tipo = '' -> resumen
+  //tipo 'Comercial' | 'Transaccional'
   generaPDF(
-            comercial,
-            transaccional,
-            detalles,
+            tipo: string,
+            data: Number[][],
             imgBarrasHoras,
             imgBarrasPorcentaje,
             imgHorasMes,
             imgHorasMesPorArea
   ){
-    //preparamos la data
+    
+    //se prepara la data
     let dataResumen = [];
-    let dataComercial = [];
-    let dataTransaccional = [];
 
     this.monthNames.forEach(mes => {
-      /* comercial[mes].forEach(element => {
-        dataComercial.push(
-          [
-            mes,
-            element['descripcion'], 
-            element['horasIncurridas'],
-            element['lineaDeServicio'],
-            element['sistema'],
-            element['solicitante']
-          ]
-        );  
-      });
-      
-
-      dataTransaccional.push(transaccional[mes]); */
-
       dataResumen.push(
           [
             mes,
-            detalles[mes]['Soporte'],
-            detalles[mes]['Incidente'],
-            detalles[mes]['Problema'],
-            detalles[mes]['Gestion'],
-            detalles[mes]['Mantenimiento'],
-            detalles[mes]['Porcentaje'], 
-            detalles[mes]['HHConsumidas'],
-            detalles[mes]['Presupuesto']
+            data[mes]['Soporte'],
+            data[mes]['Incidente'],
+            data[mes]['Problema'],
+            data[mes]['Gestion'],
+            data[mes]['Mantenimiento'],
+            data[mes]['GLD'],
+            data[mes]['Porcentaje'], 
+            data[mes]['HHConsumidas'],
+            data[mes]['Presupuesto']
           ]
         );      
     });
-
-
+    dataResumen.push(
+      [
+        'Total general',
+        data['total']['Soporte'],
+        data['total']['Incidente'],
+        data['total']['Problema'],
+        data['total']['Gestion'],
+        data['total']['Mantenimiento'],
+        data['total']['GLD'],
+        data['total']['Porcentaje'], 
+        data['total']['HHConsumidas'],
+        data['total']['Presupuesto']
+      ]
+    );
+    
     return new Promise((resolve, reject) => {
       const doc = new jsPDF({
         orientation: "l",
@@ -69,8 +67,14 @@ export class ConsolidarJspdfService {
         format: [150, 240]
       });
 
-      this.agregarResumen(doc, 'Resumen', dataResumen);
-
+      if(tipo ==  ''){
+        this.agregarResumen(doc, 'Resumen', dataResumen, '');
+      } else if(tipo == 'Comercial') {
+        this.agregarResumen(doc, 'Resumen Comercial', dataResumen, 'Comercial');
+      } if(tipo ==  'Transaccional'){
+        this.agregarResumen(doc, 'Resumen Transaccional', dataResumen, 'Transaccional');
+      }
+      
       //this.agregarTipo(doc, 'Comercial', dataComercial);
 
       this.agregarGrafico(doc, 'Horas utilizadas por área de servicio', imgBarrasHoras);
@@ -78,7 +82,11 @@ export class ConsolidarJspdfService {
       this.agregarGrafico(doc, 'Horas / mes', imgHorasMes);
       this.agregarGrafico(doc, 'Horas / mes por área de servicio', imgHorasMesPorArea);
 
-      let filename = 'consolidado_mantencion.pdf'
+      let filename = 'consolidado_mantencion';
+      if(tipo == 'Comercial' || tipo == 'Transaccional') {
+        filename += '_' + tipo;
+      }
+      filename += '.pdf';
       doc.save(filename);
 
       return resolve('resolved');
@@ -86,7 +94,7 @@ export class ConsolidarJspdfService {
   }
 
   //agrega la pagina Resumen al PDF
-  agregarResumen(doc, nombre: string, data): void {
+  agregarResumen(doc, nombre: string, data, tipo): void {
     doc.addImage(this.logo, 'png', 192, 8, 36, 8);
     doc.setFontSize(20);
     doc.setFont(undefined, 'bold');
@@ -97,29 +105,39 @@ export class ConsolidarJspdfService {
     doc.setFontSize(18);
     doc.setFont(undefined, 'normal');
     doc.setTextColor(0, 0, 0);
-    doc.text(10, 20, 'Resumen');
+    doc.text(10, 20, nombre);
     
-    //tabla 
-    doc.autoTable({
-      theme: 'grid',
-      headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
-      bodyStyles: {halign: 'center'},
-      startY: 26,
-      margin: {top: 0, left: 10},
-      styles: { fontSize: 8},
-      columnStyles: {
-        0: { cellWidth: 18, fontStyle: 'bold' },
+    let columnStyles;
+    if(tipo == 'Transaccional'){
+      columnStyles = {
+        0: { cellWidth: 22, fontStyle: 'bold' },
+        1: { cellWidth: 18, fontStyle: 'bold' },
+        2: { cellWidth: 18, fontStyle: 'bold' },
+        3: { cellWidth: 18, fontStyle: 'bold' },
+        4: { cellWidth: 18, fontStyle: 'bold' },
+        5: { cellWidth: 24, fontStyle: 'bold' },      
+        6: { cellWidth: 16, fontStyle: 'bold' },
+        7: { cellWidth: 22, fontStyle: 'bold' },
+        8: { cellWidth: 22, fontStyle: 'bold' },
+      };
+    } else {
+      columnStyles = {
+        0: { cellWidth: 22, fontStyle: 'bold' },
         1: { cellWidth: 18, fontStyle: 'bold' },
         2: { cellWidth: 18, fontStyle: 'bold' },
         3: { cellWidth: 18, fontStyle: 'bold' },
         4: { cellWidth: 18, fontStyle: 'bold' },
         5: { cellWidth: 24, fontStyle: 'bold' },
-        6: { cellWidth: 16, fontStyle: 'bold' },
-        7: { cellWidth: 22, fontStyle: 'bold' },
+        6: { cellWidth: 20, fontStyle: 'bold' },
+        7: { cellWidth: 16, fontStyle: 'bold' },
         8: { cellWidth: 22, fontStyle: 'bold' },
-      },
+        9: { cellWidth: 22, fontStyle: 'bold' },
+      };
+    }
 
-      head: [[
+    let head;
+    if(tipo == 'Transaccional'){
+      head = [[
         'Periodo',
         'Soporte',
         'Incidente',
@@ -129,8 +147,32 @@ export class ConsolidarJspdfService {
         '%',
         'HH Consumidas',
         'Presupuesto'
-      ]],
+      ]];
+    } else {
+      head = [[
+        'Periodo',
+        'Soporte',
+        'Incidente',
+        'Problema',
+        'Gestión',
+        'Mantenimiento',
+        'Gestión LD',
+        '%',
+        'HH Consumidas',
+        'Presupuesto'
+      ]];
+    }
+    //tabla 
+    doc.autoTable({
+      theme: 'grid',
+      headStyles: {fillColor: [200, 43, 22], textColor: [255, 255, 255], halign: 'center'},
+      bodyStyles: {halign: 'center'},
+      startY: 26,
+      margin: {top: 0, left: 10},
+      styles: { fontSize: 8},
+      columnStyles: columnStyles,
 
+      head: head,
       body: data,
     });
   }
@@ -254,7 +296,7 @@ export class ConsolidarJspdfService {
             format: [150, 240]
           });
     
-          this.agregarResumen(doc, 'Resumen', dataResumen);
+          //this.agregarResumen(doc, 'Resumen', dataResumen);
     
           //this.agregarTipo(doc, 'Comercial', dataComercial);
     

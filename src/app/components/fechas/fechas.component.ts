@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import * as XLSX from 'xlsx';
 import { DmsJsonDataService } from 'src/app/services/dms-json-data.service';
-import { SweetAlertService } from '../../services/sweet-alert.service';
+
+import { SweetAlertService } from 'src/app/shared/services/sweet-alert.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -103,7 +104,7 @@ export class FechasComponent implements OnInit {
         this.jsonDataService.setJsonDataDmsService(this.jsonDataDms['DMS Detalle']);
       }
     };
-    reader.readAsBinaryString(file);    
+    reader.readAsBinaryString(file);
  }
 
  //valida que el tipo del archivo contenga la palabra sheet

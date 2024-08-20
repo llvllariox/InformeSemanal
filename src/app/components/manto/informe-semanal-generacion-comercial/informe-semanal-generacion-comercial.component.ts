@@ -37,15 +37,20 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
 
   public chart: any;
   public chartBarra: any;
+  public chartDetalles: any;
   barras = [];
+
+  tabla = [];
+  tablaTotal = 0;
 
   @ViewChild('MyChart', {static:false}) el!: ElementRef;
   @ViewChild('tablaConsumoTotal', {static:false}) elTabla!: ElementRef;
   @ViewChild('MyChartBarra', {static:false}) elBarra!: ElementRef;
+  //@ViewChild('chartDetalles', {static:false}) elTablaDetalles!: ElementRef;
   
   constructor(
     private mantoInformeSemanalService: MantoInformeSemanalService, 
-    private sweetAlerService: SweetAlertService,
+    private sweetAlertService: SweetAlertService,
     public mantoInformeSemanalConfService: MantoInformeSemanalConfService,
     public mantoInformeSemanalFirebaseService: MantoInformeSemanalFirebaseService,
     public pdfService: MantoInformeSemanalJspdfService
@@ -60,6 +65,8 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
 
     this.jsonArrayHoras = this.mantoInformeSemanalService.getJsonDataMantoInformeSemanal();
 
+    this.redondear();
+
     this.getDetalleExcel();
 
     //gráfico de barras
@@ -68,28 +75,54 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
     this.barras['MJR'] = 0;
     this.barras['SPT'] = 0;
     this.barras['PRB'] = 0;
+    this.barras['GLD'] = 0;
 
     this.jsonArrayHoras.forEach(element => {
-      if(element.lineaDeServicio == "Incidentes") {
-        this.barras['INC'] += Number(element.horas);
-      } else if(element.lineaDeServicio == "Problemas") {
-        this.barras['PRB'] += Number(element.horas);
-      } else if(element.lineaDeServicio == "Evolutivo Menor") {
-        this.barras['MJR'] += Number(element.horas);
-      } else if(element.lineaDeServicio == "Soporte") {
-        if(element.bloque == 'Gestión'){
-          this.barras['GEST'] += Number(element.horas);
-        } else {
-          this.barras['SPT'] += Number(element.horas);
+      let horas = Number(element.horas);
+
+      if(element.bloque == "Gestión LD") {
+        //se divide en 5 y se suma a las 4 lineas de servicio
+        let division = Math.round(horas / 4);
+        this.barras['INC'] += division;
+        this.barras['MJR'] += division;
+        this.barras['SPT'] += division;
+        this.barras['PRB'] += division;
+
+      } else if(element.bloque == "VS - Transversales") {
+        this.barras['GLD'] += horas;
+      } else {
+        if(element.lineaDeServicio == "Incidentes") {
+          this.barras['INC'] += horas;
+        } else if(element.lineaDeServicio == "Problemas") {
+          this.barras['PRB'] += horas;
+        } else if(element.lineaDeServicio == "Evolutivo Menor") {
+          this.barras['MJR'] += horas;
+        } else if(element.lineaDeServicio == "Soporte") {
+          if(element.bloque == 'Gestión'){
+            this.barras['GEST'] += horas;
+          } else {
+            this.barras['SPT'] += horas;
+          }
         }
       }
     });
 
-    this.barras['GEST'] = Math.round(this.barras['GEST']);
-    this.barras['INC'] = Math.round(this.barras['INC']);
-    this.barras['MJR'] = Math.round(this.barras['MJR']);
-    this.barras['SPT'] = Math.round(this.barras['SPT']);
-    this.barras['PRB'] = Math.round(this.barras['PRB']);
+
+    this.tabla.push(['Gestión', this.barras['GEST']]);
+    this.tabla.push(['Incidentes', this.barras['INC']]);
+    this.tabla.push(['Mejoras', this.barras['MJR']]);
+    this.tabla.push(['Soportes', this.barras['SPT']]);
+    this.tabla.push(['Problemas', this.barras['PRB']]);
+    this.tabla.push(['Gestión LD', this.barras['GLD']]);
+    
+    this.tablaTotal = this.barras['GEST'] 
+                      + this.barras['INC']
+                      + this.barras['MJR']
+                      + this.barras['SPT']
+                      + this.barras['PRB']
+                      + this.barras['GLD'];
+
+    this.tabla.push(['Total', this.tablaTotal]);
   }
 
   ngOnInit(): void {
@@ -100,7 +133,7 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       this.horas = MantoHorasC;
       this.mantoInformeSemanalConfService.setDataCOriginal(this.horas);
 
-      //obtenemos las horas  para cada mes
+      //obtenemos las horas para cada mes
 
       // ***********************************
       //antes del mes del informe 
@@ -112,18 +145,17 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
         //utilizadas
         this.totales[i]['utilizadas'] = horaCTemp.utilizadas;
 
-        //anterior
-        if(i==1){
-          this.totales[i]['anteriores'] = 0;
-        } else{
-          this.totales[i]['anteriores'] = horaCTemp.anteriores; 
-        }
-
         //propuestas
         this.totales[i]['propuestas'] = horaCTemp.propuestas;
 
-        //diferencia
-        this.totales[i]['diferencia'] = horaCTemp.propuestas - horaCTemp.utilizadas;
+        //saldo
+        let saldoAnterior = 0;
+        if(i != 1){
+          saldoAnterior = this.totales[i-1]['saldoAcumulado']
+        }
+        this.totales[i]['saldoMensual'] = horaCTemp.propuestas - horaCTemp.utilizadas;
+        this.totales[i]['saldoAcumulado'] = this.totales[i]['saldoMensual'] + saldoAnterior;
+        
       }
 
       // ***********************************
@@ -141,22 +173,23 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       this.jsonArrayHoras.forEach(element => {
         this.totales[mesActual]['utilizadas'] += Number(element.horas);
       });
-      this.totales[mesActual]['utilizadas'] = Math.round(this.totales[mesActual]['utilizadas']);
+      this.totales[mesActual]['utilizadas'] = this.totales[mesActual]['utilizadas'];
       
-      this.horasUtilizadasOriginal = this.totales[mesActual]['utilizadas'];
-
-      //anterior
+      //saldo
+      let saldoAnterior = 0;
       if(mesActual != 1){
-        this.totales[mesActual]['anteriores'] = this.mantoInformeSemanalConfService.getHoraC(this.yearInforme, Number(this.monthInforme)).anteriores; 
+        saldoAnterior = this.totales[mesActual - 1]['saldoAcumulado'];
       }
+      this.totales[mesActual]['saldoMensual'] = this.totales[mesActual]['propuestas'] - this.totales[mesActual]['utilizadas'];
+      this.totales[mesActual]['saldoAcumulado'] = this.totales[mesActual]['saldoMensual'] + saldoAnterior;
+      
 
-      //sumamos las horas anteriores
-      if(this.totales[mesActual]['anteriores'] < 0){
-        this.totales[mesActual]['utilizadas'] += -1*this.totales[mesActual]['anteriores'];
-      }
+      //agregamos la ultima columna a la tabla explicativa
+      let propuestas = this.totales[mesActual]['propuestas'];
 
-      //diferencia
-      this.totales[mesActual]['diferencia'] = this.totales[mesActual]['propuestas'] - this.totales[mesActual]['utilizadas'];
+      this.tabla.forEach(element => {
+        element[2] = Math.round(100 * element[1] / propuestas) + '%';
+      });
 
 
       //*************************************
@@ -171,9 +204,8 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       }
 
       this.sumas['utilizadas'] = 0;
-      this.sumas['anteriores'] = 0;
       this.sumas['propuestas'] = 0;
-      this.sumas['diferencia'] = 0;
+      this.sumas['saldo'] = 0;
       
       this.getSuma();
       this.createChart();
@@ -188,8 +220,6 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
   getSuma(){
     this.sumas['utilizadas'] = 0;
     this.sumas['propuestas'] = 0;
-    this.sumas['anteriores'] = 0;
-    this.sumas['diferencia'] = 0;
 
     for (let i = 1; i <= 12; i++) {
       //utilizadas
@@ -201,22 +231,10 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       if(this.totales[i]['propuestas']) {
         this.sumas['propuestas'] += this.totales[i]['propuestas'];
       }
-
-      //diferencia
-      if(this.totales[i]['diferencia']) {
-        this.sumas['diferencia'] += this.totales[i]['diferencia'];
-      }
-
-      //anteriores
-      if(this.totales[i]['anteriores']) {
-        this.sumas['anteriores'] += this.totales[i]['anteriores'];
-      }
-    }
+   }
 
     this.sumas['utilizadas'] = (this.sumas['utilizadas']);
-    this.sumas['anteriores'] = (this.sumas['anteriores']);
     this.sumas['propuestas'] = (this.sumas['propuestas']);
-    this.sumas['diferencia'] = (this.sumas['diferencia']);
   }
 
   //asigna al arreglo detalleExcel para obtener los detalles a generar en un excel
@@ -226,10 +244,6 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
     this.jsonArrayHoras.forEach(element => {
       let index = this.detalleExcel.findIndex(ars => ars['numeroArs'] === element.numeroArs);
       
-      if(element['numeroArs'] == '4409'){
-        console.log('hola');
-      }
-
       if(index == -1){
         //creamos un ars para agregar al arreglo detalleExcel
         let arsExcel = {
@@ -238,7 +252,8 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
           descripcion: element.descripcion,
           lineaDeServicio: element.lineaDeServicio,
           aplicacion: element.aplicacion,
-          solicitante: element.solicitante
+          solicitante: element.solicitante,
+          bloque: element.bloque
         }
         this.detalleExcel.push(arsExcel);
       } else {
@@ -287,7 +302,8 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
                   'INC ' + this.barras['INC'], 
                   'MJR ' + this.barras['MJR'], 
                   'SPT ' + this.barras['SPT'], 
-                  'PRB ' + this.barras['PRB']
+                  'PRB ' + this.barras['PRB'],
+                  'GLD ' + this.barras['GLD']
                 ], 
 	      
         datasets: [
@@ -298,7 +314,8 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
                 this.barras['INC'],
                 this.barras['MJR'],
                 this.barras['SPT'],
-                this.barras['PRB']
+                this.barras['PRB'],
+                this.barras['GLD']
               ],
               barThickness: 70,   
           },
@@ -314,7 +331,65 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
             display: false,
           }
         }
+      },
+    });
 
+    //this.generateHorizontalBars();
+  }
+
+  generateHorizontalBars(){
+    let disponibles = this.totales[Number(this.monthInforme)]['propuestas'] - this.totales[Number(this.monthInforme)]['utilizadas'];
+    if(disponibles < 0) disponibles = 0;
+
+    this.chartDetalles = new Chart("chartDetalles", {
+      type: 'bar',
+      data: {
+        labels: [
+                  'Gestión ' + this.barras['GEST'], 
+                  'Incidentes ' + this.barras['INC'], 
+                  'Mejoras ' + this.barras['MJR'], 
+                  'Soportes ' + this.barras['SPT'], 
+                  'Problemas ' + this.barras['PRB'],
+                  'Gestión LD ' + this.barras['GLD'],
+                  'Total ' + this.tablaTotal,
+                  'Disponibles ' + disponibles
+                ], 
+	      
+        datasets: [
+          {
+            label: "",
+              data: [
+                this.barras['GEST'],
+                this.barras['INC'],
+                this.barras['MJR'],
+                this.barras['SPT'],
+                this.barras['PRB'],
+                this.barras['GLD'],
+                this.tablaTotal,
+                disponibles
+              ],
+              barThickness: 16,   
+          },
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        elements: {
+          bar: {
+            borderWidth: 2,
+          }
+        },
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false,
+            position: 'chartArea',
+          },
+          title: {
+            display: false,
+            text: 'Detalle de horas consumidas'
+          }
+        }
       },
     });
   }
@@ -328,14 +403,15 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       worksheet.getColumn(2).width = 16;
       worksheet.getColumn(3).width = 20;
       worksheet.getColumn(4).width = 24;
-      worksheet.getColumn(5).width = 18;
+      worksheet.getColumn(5).width = 24;
        
       const headerCS = [
           'Descripción',
           'Horas Incurridas',
           'Línea de Servicio',
           'Sistema',
-          'Solicitante'
+          'Solicitante',
+          'Bloque'
       ];
       let headerRowCS = worksheet.addRow(headerCS);
   
@@ -380,7 +456,8 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
                 d['horas'],
                 d['lineaDeServicio'],
                 d['aplicacion'],
-                d['solicitante']
+                d['solicitante'],
+                d['bloque']
               ];
 
           worksheet.addRow(newRow);
@@ -388,7 +465,7 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
 
       //anterior
       //mes del informe
-      let inputAnterioresValue = (<HTMLInputElement>document.getElementById('inputAnterioresActual')).value;
+      /* let inputAnterioresValue = (<HTMLInputElement>document.getElementById('inputAnterioresActual')).value;
       if(Number(inputAnterioresValue) < 0){
         let anteriorRow = [
           '(HH Presupuestadas - HH Utilizadas) Mes anterior', 
@@ -412,7 +489,7 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
           });
 
           sumaIncurridas += -1*Number(inputAnterioresValue);
-      }
+      } */
 
       let mesActual = Number(this.monthInforme);
       if(mesActual != 1){
@@ -421,9 +498,17 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
         }
       }
       
-      let sumaRow = [
+      /* let sumaRow = [
         'Total', 
         Math.round(sumaIncurridas),
+        '',
+        '',
+        ''
+      ]; */
+
+      let sumaRow = [
+        'Total', 
+        sumaIncurridas,
         '',
         '',
         ''
@@ -472,37 +557,64 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
 
           html2canvas(this.elTabla.nativeElement).then((canvas) => {
             const tblData = canvas.toDataURL('img/jpg');
-      
-            this.pdfService.generaPDFComercial(this.monthInforme, this.yearInforme, imgData, tblData, barraData);
+
+            this.pdfService.generaPDFComercial(
+                this.monthInforme, 
+                this.yearInforme, 
+                imgData, 
+                tblData, 
+                barraData, 
+                this.tabla);
+
+            /* html2canvas(this.elTablaDetalles.nativeElement).then((canvas) => {
+              const tblDetalles = canvas.toDataURL('img/jpg');
+        
+              this.pdfService.generaPDFComercial(this.monthInforme, this.yearInforme, imgData, tblData, barraData, this.tabla, this.tablaTotal, tblDetalles);
+            }); */
           });
         });
     });
   }
 
-  cambioActual(accion){
-    let inputAnterioresValue = (<HTMLInputElement>document.getElementById('inputAnterioresActual')).value;
+  cambioActual(){
+    //let inputAnterioresValue = (<HTMLInputElement>document.getElementById('inputAnterioresActual')).value;
 
-    if(accion=="anterior"){
-      (<HTMLInputElement>document.getElementById('inputUtilizadasActual')).value = (Number(this.horasUtilizadasOriginal) - Number(inputAnterioresValue)).toString();
-      (<HTMLInputElement>document.getElementById('inputDiferenciaActual')).value = (Number(this.horasPropuestasOriginal) - Number((<HTMLInputElement>document.getElementById('inputUtilizadasActual')).value)).toString();
+    
+      //(<HTMLInputElement>document.getElementById('inputUtilizadasActual')).value = (Number(this.horasUtilizadasOriginal) - Number(inputAnterioresValue)).toString();
+      //(<HTMLInputElement>document.getElementById('inputDiferenciaActual')).value = (Number(this.horasPropuestasOriginal) - Number((<HTMLInputElement>document.getElementById('inputUtilizadasActual')).value)).toString();
+ 
+     this.totales[Number(this.monthInforme)]['anteriores'] = Number((<HTMLInputElement>document.getElementById('inputAnterioresActual')).value);
+     this.totales[Number(this.monthInforme)]['utilizadas'] = Number(this.horasUtilizadasOriginal) - this.totales[Number(this.monthInforme)]['anteriores'];
+     this.totales[Number(this.monthInforme)]['diferencia'] = this.totales[Number(this.monthInforme)]['propuestas'] - this.totales[Number(this.monthInforme)]['utilizadas'];
 
-      this.totales[Number(this.monthInforme)]['utilizadas'] = (<HTMLInputElement>document.getElementById('inputUtilizadasActual')).value;
-
-      //sumamos todas las utilizadas para volver a calcular el total
+     /*  //sumamos todas las utilizadas para volver a calcular el total
       let total = 0;
       for (let i = 1; i<=12; i++) {
         if(this.totales[i]['utilizadas']) total +=(Number(this.totales[i]['utilizadas']));
-      }
+      } */
       
-      (<HTMLInputElement>document.getElementById('totalUtilizadas')).innerHTML = total.toString();      
-
       this.getSuma();
+
+      
+
+      //(<HTMLInputElement>document.getElementById('totalUtilizadas')).innerHTML = total.toString();      
+
+      //(<HTMLInputElement>document.getElementById('totalAnteriores')).innerHTML = total.toString();      
+      //(<HTMLInputElement>document.getElementById('totalDiferencia')).innerHTML = total.toString();      
+      
+      
 
       //se destruyen los canvas
       this.chart.destroy();
       this.chartBarra.destroy();
 
       this.createChart();
-    }
+  }
+
+  //aplica Math.round a this.jsonArrayHoras.horas
+  redondear():void {
+    this.jsonArrayHoras.forEach(element => {
+      element.horas = Math.round(element.horas);
+    });
   }
 }

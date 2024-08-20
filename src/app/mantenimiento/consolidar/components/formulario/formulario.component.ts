@@ -122,7 +122,7 @@ export class FormularioConsolidarComponent implements OnInit {
 
       this.jsonDataHoras = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
-        this.formularioHeaders(sheet, 'E1');
+        this.formularioHeaders(sheet, 'F1');
         initial[name] = XLSX.utils.sheet_to_json(sheet);
 
         this.cambiarEstado(mes, 3);
