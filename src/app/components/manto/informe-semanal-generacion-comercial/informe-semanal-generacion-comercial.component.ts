@@ -78,22 +78,30 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
     this.barras['GLD'] = 0;
 
     this.jsonArrayHoras.forEach(element => {
+      let horas = Number(element.horas);
+
       if(element.bloque == "Gestión LD") {
-        this.barras['INC'] += Number(element.horas);
+        //se divide en 5 y se suma a las 4 lineas de servicio
+        let division = Math.round(horas / 4);
+        this.barras['INC'] += division;
+        this.barras['MJR'] += division;
+        this.barras['SPT'] += division;
+        this.barras['PRB'] += division;
+
       } else if(element.bloque == "VS - Transversales") {
-        this.barras['GLD'] += Number(element.horas);
+        this.barras['GLD'] += horas;
       } else {
         if(element.lineaDeServicio == "Incidentes") {
-          this.barras['INC'] += Number(element.horas);
+          this.barras['INC'] += horas;
         } else if(element.lineaDeServicio == "Problemas") {
-          this.barras['PRB'] += Number(element.horas);
+          this.barras['PRB'] += horas;
         } else if(element.lineaDeServicio == "Evolutivo Menor") {
-          this.barras['MJR'] += Number(element.horas);
+          this.barras['MJR'] += horas;
         } else if(element.lineaDeServicio == "Soporte") {
           if(element.bloque == 'Gestión'){
-            this.barras['GEST'] += Number(element.horas);
+            this.barras['GEST'] += horas;
           } else {
-            this.barras['SPT'] += Number(element.horas);
+            this.barras['SPT'] += horas;
           }
         }
       }

@@ -268,7 +268,7 @@ export class MostrarValidarHHComponent implements OnInit {
 
     worksheet.autoFilter = {
       from: 'A1',
-      to: 'U1',
+      to: this.getAutofiltro(headerCS)+'1',
     }
 
     // Cell Style : Fill and Border
@@ -333,163 +333,16 @@ export class MostrarValidarHHComponent implements OnInit {
     });
   }
 
- /*  generateExcel(){
-    
-    
-      
-    
 
-    
+  //obtiene la celda hasta la que aplicar el autofiltro
+  getAutofiltro(headers){
+    let abc = ['A',	'B',	'C',	'D',	'E',	'F',	'G',	'H',	'I',	'J',	'K',	'L',
+      'M',	'N',	'O',	'P',	'Q',	'R',	'S',	'T',	'U',	'V',	'W',	'X',
+      'Y',	'Z',	'AA',	'AB',	'AC',
+    ];
 
-    
-
-    
-
-    
-    let newRow; 
-    this.JsonArrayDms.forEach(d => {
-      if(d['mostrar'] == 1){
-          newRow = [
-            d['responsable'],
-            d['contrato'], 
-            "***" + d['ars'], 
-            d['lineaDeServicio'], 
-            d['tarea'], 
-            d['horasEstimadas'], 
-            d['horasPlanificadas'], 
-            d['horasIncurridas'], 
-            d['etc'], 
-            d['inicioComprometido'], 
-            d['inicioPlanificado'], 
-            d['inicioReal'], 
-            d['finComprometido'], 
-            d['finPlanificado'], 
-            d['finReal'], 
-            d['grupoDeTrabajo'],
-          ];
-
-      } else {
-      newRow = [
-          d['responsable'],
-          d['contrato'], 
-          d['ars'], 
-          d['lineaDeServicio'], 
-          d['tarea'], 
-          d['horasEstimadas'], 
-          d['horasPlanificadas'], 
-          d['horasIncurridas'], 
-          d['etc'], 
-          d['inicioComprometido'], 
-          d['inicioPlanificado'], 
-          d['inicioReal'], 
-          d['finComprometido'], 
-          d['finPlanificado'], 
-          d['finReal'], 
-          d['grupoDeTrabajo'],
-        ];
-      }
-    
-      let insertedRow = worksheet.addRow(newRow);
-
-      let colorAmarillo = this.toARGB('#ffff00'); //amarillo
-
-    insertedRow.eachCell((cell, number) => {
-      if(number == 3){
-        if(cell.value.toString().slice(0, 3) == "***"){
-          cell.value = Number(cell.value.toString().slice(3));
-          cell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: colorAmarillo },
-            bgColor: { argb: colorAmarillo },
-          };
-          cell.alignment = {
-            vertical: 'middle',
-            horizontal: 'right'
-          };
-        }
-      } else if(number == 6){
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: this.toARGB(d['validarHorasEstimadas']) },
-          bgColor: { argb: this.toARGB(d['validarHorasEstimadas']) },
-        };
-      } else if(number == 7){
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: this.toARGB(d['validarHorasPlanificadas']) },
-          bgColor: { argb: this.toARGB(d['validarHorasPlanificadas']) },
-        };
-      } else if(number == 8){
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: this.toARGB(d['validarHorasIncurridas']) },
-          bgColor: { argb: this.toARGB(d['validarHorasIncurridas']) },
-        };
-      } else if(number == 10){
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: this.toARGB(d['validarFechaInicioComprometido']) },
-          bgColor: { argb: this.toARGB(d['validarFechaInicioComprometido']) },
-        };
-        cell.numFmt = 'dd/mm/yyyy';
-      } else if(number == 11){
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: this.toARGB(d['validarFechaInicioPlanificado']) },
-          bgColor: { argb: this.toARGB(d['validarFechaInicioPlanificado']) },
-        };
-        cell.numFmt = 'dd/mm/yyyy';
-      } else if(number == 12){
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: this.toARGB(d['validarFechaInicioReal']) },
-          bgColor: { argb: this.toARGB(d['validarFechaInicioReal']) },
-        };
-        cell.numFmt = 'dd/mm/yyyy';
-      } else if(number == 13){
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: this.toARGB(d['validarFechaFinComprometido']) },
-          bgColor: { argb: this.toARGB(d['validarFechaFinComprometido']) },
-        };
-        cell.numFmt = 'dd/mm/yyyy';
-      } else if(number == 14){
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: this.toARGB(d['validarFechaFinPlanificado']) },
-          bgColor: { argb: this.toARGB(d['validarFechaFinPlanificado']) },
-        };
-        cell.numFmt = 'dd/mm/yyyy';
-      } else if(number == 15){
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: this.toARGB(d['validarFechaFinReal']) },
-          bgColor: { argb: this.toARGB(d['validarFechaFinReal']) },
-        };
-        cell.numFmt = 'dd/mm/yyyy';
-      }
-
-      cell.border = {
-          top: { style: "thin" },
-          left: { style: "thin" },
-          bottom: { style: "thin" },
-          right: { style: "thin" }
-        };
-    });
-  });
-  
-  
-  } */
+    return abc[headers.length-1];
+  }
 
   ngOnInit(): void {
   }

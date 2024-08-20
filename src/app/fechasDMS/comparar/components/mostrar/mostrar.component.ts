@@ -39,13 +39,14 @@ export class MostrarFechasDMSCompararComponent implements OnInit {
 
     //de A a B
     this.jsonArrayDmsA.forEach(elementA => {
+      flag = false;
       this.jsonArrayDmsB.forEach(elementB => {
         if(this.comparacion(elementA, elementB)) {
           flag = true;
         }
       });
 
-      if(!flag) {
+      if(flag == false) {
         this.jsonArrayDmsDiferencias.push(elementA);
         flag = false;
       }
