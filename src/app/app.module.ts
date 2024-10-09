@@ -27,15 +27,10 @@ import { FechasGeneracionComponent } from './components/fechas-generacion/fechas
 
 import { GenerarArsGplanComponent } from './components/generar-ars-gplan/generar-ars-gplan.component';
 import { VerArsJiraPlanComponent } from './components/ver-ars-jira-plan/ver-ars-jira-plan.component';
-import { InformeSemanalComponent } from './components/manto/informe-semanal/informe-semanal.component';
-import { InformeSemanalGeneracionComponent } from './components/manto/informe-semanal-generacion/informe-semanal-generacion.component';
-import { InformeSemanalConfComponent } from './components/manto/informe-semanal-conf/informe-semanal-conf.component';
-import { InformeSemanalConfupdComponent } from './components/manto/informe-semanal-confupd/informe-semanal-confupd.component';
+
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { InformeSemanalGeneracionComercialComponent } from './components/manto/informe-semanal-generacion-comercial/informe-semanal-generacion-comercial.component';
-import { InformeSemanalConfComercialComponent } from './components/manto/informe-semanal-conf-comercial/informe-semanal-conf-comercial.component';
 import { MyteMmeGeneracionComponent } from './components/mytemme/myte-mme-generacion/myte-mme-generacion.component';
 
 import { MetricasAMModule } from './metricas-am/metricas-am.module';
@@ -46,8 +41,6 @@ import { FechaDMSPipe } from 'src/app/pipes/fecha-dms.pipe';
 import { FechasDMSModule } from './fechasDMS/fechasDMS.module';
 import { ValidarHHModule } from './validarHH/validarHH.module';
 import { SharedModule } from './shared/shared.module';
-
-
 
 @NgModule({
   declarations: [
@@ -72,12 +65,6 @@ import { SharedModule } from './shared/shared.module';
     FechasGeneracionComponent,
     GenerarArsGplanComponent,
     VerArsJiraPlanComponent,
-    InformeSemanalComponent,
-    InformeSemanalGeneracionComponent,
-    InformeSemanalConfComponent,
-    InformeSemanalConfupdComponent,
-    InformeSemanalGeneracionComercialComponent,
-    InformeSemanalConfComercialComponent,
     MyteMmeGeneracionComponent,
   ],
   imports: [

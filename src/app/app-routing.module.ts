@@ -22,13 +22,6 @@ import { CuadraFacturacionGenerarComponent } from './components/cuadra-facturaci
 import { FechasComponent } from './components/fechas/fechas.component';
 import { FechasGeneracionComponent } from './components/fechas-generacion/fechas-generacion.component';
 
-import { InformeSemanalComponent } from './components/manto/informe-semanal/informe-semanal.component';
-import { InformeSemanalGeneracionComponent } from './components/manto/informe-semanal-generacion/informe-semanal-generacion.component';
-import { InformeSemanalGeneracionComercialComponent } from './components/manto/informe-semanal-generacion-comercial/informe-semanal-generacion-comercial.component';
-import { InformeSemanalConfComponent } from './components/manto/informe-semanal-conf/informe-semanal-conf.component';
-import { InformeSemanalConfComercialComponent } from './components/manto/informe-semanal-conf-comercial/informe-semanal-conf-comercial.component';
-import { InformeSemanalConfupdComponent } from './components/manto/informe-semanal-confupd/informe-semanal-confupd.component';
-
 import { MyteMmeGeneracionComponent } from './components/mytemme/myte-mme-generacion/myte-mme-generacion.component';
 
 const routes: Routes = [
@@ -54,21 +47,14 @@ const routes: Routes = [
   { path: 'fechas-generar', component: FechasGeneracionComponent },
 
   { 
-    path: 'mantenimiento-consolidar', 
+    path: 'mantenimiento', 
     loadChildren: () => import('./mantenimiento/mantenimiento.module').then( m => m.MantenimientoModule ),
   },
 
   { 
-    path: 'fechasDMS-comparar', 
+    path: 'fechasDMS', 
     loadChildren: () => import('./fechasDMS/fechasDMS.module').then( m => m.FechasDMSModule ),
   },
-
-  { path: 'manto-informe-semanal', component: InformeSemanalComponent },
-  { path: 'manto-informe-semanal-generar', component: InformeSemanalGeneracionComponent },
-  { path: 'manto-informe-semanal-generar-comercial', component: InformeSemanalGeneracionComercialComponent },
-  { path: 'manto-informe-semanal-conf', component: InformeSemanalConfComponent },
-  { path: 'manto-informe-semanal-conf-comercial', component: InformeSemanalConfComercialComponent },
-  { path: 'manto-informe-semanal-confupd', component: InformeSemanalConfupdComponent },
 
   { path: 'myte-mme-generacion', component: MyteMmeGeneracionComponent },
 

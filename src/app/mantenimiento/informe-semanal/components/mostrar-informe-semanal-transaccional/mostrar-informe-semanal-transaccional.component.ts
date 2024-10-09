@@ -1,72 +1,69 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { SweetAlertService } from '../../../services/sweet-alert.service';
-import { MantoInformeSemanalService } from 'src/app//services/manto-informe-semanal.service';
-import { MantoInformeSemanalConfService } from 'src/app/services/manto-informe-semanal-conf.service';
-import Chart from 'chart.js/auto';
-import { MantoInformeSemanalFirebaseService } from 'src/app/services/manto-informe-semanal-firebase.service';
-import Hora from '../../../model/hora.interface';
-import { MantoInformeSemanalJspdfService } from '../../../services/manto-informe-semanal-jspdf.service';
-import html2canvas from 'html2canvas';
+
+import { MantoInformeSemanalService } from '../../services/manto-informe-semanal.service';
+import { MantoInformeSemanalConfService } from '../../services/manto-informe-semanal-conf.service';
+import { MantoInformeSemanalFirebaseService } from '../../services/manto-informe-semanal-firebase.service';
+import { MantoInformeSemanalJspdfService } from '../../services/manto-informe-semanal-jspdf.service';
+
+import { Subscription } from 'rxjs';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
-import { Subscription } from 'rxjs';
+import html2canvas from 'html2canvas';
+
+import Chart from 'chart.js/auto';
+import Hora from '../../interfaces/hora.interface';
 
 @Component({
-  selector: 'app-informe-semanal-generacion',
-  templateUrl: './informe-semanal-generacion.component.html'
+  selector: 'app-mostrar-informe-semanal-transaccional',
+  templateUrl: './mostrar-informe-semanal-transaccional.component.html',
 })
-export class InformeSemanalGeneracionComponent implements OnInit {
+export class MostrarInformeSemanalTransaccionalComponent implements OnInit {
   jsonArrayHoras = [];
-  yearInforme;
-  monthInforme;
-  monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
-  utilizadas = 0;
-  disponibles = 0;
-  excedidas = 0;
-
-  detalleExcel = [];
-  flagExcel = false;
-
+  horas: Hora[];
   totales = [];
   sumas = [];
 
-  barras = [];
-
-  horas: Hora[];
-  public chart: any;
-  public chartBarra: any;
+  yearInforme: Number;
+  monthInforme: Number;
+  monthNames: string[] = this.mantoInformeSemanalConfService.getMonthNames();
+ 
+  detalleExcel = [];
+  flagExcel: Boolean = false;
 
   subscription: Subscription;
 
+  public chart: Chart<"pie", any[], string>;
+  public chartBarra: Chart;
+  
+  barras = [];
+
+  //tabla con el detalle de horas consumidas
+  tabla = [];
+  tablaTotal = 0;
+
   @ViewChild('MyChart', {static:false}) el!: ElementRef;
-  @ViewChild('MyChartBarra', {static:false}) elBarra!: ElementRef;
   @ViewChild('tablaConsumoTotal', {static:false}) elTabla!: ElementRef;
-
+  @ViewChild('MyChartBarra', {static:false}) elBarra!: ElementRef;
+  
   constructor(
-              private mantoInformeSemanalService: MantoInformeSemanalService, 
-              private sweetAlerService: SweetAlertService,
-              public mantoInformeSemanalConfService: MantoInformeSemanalConfService,
-              public mantoInformeSemanalFirebaseService: MantoInformeSemanalFirebaseService,
-              public pdfService: MantoInformeSemanalJspdfService
+    private mantoInformeSemanalService: MantoInformeSemanalService, 
+    public mantoInformeSemanalConfService: MantoInformeSemanalConfService,
+    public mantoInformeSemanalFirebaseService: MantoInformeSemanalFirebaseService,
+    public pdfService: MantoInformeSemanalJspdfService
   ) {
-
     for (let i = 1; i <= 12; i++) {
       this.totales[i] = [];
     }
 
-    this.detalleExcel = [];
-
-    this.jsonArrayHoras = this.mantoInformeSemanalService.getJsonDataMantoInformeSemanal();
-    
-    this.redondear();
-
-    this.getDetalleExcel();
-   
     let fechaInforme = this.mantoInformeSemanalService.getFechaInforme();
     this.yearInforme = fechaInforme.slice(0,4);
     this.monthInforme = fechaInforme.slice(5,7);
+
+    this.jsonArrayHoras = this.mantoInformeSemanalService.getJsonDataMantoInformeSemanal();
+
+    this.redondear();
+    this.getDetalleExcel();
 
     //gráfico de barras
     this.barras['GEST'] = 0;
@@ -76,97 +73,112 @@ export class InformeSemanalGeneracionComponent implements OnInit {
     this.barras['PRB'] = 0;
 
     this.jsonArrayHoras.forEach(element => {
+      let horas = Number(element.horas);
+
       if(element.lineaDeServicio == "Incidentes") {
-        this.barras['INC'] += Number(element.horas);
+        this.barras['INC'] += horas;
       } else if(element.lineaDeServicio == "Problemas") {
-        this.barras['PRB'] += Number(element.horas);
+        this.barras['PRB'] += horas;
       } else if(element.lineaDeServicio == "Evolutivo Menor") {
-        this.barras['MJR'] += Number(element.horas);
+        this.barras['MJR'] += horas;
       } else if(element.lineaDeServicio == "Soporte") {
         if(element.bloque == 'Gestión'){
-          this.barras['GEST'] += Number(element.horas);
+          this.barras['GEST'] += horas;
         } else {
-          this.barras['SPT'] += Number(element.horas);
+          this.barras['SPT'] += horas;
         }
-      }
+      }      
     });
 
-    /* this.barras['GEST'] = Math.round(this.barras['GEST']);
-    this.barras['INC'] = Math.round(this.barras['INC']);
-    this.barras['MJR'] = Math.round(this.barras['MJR']);
-    this.barras['SPT'] = Math.round(this.barras['SPT']);
-    this.barras['PRB'] = Math.round(this.barras['PRB']); */
+    this.tabla.push(['Gestión', this.barras['GEST']]);
+    this.tabla.push(['Incidentes', this.barras['INC']]);
+    this.tabla.push(['Mejoras', this.barras['MJR']]);
+    this.tabla.push(['Soportes', this.barras['SPT']]);
+    this.tabla.push(['Problemas', this.barras['PRB']]);
+    
+    this.tablaTotal = this.barras['GEST'] 
+                      + this.barras['INC']
+                      + this.barras['MJR']
+                      + this.barras['SPT']
+                      + this.barras['PRB'];
 
-    this.barras['GEST'] = this.barras['GEST'];
-    this.barras['INC'] = this.barras['INC'];
-    this.barras['MJR'] = this.barras['MJR'];
-    this.barras['SPT'] = this.barras['SPT'];
-    this.barras['PRB'] = this.barras['PRB'];
+    this.tabla.push(['Total', this.tablaTotal]);
   }
 
   ngOnInit(): void {
-    this.subscription = this.mantoInformeSemanalFirebaseService.getHoras("transaccional").subscribe(MantoHoras => {
-      this.horas = MantoHoras;
-      this.mantoInformeSemanalConfService.setDataOriginal(this.horas, "transaccional");
-      
-      //obtenemos las horas propuestas, utilizadas, disponibles y excedidas para cada mes
-      //antes del mes del informe
+    this.subscription = this.mantoInformeSemanalFirebaseService.getHoras('MantoHorasT').subscribe(MantoHorasT => {
+    
+      let horaTemp: Hora;
+      this.mantoInformeSemanalConfService.setDataOriginal(MantoHorasT, 'transaccional');
+
+      //obtenemos las horas para cada mes
+
+      // ***********************************
+      //antes del mes del informe 
       for (let i = 1; i < Number(this.monthInforme); i++) {
         this.totales[i] = [];
 
-        //propuestas
-        this.totales[i]['propuestas'] = this.mantoInformeSemanalConfService.getHorasPropuestasValor(this.yearInforme, i, "transaccional");
-
-        //utilizadas
-        this.totales[i]['utilizadas'] = this.mantoInformeSemanalConfService.getHorasUtilizadasValor(Number(this.yearInforme), i, "transaccional");
+        horaTemp = this.mantoInformeSemanalConfService.getHora(this.yearInforme, i, 'transaccional');
         
+        this.totales[i]['utilizadas'] = horaTemp.utilizadas;
+        this.totales[i]['propuestas'] = horaTemp.propuestas;
+
         //saldo
         let saldoAnterior = 0;
         if(i != 1){
           saldoAnterior = this.totales[i-1]['saldoAcumulado']
         }
-        this.totales[i]['saldoMensual'] = this.totales[i]['propuestas'] - this.totales[i]['utilizadas'];
+        this.totales[i]['saldoMensual'] = horaTemp.propuestas - horaTemp.utilizadas;
         this.totales[i]['saldoAcumulado'] = this.totales[i]['saldoMensual'] + saldoAnterior;
+        
       }
 
-      // *********************
+      // ***********************************
       //mes del informe
       let mesActual = Number(this.monthInforme);
+
       this.totales[mesActual] = [];
       
       ///propuestas
-      this.totales[mesActual]['propuestas'] = this.mantoInformeSemanalConfService.getHorasPropuestasValor(this.yearInforme, Number(this.monthInforme), "transaccional");
+      this.totales[mesActual]['propuestas'] = this.mantoInformeSemanalConfService.getHora(this.yearInforme, Number(this.monthInforme), 'transaccional').propuestas;
       
       //utilizadas
       this.totales[mesActual]['utilizadas'] = 0;
       this.jsonArrayHoras.forEach(element => {
         this.totales[mesActual]['utilizadas'] += Number(element.horas);
       });
-      //this.totales[Number(this.monthInforme)]['utilizadas'] = Math.round(this.totales[Number(this.monthInforme)]['utilizadas']);
       this.totales[mesActual]['utilizadas'] = this.totales[mesActual]['utilizadas'];
       
       //saldo
       let saldoAnterior = 0;
       if(mesActual != 1){
-        saldoAnterior = this.totales[mesActual-1]['saldoAcumulado']
+        saldoAnterior = this.totales[mesActual - 1]['saldoAcumulado'];
       }
       this.totales[mesActual]['saldoMensual'] = this.totales[mesActual]['propuestas'] - this.totales[mesActual]['utilizadas'];
       this.totales[mesActual]['saldoAcumulado'] = this.totales[mesActual]['saldoMensual'] + saldoAnterior;
-    
-      //***********************
+      
+
+      //agregamos la ultima columna a la tabla explicativa
+      let propuestas = this.totales[mesActual]['propuestas'];
+
+      this.tabla.forEach(element => {
+        element[2] = Math.round(100 * element[1] / propuestas) + '%';
+      });
+
+
+      //*************************************
       //después del mes del informe
+      
       for (let i = Number(this.monthInforme)+1; i <= 12; i++) {
         this.totales[i] = [];
-        //propuestas
-        this.totales[i]['propuestas'] = this.mantoInformeSemanalConfService.getHorasPropuestasValor(this.yearInforme, i, "transaccional");
+        horaTemp = this.mantoInformeSemanalConfService.getHora(this.yearInforme, i, 'transaccional');
 
-        //utilizadas
-        //disponibles
-        //excedidas
+        this.totales[i]['propuestas'] = horaTemp.propuestas;
       }
 
-      this.sumas['propuestas'] = 0;
       this.sumas['utilizadas'] = 0;
+      this.sumas['propuestas'] = 0;
+      this.sumas['saldo'] = 0;
       
       this.getSuma();
       this.createChart();
@@ -175,10 +187,13 @@ export class InformeSemanalGeneracionComponent implements OnInit {
 
   ngOnDestroy(){
     this.subscription.unsubscribe;
-  }  
+  }
 
   //asigna las variables correspondientes a la suma de todos los meses
   getSuma(){
+    this.sumas['utilizadas'] = 0;
+    this.sumas['propuestas'] = 0;
+
     for (let i = 1; i <= 12; i++) {
       //utilizadas
       if(this.totales[i]['utilizadas']) {
@@ -189,42 +204,52 @@ export class InformeSemanalGeneracionComponent implements OnInit {
       if(this.totales[i]['propuestas']) {
         this.sumas['propuestas'] += this.totales[i]['propuestas'];
       }
-
-      //disponibles
-      if(this.totales[i]['disponibles']) {
-        this.sumas['disponibles'] += Number(this.totales[i]['disponibles']);
-      }
-
-      //excedidas
-      if(this.totales[i]['excedidas']) {
-        this.sumas['excedidas'] += this.totales[i]['excedidas'];
-      }
     }
+  }
 
-    this.sumas['propuestas'] = this.sumas['propuestas'];
-    this.sumas['utilizadas'] = this.sumas['utilizadas'];
-    this.sumas['disponibles'] = this.sumas['disponibles'];
-    this.sumas['excedidas'] = this.sumas['excedidas'];
+  //asigna al arreglo detalleExcel para obtener los detalles a generar en un excel
+  getDetalleExcel(){
+    this.detalleExcel = [];
+
+    this.jsonArrayHoras.forEach(element => {
+      let index = this.detalleExcel.findIndex(ars => ars['numeroArs'] === element.numeroArs);
+      
+      if(index == -1){
+        //creamos un ars para agregar al arreglo detalleExcel
+        let arsExcel = {
+          numeroArs: element.numeroArs,
+          horas: (Number(element.horas)),
+          descripcion: element.descripcion,
+          lineaDeServicio: element.lineaDeServicio,
+          aplicacion: element.aplicacion,
+          solicitante: element.solicitante,
+          bloque: element.bloque
+        }
+        this.detalleExcel.push(arsExcel);
+      } else {
+        let horasSumar = Number(this.detalleExcel[index].horas);
+        this.detalleExcel[index].horas = (Number(element.horas)) + horasSumar;
+      }
+    });
   }
 
   //crea el gráfico que se muestra
   createChart(){
-    let mesInforme = Number(this.monthInforme);
-    let disponibles = this.totales[mesInforme]['propuestas'] - this.totales[mesInforme]['utilizadas']; 
+    let disponibles = this.totales[Number(this.monthInforme)]['propuestas'] - this.totales[Number(this.monthInforme)]['utilizadas'];
     if(disponibles < 0) disponibles = 0;
-    
+
     this.chart = new Chart("MyChart", {
       type: 'pie',
 
       data: {
         labels: [
-                  'HH Utilizadas '+ this.totales[mesInforme]['utilizadas'], 
+                  'HH Utilizadas '+ this.totales[Number(this.monthInforme)]['utilizadas'], 
                   'HH Disponibles ' + disponibles
                 ], 
 	      
         datasets: [
           {
-              data: [this.totales[mesInforme]['utilizadas'], disponibles],
+              data: [this.totales[Number(this.monthInforme)]['utilizadas'], disponibles],
               backgroundColor: [
                 'rgb(143,162,212)',
                 'rgb(59,100,173)'
@@ -251,8 +276,8 @@ export class InformeSemanalGeneracionComponent implements OnInit {
                 ], 
 	      
         datasets: [
-        {
-            label: "label",
+          {
+            label: "",
               data: [
                 this.barras['GEST'],
                 this.barras['INC'],
@@ -274,55 +299,13 @@ export class InformeSemanalGeneracionComponent implements OnInit {
             display: false,
           }
         }
-
       },
     });
+
+    //this.generateHorizontalBars();
   }
 
-  generaNuevoPDF(){
-    html2canvas(this.el.nativeElement).then((canvas) => {
-      const imgData = canvas.toDataURL('img/jpg');
-
-      html2canvas(this.elBarra.nativeElement).then((canvas) => {
-        const barraData = canvas.toDataURL('img/jpg');
-
-          html2canvas(this.elTabla.nativeElement).then((canvas) => {
-            const tblData = canvas.toDataURL('img/jpg');
-      
-            this.pdfService.generaPDF(this.monthInforme, this.yearInforme, imgData, tblData, barraData);
-          });
-        });
-    });
-
-  }
-
-    //asigna al arreglo detalleExcel para obtener los detalles a generar en un excel
-    getDetalleExcel(){
-      this.detalleExcel = [];
-
-      this.jsonArrayHoras.forEach(element => {
-        let index = this.detalleExcel.findIndex( ars  => ars['numeroArs'] === element.numeroArs);
-
-        if(index == -1){
-          //creamos un ars para agregar al arreglo detalleExcel
-          let arsExcel = {
-            numeroArs: element.numeroArs,
-            horas: (Number(element.horas)),
-            descripcion: element.descripcion,
-            lineaDeServicio: element.lineaDeServicio,
-            aplicacion: element.aplicacion,
-            solicitante: element.solicitante,
-            bloque: element.bloque
-          }
-          this.detalleExcel.push(arsExcel);
-        } else {
-          let horasSumar = Number(this.detalleExcel[index].horas);
-          this.detalleExcel[index].horas = (Number(element.horas)) + horasSumar;
-        }
-      });
-    }
-
-    generateExcel(){
+  generateExcel(){
       let workbook = new Workbook();
       let worksheet = workbook.addWorksheet('Detalle');
       
@@ -331,7 +314,7 @@ export class InformeSemanalGeneracionComponent implements OnInit {
       worksheet.getColumn(2).width = 16;
       worksheet.getColumn(3).width = 20;
       worksheet.getColumn(4).width = 24;
-      worksheet.getColumn(5).width = 18;
+      worksheet.getColumn(5).width = 24;
        
       const headerCS = [
           'Descripción',
@@ -381,7 +364,7 @@ export class InformeSemanalGeneracionComponent implements OnInit {
         sumaIncurridas += Number(d['horas']);
         newRow = [
                 d['descripcion'], 
-                (d['horas']),
+                d['horas'],
                 d['lineaDeServicio'],
                 d['aplicacion'],
                 d['solicitante'],
@@ -390,15 +373,15 @@ export class InformeSemanalGeneracionComponent implements OnInit {
 
           worksheet.addRow(newRow);
         });
-   
-      /* let sumaRow = [
-        'Total', 
-        Math.round(sumaIncurridas),
-        '',
-        '',
-        ''
-      ]; */
 
+     
+      let mesActual = Number(this.monthInforme);
+      if(mesActual != 1){
+        //sumamos las horas anteriores
+        if(this.totales[mesActual]['anterior'] < 0){
+        }
+      }
+    
       let sumaRow = [
         'Total', 
         sumaIncurridas,
@@ -407,6 +390,7 @@ export class InformeSemanalGeneracionComponent implements OnInit {
         ''
       ];
 
+    //total
     let sumaRowCS = worksheet.addRow(sumaRow);
     sumaRowCS.eachCell((cell, number) => {
       cell.font = {
@@ -437,6 +421,28 @@ export class InformeSemanalGeneracionComponent implements OnInit {
       filename += '.xlsx';
   
       fs.saveAs(blob, filename);
+    });
+  }
+
+  generaNuevoPDF(){
+    html2canvas(this.el.nativeElement).then((canvas) => {
+      const imgData = canvas.toDataURL('img/jpg');
+
+      html2canvas(this.elBarra.nativeElement).then((canvas) => {
+        const barraData = canvas.toDataURL('img/jpg');
+
+          html2canvas(this.elTabla.nativeElement).then((canvas) => {
+            const tblData = canvas.toDataURL('img/jpg');
+
+            this.pdfService.generaPDFTransaccional(
+                this.monthInforme, 
+                this.yearInforme, 
+                imgData, 
+                tblData, 
+                barraData);
+                
+          });
+        });
     });
   }
 

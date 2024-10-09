@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import * as XLSX from 'xlsx';
-import { SweetAlertService } from '../../../services/sweet-alert.service';
-import { MantoInformeSemanalService } from 'src/app/services/manto-informe-semanal.service';
+import { SweetAlertService } from 'src/app/shared/services/sweet-alert.service';
+import { MantoInformeSemanalService } from '../../services/manto-informe-semanal.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-informe-semanal',
-  templateUrl: './informe-semanal.component.html'
+  selector: 'app-formulario-informe-semanal',
+  templateUrl: './formulario-informe-semanal.component.html',
+  styleUrls: ['./formulario-informe-semanal.component.css']
 })
-export class InformeSemanalComponent implements OnInit {
+export class FormularioInformeSemanalComponent implements OnInit {
   formulario: FormGroup;
   jsonDataHoras = null;
   
@@ -20,25 +21,25 @@ export class InformeSemanalComponent implements OnInit {
   fechaMax;
 
   constructor(
-              private mantoInformeSemanalService: MantoInformeSemanalService, 
-              private formBuilder: FormBuilder, 
-              private sweetAlerService: SweetAlertService,
-              private router: Router
-             ) { 
-                this.crearFormulario();
-        
-                let hoy = new Date();
-                const currentDate = hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0');  
-                this.fechaMin = '2015-01';
-                this.fechaMax = currentDate;
- 
-                this.formulario.controls['fecha'].setValue(currentDate);  
-                this.mantoInformeSemanalService.setFechaInforme(this.formulario.value.fecha);
-              }
+    private mantoInformeSemanalService: MantoInformeSemanalService, 
+    private formBuilder: FormBuilder, 
+    private sweetAlerService: SweetAlertService,
+    private router: Router
+   ) { 
+      this.crearFormulario();
+
+      let hoy = new Date();
+      const currentDate = hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0');  
+      this.fechaMin = '2015-01';
+      this.fechaMax = currentDate;
+
+      this.formulario.controls['fecha'].setValue(currentDate);  
+      this.mantoInformeSemanalService.setFechaInforme(this.formulario.value.fecha);
+    }
 
   ngOnInit(): void {
   }
-  
+
   //transforma la data a JSON
   uploadHoras(event) {
     if(!this.validarTipo(event)){
@@ -141,10 +142,6 @@ export class InformeSemanalComponent implements OnInit {
     });
 
     this.jsonDataHoras = jsonDataReqArray;
-
-    //console.log(jsonDataReqArray);
-    
-    //this.mantoInformeSemanalService.setJsonDataMantoInformeSemanal(jsonDataReqArray);
   }
 
   //genera el informe
@@ -175,7 +172,6 @@ export class InformeSemanalComponent implements OnInit {
           return;
         }
 
-        
         //se filtra por comercial o transaccional
         let arrayJSON = this.jsonDataHoras;
         if(this.formulario.value.tipo=='comercial'){
@@ -191,18 +187,18 @@ export class InformeSemanalComponent implements OnInit {
         this.mantoInformeSemanalService.setJsonDataMantoInformeSemanal(arrayJSON);
         this.mantoInformeSemanalService.setTipo(this.formulario.value.tipo);
         this.mantoInformeSemanalService.setFechaInforme(this.formulario.value.fecha);
-        
+
         this.sweetAlerService.mensajeOK('Informe semanal generado exitosamente').then(          
           resp => {
             if (resp.value) {
               //borramos campos que no se necesitan
               this.formulario.value.horas = null;
-
+              
               //se muestra un componente dependiendo el tipo
               if(this.formulario.value.tipo=='comercial'){
-                this.router.navigateByUrl('/manto-informe-semanal-generar-comercial');
+                this.router.navigateByUrl('/mantenimiento/informe-semanal/mostrar-comercial');
               } else if(this.formulario.value.tipo=='transaccional'){
-                this.router.navigateByUrl('/manto-informe-semanal-generar');
+                this.router.navigateByUrl('/mantenimiento/informe-semanal/mostrar-transaccional');
               }
             }
           }

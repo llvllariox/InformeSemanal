@@ -1,56 +1,53 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { SweetAlertService } from '../../../services/sweet-alert.service';
-import { MantoInformeSemanalService } from 'src/app/services/manto-informe-semanal.service';
-import { MantoInformeSemanalConfService } from 'src/app/services/manto-informe-semanal-conf.service';
-import { MantoInformeSemanalFirebaseService } from 'src/app/services/manto-informe-semanal-firebase.service';
-import { MantoInformeSemanalJspdfService } from '../../../services/manto-informe-semanal-jspdf.service';
+
+import { MantoInformeSemanalService } from '../../services/manto-informe-semanal.service';
+import { MantoInformeSemanalConfService } from '../../services/manto-informe-semanal-conf.service';
+import { MantoInformeSemanalFirebaseService } from '../../services/manto-informe-semanal-firebase.service';
+import { MantoInformeSemanalJspdfService } from '../../services/manto-informe-semanal-jspdf.service';
+
 import { Subscription } from 'rxjs';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import html2canvas from 'html2canvas';
-import HoraC from '../../../model/horaC.interface';
+
 import Chart from 'chart.js/auto';
+import Hora from '../../interfaces/hora.interface';
 
 @Component({
-  selector: 'app-informe-semanal-generacion-comercial',
-  templateUrl: './informe-semanal-generacion-comercial.component.html'
+  selector: 'app-mostrar-informe-semanal-comercial',
+  templateUrl: './mostrar-informe-semanal-comercial.component.html'
 })
-export class InformeSemanalGeneracionComercialComponent implements OnInit {
+export class MostrarInformeSemanalComercialComponent implements OnInit {
   jsonArrayHoras = [];
 
-  horas: HoraC[];
+  horas: Hora[];
   totales = [];
   sumas = [];
 
-  yearInforme;
-  monthInforme;
-  monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
+  yearInforme: Number;
+  monthInforme: Number;
+  monthNames: string[] = this.mantoInformeSemanalConfService.getMonthNames();
+ 
   detalleExcel = [];
-  flagExcel = false;
+  flagExcel: Boolean = false;
 
   subscription: Subscription;
 
-  horasUtilizadasOriginal = 0;
-  horasPropuestasOriginal = 0;
-
-  public chart: any;
-  public chartBarra: any;
-  public chartDetalles: any;
+  public chart: Chart<"pie", any[], string>;
+  public chartBarra: Chart;
+  public chartDetalles: Chart;
   barras = [];
 
+  //tabla con el detalle de horas consumidas
   tabla = [];
   tablaTotal = 0;
 
   @ViewChild('MyChart', {static:false}) el!: ElementRef;
   @ViewChild('tablaConsumoTotal', {static:false}) elTabla!: ElementRef;
   @ViewChild('MyChartBarra', {static:false}) elBarra!: ElementRef;
-  //@ViewChild('chartDetalles', {static:false}) elTablaDetalles!: ElementRef;
   
   constructor(
     private mantoInformeSemanalService: MantoInformeSemanalService, 
-    private sweetAlertService: SweetAlertService,
     public mantoInformeSemanalConfService: MantoInformeSemanalConfService,
     public mantoInformeSemanalFirebaseService: MantoInformeSemanalFirebaseService,
     public pdfService: MantoInformeSemanalJspdfService
@@ -66,7 +63,6 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
     this.jsonArrayHoras = this.mantoInformeSemanalService.getJsonDataMantoInformeSemanal();
 
     this.redondear();
-
     this.getDetalleExcel();
 
     //gráfico de barras
@@ -107,7 +103,6 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       }
     });
 
-
     this.tabla.push(['Gestión', this.barras['GEST']]);
     this.tabla.push(['Incidentes', this.barras['INC']]);
     this.tabla.push(['Mejoras', this.barras['MJR']]);
@@ -126,12 +121,10 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscription = this.mantoInformeSemanalFirebaseService.getHorasC().subscribe(MantoHorasC => {
-      console.log("init generar comercial");
-
-      let horaCTemp;
-      this.horas = MantoHorasC;
-      this.mantoInformeSemanalConfService.setDataCOriginal(this.horas);
+    this.subscription = this.mantoInformeSemanalFirebaseService.getHoras('MantoHorasC').subscribe(MantoHorasC => {
+    
+      let horaTemp: Hora;
+      this.mantoInformeSemanalConfService.setDataOriginal(MantoHorasC, 'comercial');
 
       //obtenemos las horas para cada mes
 
@@ -140,20 +133,17 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       for (let i = 1; i < Number(this.monthInforme); i++) {
         this.totales[i] = [];
 
-        horaCTemp = this.mantoInformeSemanalConfService.getHoraC(this.yearInforme, i);
+        horaTemp = this.mantoInformeSemanalConfService.getHora(this.yearInforme, i, 'comercial');
         
-        //utilizadas
-        this.totales[i]['utilizadas'] = horaCTemp.utilizadas;
-
-        //propuestas
-        this.totales[i]['propuestas'] = horaCTemp.propuestas;
+        this.totales[i]['utilizadas'] = horaTemp.utilizadas;
+        this.totales[i]['propuestas'] = horaTemp.propuestas;
 
         //saldo
         let saldoAnterior = 0;
         if(i != 1){
           saldoAnterior = this.totales[i-1]['saldoAcumulado']
         }
-        this.totales[i]['saldoMensual'] = horaCTemp.propuestas - horaCTemp.utilizadas;
+        this.totales[i]['saldoMensual'] = horaTemp.propuestas - horaTemp.utilizadas;
         this.totales[i]['saldoAcumulado'] = this.totales[i]['saldoMensual'] + saldoAnterior;
         
       }
@@ -166,7 +156,6 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       
       ///propuestas
       this.totales[mesActual]['propuestas'] = this.mantoInformeSemanalConfService.getHoraC(this.yearInforme, Number(this.monthInforme)).propuestas;
-      this.horasPropuestasOriginal = this.totales[mesActual]['propuestas'];
       
       //utilizadas
       this.totales[mesActual]['utilizadas'] = 0;
@@ -197,10 +186,9 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       
       for (let i = Number(this.monthInforme)+1; i <= 12; i++) {
         this.totales[i] = [];
-        horaCTemp = this.mantoInformeSemanalConfService.getHoraC(this.yearInforme, i);
+        horaTemp = this.mantoInformeSemanalConfService.getHora(this.yearInforme, i, 'comercial');
 
-        //propuestas
-        this.totales[i]['propuestas'] = horaCTemp.propuestas;
+        this.totales[i]['propuestas'] = horaTemp.propuestas;
       }
 
       this.sumas['utilizadas'] = 0;
@@ -231,10 +219,7 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
       if(this.totales[i]['propuestas']) {
         this.sumas['propuestas'] += this.totales[i]['propuestas'];
       }
-   }
-
-    this.sumas['utilizadas'] = (this.sumas['utilizadas']);
-    this.sumas['propuestas'] = (this.sumas['propuestas']);
+    }
   }
 
   //asigna al arreglo detalleExcel para obtener los detalles a generar en un excel
@@ -574,41 +559,6 @@ export class InformeSemanalGeneracionComercialComponent implements OnInit {
           });
         });
     });
-  }
-
-  cambioActual(){
-    //let inputAnterioresValue = (<HTMLInputElement>document.getElementById('inputAnterioresActual')).value;
-
-    
-      //(<HTMLInputElement>document.getElementById('inputUtilizadasActual')).value = (Number(this.horasUtilizadasOriginal) - Number(inputAnterioresValue)).toString();
-      //(<HTMLInputElement>document.getElementById('inputDiferenciaActual')).value = (Number(this.horasPropuestasOriginal) - Number((<HTMLInputElement>document.getElementById('inputUtilizadasActual')).value)).toString();
- 
-     this.totales[Number(this.monthInforme)]['anteriores'] = Number((<HTMLInputElement>document.getElementById('inputAnterioresActual')).value);
-     this.totales[Number(this.monthInforme)]['utilizadas'] = Number(this.horasUtilizadasOriginal) - this.totales[Number(this.monthInforme)]['anteriores'];
-     this.totales[Number(this.monthInforme)]['diferencia'] = this.totales[Number(this.monthInforme)]['propuestas'] - this.totales[Number(this.monthInforme)]['utilizadas'];
-
-     /*  //sumamos todas las utilizadas para volver a calcular el total
-      let total = 0;
-      for (let i = 1; i<=12; i++) {
-        if(this.totales[i]['utilizadas']) total +=(Number(this.totales[i]['utilizadas']));
-      } */
-      
-      this.getSuma();
-
-      
-
-      //(<HTMLInputElement>document.getElementById('totalUtilizadas')).innerHTML = total.toString();      
-
-      //(<HTMLInputElement>document.getElementById('totalAnteriores')).innerHTML = total.toString();      
-      //(<HTMLInputElement>document.getElementById('totalDiferencia')).innerHTML = total.toString();      
-      
-      
-
-      //se destruyen los canvas
-      this.chart.destroy();
-      this.chartBarra.destroy();
-
-      this.createChart();
   }
 
   //aplica Math.round a this.jsonArrayHoras.horas
