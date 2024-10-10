@@ -5,7 +5,7 @@ import { MostrarValidarHHComponent } from './components/mostrar/mostrar.componen
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'formulario',
     component: FormularioValidarHHComponent,
   },
   {

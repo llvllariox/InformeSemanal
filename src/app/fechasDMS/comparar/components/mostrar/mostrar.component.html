@@ -32,12 +32,12 @@
                 <td>{{ ars.horasPlanificadas }}</td>
                 <td>{{ ars.horasIncurridas }}</td>
                 <td>{{ ars.etc }}</td>
-                <td>{{ ars.inicioComprometido }}</td>
-                <td>{{ ars.inicioPlanificado }}</td>
-                <td>{{ ars.inicioReal }}</td>
-                <td>{{ ars.finComprometido }}</td>
-                <td>{{ ars.finPlanificado }}</td>
-                <td>{{ ars.finReal }}</td>
+                <td>{{ ars.inicioComprometido | fechaDMS }}</td>
+                <td>{{ ars.inicioPlanificado | fechaDMS }}</td>
+                <td>{{ ars.inicioReal | fechaDMS }}</td>
+                <td>{{ ars.finComprometido | fechaDMS }}</td>
+                <td>{{ ars.finPlanificado | fechaDMS }}</td>
+                <td>{{ ars.finReal | fechaDMS }}</td>
                 <td>{{ ars.grupoDeTrabajo }}</td>
             </tr>
         </tbody>

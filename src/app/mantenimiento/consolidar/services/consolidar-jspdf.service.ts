@@ -22,6 +22,7 @@ export class ConsolidarJspdfService {
             data: Number[][],
             imgBarrasHoras,
             imgBarrasPorcentaje,
+            imgTortaPorcentaje,
             imgHorasMes,
             imgHorasMesPorArea
   ){
@@ -29,36 +30,72 @@ export class ConsolidarJspdfService {
     //se prepara la data
     let dataResumen = [];
 
-    this.monthNames.forEach(mes => {
+    if(tipo ==  'Transaccional'){
+      this.monthNames.forEach(mes => {
+        dataResumen.push(
+            [
+              mes,
+              data[mes]['Soporte'],
+              data[mes]['Incidente'],
+              data[mes]['Problema'],
+              data[mes]['Gestion'],
+              data[mes]['Mantenimiento'],
+              data[mes]['Porcentaje'], 
+              data[mes]['HHConsumidas'],
+              data[mes]['Presupuesto']
+            ]
+          );      
+      });
+  
       dataResumen.push(
-          [
-            mes,
-            data[mes]['Soporte'],
-            data[mes]['Incidente'],
-            data[mes]['Problema'],
-            data[mes]['Gestion'],
-            data[mes]['Mantenimiento'],
-            data[mes]['GLD'],
-            data[mes]['Porcentaje'], 
-            data[mes]['HHConsumidas'],
-            data[mes]['Presupuesto']
-          ]
-        );      
-    });
-    dataResumen.push(
-      [
-        'Total general',
-        data['total']['Soporte'],
-        data['total']['Incidente'],
-        data['total']['Problema'],
-        data['total']['Gestion'],
-        data['total']['Mantenimiento'],
-        data['total']['GLD'],
-        data['total']['Porcentaje'], 
-        data['total']['HHConsumidas'],
-        data['total']['Presupuesto']
-      ]
-    );
+        [
+          'Total general',
+          data['total']['Soporte'],
+          data['total']['Incidente'],
+          data['total']['Problema'],
+          data['total']['Gestion'],
+          data['total']['Mantenimiento'],
+          data['total']['Porcentaje'], 
+          data['total']['HHConsumidas'],
+          data['total']['Presupuesto']
+        ]
+      );
+    }
+    else {
+
+      this.monthNames.forEach(mes => {
+        dataResumen.push(
+            [
+              mes,
+              data[mes]['Soporte'],
+              data[mes]['Incidente'],
+              data[mes]['Problema'],
+              data[mes]['Gestion'],
+              data[mes]['Mantenimiento'],
+              data[mes]['GLD'],
+              data[mes]['Porcentaje'], 
+              data[mes]['HHConsumidas'],
+              data[mes]['Presupuesto']
+            ]
+          );      
+      });
+  
+      dataResumen.push(
+        [
+          'Total general',
+          data['total']['Soporte'],
+          data['total']['Incidente'],
+          data['total']['Problema'],
+          data['total']['Gestion'],
+          data['total']['Mantenimiento'],
+          data['total']['GLD'],
+          data['total']['Porcentaje'], 
+          data['total']['HHConsumidas'],
+          data['total']['Presupuesto']
+        ]
+      );
+
+    }
     
     return new Promise((resolve, reject) => {
       const doc = new jsPDF({
@@ -79,6 +116,7 @@ export class ConsolidarJspdfService {
 
       this.agregarGrafico(doc, 'Horas utilizadas por área de servicio', imgBarrasHoras);
       this.agregarGrafico(doc, '% Horas utilizadas por área de servicio', imgBarrasPorcentaje);
+      this.agregarGrafico(doc, '% Horas utilizadas por área de servicio', imgTortaPorcentaje);
       this.agregarGrafico(doc, 'Horas / mes', imgHorasMes);
       this.agregarGrafico(doc, 'Horas / mes por área de servicio', imgHorasMesPorArea);
 
@@ -238,12 +276,13 @@ export class ConsolidarJspdfService {
     doc.text(10, 20, nombre);
     
     //grafico
-    doc.addImage(canvas, 'PNG', 6, 24, 120, 100);
+    doc.addImage(canvas, 'PNG', 6, 24, 122, 104);
   }
 
   // ------------------
 
   //genera un archivo PDF con la data de ARS
+  
   generaARSPDF(
     comercial,
     transaccional,

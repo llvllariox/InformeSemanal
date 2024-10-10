@@ -31,31 +31,37 @@ export class MostrarConsolidarComponent implements OnInit {
 
   public barrasHoras: Chart;
   public barrasPorcentaje: Chart;
+  public tortaPorcentaje: Chart;
   public horasMes: Chart;
   public horasMesPorArea: Chart;
 
   public barrasHorasComercial: Chart;
   public barrasPorcentajeComercial: Chart;
+  public tortaPorcentajeComercial: Chart;
   public horasMesComercial: Chart;
   public horasMesPorAreaComercial: Chart;
 
   public barrasHorasTransaccional: Chart;
   public barrasPorcentajeTransaccional: Chart;
+  public tortaPorcentajeTransaccional: Chart;
   public horasMesTransaccional: Chart;
   public horasMesPorAreaTransaccional: Chart;
 
   @ViewChild('barrasHoras', {static:false}) eBarrasHoras!: ElementRef;
   @ViewChild('barrasPorcentaje', {static:false}) eBarrasPorcentaje!: ElementRef;
+  @ViewChild('tortaPorcentaje', {static:false}) eTortaPorcentaje!: ElementRef;
   @ViewChild('horasMes', {static:false}) eHorasMes!: ElementRef;
   @ViewChild('horasMesPorArea', {static:false}) eHorasMesPorArea!: ElementRef;
 
   @ViewChild('barrasHorasComercial', {static:false}) eBarrasHorasComercial!: ElementRef;
   @ViewChild('barrasPorcentajeComercial', {static:false}) eBarrasPorcentajeComercial!: ElementRef;
+  @ViewChild('tortaPorcentajeComercial', {static:false}) eTortaPorcentajeComercial!: ElementRef;
   @ViewChild('horasMesComercial', {static:false}) eHorasMesComercial!: ElementRef;
   @ViewChild('horasMesPorAreaComercial', {static:false}) eHorasMesPorAreaComercial!: ElementRef;
 
   @ViewChild('barrasHorasTransaccional', {static:false}) eBarrasHorasTransaccional!: ElementRef;
   @ViewChild('barrasPorcentajeTransaccional', {static:false}) eBarrasPorcentajeTransaccional!: ElementRef;
+  @ViewChild('tortaPorcentajeTransaccional', {static:false}) eTortaPorcentajeTransaccional!: ElementRef;
   @ViewChild('horasMesTransaccional', {static:false}) eHorasMesTransaccional!: ElementRef;
   @ViewChild('horasMesPorAreaTransaccional', {static:false}) eHorasMesPorAreaTransaccional!: ElementRef;
  
@@ -97,19 +103,6 @@ export class MostrarConsolidarComponent implements OnInit {
       //console.log(this.jsonDataHorasComercial);
 
       // Presupuesto
-      this.detalles['Enero']['Presupuesto'] = 1479;
-      this.detalles['Febrero']['Presupuesto'] = 1479;
-      this.detalles['Marzo']['Presupuesto'] = 1479;
-      this.detalles['Abril']['Presupuesto'] = 1479;
-      this.detalles['Mayo']['Presupuesto'] = 1479;
-      this.detalles['Junio']['Presupuesto'] = 1479;
-      this.detalles['Julio']['Presupuesto'] = 1479;
-      this.detalles['Agosto']['Presupuesto'] = 1479;
-      this.detalles['Septiembre']['Presupuesto'] = 1479;
-      this.detalles['Octubre']['Presupuesto'] = 1479;
-      this.detalles['Noviembre']['Presupuesto'] = 1479;
-      this.detalles['Diciembre']['Presupuesto'] = 1479;
-
       this.jsonDataHorasComercial['Enero']['Presupuesto'] = 773;
       this.jsonDataHorasComercial['Febrero']['Presupuesto'] = 773;
       this.jsonDataHorasComercial['Marzo']['Presupuesto'] = 773;
@@ -135,6 +128,10 @@ export class MostrarConsolidarComponent implements OnInit {
       this.jsonDataHorasTransaccional['Octubre']['Presupuesto'] = 706;
       this.jsonDataHorasTransaccional['Noviembre']['Presupuesto'] = 706;
       this.jsonDataHorasTransaccional['Diciembre']['Presupuesto'] = 706;
+
+      this.monthNames.forEach(mes => {
+        this.detalles[mes]['Presupuesto'] = this.jsonDataHorasComercial[mes]['Presupuesto'] + this.jsonDataHorasTransaccional[mes]['Presupuesto'];
+      });
 
       this.sumarLineaDeServicio('');
       this.sumarLineaDeServicio('Comercial');
@@ -163,6 +160,10 @@ export class MostrarConsolidarComponent implements OnInit {
     this.porcentajeHorasUtilizadasPorAreaDeServicio('');
     this.porcentajeHorasUtilizadasPorAreaDeServicio('Comercial');
     this.porcentajeHorasUtilizadasPorAreaDeServicio('Transaccional');
+
+    this.porcentajeTortaHorasUtilizadasPorAreaDeServicio('');
+    this.porcentajeTortaHorasUtilizadasPorAreaDeServicio('Comercial');
+    this.porcentajeTortaHorasUtilizadasPorAreaDeServicio('Transaccional');
 
     this.horasPorMes('');
     this.horasPorMes('Comercial');
@@ -230,9 +231,13 @@ export class MostrarConsolidarComponent implements OnInit {
 
         horas = Number(element.horasIncurridas);
 
-      
         if(element.bloque == "Gestión LD") {
-          incidente += horas;
+          //se divide en 4 y se suma a las 4 lineas de servicio
+          let division = Math.round(horas / 4);
+          incidente += division;
+          mantenimiento += division;
+          soporte += division;
+          problema += division;
         } else if(element.bloque == "VS - Transversales") {
           gld += horas;
         } else {
@@ -240,7 +245,7 @@ export class MostrarConsolidarComponent implements OnInit {
             incidente += horas;
           } else if(element.lineaDeServicio == "Problemas") {
             problema += horas;
-          } else if(element.lineaDeServicio == "Evolutivo Menor") {
+          } else if(element.lineaDeServicio == "Evolutivo Menor") {  
             mantenimiento += horas;
           } else if(element.lineaDeServicio == 'Soporte'){
             if(element.bloque == 'Gestión'){
@@ -395,9 +400,15 @@ export class MostrarConsolidarComponent implements OnInit {
             display: false,
           },
           legend: {
-            display: false,
-            
+            display: false, 
           }
+        },
+        scales: {
+          y: {
+            ticks: {
+              stepSize: 200
+            } 
+          },
         }
       },
     });
@@ -435,13 +446,10 @@ export class MostrarConsolidarComponent implements OnInit {
     data['porcentaje']['Mantenimiento'] = data['total']['Mantenimiento'] / data['total']['HHConsumidas'] * 100;
     data['porcentaje']['Mantenimiento'] = Number.parseInt(data['porcentaje']['Mantenimiento']);
 
-    if(tipo == 'Transaccional'){
-
-    } else {
+    if(tipo != 'Transaccional'){
       data['porcentaje']['GLD'] = data['total']['GLD'] / data['total']['HHConsumidas'] * 100;
       data['porcentaje']['GLD'] = Number.parseInt(data['porcentaje']['GLD']);
-    }
-
+    } 
 
     let labels;
     let dataset;
@@ -510,6 +518,77 @@ export class MostrarConsolidarComponent implements OnInit {
     });
   }
 
+  //grafico de torta Horas utilizadas por área de servicio
+  porcentajeTortaHorasUtilizadasPorAreaDeServicio(tipo: string): void {
+    let data;
+    let variable;
+
+    if(tipo == ''){
+      data = this.detalles;
+      variable = this.tortaPorcentaje;
+    } else if(tipo == 'Comercial'){
+      data = this.jsonDataHorasComercial;
+      variable = this.tortaPorcentajeComercial;
+    } else if(tipo == 'Transaccional'){
+      data = this.jsonDataHorasTransaccional;
+      variable = this.tortaPorcentajeTransaccional;
+    }
+
+    let labels = [];
+    let datasets = [];
+    let backgroundColors = [];
+
+    labels = [
+      'Soporte ' + data['porcentaje']['Soporte'] + '%',
+      'Incidente ' + data['porcentaje']['Incidente'] + '%',
+      'Problema ' + data['porcentaje']['Problema'] + '%',
+      'Gestion ' + data['porcentaje']['Gestion'] + '%',
+      'Mantenimiento ' + data['porcentaje']['Mantenimiento'] + '%'
+    ];
+
+    datasets = [
+      data['porcentaje']['Soporte'],
+      data['porcentaje']['Incidente'],
+      data['porcentaje']['Problema'],
+      data['porcentaje']['Gestion'],
+      data['porcentaje']['Mantenimiento']
+    ];
+
+    backgroundColors = [
+      'rgb(14, 68, 111)',
+      'rgb(65, 96, 134)',
+      'rgb(103, 125, 157)',
+      'rgb(140, 156, 181)',
+      'rgb(178, 188, 205)'
+    ]
+
+    if(tipo == 'Comercial' || tipo==''){
+      labels.push('Gestión LD ' + data['porcentaje']['GLD'] + '%');
+      datasets.push(data['porcentaje']['GLD']);
+      backgroundColors.push('rgb(216, 221, 230)');
+    }
+
+    //gráfico de torta
+    variable = new Chart("tortaPorcentaje" + tipo, {
+      type: 'pie',
+
+      data: {
+        labels: labels, 
+	      
+        datasets: [
+          {
+              data: datasets,
+              backgroundColor: backgroundColors, 
+          },
+        ]
+      },
+      options: {
+        responsive: true,
+      },
+    });
+
+  }
+
   //grafico Horas / mes
   horasPorMes(tipo: string): void{
     let data;
@@ -570,6 +649,13 @@ export class MostrarConsolidarComponent implements OnInit {
             display: false,
             text: 'Horas / mes'
           }
+        },
+        scales: {
+          y: {
+            ticks: {
+              stepSize: 200
+            } 
+          },
         }
       },
     });
@@ -618,31 +704,31 @@ export class MostrarConsolidarComponent implements OnInit {
         label: 'Soporte',
         data: datasetSoporte,
         borderColor: '#000000',
-        backgroundColor: '#4287f5',
+        backgroundColor: '#0e446f',
       },
       {
         label: 'Incidente',
         data: datasetIncidente,
         borderColor: '#000000',
-        backgroundColor: '#f54266',
+        backgroundColor: '#416086',
       },
       {
         label: 'Problema',
         data: datasetProblema,
         borderColor: '#000000',
-        backgroundColor: '#81858a',
+        backgroundColor: '#677d9d',
       },
       {
         label: 'Gestion',
         data: datasetGestion,
         borderColor: '#000000',
-        backgroundColor: '#debb71',
+        backgroundColor: '#8c9cb5',
       },
       {
         label: 'Mantenimiento',
         data: datasetMantenimiento,
         borderColor: '#000000',
-        backgroundColor: '#9fd1f5',
+        backgroundColor: '#b2bccd',
       },
     ];
 
@@ -651,7 +737,7 @@ export class MostrarConsolidarComponent implements OnInit {
         label: 'Gestión LD',
         data: datasetGLD,
         borderColor: '#000000',
-        backgroundColor: '#00d100',
+        backgroundColor: '#d8dde6',
       }
     );
 
@@ -671,8 +757,15 @@ export class MostrarConsolidarComponent implements OnInit {
             display: false,
             text: 'Horas / mes por área de servicio '
           }
-        }
         },
+        scales: {
+          y: {
+            ticks: {
+              stepSize: 200
+            } 
+          },
+        }
+      },
     });
   }
 
@@ -997,6 +1090,7 @@ export class MostrarConsolidarComponent implements OnInit {
   generaNuevoPDF(tipo: string){
     this.sweetAlertService.mensajeEsperar2().then(resp=>{
       
+
       
       if(tipo ==  ''){
 
@@ -1009,18 +1103,23 @@ export class MostrarConsolidarComponent implements OnInit {
             html2canvas(this.eHorasMes.nativeElement).then((canvas) => {
               const imgHorasMes = canvas.toDataURL('img/jpg');
   
-              html2canvas(this.eHorasMesPorArea.nativeElement).then((canvas) => {
-                const imgHorasMesPorArea = canvas.toDataURL('img/jpg');
-  
-                  this.pdfService.generaPDF(
-                      '',
-                      this.detalles,
-                      imgBarrasHoras,
-                      imgBarrasPorcentaje,
-                      imgHorasMes,
-                      imgHorasMesPorArea
-                  ).then(resp => {
-                    this.sweetAlertService.mensajeOK('PDF Generado Exitosamente');
+              html2canvas(this.eTortaPorcentaje.nativeElement).then((canvas) => {
+                const imgTortaPorcentaje = canvas.toDataURL('img/jpg');
+
+                html2canvas(this.eHorasMesPorArea.nativeElement).then((canvas) => {
+                  const imgHorasMesPorArea = canvas.toDataURL('img/jpg');
+    
+                    this.pdfService.generaPDF(
+                        '',
+                        this.detalles,
+                        imgBarrasHoras,
+                        imgBarrasPorcentaje,
+                        imgTortaPorcentaje,
+                        imgHorasMes,
+                        imgHorasMesPorArea
+                    ).then(resp => {
+                      this.sweetAlertService.mensajeOK('PDF Generado Exitosamente');
+                    });
                   });
                 });
               });
@@ -1034,22 +1133,27 @@ export class MostrarConsolidarComponent implements OnInit {
   
           html2canvas(this.eBarrasPorcentajeComercial.nativeElement).then((canvas) => {
             const imgBarrasPorcentaje = canvas.toDataURL('img/jpg');
+
+            html2canvas(this.eTortaPorcentajeComercial.nativeElement).then((canvas) => {
+              const imgTortaPorcentaje = canvas.toDataURL('img/jpg');
   
-            html2canvas(this.eHorasMesComercial.nativeElement).then((canvas) => {
-              const imgHorasMes = canvas.toDataURL('img/jpg');
-  
-              html2canvas(this.eHorasMesPorAreaComercial.nativeElement).then((canvas) => {
-                const imgHorasMesPorArea = canvas.toDataURL('img/jpg');
-  
-                  this.pdfService.generaPDF(
-                      'Comercial',
-                      this.jsonDataHorasComercial,
-                      imgBarrasHoras,
-                      imgBarrasPorcentaje,
-                      imgHorasMes,
-                      imgHorasMesPorArea
-                  ).then(resp => {
-                    this.sweetAlertService.mensajeOK('PDF Generado Exitosamente');
+              html2canvas(this.eHorasMesComercial.nativeElement).then((canvas) => {
+                const imgHorasMes = canvas.toDataURL('img/jpg');
+    
+                html2canvas(this.eHorasMesPorAreaComercial.nativeElement).then((canvas) => {
+                  const imgHorasMesPorArea = canvas.toDataURL('img/jpg');
+    
+                    this.pdfService.generaPDF(
+                        'Comercial',
+                        this.jsonDataHorasComercial,
+                        imgBarrasHoras,
+                        imgBarrasPorcentaje,
+                        imgTortaPorcentaje,
+                        imgHorasMes,
+                        imgHorasMesPorArea
+                    ).then(resp => {
+                      this.sweetAlertService.mensajeOK('PDF Generado Exitosamente');
+                    });
                   });
                 });
               });
@@ -1064,21 +1168,26 @@ export class MostrarConsolidarComponent implements OnInit {
           html2canvas(this.eBarrasPorcentajeTransaccional.nativeElement).then((canvas) => {
             const imgBarrasPorcentaje = canvas.toDataURL('img/jpg');
   
-            html2canvas(this.eHorasMesTransaccional.nativeElement).then((canvas) => {
-              const imgHorasMes = canvas.toDataURL('img/jpg');
-  
-              html2canvas(this.eHorasMesPorAreaTransaccional.nativeElement).then((canvas) => {
-                const imgHorasMesPorArea = canvas.toDataURL('img/jpg');
-  
-                  this.pdfService.generaPDF(
-                      'Transaccional',
-                      this.jsonDataHorasTransaccional,
-                      imgBarrasHoras,
-                      imgBarrasPorcentaje,
-                      imgHorasMes,
-                      imgHorasMesPorArea
-                  ).then(resp => {
-                    this.sweetAlertService.mensajeOK('PDF Generado Exitosamente');
+            html2canvas(this.eTortaPorcentajeTransaccional.nativeElement).then((canvas) => {
+              const imgTortaPorcentaje = canvas.toDataURL('img/jpg');
+
+              html2canvas(this.eHorasMesTransaccional.nativeElement).then((canvas) => {
+                const imgHorasMes = canvas.toDataURL('img/jpg');
+    
+                html2canvas(this.eHorasMesPorAreaTransaccional.nativeElement).then((canvas) => {
+                  const imgHorasMesPorArea = canvas.toDataURL('img/jpg');
+    
+                    this.pdfService.generaPDF(
+                        'Transaccional',
+                        this.jsonDataHorasTransaccional,
+                        imgBarrasHoras,
+                        imgBarrasPorcentaje,
+                        imgTortaPorcentaje,
+                        imgHorasMes,
+                        imgHorasMesPorArea
+                    ).then(resp => {
+                      this.sweetAlertService.mensajeOK('PDF Generado Exitosamente');
+                    });
                   });
                 });
               });
