@@ -1,1 +1,55 @@
-<p>mostrar works!</p>
+<div class="container">
+    <table class="tablaDMS">
+        <thead>
+            <tr>
+                <th>Responsable</th>
+                <th>Contrato</th>
+                <th>ARS</th>
+                <th>Línea de Servicio</th>
+                <th>Tarea</th>
+                <th>Horas Estimadas</th>
+                <th>Horas Planificadas</th>
+                <th>Horas Incurridas</th>
+                <th>ETC</th>
+                <th>Inicio Comprometido</th>
+                <th>Inicio Planificado</th>
+                <th>Inicio Real</th>
+                <th>Fin Comprometido</th>
+                <th>Fin Planificado</th>
+                <th>Fin Real</th>
+                <th>Grupo de Trabajo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ars of JsonArrayDmsWeb; let i=index">
+                <td>{{ ars.responsable }}</td>
+                <td>{{ ars.contrato }}</td>
+                <td [style.background-color]="ars.validarARS">{{ ars.ars }}</td>
+                <td>{{ ars.lineaDeServicio }}</td>
+                <td>{{ ars.tarea }}</td>
+                <td [style.background-color]="ars.validarHorasEstimadas">{{ ars.horasEstimadas }}</td>
+                <td [style.background-color]="ars.validarHorasPlanificadas">{{ ars.horasPlanificadas }}</td>
+                <td [style.background-color]="ars.validarHorasIncurridas">{{ ars.horasIncurridas }}</td>
+                <td>{{ ars.etc }}</td>
+                <td [style.background-color]="ars.validarFechaInicioComprometido">{{ ars.inicioComprometido | fechaDMS }}</td>
+                <td [style.background-color]="ars.validarFechaInicioPlanificado">{{ ars.inicioPlanificado | fechaDMS }}</td>
+                <td [style.background-color]="ars.validarFechaInicioReal">{{ ars.inicioReal | fechaDMS }}</td>
+                <td [style.background-color]="ars.validarFechaFinComprometido">{{ ars.finComprometido | fechaDMS }}</td>
+                <td [style.background-color]="ars.validarFechaFinPlanificado">{{ ars.finPlanificado | fechaDMS }}</td>
+                <td [style.background-color]="ars.validarFechaFinReal">{{ ars.finReal | fechaDMS }}</td>
+                <td>{{ ars.grupoDeTrabajo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br/>
+
+    <div class="col-sm-12 derecha">
+        <button class="btn waves-effect waves-light btn-rounded btn-danger" (click)="generateExcel()">
+            Exportar Informe Excel 
+            <img src="../../../assets/images/file-excel-regular.png" style="width: 12px; height: 17px;" alt="">
+        </button>
+    </div>
+
+    <br/>
+</div>

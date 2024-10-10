@@ -19,9 +19,6 @@ import { CuadraFacturacionGenerarComponent } from './components/cuadra-facturaci
 //import { MywizardRvComponent } from './components/mywizard-rv/mywizard-rv.component';
 //import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generacion/mywizard-rv-generacion.component';
 
-import { FechasComponent } from './components/fechas/fechas.component';
-import { FechasGeneracionComponent } from './components/fechas-generacion/fechas-generacion.component';
-
 import { MyteMmeGeneracionComponent } from './components/mytemme/myte-mme-generacion/myte-mme-generacion.component';
 
 const routes: Routes = [
@@ -42,9 +39,6 @@ const routes: Routes = [
 
   { path: 'cuadra-facturacion', component: CuadraFacturacionComponent },
   { path: 'cuadra-facturacion-generar', component: CuadraFacturacionGenerarComponent },
-
-  { path: 'fechas', component: FechasComponent },
-  { path: 'fechas-generar', component: FechasGeneracionComponent },
 
   { 
     path: 'mantenimiento', 

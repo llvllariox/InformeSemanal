@@ -9,8 +9,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'consolidar-formulario',
-  templateUrl: './formulario.component.html',
-  styleUrls: ['./formulario.component.css']
+  templateUrl: './formulario.component.html'
 })
 export class FormularioConsolidarComponent implements OnInit {
 

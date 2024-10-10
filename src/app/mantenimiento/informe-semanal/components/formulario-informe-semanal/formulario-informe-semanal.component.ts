@@ -7,8 +7,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-formulario-informe-semanal',
-  templateUrl: './formulario-informe-semanal.component.html',
-  styleUrls: ['./formulario-informe-semanal.component.css']
+  templateUrl: './formulario-informe-semanal.component.html'
 })
 export class FormularioInformeSemanalComponent implements OnInit {
   formulario: FormGroup;
