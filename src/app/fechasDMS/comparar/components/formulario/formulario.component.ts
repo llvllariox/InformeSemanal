@@ -66,7 +66,7 @@ export class FormularioFechasDMSCompararComponent implements OnInit {
           this.jsonDataDmsA = null;
           this.estadoDmsA = 4;
         }
-        else if(reporte=='B') {
+        else if(reporte == 'B') {
           this.jsonDataDmsB = null;
           this.estadoDmsB = 4;
         }
@@ -123,8 +123,6 @@ export class FormularioFechasDMSCompararComponent implements OnInit {
   }
 
   generar(){
-    //console.log(this.jsonDataDmsA);
-
     if(this.estadoDmsA==4 || this.estadoDmsB==4){
       this.formulario.value.dms = null;
       return 1;
@@ -161,10 +159,6 @@ export class FormularioFechasDMSCompararComponent implements OnInit {
           }
         );
     }
-
-
-
-
   }
 
   formularioHeaders(sheet, limit){
@@ -201,7 +195,7 @@ export class FormularioFechasDMSCompararComponent implements OnInit {
       }else{
         return true;
       }
-  }
+    }
   }
 
   get dmsANoValido() {

@@ -1,20 +1,21 @@
 import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
-import { SlaJsonDataService } from 'src/app/services/sla-json-data.service';
 import { ActivatedRoute } from '@angular/router';
-import { SweetAlertService } from '../../services/sweet-alert.service';
-import { SlaJspdfService } from '../../services/sla-jspdf.service';
-import { FeriadosChileService } from '../../services/feriados-chile.service';
+
+import { FeriadosChileService } from 'src/app/shared/services/feriados-chile.service';
+import { SweetAlertService } from 'src/app/shared/services/sweet-alert.service';
+
 import { SlaFormularioService } from '../../services/sla-formulario.service';
+import { SlaJsonDataService } from '../../services/sla-json-data.service';
+import { SlaJspdfService } from '../../services/sla-jspdf.service';
+
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 
 @Component({
-  selector: 'app-sla-generar',
-  templateUrl: './sla-generar.component.html'
+  selector: 'app-mostrar-sla',
+  templateUrl: './mostrar-sla.component.html'
 })
-export class SlaGenerarComponent implements OnInit {
-  //formulario: FormGroup;
-
+export class MostrarSLAComponent implements OnInit {
   jsonArrayReq = [];
   jsonArraySol = [];
 
@@ -38,12 +39,20 @@ export class SlaGenerarComponent implements OnInit {
 
   private feriados = [];
 
-  constructor(public slaFormularioService: SlaFormularioService, public jsonDataService: SlaJsonDataService, private route: ActivatedRoute, public pdfService: SlaJspdfService, private sweetAlerService: SweetAlertService, private feriadosService: FeriadosChileService) {
+  constructor(
+    public slaFormularioService: SlaFormularioService,
+    public jsonDataService: SlaJsonDataService,
+    private route: ActivatedRoute,
+    public pdfService: SlaJspdfService,
+    private sweetAlerService: SweetAlertService,
+    private feriadosService: FeriadosChileService) {
+
     this.feriados = feriadosService.getFeriados(); 
     this.fechaInformeDate = new Date(jsonDataService.getFechaInforme() + '-05');
   
     if(this.jsonDataService.jsonDataReqService !== undefined) {
       this.jsonArrayReq = this.jsonDataService.getJsonDataReqService();
+
       this.getPE1();
       this.getPE2();
       this.getPE3();
@@ -864,13 +873,11 @@ validarFechaVaciaRegla(fecha: String){
     } else {
       sla = cantidadOk * 100 / cantidad;
     }
-  } else {
-
   }
   
-  this.slaFormularioService['campo_'+indicador+'_cantidad'] = cantidad;
-  this.slaFormularioService['campo_'+indicador+'_cantidadOk'] = cantidadOk;
-  this.slaFormularioService['campo_'+indicador+'_cantidadNoOk'] = cantidadNoOk;
-  this.slaFormularioService['campo_'+indicador+'_SLA'] = sla.toFixed(2);
+  this.slaFormularioService['campo_' + indicador + '_cantidad'] = cantidad;
+  this.slaFormularioService['campo_' + indicador + '_cantidadOk'] = cantidadOk;
+  this.slaFormularioService['campo_' + indicador + '_cantidadNoOk'] = cantidadNoOk;
+  this.slaFormularioService['campo_' + indicador + '_SLA'] = sla.toFixed(2);
  }
 }

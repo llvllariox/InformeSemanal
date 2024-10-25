@@ -155,7 +155,7 @@ export class MostrarInformeSemanalComercialComponent implements OnInit {
       this.totales[mesActual] = [];
       
       ///propuestas
-      this.totales[mesActual]['propuestas'] = this.mantoInformeSemanalConfService.getHoraC(this.yearInforme, Number(this.monthInforme)).propuestas;
+      this.totales[mesActual]['propuestas'] = this.mantoInformeSemanalConfService.getHora(this.yearInforme, Number(this.monthInforme), 'comercial').propuestas;
       
       //utilizadas
       this.totales[mesActual]['utilizadas'] = 0;
@@ -563,8 +563,15 @@ export class MostrarInformeSemanalComercialComponent implements OnInit {
 
   //aplica Math.round a this.jsonArrayHoras.horas
   redondear():void {
+    let horas;
     this.jsonArrayHoras.forEach(element => {
-      element.horas = Math.round(element.horas);
+      horas = Math.round(element.horas);;
+      if(element.bloque == "Gestión LD") {
+        let ajuste = horas / 4;
+        horas = Math.round(ajuste) * 4;
+        console.log(horas);
+      }
+      element.horas = horas;
     });
   }
 }
