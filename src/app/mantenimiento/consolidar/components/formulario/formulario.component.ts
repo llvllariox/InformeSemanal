@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 
-import { SweetAlertService } from 'src/app/shared/services/sweet-alert.service';
+import { SweetAlertService } from 'src/app/services/sweet-alert.service';
+
 import * as XLSX from 'xlsx';
 import { ConsolidarDataService } from '../../services/consolidar-json-data.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'consolidar-formulario',
-  templateUrl: './formulario.component.html',
-  styleUrls: ['./formulario.component.css']
+  templateUrl: './formulario.component.html'
 })
 export class FormularioConsolidarComponent implements OnInit {
 
@@ -43,7 +43,6 @@ export class FormularioConsolidarComponent implements OnInit {
 
   //se activa al hacer submit
   generar(){
-    
     this.monthNames.forEach(mes => {
       if(this.estadoHoras[mes]==4){
         this.formulario.value.horas = null;
@@ -70,7 +69,7 @@ export class FormularioConsolidarComponent implements OnInit {
               //borramos campos que no se necesitan
               this.formulario.value.horas = null;
 
-              this.router.navigateByUrl('/mantenimiento-consolidar/mostrar');
+              this.router.navigateByUrl('/mantenimiento/consolidar/mostrar');
             }
           }
         );
