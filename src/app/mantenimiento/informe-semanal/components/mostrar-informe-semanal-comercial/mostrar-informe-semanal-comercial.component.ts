@@ -103,12 +103,12 @@ export class MostrarInformeSemanalComercialComponent implements OnInit {
       }
     });
 
-    this.tabla.push(['Gestión', this.barras['GEST']]);
+    this.tabla.push(['Gest SWF', this.barras['GEST']]);
     this.tabla.push(['Incidentes', this.barras['INC']]);
     this.tabla.push(['Mejoras', this.barras['MJR']]);
     this.tabla.push(['Soportes', this.barras['SPT']]);
     this.tabla.push(['Problemas', this.barras['PRB']]);
-    this.tabla.push(['Gestión LD', this.barras['GLD']]);
+    this.tabla.push(['Gest Cons', this.barras['GLD']]);
     
     this.tablaTotal = this.barras['GEST'] 
                       + this.barras['INC']

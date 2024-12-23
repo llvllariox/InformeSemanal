@@ -22,7 +22,7 @@ import { CuadraFacturacionGenerarComponent } from './components/cuadra-facturaci
 import { GenerarArsGplanComponent } from './components/generar-ars-gplan/generar-ars-gplan.component';
 import { VerArsJiraPlanComponent } from './components/ver-ars-jira-plan/ver-ars-jira-plan.component';
 
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
