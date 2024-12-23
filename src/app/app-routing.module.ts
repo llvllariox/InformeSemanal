@@ -12,14 +12,8 @@ import { GenerarArsGplanComponent } from './components/generar-ars-gplan/generar
 import { VerArsJiraComponent } from './components/ver-ars-jira/ver-ars-jira.component';
 import { VerArsJiraPlanComponent } from './components/ver-ars-jira-plan/ver-ars-jira-plan.component';
 
-import { SlaComponent } from './components/sla/sla.component';
-import { SlaGenerarComponent } from './components/sla-generar/sla-generar.component';
 import { CuadraFacturacionComponent } from './components/cuadra-facturacion/cuadra-facturacion.component';
 import { CuadraFacturacionGenerarComponent } from './components/cuadra-facturacion-generar/cuadra-facturacion-generar.component';
-//import { MywizardRvComponent } from './components/mywizard-rv/mywizard-rv.component';
-//import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generacion/mywizard-rv-generacion.component';
-
-import { MyteMmeGeneracionComponent } from './components/mytemme/myte-mme-generacion/myte-mme-generacion.component';
 
 const routes: Routes = [
   { path: '', component: GenerarInformeComponent},
@@ -34,8 +28,10 @@ const routes: Routes = [
   { path: 'ver-ars-jira', component: VerArsJiraComponent },
   { path: 'ver-ars-jira-plan', component: VerArsJiraPlanComponent },
 
-  { path: 'sla', component: SlaComponent },
-  { path: 'sla-generar', component: SlaGenerarComponent },
+  { 
+    path: 'SLA', 
+    loadChildren: () => import('./SLA/sla.module').then( m => m.SLAModule ),
+  },
 
   { path: 'cuadra-facturacion', component: CuadraFacturacionComponent },
   { path: 'cuadra-facturacion-generar', component: CuadraFacturacionGenerarComponent },
@@ -50,7 +46,10 @@ const routes: Routes = [
     loadChildren: () => import('./fechasDMS/fechasDMS.module').then( m => m.FechasDMSModule ),
   },
 
-  { path: 'myte-mme-generacion', component: MyteMmeGeneracionComponent },
+  { 
+    path: 'myte-mme', 
+    loadChildren: () => import('./myte-mme/myte-mme.module').then( m => m.MyteMMEModule ),
+  },
 
   // Metricas AM
   { 

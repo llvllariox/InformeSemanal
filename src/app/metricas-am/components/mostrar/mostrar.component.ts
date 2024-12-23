@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MywizardRvJsonDataService } from 'src/app/metricas-am/services/mywizard-rv-json-data.service';
-import { MywizardRvFormularioService } from 'src/app/metricas-am/services/mywizard-rv-formulario.service';
-import { MywizardRvJspdfService } from 'src/app/metricas-am/services/mywizard-rv-jspdf.service';
+import { MywizardRvJsonDataService } from '../../services/mywizard-rv-json-data.service';
+import { MywizardRvFormularioService } from '../../services/mywizard-rv-formulario.service';
+import { MywizardRvJspdfService } from '../../services/mywizard-rv-jspdf.service';
 
 import { SweetAlertService } from 'src/app/shared/services/sweet-alert.service';
 
@@ -31,7 +31,7 @@ export class MostrarComponent implements OnInit {
             public mywizardRvFormularioService: MywizardRvFormularioService, 
             public mywizardRvJsonDataService: MywizardRvJsonDataService, 
             public pdfService: MywizardRvJspdfService, 
-            private sweetAlerService: SweetAlertService) { 
+            private sweetAlertService: SweetAlertService) {
 
     this.fechaInformeDate = new Date(mywizardRvJsonDataService.getFechaInforme() + '-05');
 
@@ -311,9 +311,9 @@ export class MostrarComponent implements OnInit {
     variables['campo_S1'] = this.mywizardRvFormularioService.campo_S1;
     variables['campo_S2'] = this.mywizardRvFormularioService.campo_S2;
 
-    this.sweetAlerService.mensajeEsperar2().then(resp=>{
+    this.sweetAlertService.mensajeEsperar2().then(resp=>{
       this.pdfService.generaPDF(variables, this.fechaInformeDate).then(resp => {
-        this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
+        this.sweetAlertService.mensajeOK('PDF Generado Exitosamente');
       });
     });
   }
@@ -338,9 +338,9 @@ export class MostrarComponent implements OnInit {
     variables['campo_S1'] = this.mywizardRvFormularioService.campo_S1;
     variables['campo_S2'] = this.mywizardRvFormularioService.campo_S2;
 
-    this.sweetAlerService.mensajeEsperar2().then(resp=>{
+    this.sweetAlertService.mensajeEsperar2().then(resp=>{
       this.pdfService.generaPDFTBK(variables, this.fechaInformeDate).then(resp => {
-        this.sweetAlerService.mensajeOK('PDF Generado Exitosamente');
+        this.sweetAlertService.mensajeOK('PDF Generado Exitosamente');
       });
     });
   }

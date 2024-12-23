@@ -1,27 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import * as XLSX from 'xlsx';
-import { SlaJsonDataService } from 'src/app/services/sla-json-data.service';
-import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
-import { FeriadosChileService } from '../../services/feriados-chile.service';
+
+import { FeriadosChileService } from 'src/app/shared/services/feriados-chile.service';
+import { SweetAlertService } from 'src/app/shared/services/sweet-alert.service';
+
+import { SlaJsonDataService } from '../../services/sla-json-data.service';
 
 @Component({
-  selector: 'app-sla',
-  templateUrl: './sla.component.html'
+  selector: 'app-formulario-sla',
+  templateUrl: './formulario-sla.component.html'
 })
-export class SlaComponent implements OnInit {
+export class FormularioSLAComponent implements OnInit {
   formulario: FormGroup;
   jsonDataReq = null;
   jsonDataSol = null;
   estadoReq = 1;
   estadoSol = 1;
-  fechaInforme;
-  fechaMin;
-  fechaMax;
+  fechaInforme: Date;
+  fechaMin: string;
+  fechaMax: string;
   feriados = null;
 
-  constructor(private formBuilder: FormBuilder, private jsonDataService: SlaJsonDataService, private sweetAlerService: SweetAlertService, private router: Router, private feriadosService: FeriadosChileService) {  
+  constructor(
+    private formBuilder: FormBuilder, 
+    private jsonDataService: SlaJsonDataService,
+    private sweetAlertService: SweetAlertService, 
+    private router: Router, 
+    private feriadosService: FeriadosChileService) {  
     
       this.crearFormulario();
   
@@ -39,7 +46,7 @@ export class SlaComponent implements OnInit {
            this.feriados = resp;
       }, err => {
           this.feriados = null;
-          this.sweetAlerService.mensajeError('Error al obtener Feriados', err.og.message);
+          this.sweetAlertService.mensajeError('Error al obtener Feriados', err.og.message);
       });
   }
 
@@ -88,7 +95,7 @@ export class SlaComponent implements OnInit {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary', cellDates : true });
       if (workBook.SheetNames[0] !== 'Requerimientos'){
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos');
+        this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requerimientos');
         this.estadoReq = 4;
         this.jsonDataReq = null;
         return;
@@ -103,7 +110,7 @@ export class SlaComponent implements OnInit {
       }, {});
     
       if (this.jsonDataReq.Requerimientos === undefined) {
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
+        this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
         this.estadoReq = 4;
         this.jsonDataReq = null;
       } else {
@@ -132,7 +139,7 @@ export class SlaComponent implements OnInit {
     const data = reader.result;
     workBook = XLSX.read(data, { type: 'binary', cellDates : true });
     if (workBook.SheetNames[0] !== 'Solicitudes'){
-      this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Solicitudes');
+      this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Solicitudes');
       this.estadoSol = 4;
       this.jsonDataSol = null;
       return;
@@ -147,7 +154,7 @@ export class SlaComponent implements OnInit {
     }, {});
   
     if (this.jsonDataSol.Solicitudes === undefined) {
-      this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Solicitudes');
+      this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Solicitudes');
       this.estadoSol = 4;
       this.jsonDataSol = null;
     } else {
@@ -235,13 +242,13 @@ filtrarSol(jsonDataReqArray: any){
   });
 }
 
-guardar() {
-    if(this.estadoReq==4){
+generar() {
+    if(this.estadoReq == 4){
       this.formulario.value.requerimientos = null;
       return 1;
     }
 
-    if(this.estadoSol==4){
+    if(this.estadoSol ==4 ){
       this.formulario.value.solicitudes = null;
       return 1;
     }
@@ -260,21 +267,21 @@ guardar() {
         this.jsonDataService.setFechaInforme(this.formulario.value.fecha);
 
         if (this.jsonDataReq == null) {
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Requrimientos');
           return;
         }
 
         if (this.jsonDataSol == null) {
-          this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Solicitudes');
+          this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a Solicitudes');
           return;
         }
 
         if(this.feriados == null){
-          this.sweetAlerService.mensajeError('Feriados', 'No se ha podido obtener los feriados');
+          this.sweetAlertService.mensajeError('Feriados', 'No se ha podido obtener los feriados');
           return;
         }
 
-        this.sweetAlerService.mensajeOK('Resumen SLA generado exitosamente').then(          
+        this.sweetAlertService.mensajeOK('Resumen SLA generado exitosamente').then(          
           resp => {
             if (resp.value) {
               this.feriadosService.setFeriados(this.feriados);
@@ -283,7 +290,7 @@ guardar() {
               this.formulario.value.requerimientos = null;
               this.formulario.value.solicitudes = null;
 
-              this.router.navigateByUrl('/sla-generar');        
+              this.router.navigateByUrl('/SLA/mostrar');
             }
           }
         );
@@ -341,7 +348,7 @@ guardar() {
     if(event.target.files[0]){
       let tipo = event.target.files[0].type;
       if (!tipo.includes('sheet')) {
-        this.sweetAlerService.mensajeError('Archivo Invalido', 'El archivo es invalido');
+        this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo es invalido');
         return false;
       }else{
         return true;

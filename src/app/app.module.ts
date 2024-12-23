@@ -15,25 +15,21 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule , HttpClientJsonpModule } from '@angular/common/http';
 import { GenerarArsGfacComponent } from './components/generar-ars-gfac/generar-ars-gfac.component';
 import { VerArsJiraComponent } from './components/ver-ars-jira/ver-ars-jira.component';
-import { SlaComponent } from './components/sla/sla.component';
-import { SlaGenerarComponent } from './components/sla-generar/sla-generar.component';
 import { FechaVaciaPipe } from './pipes/fecha-vacia.pipe';
 import { CuadraFacturacionComponent } from './components/cuadra-facturacion/cuadra-facturacion.component';
 import { CuadraFacturacionGenerarComponent } from './components/cuadra-facturacion-generar/cuadra-facturacion-generar.component';
-import { MywizardRvComponent } from './components/mywizard-rv/mywizard-rv.component';
-import { MywizardRvGeneracionComponent } from './components/mywizard-rv-generacion/mywizard-rv-generacion.component';
 
 import { GenerarArsGplanComponent } from './components/generar-ars-gplan/generar-ars-gplan.component';
 import { VerArsJiraPlanComponent } from './components/ver-ars-jira-plan/ver-ars-jira-plan.component';
 
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { MyteMmeGeneracionComponent } from './components/mytemme/myte-mme-generacion/myte-mme-generacion.component';
 
 import { MetricasAMModule } from './metricas-am/metricas-am.module';
 import { MantenimientoModule } from './mantenimiento/mantenimiento.module';
 import { FechasDMSModule } from './fechasDMS/fechasDMS.module';
+import { MyteMMEModule } from './myte-mme/myte-mme.module';
 import { ValidarHHModule } from './validarHH/validarHH.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -48,16 +44,11 @@ import { SharedModule } from './shared/shared.module';
     VerCapacityComponent,
     GenerarArsGfacComponent,
     VerArsJiraComponent,
-    SlaComponent,
-    SlaGenerarComponent,
     FechaVaciaPipe,
     CuadraFacturacionComponent,
     CuadraFacturacionGenerarComponent,
-    MywizardRvComponent,
-    MywizardRvGeneracionComponent,
     GenerarArsGplanComponent,
     VerArsJiraPlanComponent,
-    MyteMmeGeneracionComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +69,7 @@ import { SharedModule } from './shared/shared.module';
     MantenimientoModule,
     ValidarHHModule,
     FechasDMSModule,
+    MyteMMEModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
