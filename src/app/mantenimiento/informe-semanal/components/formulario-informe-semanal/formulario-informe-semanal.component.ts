@@ -113,8 +113,10 @@ export class FormularioInformeSemanalComponent implements OnInit {
     });
 
     jsonDataReqArray = jsonDataReqArray.filter(a => {
-      return a.grupoDeTrabajoAsignado === 'Mantenimiento - Carlos Navarro' 
-      || a.grupoDeTrabajoAsignado === 'Mantenimiento - Keyciren Trigo';
+      //return a.grupoDeTrabajoAsignado === 'Mantenimiento - Carlos Navarro' 
+      //|| a.grupoDeTrabajoAsignado === 'Mantenimiento - Keyciren Trigo';
+      return a.grupoDeTrabajoAsignado === 'Mantenimiento - BO CO' 
+      || a.grupoDeTrabajoAsignado === 'Mantenimiento - BO TRX';
     });
 
     let sobreesfuerzo = "SOBREESFUERZO";
@@ -175,11 +177,13 @@ export class FormularioInformeSemanalComponent implements OnInit {
         let arrayJSON = this.jsonDataHoras;
         if(this.formulario.value.tipo=='comercial'){
           arrayJSON = arrayJSON.filter(a => {
-            return a.grupoDeTrabajoAsignado === 'Mantenimiento - Carlos Navarro';
+            //return a.grupoDeTrabajoAsignado === 'Mantenimiento - Carlos Navarro';
+            return a.grupoDeTrabajoAsignado === 'Mantenimiento - BO CO';
           });
         } else if(this.formulario.value.tipo=='transaccional'){
           arrayJSON = arrayJSON.filter(a => {
-            return a.grupoDeTrabajoAsignado === 'Mantenimiento - Keyciren Trigo';
+            //return a.grupoDeTrabajoAsignado === 'Mantenimiento - Keyciren Trigo';
+            return a.grupoDeTrabajoAsignado === 'Mantenimiento - BO TRX';
           });
         }
 
