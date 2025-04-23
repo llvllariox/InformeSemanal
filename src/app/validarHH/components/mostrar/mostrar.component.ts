@@ -43,18 +43,43 @@ export class MostrarValidarHHComponent implements OnInit {
     //public pdfService: MywizardRvJspdfService, 
   ) {
     this.fechaInformeDate = new Date(validarHHService.getFechaInforme() + '-05');
-
+      console.log("ACA");
     if(this.validarHHService.getJsonDataValidarHH !== undefined) {    
+      console.log("ACA2");
       let year: number = this.fechaInformeDate.getFullYear();
       let month: number = this.fechaInformeDate.getMonth() + 1;
 
-      this.feriadosService.getFeriadosMes(month, year).subscribe(resp => {
+    /*   this.feriadosService.getFeriadosMes(month, year).subscribe(resp => {
+        console.log("ACA3");
         this.feriados = resp;
         this.getHorasHabiles(year, month);
+        console.log("ACA4");
       }, err => {
+        console.log("ACA5",err.og);
+          this.feriados = null;
+          this.sweetAlertService.mensajeError('Error al obtener Feriados', err.og.message);
+      }); */
+
+
+      this.feriadosService.getFeriadosMesNuevo().subscribe(resp => {
+     //   console.log("ACA3");
+        this.feriados = resp;
+        this.getHorasHabiles(year, month);
+     //   console.log("ACA4");
+      }, err => {
+    //    console.log("ACA5",err.og);
           this.feriados = null;
           this.sweetAlertService.mensajeError('Error al obtener Feriados', err.og.message);
       });
+
+
+    /*  let feri;
+     this.feriadosService.getFeriadosMesNuevo();
+      console.log("feri",feri)
+      this.feriados = feri;
+      console.log("this.feriados",this.feriados)
+      this.getHorasHabiles(year, month);
+    */
     }
   }
 
@@ -78,7 +103,7 @@ export class MostrarValidarHHComponent implements OnInit {
 
         let fechaTexto = year + '-' + monthTexto + '-' + indexTexto; 
         fecha = new Date(fechaTexto + 'T00:00:00');
-
+       // console.log("VALIDA",this.feriados)
         let esFeriado = this.feriados.findIndex( feriado => feriado === fechaTexto );
 
         //si no es domingo ni sábado  ni feriado 

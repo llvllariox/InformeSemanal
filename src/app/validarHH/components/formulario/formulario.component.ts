@@ -56,9 +56,16 @@ export class FormularioValidarHHComponent implements OnInit {
 
     reader.onload = () => {
       const data = reader.result;
-
-      workBook = XLSX.read(data, { type: 'binary', cellDates : true });
-      if (workBook.SheetNames[0] !== 'Forecasted Time Details'){
+      try {
+        workBook = XLSX.read(data, { type: 'binary', cellDates : true });
+      } catch (error) {
+        this.sweetAlertService.mensajeError('ERROR!','ECMA-376 Encrypted file');
+      }
+     // workBook = XLSX.read(data, { type: 'binary', cellDates : true });
+      //if (workBook.SheetNames[0] !== 'Forecasted Time Details'){
+      
+      if (workBook.SheetNames[0] !== 'AIA00gb_PBIPg_ForecastedTimeDet'){
+        console.log("ERROR 1:",workBook.SheetNames[0]);
         this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a horas');
         this.estadoHoras = 4;
         this.jsonDataHoras = null;
@@ -67,7 +74,8 @@ export class FormularioValidarHHComponent implements OnInit {
 
       this.jsonDataHoras = workBook.SheetNames.reduce((initial, name) => {
         const sheet = workBook.Sheets[name];
-        if(name == 'Forecasted Time Details') {
+      //  if(name == 'Forecasted Time Details') {
+        if(name == 'AIA00gb_PBIPg_ForecastedTimeDet') {
           this.formularioHeaders(sheet, 'AB', 2);
           initial[name] = XLSX.utils.sheet_to_json(sheet, {range:1});
 
@@ -77,15 +85,19 @@ export class FormularioValidarHHComponent implements OnInit {
         return initial;
       }, {});
    
-      if (this.jsonDataHoras['Forecasted Time Details'] === undefined) {
+    //  if (this.jsonDataHoras['Forecasted Time Details'] === undefined) {
+      if (this.jsonDataHoras['AIA00gb_PBIPg_ForecastedTimeDet'] === undefined) {
+        console.log("ERROR 2:",this.jsonDataHoras['AIA00gb_PBIPg_ForecastedTimeDet']);
         this.sweetAlertService.mensajeError('Archivo Invalido', 'El archivo seleccionado no corresponde a horas');
         this.estadoHoras = 4;
         this.jsonDataHoras = null;
       } else {
-        this.jsonDataHoras = this.jsonDataHoras['Forecasted Time Details'];
+       // this.jsonDataHoras = this.jsonDataHoras['Forecasted Time Details'];
+        this.jsonDataHoras = this.jsonDataHoras['AIA00gb_PBIPg_ForecastedTimeDet'];
       }
     };
     reader.readAsBinaryString(file);
+  
   } 
 
   //genera el informe

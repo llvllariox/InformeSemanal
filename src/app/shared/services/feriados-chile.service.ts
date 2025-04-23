@@ -73,5 +73,33 @@ export class FeriadosChileService {
         return feriadosTemp.reverse();
       }));
   }
+
+  
+
+  getFeriadosMesNuevo(): Observable<Feriado[]> {
+
+    return Observable.create(observer => {
+    const options = {method: 'GET', headers: {accept: 'application/json'}};
+    
+     fetch('https://api.boostr.cl/holidays.json', options)
+    .then(res => res.json())
+    .then(res => {
+     //console.log(res.data)
+      let feriadosTemp = [];
+      res.data.forEach(element => {
+        feriadosTemp.push(element['date']);
+      });
+      //console.log(feriadosTemp.reverse())
+      observer.next(feriadosTemp.reverse());
+        /*Complete the Observable as it won't produce any more event */
+        observer.complete();
+     // return feriadosTemp.reverse();
+     })
+    .catch(err => observer.error(err))
+
+      }
+    )}
+
+  
 }
 

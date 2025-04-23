@@ -32,6 +32,7 @@ export class FeriadosChileService {
       map((resp: any) => {
         if(resp.error){
           resp = [];
+          console.log('reps',resp);
         }
 
         let feriadosTemp = [];
@@ -50,5 +51,6 @@ export class FeriadosChileService {
   getFeriados(){
     return this.feriados;
   }
+
 }
 
