@@ -42,7 +42,9 @@ export class FormularioSLAComponent implements OnInit {
       this.fechaInforme = new Date(jsonDataService.getFechaInforme() + '-05');
       
       // Se obtienen los feriados
-      this.feriadosService.obtenerFeriados().subscribe(resp => {
+      //this.feriadosService.obtenerFeriados().subscribe(resp => {
+      this.feriadosService.getFeriadosMesNuevo().subscribe(resp => {
+      
            this.feriados = resp;
       }, err => {
           this.feriados = null;
